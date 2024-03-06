@@ -38,9 +38,15 @@ Nicht-Ziele sind aus mehreren Gründen wichtig. Erstens helfen sie beim Erwartun
 
 Wie soll ein Außenstehender ein Projekt genehmigen, wenn nicht klar formuliert ist, WARUM das Projekt überhaupt durchgeführt werden soll? Auch hier ist es wichtig, möglichst konkret zu werden. Einen Projektnutzen z.B. mit „neueste Technik“ zu bezeichnen, ist nicht ausreichend.
 
+Unser Projekt soll nicht nur den Schiffsarbeitern und der Logistikabteilung des Hafens sondern auch den Kunden helfen. Des Öfteren kommt es vor, dass die Fracht auf Schiffen nicht auf ihren designierten Platz platziert wurde. Dies führt nur zur mehr Aufwand für die Schiffsarbeiter und Logistische Abteilung, da ein großer Anteil der Zeit nun für das Suchen eben dieser Container aufgebracht wird. Durch diese Verschwendete Zeit, kann und wird es zu Lieferverzögerungen kommen.
+Außerdem wird unser Gerät auch bei wiederfinden oder dem generellen verfolgen der Fracht helfen.
+Für den Hafen kann dies vom Vorteil sein, wenn ein Conteiner während des Transportes verloren geht und für die Kunden ermöglicht es einen genaueren einblick wo ihr Paket nun geneua ist.
+
 #### Projektauftraggeber/in
 
 Hier beschreiben Sie wer der Projektauftraggeber ist. Falls es eine externe Firma ist können Sie hier eine kurze Beschreibung des Unternehmens (sofern Projektrelevant) einfügen.
+
+Die HTL-Leoben, eine technische Fachschule in Österreich überwacht und hilft uns bei der Eerstellung des Projektes. Sie stellt uns Lehrkräfte zur Verfügung, welche uns fast jederzeit als Berater uur seite stehen.
 
 #### Projekttermine
 
@@ -50,17 +56,10 @@ Welche Termine sind Fixtermine und was sollte an diesen Terminen stattfinden ? B
 
 | Termin     | Inhalt                          |
 |-----------:|:--------------------------------|
-| 2020-12-24 | Weihnachten                     |
-| 20XX-12-24 | Projektstart                    |
-| 20XX-10-24 | Projektpräsentation             |
-| 20XX-10-24 | Erreichung Meilenstein I        |
-| 20XX-10-24 | Erste Zwischenpräsentation      |
-| 20XX-10-24 | Erreichung Meilenstein II       |
-| 20XX-10-24 | Erreichung Meilenstein III      |
-| 20XX-10-24 | Zweite Zwischenpräsentation     |
-| 20XX-10-24 | Abgabe Endversion an Betreuer   |
-| 20XX-10-24 | Abgabe Gebundene Version        |
-| 20XX-10-24 | ...                             |
+| 2023-11-23 | Abgabe DA-Vorschschläge         |
+| 2024-02-15 | Informationsveranstaltung       |
+| 2024-02-23 | Projektstart                    |
+
 
 : Projektterminübersicht
 
@@ -85,7 +84,7 @@ Am Ende der Diplomarbeit fügen Sie hier noch eine Liste der tatsächlich angefa
 
 #### Projektrisiken
 
-Hier geben Sie an welche Risiken auf Ohr Projekt zutreffen können, und auch wie wahrscheinlich es ist das dieses Risiko eintritt.
+Hier geben Sie an welche Risiken auf Ihr Projekt zutreffen können, und auch wie wahrscheinlich es ist das dieses Risiko eintritt.
 Eine Übersicht über Risiken finden sie hier: https://projekte-leicht-gemacht.de/blog/pm-in-der-praxis/130-projektrisiken-beispiele/
 
 Hier ein Beispiel:
@@ -103,11 +102,12 @@ Hier ein Beispiel:
 #### Projektbeteiligte
 Hier wird definiert wer (welche Personen) an diesem Projekt beteiligt im Prinzip beteiligt ist.
 
-| Vorname     | Nachname     | Organisation | Kontaktinfos      |
-|:------------|:-------------|:-------------|:------------------|
-| Joltawan    | Barodscheff  | HTL Leoben   | jb@htl-leoben.at  |
-| Frank       | Borland      | Firma XY     | frank@borla.nd    |
-| ...         | ...          | ...          | ...               |
+| Vorname     | Nachname | Organisation | Kontaktinfos                |
+|:------------|:---------|:-----------  |:----------------------------|
+| Luca        | Gekle    | HTL-Leoben   | 201wita##o365.htl-leoben.at |
+| Marko       | Schrempf | HTL-Leoben   | 201wita##o365.htl-leoben.at |
+| Maximilian  | Kampl    | HTL-Leoben   | 201wita27o365.htl-leoben.at |
+
 
 : Projektbeteiligte
 
@@ -117,12 +117,12 @@ Unter Kontaktinfos können neben der Emailadresse natürlich auch noch andere In
 
 Hier werden den Kontakten von oben konkrete Rollen zuewiesen.
 
-| Projektrolle           | Rollenbeschreibung     | Name              |
-|------------------------|------------------------|-------------------|
-| Projektleiter | Verantwortlicher für Einhaltung des Projektrahmens | Joltawan Barodscheff |
-| Auftraggeber | Auftraggeber der internen Diplomarbeit | Frank Borland |
-| Betreuer | Schulischer Betreuer | G. Hutter |
-| Betreuer | Schulischer Betreuer | A. Poetscher |
+| Projektrolle           | Rollenbeschreibung                                 | Name              |
+|------------------------|----------------------------------------------------|-------------------|
+| Projektleiter          | Verantwortlicher für Einhaltung des Projektrahmens | Schrempf Marko    |
+| Auftraggeber           | Auftraggeber der internen Diplomarbeit             | HTL-Leoben        |
+| Betreuer               | Schulischer Betreuer                               | G. Hutter         |
+| Betreuer               | Schulischer Betreuer                               | G. Judmaier       |
 
 : Projektrollen
 
