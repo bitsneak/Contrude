@@ -5,12 +5,30 @@
 
 ### Projektauftrag
 
-Hier beschreiben Sie die allgemeinen Informationen zu Ihrem Maturaprojekt. Hier beschreiben sie den Projektkontext, nämlich die Ausgangssituation und Problembeschreibung
+Die Platzierung der Container auf einem Frachtschiff ist in der Ladeliste vordefiniert. 
+Jedoch sind die Bezeichnungen der Container vom verladenden Kranführer nicht immer eindeutig identifizierbar. 
+Diese Unklarheit führt häufig zu einer falschen Platzierung der Fracht auf dem Schiff. 
+Folglich kann der angegebene Container nicht an seinem zugewiesenen Stellplatz, sondern an einem anderen Ort gefunden werden. 
+Zudem ist es nicht möglich, Informationen über den aktuellen Zustand des Inhalts des Containers abzurufen. 
+Dies könnte insbesondere bei sensiblen Frachtgütern von Nachteil sein, beispielsweise bei zerbrechlichen Gütern. 
+Es kommt auch des öfteren vor, dass Container während des Überseetransports vom Frachtschiff abhandenkommen, jedoch wird dies erst im Eingangshafen erfasst.
 
 
 #### Projektziele
 
-Das Projektziel beschreibt den erwünschten Zustand (Sollzustand) nach dem erfolgreichen Abschluss des Projektes. Das Ziel wird wohlbedacht formuliert und durch aktives Handeln aller Projektbeteiligten erreicht. Projektziele sollten gemeinsam mit allen Projektbeteiligten erarbeitet werden.
+1) Verminderung der Falschplatzierung von Containern  wegen Kranverschiebung auf nahezu 0%
+2) Ermöglichung der Verfolgung von Container während des Überseetransports mittels GPS-Tracking
+3) Lesen der Umweltdaten vor und während des Transportprozesses rund um den Container
+4) Erstellen eines Webservers mit Benutzeröberfläche zur Darstellung der ausgelesenen Daten
+5) Entwicklung von mindesten 2 Prototypen mit folgenden Funktionen:
+   1) Datenübertragung mittel MQTT
+   2) Auslesen der
+      1) Temperatur 
+      2) Luftfeuchtigkeit
+      3) Erschütterung
+      4) und des Luftdruckes
+   3) Ortung mittels GPS
+6) Erstellungs eines Algorithmus zur Bestimmung der Postion eines Containers auf Frachtschiffen
 
 #### Nicht-Ziele bzw. nicht Inhalte
 
