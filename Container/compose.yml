@@ -1,13 +1,13 @@
 version: '3.8'
 services:
-  db_configurations:
+  db_configuration:
     image: mysql:8.0.0
     environment:
       - MYSQL_USER=BitSneak
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql_root_password
       - MYSQL_PASSWORD_FILE=/run/secrets/mysql_user_password
     volumes:
-      - ./databases/configuration_data/data:/var/lib/mysql
+      - ./databases/configuration_data/mysql:/var/lib/mysql
       - ./databases/configuration_data/scripts:/docker-entrypoint-initdb.d/
     ports:
       - '3307:3306'
@@ -15,14 +15,14 @@ services:
       - mysql_root_password
       - mysql_user_password
 
-  db_sensors:
+  db_sensor:
     image: mysql:8.0.0
     environment:
       - MYSQL_USER=BitSneak
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql_root_password
       - MYSQL_PASSWORD_FILE=/run/secrets/mysql_user_password
     volumes:
-      - ./databases/sensor_data/data:/var/lib/mysql
+      - ./databases/sensor_data/mysql:/var/lib/mysql
       - ./databases/sensor_data/scripts:/docker-entrypoint-initdb.d/
     ports:
       - '3308:3306'
