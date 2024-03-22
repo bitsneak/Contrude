@@ -1,2 +1,6 @@
 # JetBrains IDE specific
 .idea/
+
+# Exclude databases
+.Container/databases/configuration_data/mysql/
+.Container/databases/sensor_data/mysql/
