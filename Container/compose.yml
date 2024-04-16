@@ -11,12 +11,16 @@ services:
       - ./databases/configuration_data/scripts:/docker-entrypoint-initdb.d/
     ports:
       - '3307:3306'
+    deploy:
+      mode: global
     secrets:
       - mysql_root_password
       - mysql_user_password
 
   db_sensor:
     image: mysql:8.0.0
+    depends_on:
+      - db_configuration
     environment:
       - MYSQL_USER=BitSneak
       - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/mysql_root_password
@@ -26,6 +30,8 @@ services:
       - ./databases/sensor_data/scripts:/docker-entrypoint-initdb.d/
     ports:
       - '3308:3306'
+    deploy:
+      mode: global
     secrets:
       - mysql_root_password
       - mysql_user_password
