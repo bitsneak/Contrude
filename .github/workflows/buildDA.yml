@@ -18,18 +18,24 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y texlive texlive-latex-extra texlive-fonts-recommended pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
 
-      - name: List files in Diplomarbeit directory
-        run: ls Diplomarbeit
+      - name: List files in repository
+        run: ls
 
       - name: Change directory to LaTeX folder
         run: cd Diplomarbeit
+
+      - name: List files in Diplomarbeit directory
+        run: ls
 
       - name: Compile LaTeX document
         run: |
           pdflatex -interaction=nonstopmode -halt-on-error main.tex
 
       - name: Move PDF to root directory
-        run: mv Diplomarbeit/main.pdf .
+        run: mv main.pdf ..
+
+      - name: Change directory back to root
+        run: cd ..
 
       - name: Zip repository
         run: zip -r repository.zip .
