@@ -18,9 +18,15 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y texlive texlive-latex-extra texlive-fonts-recommended pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
 
+      - name: Change directory to LaTeX folder
+        run: cd Diplomarbeit
+
       - name: Compile LaTeX document
         run: |
-          pdflatex -interaction=nonstopmode -halt-on-error -output-directory=Diplomarbeit Diplomarbeit/main.tex
+          pdflatex -interaction=nonstopmode -halt-on-error main.tex
+
+      - name: Move PDF to root directory
+        run: mv Diplomarbeit/main.pdf .
 
       - name: Zip repository
         run: zip -r repository.zip .
@@ -32,4 +38,4 @@ jobs:
           body: "Attached is the repository archive."
           to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
           from: 201wita27@o365.htl-leoben.at
-          attachments: "${{ steps.zip-file-name.outputs.name }}"
+          attachments: "repository.zip"
