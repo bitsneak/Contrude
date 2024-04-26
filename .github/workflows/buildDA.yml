@@ -16,7 +16,7 @@ jobs:
       - name: Download and cache dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y git build-essential make guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
+          sudo apt-get install -y git build-essential make guile-2.2 texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
         id: cache-dependencies
         # Cache dependencies indefinitely
       - uses: actions/cache@v2
@@ -24,7 +24,7 @@ jobs:
           path: |
             /usr/bin/git
             /usr/bin/make
-            /usr/bin/guile
+            /usr/bin/guile-2.2
             /usr/bin/pdflatex
             /usr/bin/pandoc
             /usr/bin/tree
