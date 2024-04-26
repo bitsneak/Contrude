@@ -21,7 +21,7 @@ jobs:
       - name: List files in repository
         run: ls
 
-      - name: Change directory to LaTeX folder
+      - name: Change directory to Diplomarbeit
         run: cd Diplomarbeit
 
       - name: List files in Diplomarbeit directory
@@ -36,6 +36,9 @@ jobs:
 
       - name: Change directory back to root
         run: cd ..
+
+      - name: List files in root directory
+        run: ls
 
       - name: Zip repository
         run: zip -r repository.zip .
