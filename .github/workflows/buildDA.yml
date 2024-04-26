@@ -1,0 +1,54 @@
+name: Zip and Send Repository
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Download and cache dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
+        id: cache-dependencies
+        # Cache dependencies indefinitely
+        uses: actions/cache@v2
+        with:
+          path: |
+            /usr/bin/git
+            /usr/bin/make
+            /usr/bin/guile
+            /usr/bin/pdflatex
+            /usr/bin/pandoc
+            /usr/bin/tree
+            /usr/bin/rsync
+            /usr/bin/hunspell
+            /usr/share/texlive
+            # Add more paths as needed
+          key: ${{ runner.os }}-dependencies-${{ hashFiles('**/lockfiles') }}
+          restore-keys: ${{ runner.os }}-dependencies-
+
+      - name: Run command
+        run: |
+          make pdf -C HTLLE-DA-Vorlage SOURCEDIR=$(pwd)
+        # Use the ID of the cache-dependencies step to ensure it runs after caching
+        needs: cache-dependencies
+
+      - name: Zip repository
+        run: zip -r repository.zip .
+
+      - name: Send Zip via Email
+        uses: dawidd6/action-send-mail@v2
+        with:
+          subject: "Repository Archive"
+          body: "Attached is the repository archive."
+          to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
+          from: 201wita27@o365.htl-leoben.at
+          attachments: "${{ steps.zip-file-name.outputs.name }}"
