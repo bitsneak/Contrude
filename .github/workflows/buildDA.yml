@@ -33,11 +33,12 @@ jobs:
 
       - name: Compile LaTeX document
         run: |
-          pdflatex -interaction=nonstopmode -halt-on-error Diplomarbeit/main.tex || true
-          pdflatex -interaction=nonstopmode -halt-on-error Diplomarbeit/main.tex || true
+          ls Diplomarbeit
+          pdflatex -interaction=nonstopmode -halt-on-error Diplomarbeit/Diplomarbeit.tex || true
+          pdflatex -interaction=nonstopmode -halt-on-error Diplomarbeit/Diplomarbeit.tex || true
 
       - name: Move PDF to root directory
-        run: mv Diplomarbeit/main.pdf .
+        run: mv Diplomarbeit/Diplomarbeit.pdf .
 
       - name: List files in root directory
         run: ls
