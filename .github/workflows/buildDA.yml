@@ -16,10 +16,10 @@ jobs:
       - name: Download and cache dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
+          sudo apt-get install -y git build-essential make guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
         id: cache-dependencies
         # Cache dependencies indefinitely
-        uses: actions/cache@v2
+      - uses: actions/cache@v2
         with:
           path: |
             /usr/bin/git
@@ -39,8 +39,8 @@ jobs:
         run: |
           make pdf -C HTLLE-DA-Vorlage SOURCEDIR=$(pwd)
         # Use the ID of the cache-dependencies step to ensure it runs after caching
-        needs: cache-dependencies
-
+        if: always() && success()
+        
       - name: Zip repository
         run: zip -r repository.zip .
 
