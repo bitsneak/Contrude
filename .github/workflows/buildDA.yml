@@ -20,7 +20,7 @@ jobs:
 
       - name: Compile LaTeX document
         run: |
-          pdflatex -interaction=nonstopmode -halt-on-error -output-directory=HTLLE-DA-Vorlage HTLLE-DA-Vorlage/main.tex
+          pdflatex -interaction=nonstopmode -halt-on-error -output-directory=Diplomarbeit Diplomarbeit/main.tex
 
       - name: Zip repository
         run: zip -r repository.zip .
