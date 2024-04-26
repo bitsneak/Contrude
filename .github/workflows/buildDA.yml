@@ -12,35 +12,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
+        
       - name: Download and cache dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y git build-essential make guile-2.2 texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
-        id: cache-dependencies
-        # Cache dependencies indefinitely
-      - uses: actions/cache@v2
-        with:
-          path: |
-            /usr/bin/git
-            /usr/bin/make
-            /usr/bin/guile-2.2
-            /usr/bin/pdflatex
-            /usr/bin/pandoc
-            /usr/bin/tree
-            /usr/bin/rsync
-            /usr/bin/hunspell
-            /usr/share/texlive
-            # Add more paths as needed
-          key: ${{ runner.os }}-dependencies-${{ hashFiles('**/lockfiles') }}
-          restore-keys: ${{ runner.os }}-dependencies-
+          sudo apt-get install -y texlive texlive-latex-extra texlive-fonts-recommended pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
 
-      - name: Run command
+      - name: Compile LaTeX document
         run: |
-          make pdf -C HTLLE-DA-Vorlage SOURCEDIR=$(pwd)
-        # Use the ID of the cache-dependencies step to ensure it runs after caching
-        if: always() && success()
-        
+          pdflatex -interaction=nonstopmode -halt-on-error -output-directory=HTLLE-DA-Vorlage HTLLE-DA-Vorlage/main.tex
+
       - name: Zip repository
         run: zip -r repository.zip .
 
