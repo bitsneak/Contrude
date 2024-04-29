@@ -1,4 +1,4 @@
-name: Zip and Send Repository
+name: Build and Send Thesis
 
 on:
   push:
@@ -12,36 +12,39 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        
-      - name: Update package lists
-        run: sudo apt-get update
 
-      - name: Download and cache dependencies
+      - name: Cache LaTeX packages
         uses: actions/cache@v2
         with:
-          path: ~/.texlive
-          key: texlive-full-${{ runner.os }}-${{ hashFiles('**/*.tex') }}
+          path: /usr/local/texlive
+          key: ${{ runner.os }}-texlive-${{ hashFiles('**/*.tex') }}
           restore-keys: |
-            texlive-full-${{ runner.os }}-
-            texlive-full-
+            ${{ runner.os }}-texlive-
 
-      - name: Install texlive-full
-        if: steps.cache.outputs.cache-hit != 'true'
-        run: sudo apt-get install -y texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
-
-      - name: List files in Diplomarbeit directory
+      - name: Update package lists
         run: |
-          ls Diplomarbeit
+          sudo apt-get update
+          sudo apt-get install -y git build-essential make-guile pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
 
-      - name: Compile LaTeX document
+      - name: Install TexLive
         run: |
-          pdflatex -interaction=nonstopmode -halt-on-error Diplomarbeit/main.tex || true
+          sudo apt-get install -y texlive-full
+
+      - name: Build thesis
+        run: |
+          # Move to Diplomarbeit directory
+          cd Diplomarbeit
+
+          # Build PDF
+          make pdf
 
       - name: Move PDF to root directory
-        run: mv Diplomarbeit/main.pdf .
+        run: mv Diplomarbeit/diplomarbeit.pdf diplomarbeit.pdf
 
-      - name: List files in root directory
-        run: ls
+      - name: List files after build
+        run: |
+          ls
+          ls Diplomarbeit
 
       - name: Zip repository
         run: zip -r repository.zip .
