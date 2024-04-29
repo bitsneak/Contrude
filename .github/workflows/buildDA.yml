@@ -13,25 +13,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
         
-      - name: Cache LaTeX packages
+      - name: Update package lists
+        run: sudo apt-get update
+
+      - name: Download and cache dependencies
         uses: actions/cache@v2
         with:
-          path: /usr/share/texlive
-          key: texlive-${{ runner.os }}-${{ hashFiles('**/*.tex') }}
+          path: ~/.texlive
+          key: texlive-full-${{ runner.os }}-${{ hashFiles('**/*.tex') }}
+          restore-keys: |
+            texlive-full-${{ runner.os }}-
+            texlive-full-
 
-      - name: Update APT and install LaTeX and Pandoc
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y \
-            texlive \
-            texlive-latex-extra \
-            texlive-fonts-recommended \
-            pandoc \
-            pandoc-citeproc \
-            tree \
-            rsync \
-            hunspell \
-            hunspell-de-at
+      - name: Install texlive-full
+        if: steps.cache.outputs.cache-hit != 'true'
+        run: sudo apt-get install -y texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
 
       - name: List files in Diplomarbeit directory
         run: |
