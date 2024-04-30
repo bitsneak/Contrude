@@ -1,4 +1,4 @@
-# name: Build and Send Thesis
+name: Build and Send Thesis
 
 on:
   push:
@@ -13,18 +13,27 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Cache LaTeX packages
-        uses: actions/cache@v2
-        with:
-          path: /usr/local/texlive
-          key: ${{ runner.os }}-texlive-${{ hashFiles('**/*.tex') }}
-          restore-keys: |
-            ${{ runner.os }}-texlive-
-
-      - name: Update package lists
+      - name: Download and cache dependencies
         run: |
           sudo apt-get update
           sudo apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at hunspell-en-gb
+        id: cache-dependencies
+        # Cache dependencies indefinitely
+      - uses: actions/cache@v2
+        with:
+          path: |
+            /usr/bin/git
+            /usr/bin/make
+            /usr/bin/guile-2.2
+            /usr/bin/pdflatex
+            /usr/bin/pandoc
+            /usr/bin/tree
+            /usr/bin/rsync
+            /usr/bin/hunspell
+            /usr/share/texlive
+            # Add more paths as needed
+          key: ${{ runner.os }}-dependencies-${{ hashFiles('**/lockfiles') }}
+          restore-keys: ${{ runner.os }}-dependencies-o apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at hunspell-en-gb
 
       - name: Build thesis
         run: |
