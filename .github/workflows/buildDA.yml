@@ -35,10 +35,15 @@ jobs:
           key: ${{ runner.os }}-dependencies-${{ hashFiles('**/lockfiles') }}
           restore-keys: ${{ runner.os }}-dependencies-o apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at hunspell-en-gb
 
+      - name: Change directory to HTLLE-DA-Vorlage
+        run: | 
+           ls
+           pwd
+           cd HTLLE-DA-Vorlage
+        working-directory: ${{ github.workspace }}/HTLLE-DA-Vorlage
+
       - name: Build thesis
         run: |
-          ls
-          pwd
           make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
         working-directory: ${{ github.workspace }}/HTLLE-DA-Vorlage
 
