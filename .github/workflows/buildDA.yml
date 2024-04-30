@@ -37,7 +37,8 @@ jobs:
 
       - name: Build thesis
         run: |
-          make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
+          ls
+          sudo make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
 
       - name: List files after build
         run: |
