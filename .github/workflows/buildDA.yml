@@ -39,7 +39,7 @@ jobs:
         run: |
           ls
           pwd
-          make pdf -C HTLLE-DA-Vorlage SOURCEDIR=Diplomarbeit/
+          make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
         working-directory: ${{ github.workspace }}/Contrude/HTLLE-DA-Vorlage
 
       - name: List files after build
