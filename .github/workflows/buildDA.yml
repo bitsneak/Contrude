@@ -1,4 +1,4 @@
-name: Build and Send Thesis
+# name: Build and Send Thesis
 
 on:
   push:
@@ -24,38 +24,11 @@ jobs:
       - name: Update package lists
         run: |
           sudo apt-get update
-          sudo apt-get install -y git build-essential make-guile pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
-
-      - name: Install TexLive
-        run: |
-          sudo apt-get install -y texlive-full
+          sudo apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at hunspell-en-gb
 
       - name: Build thesis
         run: |
-          # Move to Diplomarbeit directory
-          cd Diplomarbeit
-
-          # Compile the thesis
-          pandoc \
-            -s \
-            -o diplomarbeit.pdf \
-            10-einleitung.md \
-            20-zielsetzung.md \
-            30-ausarbeitungen.md \
-            31-ausarbeitung_schrempf.md \
-            32-ausarbeitung_gekle.md \
-            33-ausarbeitung_kampl.md \
-            40-zusammenfassung.md \
-            90-Projektplan.md \
-            95-Projektdokumentation.md \
-            99-Projektabschlussbericht.md \
-            --bibliography=literatur.bib \
-            --filter pandoc-citeproc \
-            --metadata-file=metadata.yaml \
-            --pdf-engine=pdflatex
-
-      - name: Move PDF to root directory
-        run: mv Diplomarbeit/diplomarbeit.pdf diplomarbeit.pdf
+          make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
 
       - name: List files after build
         run: |
