@@ -38,15 +38,13 @@ Nicht-Ziele sind aus mehreren Gründen wichtig. Erstens helfen sie beim Erwartun
 
 Wie soll ein Außenstehender ein Projekt genehmigen, wenn nicht klar formuliert ist, WARUM das Projekt überhaupt durchgeführt werden soll? Auch hier ist es wichtig, möglichst konkret zu werden. Einen Projektnutzen z.B. mit „neueste Technik“ zu bezeichnen, ist nicht ausreichend.
 
-Unser Projekt soll nicht nur den Schiffsarbeitern und der Logistikabteilung des Hafens sondern auch den Kunden helfen. Des Öfteren kommt es vor, dass die Fracht auf Schiffen nicht auf ihren designierten Platz platziert wurde. Dies führt nur zur mehr Aufwand für die Schiffsarbeiter und Logistische Abteilung, da ein großer Anteil der Zeit nun für das Suchen eben dieser Container aufgebracht wird. Durch diese Verschwendete Zeit, kann und wird es zu Lieferverzögerungen kommen.
-Außerdem wird unser Gerät auch bei wiederfinden oder dem generellen verfolgen der Fracht helfen.
-Für den Hafen kann dies vom Vorteil sein, wenn ein Conteiner während des Transportes verloren geht und für die Kunden ermöglicht es einen genaueren einblick wo ihr Paket nun geneua ist.
+Unser Projekt soll nicht nur den Schiffsarbeitern und der Logistikabteilung des Hafens sondern auch den Kunden unterstützen. Des Öfteren kommt es vor, dass die Fracht auf Schiffen nicht auf ihren designierten Platz platziert wurde. Dies führt nur zur mehr Aufwand für die Schiffsarbeiter und Logistische Abteilung, da ein großer Anteil der Zeit nun für das Suchen eben dieser Container aufgebracht wird. Durch diese Verschwendete Zeit, kann und wird es zu Lieferverzögerungen kommen.
+Außerdem wird unser Gerät auch bei wiederfinden oder dem generellen verfolgen der Fracht von nutzen sein.
+Für den Hafen kann dies vom Vorteil sein, wenn ein Container während des Transportes verloren geht und für die Kunden ermöglicht es einen genaueren Einblick wo ihr Paket nun genau ist.
 
 #### Projektauftraggeber/in
 
-Hier beschreiben Sie wer der Projektauftraggeber ist. Falls es eine externe Firma ist können Sie hier eine kurze Beschreibung des Unternehmens (sofern Projektrelevant) einfügen.
-
-Die HTL-Leoben, eine technische Fachschule in Österreich überwacht und hilft uns bei der Eerstellung des Projektes. Sie stellt uns Lehrkräfte zur Verfügung, welche uns fast jederzeit als Berater uur seite stehen.
+Die HTL-Leoben, eine technische Fachschule in Österreich überwacht und hilft uns bei der Eerstellung des Projektes. Sie stellt uns Lehrkräfte zur Verfügung, welche uns fast jederzeit als Berater zur seite stehen.
 
 #### Projekttermine
 
@@ -75,6 +73,8 @@ Hier dokumentieren Sie welche Kosten fallen Für Ihr Projekt an und wer kommt f�
 | DA-Schreiben | Druck     |  3     |   26.00 |  53.00      | Schüler       |
 
  : Geplante Projektkosten
+
+ 
  
 Am ende sollten Sie eine Projektkostensumme ermitteln und hier angeben damit man sagen kann
 __Das Projekt kostet in Summe so und so viel Euro__. 
