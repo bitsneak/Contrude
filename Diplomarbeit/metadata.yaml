@@ -60,7 +60,4 @@ da-appendix:
 - abschnitt: Diplomatbeitsvereinbarung
   pdf-file: HTL-DA-Vereinbarung.pdf
   
-da-build-properties:
-- build-notification: MSTeams-DA_2021_Thema <test@muellmail.com>
-- build-notification: abcdefg@byom.de
 ---

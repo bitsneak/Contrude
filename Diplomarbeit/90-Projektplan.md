@@ -16,30 +16,36 @@ Es kommt auch des öfteren vor, dass Container während des Überseetransports v
 
 #### Projektziele
 
-1) Verminderung der Falschplatzierung von Containern  wegen Kranverschiebung auf nahezu 0%
-2) Ermöglichung der Verfolgung von Container während des Überseetransports mittels GPS-Tracking
-3) Lesen der Umweltdaten vor und während des Transportprozesses rund um den Container
-4) Erstellen eines Webservers mit Benutzeröberfläche zur Darstellung der ausgelesenen Daten
-5) Entwicklung von mindesten 2 Prototypen mit folgenden Funktionen:
-   1) Datenübertragung mittel MQTT
-   2) Auslesen der
-      1) Temperatur 
-      2) Luftfeuchtigkeit
-      3) Erschütterung
-      4) und des Luftdruckes
-   3) Ortung mittels GPS
-6) Erstellungs eines Algorithmus zur Bestimmung der Postion eines Containers auf Frachtschiffen
+##### Hauptziele
+
+- Verminderung der Falschplatzierung von Containern wegen Kranverschiebung auf nahezu 5%
+- Ermöglichung der Verfolgung von Container während des Überseetransports mittels GPS-Tracking
+- Lesen der Umweltdaten vor und während des Transportprozesses rund um den Container
+    - Temperatur
+    - Luftfeuchtigkeit
+    - Erschütterung
+    - Luftdruck
+- Entwicklung von Prototypen mit folgenden Funktionen
+  - Datenübertragung mittels MQTT
+    - Auslesen der Daten
+    - Ortung mittels GPS
+- Erstellung eines Algorithmus zur Bestimmung der Postion eines Containers auf dem Frachtschiff
+  - Dijkstra
+
+##### Zusatzziele
+
+- Erstellen einer Webanwendung mit Benutzeröberfläche zur Darstellung und Abfrage der ausgelesenen Daten
 
 #### Nicht-Ziele bzw. nicht Inhalte
 
-Nicht-Ziele sind aus mehreren Gründen wichtig. Erstens helfen sie beim Erwartungsmanagement. Zweitens schaffen sie Klarheit darüber, was erledigt werden soll. Und drittens erhöhen Nicht-Ziele die Transparenz. Denn wenn man schon früh im Projekt explizit die Bereiche definiert, die das Projekt nicht bearbeiten soll, kann dadurch eine Diskussion über genau diese Randbereiche entstehen. 
+- Mobile Anwendung zu erstellen
+- Mehr als 3 Prototypen zu erstellen
+- Statische Server- und Kommunikationsarchitektur
 
 #### Projektnutzen
 
-Wie soll ein Außenstehender ein Projekt genehmigen, wenn nicht klar formuliert ist, WARUM das Projekt überhaupt durchgeführt werden soll? Auch hier ist es wichtig, möglichst konkret zu werden. Einen Projektnutzen z.B. mit „neueste Technik“ zu bezeichnen, ist nicht ausreichend.
-
-Unser Projekt soll nicht nur den Schiffsarbeitern und der Logistikabteilung des Hafens sondern auch den Kunden unterstützen. Des Öfteren kommt es vor, dass die Fracht auf Schiffen nicht auf ihren designierten Platz platziert wurde. Dies führt nur zur mehr Aufwand für die Schiffsarbeiter und Logistische Abteilung, da ein großer Anteil der Zeit nun für das Suchen eben dieser Container aufgebracht wird. Durch diese Verschwendete Zeit, kann und wird es zu Lieferverzögerungen kommen.
-Außerdem wird unser Gerät auch bei wiederfinden oder dem generellen verfolgen der Fracht von nutzen sein.
+Unser Projekt soll nicht nur den Schiffsarbeitern und der Logistikabteilung des Hafens sondern auch den Kunden unterstützen. Des Öfteren kommt es vor, dass die Fracht auf Schiffen nicht auf ihren designierten Platz platziert wurde. Dies führt nur zu mehr Aufwand für die Schiffsarbeiter und Logistische Abteilung, da ein großer Anteil der Zeit nun für das Suchen eben dieser Container aufgebracht wird. Durch diese verschwendete Zeit, kann und wird es zu Lieferverzögerungen kommen.
+Außerdem wird unser Gerät auch beim Wiederfinden oder dem generellen Verfolgen der Fracht von nutzen sein.
 Für den Hafen kann dies vom Vorteil sein, wenn ein Container während des Transportes verloren geht und für die Kunden ermöglicht es einen genaueren Einblick wo ihr Paket nun genau ist.
 
 #### Projektauftraggeber/in
@@ -48,16 +54,13 @@ Die HTL-Leoben, eine technische Fachschule in Österreich überwacht und hilft u
 
 #### Projekttermine
 
-Welche Termine sind Fixtermine und was sollte an diesen Terminen stattfinden ? Beispiele hierfür sind z.B: Präsentationen, Projektende, Zwischenabgaben, fest eingeplante Besprechungen / Reviews (die auch Projektrelevant sind) die auf keinen Fall vergessen werden dürfen
-
-
 
 | Termin     | Inhalt                          |
 |-----------:|:--------------------------------|
 | 2023-11-23 | Abgabe DA-Vorschschläge         |
 | 2024-02-15 | Informationsveranstaltung       |
 | 2024-02-23 | Projektstart                    |
-
+| 2024-06-12 | Erstpräsentation der Themenstellung              |
 
 : Projektterminübersicht
 
@@ -104,9 +107,11 @@ Hier wird definiert wer (welche Personen) an diesem Projekt beteiligt im Prinzip
 
 | Vorname     | Nachname | Organisation | Kontaktinfos                |
 |:------------|:---------|:-----------  |:----------------------------|
-| Luca        | Gekle    | HTL-Leoben   | 201wita##o365.htl-leoben.at |
-| Marko       | Schrempf | HTL-Leoben   | 201wita##o365.htl-leoben.at |
-| Maximilian  | Kampl    | HTL-Leoben   | 201wita27o365.htl-leoben.at |
+| Luca        | Gekle    | HTL-Leoben   | 201wita04@o365.htl-leoben.at |
+| Marko       | Schrempf | HTL-Leoben   | 201wita20@o365.htl-leoben.at |
+| Maximilian  | Kampl    | HTL-Leoben   | 201wita27@o365.htl-leoben.at |
+| Günther  | Hutter    | HTL-Leoben   | hg@o365.htl-leoben.at |
+| Georg  | Judmaier    | HTL-Leoben   | jg@o365.htl-leoben.at |
 
 
 : Projektbeteiligte
@@ -121,22 +126,25 @@ Hier werden den Kontakten von oben konkrete Rollen zuewiesen.
 |------------------------|----------------------------------------------------|-------------------|
 | Projektleiter          | Verantwortlicher für Einhaltung des Projektrahmens | Schrempf Marko    |
 | Auftraggeber           | Auftraggeber der internen Diplomarbeit             | HTL-Leoben        |
-| Betreuer               | Schulischer Betreuer                               | G. Hutter         |
-| Betreuer               | Schulischer Betreuer                               | G. Judmaier       |
+| Betreuer               | Schulischer Betreuer                               | Günther Hutter         |
+| Betreuer               | Schulischer Betreuer                               | Georg Judmaier       |
 
 : Projektrollen
 
 Gerne können Sie hier auch noch zusätzlich eine Grafik oder ein Organisationsdiagramm einbauen.
 
-![Projektorganisationsdiagramm](img/projektorganisation.png){width=50%}
+![Projektorganisationsdiagramm](img/gekle/PO-Diagram.png){width=50%}
 
 ### Vorgehen bei Änderungen
 
 Hier dokumentieren sie betreffend des Meilensteinplans oder der Anwendungsfälle: 
 
-* Wer wird informiert, 
-* wer muss zustimmen, 
-* wo werden die Änderungen wie vermerkt?
+* Wer wird informiert
+  * Alle Projektbeteiligten
+* Wer muss zustimmen
+  *  Projektleiter o. Betreuer
+* Wo werden die Änderungen wie vermerkt?
+  * Github Repository mittels Commits
 
 Das dient in erster Linie dazu um ein einheitliches Vorgehen definiert zu haben.
 
@@ -156,50 +164,50 @@ Meilensteine verlaufen nie über eine Zeitdauer. Nie. Sie sind lediglich Entsche
 
 Hier ein Beispiel wie die Meilensteine im Fall einer aussehen können
 
-### 2020-09-15: Projektmanagement abgeschlossen
 
-- Projekthandbuch ist fertig
-- Serverinfrastruktur ist hergestellt
-- Bestellungen sind abgessendet
+### 2024-02-23: Genehmigung der DA
 
-### 2020-11-01: Genehmigung der DA
-
-- Einreichen des Antrags durch die Schüler/innen
+- Einreichen des Antrags durch die Schüler
 - DA Dokumentation wurde ausgefüllt und unterschrieben
 
-### 2020-11-26: Literaturrecherche abgeschlossen
+### 2024-05-09: Projekthandbuch fertig 
 
-- Literatur zum Thema XY gesucht und in bibtex vermerkt
-- Aktellen Stand der Forschung erhoben
-- Verschriftlichung des Literaturteils begonnen 
+- Zielsetzung ausgefüllt
+- Projekplan ausgefüllt
 
-### 2020-12-17: Prototyp ist funktionell
+### 2024-06-01: Hardware Komponenten Recherche abgeschlossen
 
-- DB mit Tabelle für Benutzer.
-- DB Kommunikation zur Anwendung (inkl. Dokumentation)
-- Es gibt in der Anwendung einen /Admin/ Benutzer. Dieser Benutzer kann weitere Benutzer in den Rollen /Lehrende/ und bzw. oder /Studierende/ anlegen.
+- Bestimmung der Komponenten
+- Preisrechnung
+- Terminrechnung
+
+### 2024-06x-17: Datenbanken fertig
+
+- Allgemeine Container Informationen
+- Sensor Daten
+  - Datentypen bestimmen
       
-### 2021-01-10: Applikation fertiggestellt
+### 2024-07-04: Fertige Server Architektur
 
-- Lehrende sind dazu in der Lage Tests anzulegen.
-- Studenten können einen ihnen zugewiesenen Test absolvieren.
+- Server ist einsatzfähig
+- REST-Schnittstelle
+  - Zugriff auf DB
+- Zugriff kann von überall gestattet werden
+  - DDNS
 
-### 2021-01-10: Review und Überarbeitung fertig
+### 2024-09-04: Prototyp ist funktionell
 
-- Der Quellcode ist gemeinsam mit den Projektpartnern reviewt
-- Quellcodedokumentation abgeschlossen (Javadoc)
-- Projekt baut auf eigenem Buildserver (Continous Integration)
+- Hardware Komponeten gekauft und geliefert
+- Löten der Komponenten
+- Datenübertragung mittels MQTT
 
-### 2021-02-03: Diploarbeit fertig verschriftlicht 
+### 2025-01-31: Webanwendung funktionell
 
-- Stilfehler sind behoben
-- DA Dokumentationsblatt ist unterschrieben, eingescannt und im Hauptdokument enthalten 
-- Praxisteil ist ebgeschlossen und verschriftlicht
-- Informationen sind im DA Portal eingegeben
-- Unterschriebene DA Betreuungsprotokolle sind in der DA enthalten
-- DA liegt dem Betreuer in ausgedruckter Form vor
+- Datenabfrage möglich
+- Einlogen / Ausloggen möglich
+- Ansprechendes GUI
+
     
-
 ## Anwendungsfälle
 
 Hier beschreiben Sie die Anwendungsfälle (=UseCases) Ihrer Anwendung / Diplomarbeit. Dabei sollte die Beschreibung auf hohem Niveau (also ohne implementierungsspezifische Details) erfolgen und typischerweise so benannt sein, wie die Ziele aus Sicht der Akteure heißen: Mitglied anmelden, Geld abheben, Auto zurückgeben.
@@ -209,6 +217,7 @@ Jeder Anwendungsfall wird im selben Muster beschrieben. In den folgenden Absätz
 Damit man auch versteht wer mit welchem Anwendungsfall agiert bietet es sich an hier eine Übersichtsgrafik zu erstellen:
 
 ![Übersicht Anwendungsfälle](img/anwendungsfalldiagramm.png){width=60%}
+
 
 \newpage
 ### Anwendungsfallname
@@ -240,34 +249,150 @@ Der Zustand, der nach einem erfolglosen Durchlauf des Anwendungsfalls erwartet w
 
 
 \newpage
-### Benutzer Anlegen
+### Daten senden
 
 #### Kurzbeschreibung
-Der Benutzer "Admin" kann auf Anfrage einen neuen Benutzer als "Lehrende" und bzw. oder "Studierende" anlegen
+Das Gerät übermittelt dem Server seine erfasste Daten 
 
 #### Trigger
-Admin legt auf Anfrage eines Benutzers einen neuen Account an
+Daten wurden registriert
 
 #### Vorbedingung
-Benutzer als "Admin" angemeldet
+Gerät ist aktiv
       
 #### Nachbedingung
-Es existiert ein Eintrag in der DB Benutzer Tabelle für den neu erstellten Benutzer. (Dieser kann sich anschließend in der Anwendung anmelden)
+Daten werden in der Datenbank gespeichert
 
 #### Akteure
-* Admin
+* Gerät
+* Server
 
 #### Fehlersituationen
-Admin bricht die Aktion ab
+
+- Sensor defekt
+- Verbindung zu Server kann nicht bereitgestellt werden
 
 #### Systemzustand im Fehlerfall
-Benutzer wird nicht angelegt und wird verworfen
+Daten werden nicht geschickt
 
 #### Standardablauf:
 
-1. Admin drückt Button, um einen neuen Benutzer anzulegen
-2. Es öffnet sich ein Formular, indem die nötigen Benutzer-Informationen eingegeben werden (Name, Adresse, Telephonnummer, E-Mail, Geburtsdatum, Passwort-Hash, Rolle). Der neue Benutzer muss mindestens einer der Rollen "Lehrende" und "Studierende" angehören
+1. Gerät wird aktiviert 
+2. Sensor ermittelt Daten
+3. Daten werden gesendet
 
 #### Alternativabläufe:
 
-* Admin drückt den Button, um die Aktion abzubrechen 
+* Daten werden nicht gesendet
+
+\newpage
+### Daten speichern
+
+#### Kurzbeschreibung
+Daten werden nach dem erhalten gespeichert
+
+#### Trigger
+Daten werden erhalten
+
+#### Vorbedingung
+Datenbank ist aktiv
+      
+#### Nachbedingung
+Neue Einträge in der Datenbank
+
+#### Akteure
+* Gerät
+* Datenbank
+* Server
+
+#### Fehlersituationen
+- Daten können nicht eingefügt
+- Verbindung zu Server kann nicht bereitgestellt werden
+
+#### Systemzustand im Fehlerfall
+Keine neuen Einträge
+
+#### Standardablauf:
+
+1. Daten erhalten
+2. Daten validiert
+3. Daten gespeichert
+
+#### Alternativabläufe:
+
+* Daten werden nicht gespeichert
+
+\newpage
+### Daten abrufen
+
+#### Kurzbeschreibung
+Daten werden von der Datenbank an die Webanwendung geschickt
+
+#### Trigger
+Neue Daten werden angefordert
+
+#### Vorbedingung
+Server ist ak
+      
+#### Nachbedingung
+Neue Daten werden geschickt
+
+#### Akteure
+* DB
+* Server
+* Webanwendung
+
+#### Fehlersituationen
+- Anfrage ist nicht korrekt
+
+#### Systemzustand im Fehlerfall
+Es werden keine (neuen) Daten angezeigt
+
+#### Standardablauf:
+
+1. Webanwendung schickt Anfrage
+2. Anfrage wird validiert
+3. Daten werden übermittelt
+
+#### Alternativabläufe:
+
+* Anfrage wird abgelehnt
+
+\newpage
+
+\newpage
+### Daten anzeigen
+
+#### Kurzbeschreibung
+Der Benutzer kann die ermittelten Daten abrufen
+
+#### Trigger
+Benutzer lädt die Seite
+
+#### Vorbedingung
+Benutzer ist angemeldet
+      
+#### Nachbedingung
+Daten werden (neu) geladen
+
+#### Akteure
+* Benutzer
+* Server
+
+#### Fehlersituationen
+- Benutzer bricht die Aktion ab
+- Keine Daten vorhanden
+- Server antwortet nicht
+
+#### Systemzustand im Fehlerfall
+Daten können nicht angezeigt werden
+
+#### Standardablauf:
+
+1. Benutzer lädt die Seite
+2. Benutzer meldet sich an 
+3. Benutzer ruft Daten ab
+
+#### Alternativabläufe:
+
+- Benutzer ist bereits angemeldet
