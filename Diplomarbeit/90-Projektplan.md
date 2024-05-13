@@ -133,7 +133,7 @@ Hier werden den Kontakten von oben konkrete Rollen zuewiesen.
 
 Gerne können Sie hier auch noch zusätzlich eine Grafik oder ein Organisationsdiagramm einbauen.
 
-![Projektorganisationsdiagramm](img/gekle/PO-Diagram.png){width=50%}
+![Projektorganisationsdiagramm](img/Gekle/PO-Diagram.png){width=50%}
 
 ### Vorgehen bei Änderungen
 
