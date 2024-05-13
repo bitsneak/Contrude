@@ -181,7 +181,7 @@ Hier ein Beispiel wie die Meilensteine im Fall einer aussehen können
 - Preisrechnung
 - Terminrechnung
 
-### 2024-06x-17: Datenbanken fertig
+### 2024-06-17: Datenbanken fertig
 
 - Allgemeine Container Informationen
 - Sensor Daten
