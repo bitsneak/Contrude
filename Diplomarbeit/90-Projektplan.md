@@ -50,7 +50,7 @@ Für den Hafen kann dies vom Vorteil sein, wenn ein Container während des Trans
 
 #### Projektauftraggeber/in
 
-Die HTL-Leoben, eine technische Fachschule in Österreich überwacht und hilft uns bei der Eerstellung des Projektes. Sie stellt uns Lehrkräfte zur Verfügung, welche uns fast jederzeit als Berater zur seite stehen.
+Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft uns bei der Eerstellung des Projektes. Sie stellt uns Lehrkräfte zur Verfügung, welche uns fast jederzeit als Berater zur seite stehen.
 
 #### Projekttermine
 
@@ -107,11 +107,11 @@ Hier wird definiert wer (welche Personen) an diesem Projekt beteiligt im Prinzip
 
 | Vorname     | Nachname | Organisation | Kontaktinfos                |
 |:------------|:---------|:-----------  |:----------------------------|
-| Luca        | Gekle    | HTL-Leoben   | 201wita04@o365.htl-leoben.at |
-| Marko       | Schrempf | HTL-Leoben   | 201wita20@o365.htl-leoben.at |
-| Maximilian  | Kampl    | HTL-Leoben   | 201wita27@o365.htl-leoben.at |
-| Günther  | Hutter    | HTL-Leoben   | hg@o365.htl-leoben.at |
-| Georg  | Judmaier    | HTL-Leoben   | jg@o365.htl-leoben.at |
+| Luca        | Gekle    | HTL Leoben   | 201wita04@o365.htl-leoben.at |
+| Marko       | Schrempf | HTL Leoben   | 201wita20@o365.htl-leoben.at |
+| Maximilian  | Kampl    | HTL Leoben   | 201wita27@o365.htl-leoben.at |
+| Günther  | Hutter    | HTL Leoben   | hg@o365.htl-leoben.at |
+| Georg  | Judmaier    | HTL -Leoben   | jg@o365.htl-leoben.at |
 
 
 : Projektbeteiligte
@@ -125,7 +125,7 @@ Hier werden den Kontakten von oben konkrete Rollen zuewiesen.
 | Projektrolle           | Rollenbeschreibung                                 | Name              |
 |------------------------|----------------------------------------------------|-------------------|
 | Projektleiter          | Verantwortlicher für Einhaltung des Projektrahmens | Schrempf Marko    |
-| Auftraggeber           | Auftraggeber der internen Diplomarbeit             | HTL-Leoben        |
+| Auftraggeber           | Auftraggeber der internen Diplomarbeit             | HTL Leoben        |
 | Betreuer               | Schulischer Betreuer                               | Günther Hutter         |
 | Betreuer               | Schulischer Betreuer                               | Georg Judmaier       |
 
