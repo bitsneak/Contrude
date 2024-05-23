@@ -4,6 +4,10 @@
 # Exclude databases
 .Container/databases/configuration_data/mysql/
 .Container/databases/sensor_data/mysql/
+.Container/databases/user/mysql/
+
+# Exclude ssl certificates
+.Container/rest/ssl/
 
 # Exlude macOS specific stuff
 .DS_Store

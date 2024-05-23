@@ -1,0 +1,17 @@
+CREATE DATABASE IF NOT EXISTS user DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+
+CREATE TABLE IF NOT EXISTS user.user
+(
+    id       INT PRIMARY KEY AUTO_INCREMENT,
+    name     VARCHAR(255) NOT NULL,
+    password VARCHAR(255) NOT NULL,
+    locked   BOOLEAN      NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS user.token
+(
+    access  VARCHAR(255) NOT NULL,
+    refresh VARCHAR(255) NOT NULL,
+
+    PRIMARY KEY (access, refresh)
+);

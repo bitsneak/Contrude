@@ -1,0 +1,31 @@
+import { tryCatchWrapper } from "../../middlewares/tryCatchWrapper.js";
+import { createCustomError } from "../../errors/customErrors.js";
+import { configuration } from "../../db/connect.js";
+
+/**
+ * @description get all countries
+ * @route GET api/get/allCountries
+ */
+export const getAllCountries = tryCatchWrapper(async function (req, res, next) {
+    let sql = "SELECT * FROM corporation.country";
+    const [rows] = await configuration.query(sql);
+
+    if (!rows.length) return next(createCustomError("Empty list", 204));
+    return res.status(200).json({ countries: rows });
+});
+
+/**
+ * @description get all countries from continent
+ * @param id - continent id
+ * @route GET api/get/allCountries/:id
+ */
+export const getAllCountriesFromContinent = tryCatchWrapper(async function (req, res, next) {
+  const id  = req.params.id;
+  if (!id) return next(createCustomError("Continent id is required", 400));
+
+  let sql = "SELECT * FROM corporation.country c WHERE c.continent = ?";
+  const [rows] = await configuration.query(configuration.format(sql, [id]));
+
+  if (!rows.length) return next(createCustomError("Empty list", 204));
+  return res.status(200).json({ countries: rows });
+});

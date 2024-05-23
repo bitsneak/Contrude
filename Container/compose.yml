@@ -7,7 +7,7 @@ services:
       - MYSQL_ROOT_PASSWORD=123
       - MYSQL_ONETIME_PASSWORD=yes
     volumes:
-#      - ./databases/configuration_data/mysql:/var/lib/mysql # -- disabled because of debug
+      - ./databases/configuration_data/mysql:/var/lib/mysql
       - ./databases/configuration_data/scripts:/docker-entrypoint-initdb.d/
     ports:
       - '3307:3306'
@@ -21,10 +21,42 @@ services:
       - MYSQL_ROOT_PASSWORD=123
       - MYSQL_ONETIME_PASSWORD=yest
     volumes:
-#      - ./databases/sensor_data/mysql:/var/lib/mysql # -- disabled because of debug
+      - ./databases/sensor_data/mysql:/var/lib/mysql
       - ./databases/sensor_data/scripts:/docker-entrypoint-initdb.d/
     ports:
       - '3308:3306'
+    restart: unless-stopped
+    deploy:
+      mode: global
+
+  db_user:
+    image: mysql:8.0.18
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+      - MYSQL_ONETIME_PASSWORD=yest
+    volumes:
+      - ./databases/user/mysql:/var/lib/mysql
+      - ./databases/user/scripts:/docker-entrypoint-initdb.d/
+    ports:
+      - '3309:3306'
+    restart: unless-stopped
+    deploy:
+      mode: global
+
+  rest:
+    image: node:22-alpine3.18
+    env_file:
+      - ./rest/.env
+    depends_on:
+      - db_configuration
+      - db_sensor
+      - db_user
+    working_dir: /app
+    command: "node app.js"
+    volumes:
+      - ./rest:/app
+    ports:
+      - '444:443'
     restart: unless-stopped
     deploy:
       mode: global
