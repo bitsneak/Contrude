@@ -2,7 +2,7 @@
 **.idea/
 
 # Exclude databases
-.Container/databases/*/mysql/
+Container/databases/*/mysql/
 
 # Exclude ssl certificates
 *.pem
