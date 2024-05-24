@@ -1,14 +1,11 @@
 # JetBrains IDE specific
-.idea/
+**.idea/
 
 # Exclude databases
-.Container/databases/configuration_data/mysql/
-.Container/databases/sensor_data/mysql/
-.Container/databases/user/mysql/
+.Container/databases/*/mysql/
 
 # Exclude ssl certificates
-.Container/rest/ssl/
+*.pem
 
 # Exlude macOS specific stuff
-.DS_Store
-Container/.DS_Store
+**.DS_Store
