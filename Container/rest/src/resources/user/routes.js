@@ -3,12 +3,13 @@ import {
     createUser,
     login,
     refreshToken,
-    logout
+    logout,
+    validateToken
 } from "./controller.js";
 
 const router = express.Router();
 
-router.route("/createUser").post(createUser);
+router.route("/createUser").post(validateToken, createUser);
 router.route("/login").post(login);
 router.route("/refreshToken").post(refreshToken);
 router.route("/logout").delete(logout);
