@@ -7,11 +7,35 @@ Dieses Kapitel wird oft auch als _Literaturrecherche_ bezeichnet. Da gehört all
 
 Das sind z.B: allgemeine Definitionen, Beschreibung von fachspezifischen Vorgehensweisen, Frameworks, Theorie zu verwendeten Algorithmen, besondere Umstände, ...
 
+### Die Welt der Hardware  (Benötigte Hardwarekomponenten)
+
+#### Kosten
+
+### Aufsetzung der Prototypen
+
+#### Software
+
+### Datenübertragung mittels MQTT
+
+#### Daten lesen
+
+#### Daten übertragen
+
+### Durchführung der Tests (kontinuirlich)
+
 ## Praktische Arbeit
 
-Hier beschreiben Sie ihren praktischen Teil. Es geht darum seine Implementierung / Versuche so darzustellen dass anhand dieser dre Leser erkennen kann was sie wie gemacht haben.
+Hier beschreiben Sie ihren praktischen Teil. Es geht darum seine Implementierung / Versuche so darzustellen dass anhand dieser der Leser erkennen kann was sie wie gemacht haben.
 
 Die Frage nach der Detailgenauigkeit lässt sich wie folgt beantworten: So, dass man Ihre Aufgabenstellung vollständig  nachvollziehen kann wenn man nur diese Diplomarbeit in Händen hat!
+
+### Zusammensetzen und Löten des Prototypen
+
+### Schreiben eines MQTT Java Programmes
+
+### Durchführung der Tests (kontinuirlich)
+
+## Vorlage Praktisch
 
 ### Erzeugen von Java Quellcode
 
