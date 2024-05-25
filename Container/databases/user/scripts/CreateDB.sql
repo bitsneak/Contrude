@@ -1,5 +1,34 @@
 CREATE DATABASE IF NOT EXISTS user DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
 CREATE SCHEMA IF NOT EXISTS corporation DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+CREATE SCHEMA IF NOT EXISTS privilege DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+
+CREATE TABLE IF NOT EXISTS privilege.role
+(
+    id   INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL UNIQUE,
+    level INT NOT NULL UNIQUE,
+
+    CHECK (NULLIF(name, '') IS NOT NULL AND LENGTH(name) <= 255)
+);
+
+CREATE TABLE IF NOT EXISTS privilege.permission
+(
+    id   INT PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL UNIQUE,
+
+    CHECK (NULLIF(name, '') IS NOT NULL AND LENGTH(name) <= 255)
+);
+
+CREATE TABLE IF NOT EXISTS privilege.role_permission
+(
+    role       INT,
+    permission INT,
+
+    PRIMARY KEY (role, permission),
+
+    FOREIGN KEY (role) REFERENCES privilege.role (id),
+    FOREIGN KEY (permission) REFERENCES privilege.permission (id)
+);
 
 CREATE TABLE IF NOT EXISTS corporation.country
 (
@@ -31,6 +60,7 @@ CREATE TABLE IF NOT EXISTS user.user
     password VARCHAR(255) NOT NULL,
     email    VARCHAR(255) UNIQUE,
     company  VARCHAR(255) NOT NULL,
+    role     INT          NOT NULL,
     disabled BOOLEAN      NOT NULL,
 
     UNIQUE (name, company),
@@ -39,7 +69,8 @@ CREATE TABLE IF NOT EXISTS user.user
     CHECK (NULLIF(password, '') IS NOT NULL AND LENGTH(password) <= 255),
     CHECK (email IS NULL OR email REGEXP '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'),
 
-    FOREIGN KEY (company) REFERENCES corporation.company (name) ON DELETE RESTRICT
+    FOREIGN KEY (company) REFERENCES corporation.company (name) ON DELETE RESTRICT,
+    FOREIGN KEY (role) REFERENCES privilege.role (id) ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS user.token

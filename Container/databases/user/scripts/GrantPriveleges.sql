@@ -6,5 +6,6 @@ GRANT ALL PRIVILEGES ON corporation.* TO 'developer';
 GRANT SELECT, INSERT, UPDATE ON user.user TO 'api';
 GRANT SELECT, INSERT, UPDATE, DELETE ON user.token TO 'api';
 GRANT SELECT, INSERT ON corporation.* TO 'api';
+GRANT SELECT ON privilege.* TO 'api';
 
 FLUSH PRIVILEGES;
