@@ -17,7 +17,8 @@ jobs:
         run: |
          zip_filename="repository_$(date +'%Y-%m-%d').zip"
          zip -r "$zip_filename" .
-         echo "::set-output name=zip_filename::$zip_filename" # This will set an output that can be used later
+         echo "Created zip file: $zip_filename" # Print out the name of the zip file
+         echo "::set-output name=zip_filename::$zip_filename" # Set an output for later use
 
       - name: Send Zip via Email
         uses: dawidd6/action-send-mail@v2
