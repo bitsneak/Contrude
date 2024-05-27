@@ -236,11 +236,8 @@ export const validateToken = (requiredPermission) => {
     [rows] = await user.query(user.format(searchRolePermissionSql, [userRole, requiredPermission]));
 
     // if there are any entries the user has the required permission
-    if (rows.length > 0) {
-      next();
-    } else {
-      return next(createCustomError("Permission denied", 403));
-    }
+    if (rows.length > 0) next();
+    else return next(createCustomError("Permission denied", 403));
   });
 };
 
@@ -282,4 +279,40 @@ const generateAccessToken = function(user, role) {
  */
 const generateRefreshToken = function(user, role) {
   return jwt.sign({user, role}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "20m"})
+};
+
+/**
+ * @description check and delete expired tokens
+ */
+export const deleteExpiredTokens = async () => {
+  let counter = 0;
+
+  try {
+    // sql statements
+    const searchSql = "SELECT t.refresh FROM user.token t";
+    const deleteSql = "DELETE FROM user.token t WHERE t.refresh = ?";
+
+    // retrieve all tokens
+    const [rows] = await user.query(searchSql);
+
+    for (const row of rows) {
+      const refreshToken = row.refresh;
+      let deleteToken = false;
+
+      // verify if the token is expired
+      jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
+        if (err && err.name === "TokenExpiredError") deleteToken = true;
+      });
+
+      // delete expired token
+      if (deleteToken) {
+        await user.query(user.format(deleteSql, [refreshToken]));
+        counter++;
+      }
+    }
+  } catch (err) {
+    console.error("Error occurred while deleting expired tokens: ", err);
+  }
+
+  return counter;
 };
