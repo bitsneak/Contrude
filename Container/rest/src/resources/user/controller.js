@@ -72,6 +72,52 @@ export const createUser = tryCatchWrapper(async function (req, res, next) {
 });
 
 /**
+ * @description enables a user
+ * @route POST /enableUser
+ */
+export const enableUser = tryCatchWrapper(async function (req, res, next) {
+  // extract data from req body
+  const userName = req.body.user;
+
+  // sql statements
+  const searchSql = "SELECT u.disabled FROM user.user u WHERE u.name = ?";
+  const updateSql = "UPDATE user.user u SET u.disabled = FALSE WHERE u.name = ?"
+
+  // check if user exists
+  const [rows] = await user.query(user.format(searchSql, [userName]));
+  if (rows.length == 0) return next(createCustomError("User does not exist", 409));
+  // check if user is already enabled
+  if (!rows[0].disabled) return next(createCustomError("User already enabled", 409));
+
+  //update user
+  await user.query(user.format(updateSql, [userName]));7
+  return res.status(201).json({ message: "User enabled" });
+});
+
+/**
+ * @description disables a user
+ * @route POST /disableUSer
+ */
+export const disableUser = tryCatchWrapper(async function (req, res, next) {
+  // extract data from req body
+  const userName = req.body.user;
+
+  // sql statements
+  const searchSql = "SELECT u.disabled FROM user.user u WHERE u.name = ?";
+  const updateSql = "UPDATE user.user u SET u.disabled = TRUE WHERE u.name = ?"
+
+  // check if user exists
+  const [rows] = await user.query(user.format(searchSql, [userName]));
+  if (rows.length == 0) return next(createCustomError("User does not exist", 409));
+  // check if user is already disabled
+  if (rows[0].disabled) return next(createCustomError("User already disabled", 409));
+
+  //update user
+  await user.query(user.format(updateSql, [userName]));
+  return res.status(201).json({ message: "User disabled" });
+});
+
+/**
  * @description logs the user in
  * @route POST /login
  */
@@ -212,7 +258,7 @@ export const logout = tryCatchWrapper(async function (req, res, next) {
 
   // check if token is valid
   const [rows] = await user.query(user.format(searchSql, [refreshToken]));
-  if (rows.length == 0) return next(createCustomError("Refresh token invalid", 400));
+  if (rows.length == 0) return next(createCustomError("Token invalid", 400));
 
   // check if refresh token is expired
   jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
