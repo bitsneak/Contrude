@@ -10,55 +10,32 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # - name: Checkout code
-      #   uses: actions/checkout@v2
+       - name: Checkout code
+         uses: actions/checkout@v2
 
-      # - name: Download and cache dependencies
-      #   run: |
-      #     sudo apt-get update
-      #     sudo apt-get install -y git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at hunspell-en-gb
-      #   id: cache-dependencies
-      #   # Cache dependencies indefinitely
-      # - uses: actions/cache@v2
-      #   with:
-      #     path: |
-      #       /usr/bin/git
-      #       /usr/bin/make
-      #       /usr/bin/guile-2.2
-      #       /usr/bin/pdflatex
-      #       /usr/bin/pandoc
-      #       /usr/bin/tree
-      #       /usr/bin/rsync
-      #       /usr/bin/hunspell
-      #       /usr/share/texlive
-      #       # Add more paths as needed
-      #     key: ${{ runner.os }}-dependencies-${{ hashFiles('**/lockfiles') }}
-      #     restore-keys: ${{ runner.os }}-dependencies-o apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at hunspell-en-gb
-
-      # - name: Change directory to HTLLE-DA-Vorlage
-      #   run: | 
-      #      ls
-      #      pwd
-      #      cd HTLLE-DA-Vorlage
-      #   working-directory: ${{ github.workspace }}/HTLLE-DA-Vorlage
-
+       - name: Download and cache dependencies
+         run: |
+           sudo apt-get update
+           sudo apt-get install -y git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at hunspell-en-gb
       # - name: Build thesis
       #   run: |
       #     make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
       #   working-directory: ${{ github.workspace }}/HTLLE-DA-Vorlage
 
-      - name: List files
-        run: |
-          ls
+       - name: List Files
+         run: |
+           ls
+           ls Diplomarbeit/
+  
+       - name: Zip repository
+         run: | 
+          zip -r repository.zip .
 
-      - name: Zip repository
-        run: zip -r repository.zip .
-
-      - name: Send Zip via Email
-        uses: dawidd6/action-send-mail@v2
-        with:
-          subject: "Repository Archive"
-          body: "Attached is the repository archive."
-          to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
-          from: 201wita27@o365.htl-leoben.at
-          attachments: "repository.zip"
+       - name: Send Zip via Email
+         uses: dawidd6/action-send-mail@v2
+         with:
+           subject: "Repository Archive"
+           body: "Attached is the repository archive."
+           to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
+           from: 201wita27@o365.htl-leoben.at
+           attachments: "repository.zip"
