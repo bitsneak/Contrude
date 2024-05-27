@@ -10,36 +10,23 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-       - name: Checkout code
-         uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-       - name: Download and cache dependencies
-         run: |
-           sudo apt-get update
-           sudo apt-get install -y git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at hunspell-en-gb
-      # - name: Build thesis
-      #   run: |
-      #     make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
-      #   working-directory: ${{ github.workspace }}/HTLLE-DA-Vorlage
+      - name: Zip repository
+        run: |
+         zip -r repository.zip .
 
-       - name: List Files
-         run: |
-           ls
-           ls Diplomarbeit/
-  
-       - name: Zip repository
-         run: | 
-          zip -r repository.zip .
-
-       - name: Send Zip via Email
-         uses: dawidd6/action-send-mail@v2
-         with:
-           server_address: smtp.office365.com
-           server_port: 587
-           username: ${{ secrets.OUTLOOK_EMAIL }}
-           password: ${{ secrets.OUTLOOK_PASSWORD }}
-           subject: "Repository Archive"
-           body: "Attached is the repository archive."
-           to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
-           from: 201wita27@o365.htl-leoben.at
-           attachments: "repository.zip"
+      - name: Send Zip via Email
+        uses: dawidd6/action-send-mail@v2
+        with:
+          server_address: smtp.office365.com
+          server_port: 587
+          secure: true
+          username: ${{ secrets.OUTLOOK_EMAIL }}
+          password: ${{ secrets.OUTLOOK_PASSWORD }}
+          subject: "Repository Archive"
+          body: "Attached is the repository archive."
+          to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
+          from: ${{ secrets.OUTLOOK_EMAIL }}
+          attachments: "repository.zip"
