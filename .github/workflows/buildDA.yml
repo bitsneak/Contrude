@@ -13,9 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Zip repository
+      - name: Zip repository with date
         run: |
-         zip -r repository.zip .
+         zip_filename="repository_$(date +'%Y-%m-%d').zip"
+         zip -r "$zip_filename" .
+
 
       - name: Send Zip via Email
         uses: dawidd6/action-send-mail@v2
