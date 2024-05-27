@@ -50,7 +50,7 @@ jobs:
       - name: List files
         run: |
           ls
-          ls Diplomarbeit
+          ls Diplomarbeit/
 
       - name: Zip repository
         run: zip -r repository.zip .
