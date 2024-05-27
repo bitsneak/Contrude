@@ -34,6 +34,10 @@ jobs:
        - name: Send Zip via Email
          uses: dawidd6/action-send-mail@v2
          with:
+           server_address: smpt.office365.com
+           server_port: 587
+           username: ${{ secrets.OUTLOOK_EMAIL }}
+           password: ${{ secrets.OUTLOOK_PASSWORD }}
            subject: "Repository Archive"
            body: "Attached is the repository archive."
            to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
