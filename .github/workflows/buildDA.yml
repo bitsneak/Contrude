@@ -26,6 +26,7 @@ jobs:
           username: ${{ secrets.OUTLOOK_EMAIL }}
           password: ${{ secrets.OUTLOOK_PASSWORD }}
           subject: "Repository Archive"
+          body: ""
           to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
           from: ${{ secrets.OUTLOOK_EMAIL }}
           attachments: "repository.zip"
