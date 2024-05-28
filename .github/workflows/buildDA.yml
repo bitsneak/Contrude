@@ -44,4 +44,4 @@ jobs:
           body: " "
           to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
           from: ${{ secrets.OUTLOOK_EMAIL }}
-          attachments: repository.zip
+          attachments: Diplomarbeit/build/repository.zip
