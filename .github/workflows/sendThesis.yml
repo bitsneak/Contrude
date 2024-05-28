@@ -1,17 +1,20 @@
-name: send Thesis to Teams
+name: Send Thesis to Teams
 
 on: 
   workflow_run:
     workflows: ["Build and Zip Thesis"]
     types:
       - completed
-      
+
 jobs:
   dependent_job:
     if: ${{ github.event.workflow_run.conclusion == 'success' }}
     runs-on: ubuntu-latest
 
     steps: 
+      - name: Checkout code
+        uses: actions/checkout@v2
+
       - name: Zip and Send File via Email
         uses: dawidd6/action-send-mail@v2
         with:
@@ -24,7 +27,3 @@ jobs:
           to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
           from: ${{ secrets.OUTLOOK_EMAIL }}
           attachments: Diplomarbeit/build/repository.zip
-
-
-
-      
