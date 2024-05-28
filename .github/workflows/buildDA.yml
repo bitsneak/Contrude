@@ -1,4 +1,4 @@
-name: Build and Send Thesis
+name: Build and Zip Thesis
 
 on:
   push:
@@ -33,15 +33,3 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: dev
          
-      - name: Zip and Send File via Email
-        uses: dawidd6/action-send-mail@v2
-        with:
-          server_address: smtp.office365.com
-          server_port: 587
-          username: ${{ secrets.OUTLOOK_EMAIL }}
-          password: ${{ secrets.OUTLOOK_PASSWORD }}
-          subject: "Repository Archive"
-          body: " "
-          to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
-          from: ${{ secrets.OUTLOOK_EMAIL }}
-          attachments: Diplomarbeit/build/repository.zip
