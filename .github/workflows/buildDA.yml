@@ -13,9 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Create build directory
+        run: mkdir -p Diplomarbeit/build
+
       - name: Zip repository
         run: | 
-           zip -r Diplomarbeit/build/repository.zip .
+          zip -r Diplomarbeit/build/repository.zip .
 
       - name: Configure git
         run: |
@@ -32,4 +35,3 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: dev
-         
