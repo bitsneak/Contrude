@@ -13,13 +13,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Zip repository with date
-        run: |
-         zip_filename="repository_$(date +'%Y-%m-%d').zip"
-         zip -r "$zip_filename" .
-         echo "Created zip file: $zip_filename" # Print out the name of the zip file
-         echo "::set-output name=zip_filename::$zip_filename" # Set an output for later use
-
+      - name: Zip repository
+        run: | 
+           zip -r repository.zip .
+         
       - name: Send Zip via Email
         uses: dawidd6/action-send-mail@v2
         with:
@@ -31,4 +28,4 @@ jobs:
           body: " "
           to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
           from: ${{ secrets.OUTLOOK_EMAIL }}
-          attachments: ${{ steps.ZipRepository.outputs.zip_filename }}
+          attachments: README.md
