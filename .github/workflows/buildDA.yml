@@ -15,7 +15,23 @@ jobs:
 
       - name: Zip repository
         run: | 
-           zip -r repository.zip .
+           zip -r Diplomarbeit/build/repository.zip .
+
+      - name: Configure git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Commit zip file
+        run: |
+          git add Diplomarbeit/build/repository.zip
+          git commit -m "Add repository.zip to build directory"
+        
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: dev
          
       - name: Zip and Send File via Email
         uses: dawidd6/action-send-mail@v2
