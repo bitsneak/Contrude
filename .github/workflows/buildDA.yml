@@ -19,14 +19,15 @@ jobs:
            zip -r repository.zip .
          
       - name: Zip and Send File via Email
-        uses: dawidd6/action-send-mail@v3.12.0
+        uses: devellany/send-mail@v1.0.2
         with:
-          server_address: smtp.office365.com
-          server_port: 587
-          username: ${{ secrets.OUTLOOK_EMAIL }}
+          host: smtp.office365.com
+          port: 587
+          account: ${{ secrets.OUTLOOK_EMAIL }}
           password: ${{ secrets.OUTLOOK_PASSWORD }}
+          sender: GitHub
+          from: ${{ secrets.OUTLOOK_EMAIL }}
+          to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
           subject: "Repository Archive"
           body: " "
-          to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
-          from: ${{ secrets.OUTLOOK_EMAIL }}
           attachments: repository.zip
