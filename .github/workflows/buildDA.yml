@@ -30,5 +30,5 @@ jobs:
           subject: "Repository Archive"
           body: " "
           to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
-          from: ${{ secrets.OUTLOOK_EMAIL }}
+          from: diplomarbeitcontrude@gmail.com
           attachments: repository.zip
