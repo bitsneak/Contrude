@@ -26,7 +26,7 @@ jobs:
           server_address: smtp.gmail.com
           server_port: 587
           username: diplomarbeitcontrude@gmail.com
-          password: markoISTKLEINsoca149
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
           subject: "Repository Archive"
           body: " "
           to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
