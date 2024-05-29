@@ -20,16 +20,15 @@ jobs:
       - name: List files for debugging
         run: ls -lh repository.zip
 
-      - name: Send File via Email
-        uses: devellany/send-mail@v1.0.2
+      - name: Zip and Send File via Email
+        uses: dawidd6/action-send-mail@v2
         with:
-          host: smtp.gmail.com
-          port: 587
-          account: diplomarbeitcontrude@gmail.com
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: diplomarbeitcontrude@gmail.com
           password: markoISTKLEINsoca149
-          sender: diplomarbeitcontrude@gmail.com
-          from: diplomarbeitcontrude@gmail.com
-          to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
           subject: "Repository Archive"
-          body: "Archived Repo"
-          attachments: '[{"path": "repository.zip"}]'
+          body: " "
+          to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
+          from: ${{ secrets.OUTLOOK_EMAIL }}
+          attachments: repository.zip
