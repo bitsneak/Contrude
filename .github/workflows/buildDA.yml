@@ -19,7 +19,7 @@ jobs:
            zip -r repository.zip .
          
       - name: Zip and Send File via Email
-        uses: dawidd6/action-send-mail@v3
+        uses: dawidd6/action-send-mail@v3.12.0
         with:
           server_address: smtp.office365.com
           server_port: 587
