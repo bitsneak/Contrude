@@ -23,14 +23,13 @@ jobs:
       - name: Send File via Email
         uses: devellany/send-mail@v1.0.2
         with:
-          host: smtp.office365.com
+          host: smtp.gmail.com
           port: 587
-          account: ${{ secrets.OUTLOOK_EMAIL }}
-          password: ${{ secrets.OUTLOOK_PASSWORD }}
-          sender: ${{ secrets.OUTLOOK_EMAIL }}
-          from: ${{ secrets.OUTLOOK_EMAIL }}
+          account: diplomarbeitcontrude@gmail.com
+          password: markoISTKLEINsoca149
+          sender: diplomarbeitcontrude@gmail.com
+          from: diplomarbeitcontrude@gmail.com
           to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
           subject: "Repository Archive"
-          body: " "
-          contentType: text/plain
+          body: "Archived Repo"
           attachments: '[{"path": "repository.zip"}]'
