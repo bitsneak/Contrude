@@ -43,20 +43,36 @@ services:
     deploy:
       mode: global
 
-  rest:
+  node_auth:
     image: node:22-alpine3.18
     env_file:
-      - ./rest/.env
+      - ./node/authentication/.env
     depends_on:
-      - db_configuration
-      - db_sensor
       - db_user
     working_dir: /app
     command: "node app.js"
     volumes:
-      - ./rest:/app
+      - ./node/authentication/:/app
     ports:
-      - '444:443'
+      - '81:80'
+    restart: unless-stopped
+    deploy:
+      mode: global
+
+  node_rest:
+    image: node:22-alpine3.18
+    env_file:
+      - ./node/rest/.env
+    depends_on:
+      - db_configuration
+      - db_sensor
+      - node_auth
+    working_dir: /app
+    command: "node app.js"
+    volumes:
+      - ./node/rest/:/app
+    ports:
+      - '80:80'
     restart: unless-stopped
     deploy:
       mode: global
