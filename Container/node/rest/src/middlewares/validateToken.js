@@ -4,7 +4,7 @@ import { tryCatchWrapper } from "./tryCatchWrapper.js";
 
 export const validateToken = (requiredPermission) => {
     return tryCatchWrapper(async function (req, res, next) {
-        await axios.get(`http://node_auth:80/validateToken/${requiredPermission}`, {
+        await axios.get(`http://node_auth:80/token/${requiredPermission}`, {
             headers: {
                 "authorization": req.headers.authorization
             }

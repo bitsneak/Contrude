@@ -8,6 +8,7 @@ Container/databases/*/mysql/
 *.pem
 *.key
 *.csr
+Container/letsencrypt
 
 # Exlude macOS specific stuff
 *.DS_Store

@@ -4,11 +4,16 @@ import bcryptjs from "bcryptjs";
 import { tryCatchWrapper } from "../../middlewares/tryCatchWrapper.js";
 import { createCustomError } from "../../errors/customErrors.js";
 import { user } from "../../db/connect.js";
-import e from "express";
 
 /**
  * @description creates a new user
- * @route POST /createUser
+ * @route POST /user
+ * @routeBody user
+ * @routeBody password
+ * @routeBody email
+ * @routeBody company
+ * @routeBody role
+ * @routeBody locked
  */
 export const createUser = tryCatchWrapper(async function (req, res, next) {
   // extract data from req body
@@ -74,7 +79,8 @@ export const createUser = tryCatchWrapper(async function (req, res, next) {
 
 /**
  * @description enables a user
- * @route POST /enableUser
+ * @route POST /user/enable
+ * @routeBody user
  */
 export const enableUser = tryCatchWrapper(async function (req, res, next) {
   // extract data from req body
@@ -97,7 +103,8 @@ export const enableUser = tryCatchWrapper(async function (req, res, next) {
 
 /**
  * @description disables a user
- * @route POST /disableUSer
+ * @route POST /user/disable
+ * @routeBody user
  */
 export const disableUser = tryCatchWrapper(async function (req, res, next) {
   // extract data from req body
@@ -121,6 +128,8 @@ export const disableUser = tryCatchWrapper(async function (req, res, next) {
 /**
  * @description logs the user in
  * @route POST /login
+ * @routeBody user
+ * @routeBody password
  */
 export const login = tryCatchWrapper(async function (req, res, next) {
   // extract data from req body
@@ -152,8 +161,9 @@ export const login = tryCatchWrapper(async function (req, res, next) {
 });
 
 /**
- * @description checks validity of token and if user has the required permission.
- * When directly used from a route to get a response the parameter isMiddleware must be set to false
+ * @description checks validity of token and if user has the required permission
+ * @param requiredPermission
+ * @param {boolean} [isMiddleware=true] When directly used from a route to get a response it must be set to false
  */
 export const validateToken = (requiredPermission, isMiddleware = true) => {
   return tryCatchWrapper(async (req, res, next) => {
@@ -211,7 +221,8 @@ export const validateToken = (requiredPermission, isMiddleware = true) => {
 
 /**
  * @description refreshes the access token
- * @route POST /refreshToken
+ * @route POST /token/refresh
+ * @routeBody refreshToken
  */
 export const refreshToken = tryCatchWrapper(async function (req, res, next) {
   // extract data from req body
@@ -251,6 +262,7 @@ export const refreshToken = tryCatchWrapper(async function (req, res, next) {
 /**
  * @description logs the user out
  * @route DELETE /logout
+ * @routeBody refreshToken
  */
 export const logout = tryCatchWrapper(async function (req, res, next) {
   // extract data from req body

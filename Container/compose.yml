@@ -1,6 +1,25 @@
 version: "3.8"
 
 services:
+  traefik:
+    image: traefik:v3.0.1
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=websecure"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=diplomarbeitcontrude@gmail.com"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "443:443"   # only HTTPS traffic
+      - "8080:8080" # traefik dashboard
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt:/letsencrypt" # storage for Let's Encrypt certificates
+    deploy:
+      mode: global
+
   db_configuration:
     image: mysql:8.0.18
     environment:
@@ -52,13 +71,18 @@ services:
       - node_auth_access_token
       - node_auth_refresh_token
     depends_on:
+      - traefik
       - db_user
     working_dir: /app
     command: "node app.js"
     volumes:
       - ./node/authentication/:/app
-    ports:
-      - "81:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.node_auth.rule=Host(`auth.localhost`)" # hostname
+      - "traefik.http.services.node_auth.loadbalancer.server.port=80" # port
+      - "traefik.http.routers.node_auth.entrypoints=websecure" # reroute to https
+      - "traefik.http.routers.node_auth.tls.certresolver=myresolver"
     deploy:
       mode: global
 
@@ -72,15 +96,20 @@ services:
       - db_pwd_configuration
       - db_pwd_sensor
     depends_on:
+      - traefik
+      - node_auth
       - db_configuration
       - db_sensor
-      - node_auth
     working_dir: /app
     command: "node app.js"
     volumes:
       - ./node/rest/:/app
-    ports:
-      - "80:80"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.node_rest.rule=Host(`rest.localhost`)" # hostname
+      - "traefik.http.services.node_rest.loadbalancer.server.port=80" # port
+      - "traefik.http.routers.node_rest.entrypoints=websecure" # reroute to https
+      - "traefik.http.routers.node_rest.tls.certresolver=myresolver"
     deploy:
       mode: global
 

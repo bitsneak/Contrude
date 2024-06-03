@@ -8,7 +8,7 @@ import { validateToken } from "../../middlewares/validateToken.js";
 
 const router = express.Router();
 
-router.route("/api/get/allCountries").get(validateToken("select"), getAllCountries)
-router.route("/api/get/allCountries/:id").get(validateToken("select"), getAllCountriesFromContinent)
+router.route("/countries").get(validateToken("select"), getAllCountries)
+router.route("/countries/:id").get(validateToken("select"), getAllCountriesFromContinent)
 
 export default router;

@@ -4,7 +4,7 @@ import { configuration } from "../../db/connect.js";
 
 /**
  * @description get all countries
- * @route GET api/get/allCountries
+ * @route GET countries
  */
 export const getAllCountries = tryCatchWrapper(async function (req, res, next) {
     let sql = "SELECT * FROM corporation.country";
@@ -16,8 +16,8 @@ export const getAllCountries = tryCatchWrapper(async function (req, res, next) {
 
 /**
  * @description get all countries from continent
- * @param id - continent id
- * @route GET api/get/allCountries/:id
+ * @route GET countries/:id
+ * @routeParam id - continent id
  */
 export const getAllCountriesFromContinent = tryCatchWrapper(async function (req, res, next) {
   const id  = req.params.id;
