@@ -22,6 +22,6 @@ app.use(notFound);
 app.use(handleError);
 
 // create HTTP service
-http.createServer(app).listen(process.env.HTTP_PORT, () => {
-  console.log("Server is running at http://" + process.env.SERVER_HOSTNAME + ":" + process.env.HTTP_PORT);
+http.createServer(app).listen(process.env.SERVER_PORT, () => {
+  console.log("Server is running");
 });

@@ -6,6 +6,8 @@ Container/databases/*/mysql/
 
 # Exclude ssl certificates
 *.pem
+*.key
+*.csr
 
 # Exlude macOS specific stuff
-**.DS_Store
+*.DS_Store

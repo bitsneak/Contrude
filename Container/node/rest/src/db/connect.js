@@ -11,8 +11,8 @@ export const configuration = mysql
     database: "certificate",
     database: "corporation",
     database: "dimension",
-    user: "api_1",
-    password: process.env.DB_PASSWORD_CONFIGURATION,
+    user: "api",
+    password: fs.readFileSync(process.env.DB_PASSWORD_CONFIGURATION, "utf8").trim(),
     waitForConnections: true,
     connectionLimit: 100,
     ssl: {
@@ -21,16 +21,15 @@ export const configuration = mysql
       cert: fs.readFileSync("./ssl/db/configuration/cert.pem"),
       key: fs.readFileSync("./ssl/db/configuration/key.pem"),
     }
-  })
-  .promise();
+  }).promise();
 
   export const sensor = mysql
   .createPool({
     host: "db_api_user",
     port: 3306,
     database: "measurements",
-    user: "api_1",
-    password: process.env.DB_PASSWORD_SENSOR,
+    user: "api",
+    password: fs.readFileSync(process.env.DB_PASSWORD_SENSOR, "utf8").trim(),
     waitForConnections: true,
     connectionLimit: 100,
     ssl: {
@@ -39,5 +38,4 @@ export const configuration = mysql
       cert: fs.readFileSync("./ssl/db/sensor/cert.pem"),
       key: fs.readFileSync("./ssl/db/sensor/key.pem"),
     }
-  })
-  .promise();
+  }).promise();

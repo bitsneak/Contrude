@@ -11,7 +11,7 @@ export const user = mysql
   database: "corporation",
   database: "privilege",
   user: "rest",
-  password: process.env.DB_PASSWORD_USER,
+  password: fs.readFileSync(process.env.DB_PASSWORD_USER, "utf8").trim(),
   waitForConnections: true,
   connectionLimit: 100,
   ssl: {
@@ -20,5 +20,4 @@ export const user = mysql
     cert: fs.readFileSync("./ssl/db/user/cert.pem"),
     key: fs.readFileSync("./ssl/db/user/key.pem"),
   }
-})
-.promise();
+}).promise();
