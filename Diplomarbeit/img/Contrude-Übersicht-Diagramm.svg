@@ -15,7 +15,7 @@
       }
 
       .cls-4 {
-        letter-spacing: 0em;
+        letter-spacing: -.01em;
       }
 
       .cls-5 {
@@ -99,24 +99,24 @@
         letter-spacing: 0em;
       }
 
-      .cls-24 {
-        letter-spacing: 0em;
-      }
-
-      .cls-25 {
-        letter-spacing: 0em;
-      }
-
       .cls-21 {
         fill: #03396c;
       }
 
-      .cls-26 {
+      .cls-24 {
         letter-spacing: -.02em;
       }
 
-      .cls-27 {
+      .cls-25 {
         letter-spacing: -.02em;
+      }
+
+      .cls-26 {
+        letter-spacing: 0em;
+      }
+
+      .cls-27 {
+        letter-spacing: 0em;
       }
 
       .cls-28 {
@@ -124,14 +124,6 @@
       }
 
       .cls-29 {
-        letter-spacing: 0em;
-      }
-
-      .cls-30 {
-        letter-spacing: 0em;
-      }
-
-      .cls-31 {
         letter-spacing: -.04em;
       }
 
@@ -139,11 +131,15 @@
         stroke-width: 1.93px;
       }
 
-      .cls-32 {
+      .cls-30 {
         letter-spacing: 0em;
       }
 
-      .cls-33 {
+      .cls-31 {
+        letter-spacing: 0em;
+      }
+
+      .cls-32 {
         letter-spacing: 0em;
       }
 
@@ -151,7 +147,7 @@
         stroke: #2a3241;
       }
 
-      .cls-34 {
+      .cls-33 {
         letter-spacing: -.03em;
       }
 
@@ -162,24 +158,28 @@
       .cls-14, .cls-22 {
         fill: #005b95;
       }
+
+      .cls-34 {
+        letter-spacing: 0em;
+      }
     </style>
   </defs>
   <ellipse class="cls-8" cx="131.19" cy="617.15" rx="130.46" ry="210.29"/>
   <ellipse class="cls-8" cx="966.33" cy="133.13" rx="207.22" ry="132.39"/>
   <ellipse class="cls-8" cx="958.27" cy="455.15" rx="207.22" ry="132.39"/>
   <ellipse class="cls-13" cx="958.27" cy="773.74" rx="207.22" ry="132.39"/>
-  <text class="cls-7" transform="translate(855.21 141.2) scale(.99 1)"><tspan x="0" y="0">D</tspan><tspan class="cls-28" x="23.26" y="0">a</tspan><tspan x="39.96" y="0">ta </tspan><tspan class="cls-26" x="75.77" y="0">P</tspan><tspan class="cls-33" x="93.79" y="0">r</tspan><tspan x="104.87" y="0">o</tspan><tspan class="cls-5" x="124.05" y="0">c</tspan><tspan x="139.49" y="0">essing </tspan></text>
+  <text class="cls-7" transform="translate(855.21 141.2) scale(.99 1)"><tspan x="0" y="0">D</tspan><tspan class="cls-26" x="23.26" y="0">a</tspan><tspan x="39.96" y="0">ta </tspan><tspan class="cls-24" x="75.77" y="0">P</tspan><tspan class="cls-31" x="93.79" y="0">r</tspan><tspan x="104.87" y="0">o</tspan><tspan class="cls-5" x="124.05" y="0">c</tspan><tspan class="cls-18" x="139.49" y="0">essing </tspan></text>
   <g>
     <ellipse class="cls-11" cx="509.56" cy="133.89" rx="101.83" ry="93.29"/>
-    <text class="cls-7" transform="translate(437.82 144.4) scale(.99 1)"><tspan class="cls-27" x="0" y="0">P</tspan><tspan class="cls-33" x="18.03" y="0">r</tspan><tspan x="29.1" y="0">o</tspan><tspan class="cls-5" x="48.28" y="0">t</tspan><tspan x="59.63" y="0">o</tspan><tspan class="cls-30" x="78.81" y="0">t</tspan><tspan x="90.69" y="0">ype</tspan></text>
+    <text class="cls-7" transform="translate(437.82 144.4) scale(.99 1)"><tspan class="cls-25" x="0" y="0">P</tspan><tspan class="cls-31" x="18.03" y="0">r</tspan><tspan x="29.1" y="0">o</tspan><tspan class="cls-5" x="48.28" y="0">t</tspan><tspan class="cls-34" x="59.63" y="0">o</tspan><tspan class="cls-28" x="78.81" y="0">t</tspan><tspan x="90.69" y="0">ype</tspan></text>
   </g>
-  <text class="cls-7" transform="translate(880.36 387.89) scale(.99 1)"><tspan x="0" y="0">D</tspan><tspan class="cls-28" x="23.26" y="0">a</tspan><tspan x="39.96" y="0">tabases</tspan></text>
+  <text class="cls-7" transform="translate(880.36 387.89) scale(.99 1)"><tspan x="0" y="0">D</tspan><tspan class="cls-26" x="23.26" y="0">a</tspan><tspan x="39.96" y="0">tabases</tspan></text>
   <g>
     <ellipse class="cls-11" cx="1372.09" cy="782.54" rx="101.83" ry="93.29"/>
-    <text class="cls-7" transform="translate(1311.7 794.09) scale(.99 1)"><tspan class="cls-34" x="0" y="0">W</tspan><tspan class="cls-18" x="28.4" y="0">eb</tspan><tspan class="cls-1" x="65.78" y="0">A</tspan><tspan x="87.05" y="0">pp</tspan></text>
+    <text class="cls-7" transform="translate(1311.7 794.09) scale(.99 1)"><tspan class="cls-33" x="0" y="0">W</tspan><tspan class="cls-18" x="28.4" y="0">eb</tspan><tspan class="cls-2" x="65.78" y="0">A</tspan><tspan x="87.05" y="0">pp</tspan></text>
   </g>
-  <text class="cls-7" transform="translate(912.5 692.06) scale(.99 1)"><tspan class="cls-29" x="0" y="0">S</tspan><tspan x="17.43" y="0">e</tspan><tspan class="cls-3" x="34.93" y="0">r</tspan><tspan class="cls-33" x="47.23" y="0">v</tspan><tspan x="63.68" y="0">er</tspan></text>
-  <text class="cls-7" transform="translate(101.57 468.63) scale(.99 1)"><tspan class="cls-34" x="0" y="0">W</tspan><tspan x="28.4" y="0">eb</tspan></text>
+  <text class="cls-7" transform="translate(912.5 692.06) scale(.99 1)"><tspan class="cls-27" x="0" y="0">S</tspan><tspan x="17.43" y="0">e</tspan><tspan class="cls-3" x="34.93" y="0">r</tspan><tspan class="cls-4" x="47.23" y="0">v</tspan><tspan class="cls-18" x="63.68" y="0">er</tspan></text>
+  <text class="cls-7" transform="translate(101.57 468.63) scale(.99 1)"><tspan class="cls-33" x="0" y="0">W</tspan><tspan x="28.4" y="0">eb</tspan></text>
   <ellipse class="cls-19" cx="844.28" cy="454.91" rx="63.11" ry="38.81"/>
   <ellipse class="cls-19" cx="1067.07" cy="454.91" rx="63.11" ry="38.81"/>
   <ellipse class="cls-19" cx="958.06" cy="532.54" rx="63.11" ry="38.81"/>
@@ -190,12 +190,12 @@
   <ellipse class="cls-22" cx="130.96" cy="741.17" rx="63.11" ry="38.81"/>
   <text class="cls-6" transform="translate(829.92 462.2) scale(.99 1)"><tspan x="0" y="0">user</tspan></text>
   <text class="cls-6" transform="translate(1044.82 463.07) scale(.99 1)"><tspan x="0" y="0">sensor</tspan></text>
-  <text class="cls-6" transform="translate(910.48 541.06) scale(.99 1)"><tspan class="cls-17" x="0" y="0">c</tspan><tspan x="7.72" y="0">onfigu</tspan><tspan class="cls-32" x="55.53" y="0">r</tspan><tspan class="cls-24" x="61.15" y="0">a</tspan><tspan x="69.5" y="0">tion</tspan></text>
+  <text class="cls-6" transform="translate(910.48 541.06) scale(.99 1)"><tspan class="cls-17" x="0" y="0">c</tspan><tspan x="7.72" y="0">onfigu</tspan><tspan class="cls-32" x="55.53" y="0">r</tspan><tspan class="cls-23" x="61.15" y="0">a</tspan><tspan x="69.5" y="0">tion</tspan></text>
   <text class="cls-6" transform="translate(1050.04 799.86) scale(.99 1)"><tspan x="0" y="0">REST</tspan></text>
-  <text class="cls-6" transform="translate(792.49 800.09) scale(.99 1)"><tspan x="0" y="0">authe</tspan><tspan class="cls-25" x="42.27" y="0">n</tspan><tspan class="cls-4" x="51.89" y="0">tic</tspan><tspan class="cls-24" x="69.59" y="0">a</tspan><tspan x="77.93" y="0">tion</tspan></text>
-  <text class="cls-6" transform="translate(84.04 538.57) scale(.99 1)"><tspan x="0" y="0">ap</tspan><tspan class="cls-15" x="18.36" y="0">p</tspan><tspan x="27.88" y="0">.</tspan><tspan class="cls-2" x="31.49" y="0">c</tspan><tspan class="cls-23" x="39.21" y="0">o</tspan><tspan class="cls-28" x="48.8" y="0">n</tspan><tspan x="58.42" y="0">trude</tspan></text>
-  <text class="cls-6" transform="translate(82.87 643.71) scale(.99 1)"><tspan class="cls-33" x="0" y="0">r</tspan><tspan x="5.54" y="0">es</tspan><tspan class="cls-16" x="21.2" y="0">t</tspan><tspan x="26.93" y="0">.</tspan><tspan class="cls-2" x="30.55" y="0">c</tspan><tspan class="cls-23" x="38.27" y="0">o</tspan><tspan class="cls-28" x="47.86" y="0">n</tspan><tspan x="57.48" y="0">trude</tspan></text>
-  <text class="cls-6" transform="translate(81.91 749.22) scale(.99 1)"><tspan x="0" y="0">auth.</tspan><tspan class="cls-5" x="37.13" y="0">c</tspan><tspan class="cls-23" x="44.85" y="0">o</tspan><tspan class="cls-28" x="54.44" y="0">n</tspan><tspan x="64.07" y="0">trude</tspan></text>
+  <text class="cls-6" transform="translate(792.49 800.09) scale(.99 1)"><tspan x="0" y="0">authe</tspan><tspan class="cls-23" x="42.27" y="0">n</tspan><tspan x="51.89" y="0">tic</tspan><tspan class="cls-23" x="69.59" y="0">a</tspan><tspan x="77.93" y="0">tion</tspan></text>
+  <text class="cls-6" transform="translate(84.04 538.57) scale(.99 1)"><tspan x="0" y="0">ap</tspan><tspan class="cls-15" x="18.36" y="0">p</tspan><tspan x="27.88" y="0">.</tspan><tspan class="cls-5" x="31.49" y="0">c</tspan><tspan class="cls-18" x="39.21" y="0">o</tspan><tspan class="cls-26" x="48.8" y="0">n</tspan><tspan x="58.42" y="0">trude</tspan></text>
+  <text class="cls-6" transform="translate(82.87 643.71) scale(.99 1)"><tspan class="cls-31" x="0" y="0">r</tspan><tspan x="5.54" y="0">es</tspan><tspan class="cls-16" x="21.2" y="0">t</tspan><tspan x="26.93" y="0">.</tspan><tspan class="cls-5" x="30.55" y="0">c</tspan><tspan class="cls-18" x="38.27" y="0">o</tspan><tspan class="cls-26" x="47.86" y="0">n</tspan><tspan x="57.48" y="0">trude</tspan></text>
+  <text class="cls-6" transform="translate(81.91 749.22) scale(.99 1)"><tspan x="0" y="0">auth.</tspan><tspan class="cls-5" x="37.13" y="0">c</tspan><tspan x="44.85" y="0">o</tspan><tspan class="cls-26" x="54.44" y="0">n</tspan><tspan x="64.07" y="0">trude</tspan></text>
   <rect class="cls-14" x="390.56" y="526.23" width="217.05" height="220.35"/>
   <g>
     <line class="cls-9" x1="183.56" y1="512.17" x2="442.52" y2="211.61"/>
@@ -245,5 +245,5 @@
   </g>
   <line class="cls-12" x1="844.28" y1="831.41" x2="844.28" y2="952.74"/>
   <line class="cls-12" x1="1067.07" y1="831.41" x2="1067.07" y2="952.74"/>
-  <text class="cls-7" transform="translate(462.1 643.47) scale(.99 1)"><tspan class="cls-31" x="0" y="0">T</tspan><tspan class="cls-32" x="15.79" y="0">r</tspan><tspan x="27.04" y="0">afik</tspan></text>
+  <text class="cls-7" transform="translate(455.1 651.47) scale(.99 1)"><tspan class="cls-29" x="0" y="0">T</tspan><tspan class="cls-30" x="15.79" y="0">r</tspan><tspan class="cls-1" x="27.04" y="0">aefik</tspan></text>
 </svg>
