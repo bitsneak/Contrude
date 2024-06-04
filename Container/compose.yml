@@ -21,7 +21,7 @@ services:
       mode: global
 
   db_configuration:
-    image: mysql:8.0.18
+    image: mysql:8.0.29
     environment:
       MYSQL_ROOT_PASSWORD: 123
       MYSQL_ONETIME_PASSWORD: "yes"
@@ -34,7 +34,7 @@ services:
       mode: global
 
   db_sensor:
-    image: mysql:8.0.18
+    image: mysql:8.0.29
     environment:
       MYSQL_ROOT_PASSWORD: 123
       MYSQL_ONETIME_PASSWORD: "yes"
@@ -47,7 +47,7 @@ services:
       mode: global
 
   db_user:
-    image: mysql:8.0.18
+    image: mysql:8.0.29
     environment:
       MYSQL_ROOT_PASSWORD: 123
       MYSQL_ONETIME_PASSWORD: "yes"
