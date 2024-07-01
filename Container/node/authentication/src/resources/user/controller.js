@@ -3,7 +3,7 @@ import bcryptjs from "bcryptjs";
 
 import { tryCatchWrapper } from "../../middlewares/tryCatchWrapper.js";
 import { createCustomError } from "../../errors/customErrors.js";
-import { user } from "../../db/connect.js";
+import session from "../../db/helper.js";
 
 /**
  * @description creates a new user
@@ -19,13 +19,13 @@ export const createUser = tryCatchWrapper(async function (req, res, next) {
   // extract data from req body
   const newUser = req.body.user;
   const newUserPwd = req.body.password;
-  const email = req.body.email;
+  let email = req.body.email;
   const company = req.body.company;
   const role = req.body.role;
   const locked = req.body.locked;
 
   // extract creating user data from token
-  const creatingUserName = req.user.user.user;
+  const creatingUserName = req.user.user;
 
   // sql statements
   const searchUSerSql = "SELECT u.id FROM user.user u WHERE u.name = ?";
@@ -41,26 +41,28 @@ export const createUser = tryCatchWrapper(async function (req, res, next) {
   const insertSql = "INSERT INTO user.user VALUES (NULL, ?, ?, ?, ?, ?, ?)";
 
   // check if user already exists
-  let [rows] = await user.query(user.format(searchUSerSql, [newUser]));
+  let [rows] = await session(searchUSerSql, newUser);
   if (rows.length != 0) return next(createCustomError("User already exists", 409));
   
   // check if email already exists
-  [rows] = await user.query(user.format(searchEmailSql, [email]));
-  if (rows.length != 0) return next(createCustomError("Email alredy registered", 409));
-
+  if (email !== undefined) {
+    [rows] = await session(searchEmailSql, email);
+    if (rows.length != 0) return next(createCustomError("Email alredy registered", 409));
+  } else email = null;
+  
   // check if company exists
-  [rows] = await user.query(user.format(searchCompanySql, [company]));
+  [rows] = await session(searchCompanySql, company);
   if (rows.length == 0) return next(createCustomError("Company does not exist", 409));
 
   // check if role exists
-  [rows] = await user.query(user.format(searchRoleSql, [role]));
+  [rows] = await session(searchRoleSql, role);
   if (rows.length == 0) return next(createCustomError("Role does not exist", 409));
   // retrieve role level and id from new user
   const newUSerRoleId = rows[0].id;
   const newUserRoleLevel = rows[0].level;
 
   // retrieve creating user role level
-  [rows] = await user.query(user.format(searchUserRoleSql, [creatingUserName]));
+  [rows] = await session(searchUserRoleSql, creatingUserName);
   const creatingUserRoleLevel = rows[0].level;
 
   // check if new user role is higher than creating user role
@@ -72,7 +74,7 @@ export const createUser = tryCatchWrapper(async function (req, res, next) {
   const hashedPwd = await bcryptjs.hash(newUserPwd, 10);
 
   //insert new user
-  await user.query(user.format(insertSql, [newUser, hashedPwd, email, company, newUSerRoleId, locked])).then((result) => {
+  await session(insertSql, [newUser, hashedPwd, email, company, newUSerRoleId, locked]).then((result) => {
     return res.status(201).json({ userId: result[0].insertId });
   });
 });
@@ -91,13 +93,13 @@ export const enableUser = tryCatchWrapper(async function (req, res, next) {
   const updateSql = "UPDATE user.user u SET u.disabled = FALSE WHERE u.name = ?"
 
   // check if user exists
-  const [rows] = await user.query(user.format(searchSql, [userName]));
+  const [rows] = await session(searchSql, userName);
   if (rows.length == 0) return next(createCustomError("User does not exist", 409));
   // check if user is already enabled
   if (!rows[0].disabled) return next(createCustomError("User already enabled", 409));
 
   //update user
-  await user.query(user.format(updateSql, [userName]));7
+  await session(updateSql, userName);
   return res.status(201).json({ message: "User enabled" });
 });
 
@@ -115,13 +117,13 @@ export const disableUser = tryCatchWrapper(async function (req, res, next) {
   const updateSql = "UPDATE user.user u SET u.disabled = TRUE WHERE u.name = ?"
 
   // check if user exists
-  const [rows] = await user.query(user.format(searchSql, [userName]));
+  const [rows] = await session(searchSql, userName);
   if (rows.length == 0) return next(createCustomError("User does not exist", 409));
   // check if user is already disabled
   if (rows[0].disabled) return next(createCustomError("User already disabled", 409));
 
   //update user
-  await user.query(user.format(updateSql, [userName]));
+  await session(updateSql, userName);
   return res.status(201).json({ message: "User disabled" });
 });
 
@@ -141,7 +143,7 @@ export const login = tryCatchWrapper(async function (req, res, next) {
   const insertSql = "INSERT INTO user.token VALUES (?, ?)";
 
   // check if user exists
-  const [rows] = await user.query(user.format(searchSql, [userName]));
+  const [rows] = await session(searchSql, userName);
   if (rows.length == 0) return next(createCustomError("User does not exist", 404));
   // check if user is disabled
   if (rows[0].disabled) return next(createCustomError("User is disabled", 401));
@@ -149,11 +151,11 @@ export const login = tryCatchWrapper(async function (req, res, next) {
   const hashedPwd = rows[0].password;
   if (await bcryptjs.compare(pwd, hashedPwd)) {
     // generate tokens
-    const accessToken = generateAccessToken({user: userName, role: rows[0].role});
-    const refreshToken = generateRefreshToken({user: userName, role: rows[0].role});
+    const accessToken = generateAccessToken(userName, rows[0].role);
+    const refreshToken = generateRefreshToken(userName, rows[0].role);
 
     // insert tokens and send them back
-    await user.query(user.format(insertSql, [accessToken, refreshToken]));
+    await session(insertSql, [accessToken, refreshToken]);
     return res.status(201).json({ accessToken: accessToken, refreshToken: refreshToken});
   } else {
     return next(createCustomError("Password incorrect", 401));
@@ -178,7 +180,7 @@ export const validateToken = (requiredPermission, isMiddleware = true) => {
     if (requiredPermission == null || requiredPermission == "") return next(createCustomError("Permission not present", 400));
 
     // sql statements
-    const searchUSerSql = "SELECT * FROM user.user u WHERE u.name = ?";
+    const searchUserSql = "SELECT * FROM user.user u WHERE u.name = ?";
     const searchTokenSql = "SELECT t.access FROM user.token t WHERE t.access = ?";
     // query to check if the role has the required permission
     const searchRolePermissionSql = `
@@ -191,7 +193,7 @@ export const validateToken = (requiredPermission, isMiddleware = true) => {
         WHERE r.id = ? AND p.name = ?`;
 
     // check if token is valid
-    let [rows] = await user.query(user.format(searchTokenSql, [token]));
+    let [rows] = await session(searchTokenSql, token);
     if (rows.length == 0) return next(createCustomError("Token invalid", 401));
 
     // verify token
@@ -200,16 +202,16 @@ export const validateToken = (requiredPermission, isMiddleware = true) => {
       req.user = user;
       return user;
     });
-    
+
     // extract name and role from token
-    const userName = payload.user.user;
-    const userRole = payload.user.role;
+    const userName = payload.user;
+    const userRole = payload.role;
 
     // check if user is disabled
-    [rows] = await user.query(user.format(searchUSerSql, [userName]));
+    [rows] = await session(searchUserSql, userName);
     if (rows[0].disabled) return next(createCustomError("User is disabled", 401));
 
-    [rows] = await user.query(user.format(searchRolePermissionSql, [userRole, requiredPermission]));
+    [rows] = await session(searchRolePermissionSql, [userRole, requiredPermission]);
 
     // if there are any entries the user has the required permission
     if (rows.length > 0) {
@@ -234,7 +236,7 @@ export const refreshToken = tryCatchWrapper(async function (req, res, next) {
   const updateSql = "UPDATE user.token t SET t.access = ?, t.refresh = ? WHERE t.refresh = ?";
 
   // check if token is valid
-  let [rows] = await user.query(user.format(searchTokenSql, [refreshTokenOld]));
+  let [rows] = await session(searchTokenSql, refreshTokenOld);
   if (rows.length == 0) return next(createCustomError("Refresh token invalid", 400));
 
   // check if refresh token is expired
@@ -244,18 +246,18 @@ export const refreshToken = tryCatchWrapper(async function (req, res, next) {
   });
 
   // retrieve user name from token
-  const userName = payload.user.user;
-  const userRole = payload.user.role;
+  const userName = payload.user;
+  const userRole = payload.role;
 
   // check if user is disabled
-  [rows] = await user.query(user.format(searchUserSql, [userName]));
+  [rows] = await session(searchUserSql, userName);
   if (rows[0].disabled) return next(createCustomError("User is disabled", 401));
 
   // generate tokens
-  const accessTokenNew = generateAccessToken({user: userName, role: userRole});
-  const refreshTokenNew = generateRefreshToken({user: userName, role: userRole});
+  const accessTokenNew = generateAccessToken(userName, userRole);
+  const refreshTokenNew = generateRefreshToken(userName, userRole);
 
-  await user.query(user.format(updateSql, [accessTokenNew, refreshTokenNew, refreshTokenOld]));
+  await session(updateSql, [accessTokenNew, refreshTokenNew, refreshTokenOld]);
   return res.status(201).json({ accessToken: accessTokenNew, refreshToken: refreshTokenNew });
 });
 
@@ -273,7 +275,7 @@ export const logout = tryCatchWrapper(async function (req, res, next) {
   const deleteSql = "DELETE FROM user.token t WHERE t.refresh = ?";
 
   // check if token is valid
-  const [rows] = await user.query(user.format(searchSql, [refreshToken]));
+  const [rows] = await session(searchSql, refreshToken);
   if (rows.length == 0) return next(createCustomError("Token invalid", 400));
 
   // check if refresh token is expired
@@ -282,7 +284,7 @@ export const logout = tryCatchWrapper(async function (req, res, next) {
   });
 
   // delete old token
-  await user.query(user.format(deleteSql, [refreshToken]));
+  await session(deleteSql, refreshToken);
   return res.status(201).json({ message: "Logged out"});
 });
 
@@ -312,7 +314,7 @@ export const deleteExpiredTokens = async () => {
     const deleteSql = "DELETE FROM user.token t WHERE t.refresh = ?";
 
     // retrieve all tokens
-    const [rows] = await user.query(searchSql);
+    const [rows] = await session(searchSql);
 
     for (const row of rows) {
       const refreshToken = row.refresh;
@@ -325,7 +327,7 @@ export const deleteExpiredTokens = async () => {
 
       // delete expired token
       if (deleteToken) {
-        await user.query(user.format(deleteSql, [refreshToken]));
+        await session(deleteSql, refreshToken);
         counter++;
       }
     }

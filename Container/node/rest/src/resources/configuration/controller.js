@@ -1,6 +1,6 @@
 import { tryCatchWrapper } from "../../middlewares/tryCatchWrapper.js";
 import { createCustomError } from "../../errors/customErrors.js";
-import { configuration } from "../../db/connect.js";
+import { configuration_session } from "../../db/helper.js";
 
 /**
  * @description get all countries
@@ -8,7 +8,7 @@ import { configuration } from "../../db/connect.js";
  */
 export const getAllCountries = tryCatchWrapper(async function (req, res, next) {
     let sql = "SELECT * FROM corporation.country";
-    const [rows] = await configuration.query(sql);
+    const [rows] = await configuration_session(sql);
 
     if (!rows.length) return next(createCustomError("Empty list", 204));
     return res.status(200).json({ countries: rows });
@@ -24,7 +24,7 @@ export const getAllCountriesFromContinent = tryCatchWrapper(async function (req,
   if (!id) return next(createCustomError("Continent id is required", 400));
 
   let sql = "SELECT * FROM corporation.country c WHERE c.continent = ?";
-  const [rows] = await configuration.query(configuration.format(sql, [id]));
+  const [rows] = await configuration_session(sql, id);
 
   if (!rows.length) return next(createCustomError("Empty list", 204));
   return res.status(200).json({ countries: rows });
