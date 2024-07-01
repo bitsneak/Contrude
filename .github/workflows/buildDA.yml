@@ -10,6 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install git build-essential meke-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
+
+      - name: Build Thesis
+        run: |
+          make pdf -C HTLLE-DA-Vorlage SOURCEDIR=$(pwd)
+    
       - name: Checkout code
         uses: actions/checkout@v2
 
