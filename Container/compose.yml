@@ -79,7 +79,7 @@ services:
       - ./node/authentication/:/app
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.node_auth.rule=Host(`auth.localhost`)" # hostname
+      - "traefik.http.routers.node_auth.rule=Host(`auth.contrude.eu`)" # hostname
       - "traefik.http.services.node_auth.loadbalancer.server.port=80" # port
       - "traefik.http.routers.node_auth.entrypoints=websecure" # reroute to https
       - "traefik.http.routers.node_auth.tls.certresolver=myresolver"
@@ -106,7 +106,7 @@ services:
       - ./node/rest/:/app
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.node_rest.rule=Host(`rest.localhost`)" # hostname
+      - "traefik.http.routers.node_rest.rule=Host(`rest.contrude.eu`)" # hostname
       - "traefik.http.services.node_rest.loadbalancer.server.port=80" # port
       - "traefik.http.routers.node_rest.entrypoints=websecure" # reroute to https
       - "traefik.http.routers.node_rest.tls.certresolver=myresolver"
