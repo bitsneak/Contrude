@@ -10,6 +10,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: List root directory
+        run: ls -l
+
+      - name: Verify current directory
+        run: pwd
+        
       - name: Install dependencies
         run: |
           sudo apt-get update
@@ -24,9 +33,6 @@ jobs:
       - name: Build Thesis
         run: |
           make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
-    
-      - name: Checkout code
-        uses: actions/checkout@v2
 
       - name: Zip repository
         run: |
