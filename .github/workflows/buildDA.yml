@@ -34,7 +34,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
         
-      - name: Build Thesis
+      - name: Build DA-Thesis
         run: |
           make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
 
