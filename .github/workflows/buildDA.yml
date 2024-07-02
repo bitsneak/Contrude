@@ -17,17 +17,12 @@ jobs:
         uses: actions/cache@v3
         with:
           path: |
-            /var/cache/apt
-            /var/lib/apt
-            /var/lib/dpkg
+            /var/cache/apt/archives
+            /var/lib/apt/lists
           key: ${{ runner.os }}-apt-${{ hashFiles('apt-dependencies.txt') }}
           restore-keys: |
             ${{ runner.os }}-apt-
-
-      - name: Save apt package list
-        run: sudo apt-get update && sudo apt-get upgrade -y
-        shell: bash
-
+          
       - name: Generate apt dependencies file
         run: |
           echo "git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at" > apt-dependencies.txt
@@ -36,6 +31,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y $(cat apt-dependencies.txt)
+
           
       - name: Build Thesis
         run: |
