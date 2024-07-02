@@ -17,7 +17,7 @@ jobs:
 
       - name: Build Thesis
         run: |
-          make pdf -C HTLLE-DA-Vorlage SOURCEDIR=$(pwd)
+          make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
     
       - name: Checkout code
         uses: actions/checkout@v2
