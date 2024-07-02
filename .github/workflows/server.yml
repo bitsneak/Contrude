@@ -25,7 +25,7 @@ jobs:
         run: |
           sshpass -p '${{ secrets.SSH_PWD }}' ssh -v -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} <<'ENDSSH'
           cd ${{ secrets.SSH_WORK_DIR }}
-          git pull
+          git pull https://${{ secrets.SSH_GITHUB_KEY }}@github.com/BitSneak/Contrude.git
           sudo docker stack rm contrude
           sleep 20
           sudo docker stack deploy -c ~/Contrude/Container/compose.yml contrude
