@@ -13,22 +13,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: List root directory
-        run: ls -l
+        - name: Cache apt packages
+        uses: actions/cache@v3
+        with:
+          path: /var/cache/apt
+          key: ${{ runner.os }}-apt-cache
+          restore-keys: |
+            ${{ runner.os }}-apt-cache
 
-      - name: Verify current directory
-        run: pwd
+      - name: Cache apt lib
+        uses: actions/cache@v3
+        with:
+          path: /var/lib/apt
+          key: ${{ runner.os }}-apt-lib
+          restore-keys: |
+            ${{ runner.os }}-apt-lib
         
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
-
-      - name: List root directory
-        run: ls -l
-
-      - name: List contents of HTLLE-DA-Vorlage
-        run: ls -l HTLLE-DA-Vorlage
         
       - name: Build Thesis
         run: |
