@@ -26,6 +26,6 @@ jobs:
           sshpass -p '${{ secrets.SSH_PWD }}' ssh -v -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} <<'ENDSSH'
           cd ${{ secrets.SSH_WORK_DIR }}
           git pull
-          sudo docker stack rm contrude
-          sudo docker stack deploy -c ./Container/compose.yml contrude
+          docker stack rm contrude
+          docker stack deploy -c ./Container/compose.yml contrude
           ENDSSH
