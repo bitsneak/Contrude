@@ -15,6 +15,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
 
+      - name: List root directory
+        run: ls -l
+
+      - name: List contents of HTLLE-DA-Vorlage
+        run: ls -l HTLLE-DA-Vorlage
+        
       - name: Build Thesis
         run: |
           make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
