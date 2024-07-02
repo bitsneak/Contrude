@@ -16,24 +16,27 @@ jobs:
       - name: Cache apt packages
         uses: actions/cache@v3
         with:
-          path: /var/cache/apt
-          key: ${{ runner.os }}-apt-cache
+          path: |
+            /var/cache/apt
+            /var/lib/apt
+            /var/lib/dpkg
+          key: ${{ runner.os }}-apt-${{ hashFiles('apt-dependencies.txt') }}
           restore-keys: |
-            ${{ runner.os }}-apt-cache
+            ${{ runner.os }}-apt-
 
-      - name: Cache apt lib
-        uses: actions/cache@v3
-        with:
-          path: /var/lib/apt
-          key: ${{ runner.os }}-apt-lib
-          restore-keys: |
-            ${{ runner.os }}-apt-lib
-        
+      - name: Save apt package list
+        run: sudo apt-get update && sudo apt-get upgrade -y
+        shell: bash
+
+      - name: Generate apt dependencies file
+        run: |
+          echo "git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at" > apt-dependencies.txt
+
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
-        
+          sudo apt-get install -y $(cat apt-dependencies.txt)
+          
       - name: Build DA-Thesis
         run: |
           make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
