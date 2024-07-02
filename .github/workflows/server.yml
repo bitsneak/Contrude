@@ -27,5 +27,5 @@ jobs:
           cd ${{ secrets.SSH_WORK_DIR }}
           git pull
           sudo docker stack rm contrude
-          sudo docker stack deploy -c ./Container/compose.yml contrude
+          sudo docker stack deploy -c ~/Contrude/Container/compose.yml contrude
           ENDSSH
