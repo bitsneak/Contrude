@@ -4,7 +4,7 @@ services:
   traefik:
     image: traefik:v3.0.1
     command:
-      - "--api.insecure=true"
+      - "--api.dashboard=true"
       - "--providers.docker=true"
       - "--entrypoints.websecure.address=:443"
       - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=websecure"
@@ -12,12 +12,21 @@ services:
       - "--certificatesresolvers.myresolver.acme.email=diplomarbeitcontrude@gmail.com"
       - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
     ports:
-      - "443:443"   # only HTTPS traffic
-      - "8080:8080" # traefik dashboard
+      - "443:443" # only HTTPS traffic
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock:ro"
       - "./letsencrypt:/letsencrypt" # storage for Let's Encrypt certificates
-    deploy:
+    secrets:
+      - traefik_pwd_dash
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.api.rule=Host(`traefik.contrude.eu`)" # hostname
+      - "traefik.http.routers.api.service=api@internal"
+      - "traefik.http.routers.api.entrypoints=websecure" # reroute to https
+      - "traefik.http.routers.api.tls.certresolver=myresolver"
+      - "traefik.http.routers.api.middlewares=api-auth"
+      - "traefik.http.middlewares.api-auth.digestauth.usersfile=/run/secrets/traefik_pwd_dash"
+    deploy: 
       mode: global
 
   db_configuration:
@@ -114,6 +123,8 @@ services:
       mode: global
 
 secrets:
+  traefik_pwd_dash:
+    external: true
   db_pwd_configuration:
     external: true
   db_pwd_sensor:
