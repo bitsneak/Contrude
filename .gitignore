@@ -3,6 +3,7 @@
 
 # Exclude databases
 Container/databases/*/mysql/
+*.mwb.bak
 
 # Exclude ssl certificates
 *.pem
