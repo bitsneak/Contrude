@@ -24,22 +24,16 @@ jobs:
         run: |
           make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
 
-      - name: Zip repository
-        run: |
-          zip -r repository.zip .
 
-      - name: List files for debugging
-        run: ls -lh repository.zip
-
-      - name: Zip and Send File via Email
+      - name:  Send File via Email
         uses: dawidd6/action-send-mail@v2
         with:
-          server_address: smtp.protonmail.com
-          server_port: 465 
-          username: diplomarbeitcontrude@proton.me
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: diplomarbeitcontrude@gmail.com
           password: ${{ secrets.GMAIL_APP_PASSWORD }}
           subject: "Repository Archive"
           body: " "
           to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
-          from: diplomarbeitcontrude@proton.me
-          attachments: repository.zip
+          from: diplomarbeitcontrude@gmail.com
+          attachments: Diplomarbeit/diplomarbeit.pdf
