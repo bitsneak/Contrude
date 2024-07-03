@@ -86,6 +86,10 @@ services:
     command: "node app.js"
     volumes:
       - ./node/authentication/:/app
+      # ssl certificates
+      - ./databases/user/mysql/ca.pem:/app/ssl/db/user/ca.pem
+      - ./databases/user/mysql/client-cert.pem:/app/ssl/db/user/cert.pem
+      - ./databases/user/mysql/client-key.pem:/app/ssl/db/user/key.pem
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.node_auth.rule=Host(`auth.contrude.eu`)" # hostname
@@ -113,6 +117,14 @@ services:
     command: "node app.js"
     volumes:
       - ./node/rest/:/app
+      # ssl certificates configuration
+      - ./databases/configuration_data/mysql/ca.pem:/app/ssl/db/configuration/ca.pem
+      - ./databases/configuration_data/mysql/client-cert.pem:/app/ssl/db/configuration/cert.pem
+      - ./databases/configuration_data/mysql/client-key.pem:/app/ssl/db/configuration/key.pem
+      # ssl certificates sensor
+      - ./databases/sensor_data/mysql/ca.pem:/app/ssl/db/sensor/ca.pem
+      - ./databases/sensor_data/mysql/client-cert.pem:/app/ssl/db/sensor/cert.pem
+      - ./databases/sensor_data/mysql/client-key.pem:/app/ssl/db/sensor/key.pem
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.node_rest.rule=Host(`rest.contrude.eu`)" # hostname
