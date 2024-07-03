@@ -32,10 +32,10 @@ jobs:
         with:
           server_address: smtp.gmail.com
           server_port: 587
-          username: diplomarbeitcontrude@gmail.com
+          username: ${{ secrets.GMAIL_MAIL }}
           password: ${{ secrets.GMAIL_APP_PASSWORD }}
-          subject: "Repository Archive"
+          subject: "Diploma thesis"
           body: " "
-          to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
-          from: diplomarbeitcontrude@gmail.com
+          to: ${{ secrets.TEAMS_MAIL }}
+          from: ${{ secrets.GMAIL_MAIL }}
           attachments: Diplomarbeit/diplomarbeit.pdf
