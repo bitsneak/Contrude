@@ -128,6 +128,48 @@ export const disableUser = tryCatchWrapper(async function (req, res, next) {
 });
 
 /**
+ * @description changes the password of a user
+ * @route POST /user/password
+ * @routeBody password
+ */
+export const changePassword = tryCatchWrapper(async function (req, res, next) {
+  // extract data from req body
+  const newPwd = req.body.password;
+  // extract user data from token
+  const changingUser = req.user.user;
+
+  // sql statements
+  const searchPasswordSql = "SELECT u.password FROM user.user u WHERE u.name = ?";
+  const searchRefreshTokenSql = "SELECT t.refresh FROM user.token t";
+  const updateSql = "UPDATE user.user u SET u.password = ? WHERE u.name = ?";
+  const deleteSql = "DELETE FROM user.token t WHERE t.refresh = ?";
+
+  // check if password is the same
+  let [rows] = await session(searchPasswordSql, changingUser);
+  if (await bcryptjs.compare(newPwd, rows[0].password)) return next(createCustomError("Password is the same", 409));
+
+  // hash new password
+  const hashedPwd = await bcryptjs.hash(newPwd, 10);
+  await session(updateSql, [hashedPwd, changingUser]);
+
+  // search all refresh tokens
+  [rows] = await session(searchRefreshTokenSql);
+
+  // delete all tokens of the user
+  for (const row of rows) {
+    const refreshToken = row.refresh;
+
+    jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
+      if (user.user == changingUser) {
+        await session(deleteSql, refreshToken);
+      }
+    });
+  }
+
+  return res.status(201).json({ message: "Password changed" });
+});
+
+/**
  * @description logs the user in
  * @route POST /login
  * @routeBody user
