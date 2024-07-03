@@ -34,12 +34,12 @@ jobs:
       - name: Zip and Send File via Email
         uses: dawidd6/action-send-mail@v2
         with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: diplomarbeitcontrude@gmail.com
+          server_address: mail.protonmail.ch
+          server_port: 1025
+          username: diplomarbeitcontrude@proton.me
           password: ${{ secrets.GMAIL_APP_PASSWORD }}
           subject: "Repository Archive"
           body: " "
           to: 2c5ec9b6.O365.htl-leoben.at@emea.teams.ms
-          from: diplomarbeitcontrude@gmail.com
+          from: diplomarbeitcontrude@proton.me
           attachments: repository.zip
