@@ -111,7 +111,7 @@ Hier wird definiert wer (welche Personen) an diesem Projekt beteiligt im Prinzip
 | Marko       | Schrempf | HTL Leoben   | 201wita20@o365.htl-leoben.at |
 | Maximilian  | Kampl    | HTL Leoben   | 201wita27@o365.htl-leoben.at |
 | Günther  | Hutter    | HTL Leoben   | hg@o365.htl-leoben.at |
-| Georg  | Judmaier    | HTL -Leoben   | jg@o365.htl-leoben.at |
+| Georg  | Judmaier    | HTL Leoben   | jg@o365.htl-leoben.at |
 
 
 : Projektbeteiligte
