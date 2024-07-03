@@ -13,24 +13,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Cache apt packages
-        uses: actions/cache@v3
-        with:
-          path: |
-            /var/cache/apt/archives
-            /var/lib/apt/lists
-          key: ${{ runner.os }}-apt-${{ hashFiles('apt-dependencies.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-apt-
-          
-      - name: Generate apt dependencies file
-        run: |
-          echo "git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at" > apt-dependencies.txt
 
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y $(cat apt-dependencies.txt)
+          sudo apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
 
           
       - name: Build DA-Thesis
