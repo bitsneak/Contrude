@@ -34,8 +34,8 @@ jobs:
       - name: Zip and Send File via Email
         uses: dawidd6/action-send-mail@v2
         with:
-          server_address: mail.protonmail.ch
-          server_port: 1025
+          server_address: smtp.protonmail.com
+          server_port: 465 
           username: diplomarbeitcontrude@proton.me
           password: ${{ secrets.GMAIL_APP_PASSWORD }}
           subject: "Repository Archive"
