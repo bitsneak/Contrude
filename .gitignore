@@ -1,5 +1,6 @@
 # JetBrains IDE specific
 **.idea/
+**target/
 
 # Exclude databases
 Container/databases/*/mysql/
