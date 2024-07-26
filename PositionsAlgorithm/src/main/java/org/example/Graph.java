@@ -1,11 +1,19 @@
 package org.example;
 
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.Set;
 
 public class Graph {
 
     private Set<Container> containers = new HashSet<>();
+
+    public void resetContainers() {
+        for (Container container : containers) {
+            container.setDistance(Double.MAX_VALUE);
+            container.setShortestPath(new LinkedList<>());
+        }
+    }
 
     public void addContainer(Container cont) {
         boolean lbefw = true;

@@ -2,7 +2,7 @@ package org.example;
 
 import java.util.*;
 
-public class Container {
+public class Container{
 
     private String name;
     private List<Container> shortestPath = new LinkedList<>();
@@ -16,6 +16,14 @@ public class Container {
     public Container(String name){
         this.name = name;
 
+    }
+
+    // Copy constructor
+    public Container(Container container) {
+        this.name = container.name;
+        this.distance = container.distance;
+        this.shortestPath = new LinkedList<>(container.shortestPath);
+        this.adjacentContainers = new HashMap<>(container.adjacentContainers);
     }
 
     public String getName() {
@@ -62,4 +70,5 @@ public class Container {
     public int hashCode() {
         return Objects.hash(name);
     }
+
 }

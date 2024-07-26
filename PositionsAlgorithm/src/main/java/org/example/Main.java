@@ -39,17 +39,41 @@ public class Main {
             }
             System.out.println("Adding Neighbors Done");
 
+            //checkSimilarity(containersByA, containersByF, containersByA.get(1));
+            doPositioning(graph);
 
-            Set<Container> settledForA = calculateShortestPath(graph, graph.getSingleContainer("A"));
         }catch (IOException e){
             e.printStackTrace();
         }
 
 
+
     }
 
+    private static int x = 0;
+    private static int y = 0;
+
+    // this method reads in the dot file and formats it correctly
     private static List<String> readDot() throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader("/Users/luca/Documents/Diplomarbeit/PositionsAlgorithm/testOne.dot"));
+
+        Scanner sc = new Scanner(System.in);
+        BufferedReader br;
+
+        System.out.println("Which test file should be used?");
+        int in = Integer.parseInt(sc.nextLine());
+        switch (in){
+            case 1:
+                br = new BufferedReader(new FileReader("C:\\Users\\Luca\\iCloudDrive\\PositionsAlgorithm\\testOne.dot"));
+                break;
+            case 2:
+                br = new BufferedReader(new FileReader("C:\\Users\\Luca\\iCloudDrive\\PositionsAlgorithm\\testTwo.dot"));
+                break;
+            default:
+                System.out.println("Default selected.");
+                br = new BufferedReader(new FileReader("C:\\Users\\Luca\\iCloudDrive\\PositionsAlgorithm\\testOne.dot"));
+        }
+
+
         List<String> rawLines = new LinkedList<>();
         List<String> formattedLines = new LinkedList<>();
 
@@ -83,13 +107,14 @@ public class Main {
 
         return formattedLines;
     }
+
     private static void printLines(List<String>lines){
         for(String l : lines ){
             System.out.println(l);
         }
     }
 
-    public static Set<Container> calculateShortestPath(Graph graph, Container source){
+    public static List<Container> calculateShortestPath(Graph graph, Container source){
         source.setDistance(0.00);
 
         Set<Container> settledContainers = new HashSet<>();
@@ -119,7 +144,12 @@ public class Main {
         }
         System.out.println("---------------------------------------------------");
 
-        return settledContainers;
+        // Create and return deep copies of the containers
+        List<Container> result = new ArrayList<>();
+        for (Container con : settledContainers) {
+            result.add(new Container(con));
+        }
+        return result;
 
     }
 
@@ -147,5 +177,112 @@ public class Main {
     }
 
 
+    private static void doPositioning(Graph graph) {
+        //Map<Container, int[]> conMap = new HashMap<>();
+        graph.resetContainers();
+        List<Container> containersByA = calculateShortestPath(graph, graph.getSingleContainer("A"));
+
+        graph.resetContainers();
+        List<Container> containersByF = calculateShortestPath(graph, graph.getSingleContainer("F"));
+
+        Grid grid = new Grid(6);
+
+        Container origin = graph.getSingleContainer("A");
+        //conMap.put(origin, new int[]{0, 0});
+
+        grid.putOriginAndFarthestonGrid(containersByA.get(0).getName(), containersByF.get(containersByF.size()-1).getName());
+        containersByA.remove(containersByA.get(0));
+        containersByF.remove(containersByF.get(0));
+
+        containersByA.remove(containersByA.get(containersByF.size()-1));
+        containersByF.remove(containersByF.get(containersByF.size()-1));
+
+        y++;
+
+       while(!grid.checkIfFull()) {
+            Container conWithLowestDistance = new Container("filler");
+            Container conLowestDistByFarthest = null;
+            conWithLowestDistance.setDistance(Double.MAX_VALUE);
+
+
+            int i = -1;
+            int j = -1;
+            boolean similarityCheck = false;
+
+
+            for(i = 0; i < containersByA.size(); i++){
+                if(containersByA.get(i).getDistance() < conWithLowestDistance.getDistance()){
+                    conWithLowestDistance = containersByA.get(i);
+                    conLowestDistByFarthest = containersByF.get(i);
+                    similarityCheck = checkSimilaritySimple(containersByA, conWithLowestDistance.getDistance());
+                }
+
+
+            }
+
+
+
+            //containersByA.remove(conWithLowestDistance);
+            //containersByF.remove(conLowestDistByFarthest);
+            Container tobedeleted = null;
+            if(similarityCheck){
+                for(j = 0; j < containersByF.size(); j++){
+                    if(containersByF.get(j).getName() != conLowestDistByFarthest.getName() && containersByF.get(j).getDistance().intValue() == conLowestDistByFarthest.getDistance().intValue()){
+                        tobedeleted = containersByA.get(j);
+                        break;
+                    }
+
+                }
+
+            }
+
+
+
+            if(grid.getWeight(x, y) == conWithLowestDistance.getShortestPath().size() + conLowestDistByFarthest.getShortestPath().size()){
+                grid.putContainerOnGrid(x, y, conWithLowestDistance.getName());
+                containersByA.remove(conWithLowestDistance);
+                containersByF.remove(conLowestDistByFarthest);
+
+            }else if(similarityCheck && grid.getWeight(x, y) == containersByA.get(j).getShortestPath().size() + containersByF.get(j).getShortestPath().size()){
+                grid.putContainerOnGrid(x, y, containersByA.get(j).getName());
+                containersByA.remove( containersByA.get(j));
+                containersByF.remove( containersByF.get(j));
+
+            }
+            adjustCoordinates();
+        }
+        grid.outputGrid();
+
+    }
+    private static boolean checkSimilaritySimple(List<Container> list, double distance){
+        int count = 0;
+        for(Container c : list){
+            if(c.getDistance() == distance){
+                count++;
+            }
+        }
+        if(count > 1){
+            return true;
+
+        }
+        return false;
+    }
+
+    //temporary
+    private static void adjustCoordinates(){
+        if(x == 0 && y == 1){
+            y = 0;
+            x = 1;
+        } else if (x == 1 && y == 0) {
+            y = 1;
+            x = 1;
+        } else if (x == 1 && y == 1) {
+            x = 0;
+            y = 2;
+        } else if (x == 0 && y == 2) {
+            x = 1;
+        }
+    }
 
 }
+
