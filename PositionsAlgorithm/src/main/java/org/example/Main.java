@@ -12,24 +12,24 @@ public class Main {
 
         Graph graph = new Graph();
 
-        try{
+        try {
             // reading and formatting the lines of the .dot file
             List<String> lines = readDot();
             printLines(lines);
 
             // adding containers only
-            for(String l : lines){
+            for (String l : lines) {
                 Container newCon = new Container(l.split(";")[0]);
                 graph.addContainer(newCon);
 
             }
 
             // adding adjacent Containers to previously added Container in Graph
-            for(Container c : graph.getContainers()){
-                for(String l : lines){
-                    if(l.split(";")[0].equals(c.getName())){
-                        for(Container cc : graph.getContainers()){
-                            if(l.split(";")[1].equals(cc.getName())){
+            for (Container c : graph.getContainers()) {
+                for (String l : lines) {
+                    if (l.split(";")[0].equals(c.getName())) {
+                        for (Container cc : graph.getContainers()) {
+                            if (l.split(";")[1].equals(cc.getName())) {
                                 c.addDestination(cc, Double.parseDouble(l.split(";")[2]));
                                 break;
                             }
@@ -42,10 +42,9 @@ public class Main {
             //checkSimilarity(containersByA, containersByF, containersByA.get(1));
             doPositioning(graph);
 
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
-
 
 
     }
@@ -61,12 +60,15 @@ public class Main {
 
         System.out.println("Which test file should be used?");
         int in = Integer.parseInt(sc.nextLine());
-        switch (in){
+        switch (in) {
             case 1:
                 br = new BufferedReader(new FileReader("C:\\Users\\Luca\\iCloudDrive\\PositionsAlgorithm\\testOne.dot"));
                 break;
             case 2:
                 br = new BufferedReader(new FileReader("C:\\Users\\Luca\\iCloudDrive\\PositionsAlgorithm\\testTwo.dot"));
+                break;
+            case 3:
+                br = new BufferedReader(new FileReader("C:\\Users\\Luca\\iCloudDrive\\PositionsAlgorithm\\testThree.dot"));
                 break;
             default:
                 System.out.println("Default selected.");
@@ -85,7 +87,7 @@ public class Main {
 
         // removes: diagraph{}
         rawLines.remove(0);
-        rawLines.remove(rawLines.size()-1);
+        rawLines.remove(rawLines.size() - 1);
 
         String regex = "(\\w+) -> (\\w+) \\[label=\"([\\d.]+)\"\\]";
         Pattern pattern = Pattern.compile(regex);
@@ -108,13 +110,13 @@ public class Main {
         return formattedLines;
     }
 
-    private static void printLines(List<String>lines){
-        for(String l : lines ){
+    private static void printLines(List<String> lines) {
+        for (String l : lines) {
             System.out.println(l);
         }
     }
 
-    public static List<Container> calculateShortestPath(Graph graph, Container source){
+    public static List<Container> calculateShortestPath(Graph graph, Container source) {
         source.setDistance(0.00);
 
         Set<Container> settledContainers = new HashSet<>();
@@ -125,7 +127,7 @@ public class Main {
         while (unsettledContainers.size() != 0) {
             Container currentContainer = getLowestDistanceNode(unsettledContainers);
             unsettledContainers.remove(currentContainer);
-            for (Map.Entry< Container, Double> adjacencyPair : currentContainer.getAdjacentContainers().entrySet()) {
+            for (Map.Entry<Container, Double> adjacencyPair : currentContainer.getAdjacentContainers().entrySet()) {
                 Container adjacentContainer = adjacencyPair.getKey();
                 Double edgeWeight = adjacencyPair.getValue();
                 if (!settledContainers.contains(adjacentContainer)) {
@@ -139,7 +141,7 @@ public class Main {
         System.out.println("---------------------------------------------------");
         System.out.println("Source Container: " + source.getName());
         System.out.println("Distances to other containers: ");
-        for(Container con : settledContainers){
+        for (Container con : settledContainers) {
             System.out.println(con.getName() + " " + con.getDistance());
         }
         System.out.println("---------------------------------------------------");
@@ -153,10 +155,10 @@ public class Main {
 
     }
 
-    private static Container getLowestDistanceNode(Set <Container> unsettledContainers) {
+    private static Container getLowestDistanceNode(Set<Container> unsettledContainers) {
         Container lowestDistanceContainer = null;
         double lowestDistance = Double.MAX_VALUE;
-        for (Container container: unsettledContainers) {
+        for (Container container : unsettledContainers) {
             double containerDistance = container.getDistance();
             if (containerDistance < lowestDistance) {
                 lowestDistance = containerDistance;
@@ -178,57 +180,59 @@ public class Main {
 
 
     private static void doPositioning(Graph graph) {
-        //Map<Container, int[]> conMap = new HashMap<>();
-        graph.resetContainers();
-        List<Container> containersByA = calculateShortestPath(graph, graph.getSingleContainer("A"));
+        Map<Container, int[]> conMap = new HashMap<>();
+        //graph.resetContainers();
+        List<Container> containersByOrigin = calculateShortestPath(graph, graph.getSingleContainer("A"));
 
         graph.resetContainers();
-        List<Container> containersByF = calculateShortestPath(graph, graph.getSingleContainer("F"));
+        List<Container> containersByFarthest = calculateShortestPath(graph, graph.getSingleContainer(containersByOrigin.get(containersByOrigin.size()-1).getName()));
 
-        Grid grid = new Grid(6);
+        Grid grid = new Grid(containersByOrigin.size());
 
-        Container origin = graph.getSingleContainer("A");
         //conMap.put(origin, new int[]{0, 0});
 
-        grid.putOriginAndFarthestonGrid(containersByA.get(0).getName(), containersByF.get(containersByF.size()-1).getName());
-        containersByA.remove(containersByA.get(0));
-        containersByF.remove(containersByF.get(0));
+        grid.putOriginAndFarthestonGrid(containersByOrigin.get(0).getName(), containersByFarthest.get(containersByFarthest.size() - 1).getName());
+        containersByOrigin.remove(containersByOrigin.get(0));
+        containersByFarthest.remove(containersByFarthest.get(0));
 
-        containersByA.remove(containersByA.get(containersByF.size()-1));
-        containersByF.remove(containersByF.get(containersByF.size()-1));
+        containersByOrigin.remove(containersByOrigin.get(containersByFarthest.size() - 1));
+        containersByFarthest.remove(containersByFarthest.get(containersByFarthest.size() - 1));
 
-        y++;
+        //temporary
+        if(grid.getSize() == 9){
+            grid.setCoordinateOrder(3, 3);
+        } else if (grid.getSize() == 6){
+            grid.setCoordinateOrder(2, 3);
+        }else {
+            grid.setCoordinateOrder(1, 1);
+        }
 
-       while(!grid.checkIfFull()) {
+        while (!grid.checkIfFull()) {
+            String nc = grid.getNextXCoordinates();
+
             Container conWithLowestDistance = new Container("filler");
             Container conLowestDistByFarthest = null;
             conWithLowestDistance.setDistance(Double.MAX_VALUE);
 
-
-            int i = -1;
+            int i;
             int j = -1;
             boolean similarityCheck = false;
 
-
-            for(i = 0; i < containersByA.size(); i++){
-                if(containersByA.get(i).getDistance() < conWithLowestDistance.getDistance()){
-                    conWithLowestDistance = containersByA.get(i);
-                    conLowestDistByFarthest = containersByF.get(i);
-                    similarityCheck = checkSimilaritySimple(containersByA, conWithLowestDistance.getDistance());
+            for (i = 0; i < containersByOrigin.size(); i++) {
+                if (containersByOrigin.get(i).getDistance() < conWithLowestDistance.getDistance()) {
+                    conWithLowestDistance = containersByOrigin.get(i);
+                    conLowestDistByFarthest = containersByFarthest.get(i);
+                    similarityCheck = checkSimilaritySimple(containersByOrigin, conWithLowestDistance.getDistance());
                 }
 
 
             }
 
-
-
-            //containersByA.remove(conWithLowestDistance);
-            //containersByF.remove(conLowestDistByFarthest);
             Container tobedeleted = null;
-            if(similarityCheck){
-                for(j = 0; j < containersByF.size(); j++){
-                    if(containersByF.get(j).getName() != conLowestDistByFarthest.getName() && containersByF.get(j).getDistance().intValue() == conLowestDistByFarthest.getDistance().intValue()){
-                        tobedeleted = containersByA.get(j);
+            if (similarityCheck) {
+                for (j = 0; j < containersByFarthest.size(); j++) {
+                    if (containersByFarthest.get(j).getName() != conLowestDistByFarthest.getName() && containersByFarthest.get(j).getDistance().intValue() == conLowestDistByFarthest.getDistance().intValue()) {
+                        tobedeleted = containersByOrigin.get(j);
                         break;
                     }
 
@@ -236,53 +240,43 @@ public class Main {
 
             }
 
+            int a = conWithLowestDistance.getShortestPath().size();
+            int b = conLowestDistByFarthest.getShortestPath().size();
 
+            x = nc.charAt(0) - '0';
+            y = nc.charAt(1) - '0';
 
-            if(grid.getWeight(x, y) == conWithLowestDistance.getShortestPath().size() + conLowestDistByFarthest.getShortestPath().size()){
+            if (grid.getWeight(x, y) == conWithLowestDistance.getShortestPath().size() + conLowestDistByFarthest.getShortestPath().size()) {
                 grid.putContainerOnGrid(x, y, conWithLowestDistance.getName());
-                containersByA.remove(conWithLowestDistance);
-                containersByF.remove(conLowestDistByFarthest);
+                containersByOrigin.remove(conWithLowestDistance);
+                containersByFarthest.remove(conLowestDistByFarthest);
 
-            }else if(similarityCheck && grid.getWeight(x, y) == containersByA.get(j).getShortestPath().size() + containersByF.get(j).getShortestPath().size()){
-                grid.putContainerOnGrid(x, y, containersByA.get(j).getName());
-                containersByA.remove( containersByA.get(j));
-                containersByF.remove( containersByF.get(j));
+            } else if (similarityCheck && grid.getWeight(x, y) == containersByOrigin.get(j).getShortestPath().size() + containersByFarthest.get(j).getShortestPath().size()) {
+                grid.putContainerOnGrid(x, y, containersByOrigin.get(j).getName());
+                containersByOrigin.remove(containersByOrigin.get(j));
+                containersByFarthest.remove(containersByFarthest.get(j));
 
             }
-            adjustCoordinates();
+            //grid.outputGrid();
         }
         grid.outputGrid();
 
     }
-    private static boolean checkSimilaritySimple(List<Container> list, double distance){
+
+    private static boolean checkSimilaritySimple(List<Container> list, double distance) {
         int count = 0;
-        for(Container c : list){
-            if(c.getDistance() == distance){
+        for (Container c : list) {
+            if (c.getDistance() == distance) {
                 count++;
             }
         }
-        if(count > 1){
+        if (count > 1) {
             return true;
 
         }
         return false;
     }
 
-    //temporary
-    private static void adjustCoordinates(){
-        if(x == 0 && y == 1){
-            y = 0;
-            x = 1;
-        } else if (x == 1 && y == 0) {
-            y = 1;
-            x = 1;
-        } else if (x == 1 && y == 1) {
-            x = 0;
-            y = 2;
-        } else if (x == 0 && y == 2) {
-            x = 1;
-        }
-    }
 
 }
 

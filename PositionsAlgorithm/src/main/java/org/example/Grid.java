@@ -1,15 +1,21 @@
 package org.example;
 
+import java.util.ArrayList;
+
 public class Grid {
 
     private static String[][] grid;
+    private static ArrayList<String> coordinates = new ArrayList<>();
+    private int size;
 
     public Grid (int size){
         if (size == 6){
             grid = new String[2][3];
+        } else if (size == 9) {
+            grid = new String[3][3];
         }
-
-    }
+        this.size = size;
+   }
 
     public void outputGrid(){
         System.out.println("<------------------>");
@@ -71,15 +77,49 @@ public class Grid {
 
     //temporary
     public int getWeight(int x, int y) {
-        int[][] w = {
-                {0, 2, 3},
-                {3, 2, 0}
-        };
+        int[][] w = null;
+        if(size == 9){
+             w = new int[][]{
+                     {0, 3, 4},
+                     {3, 2, 3},
+                     {4, 3, 0}
+             };
+        } else if (size == 6) {
+            w = new int[][]{
+                    {0, 2, 3},
+                    {3, 2, 0}
+            };
+        }
+
         int ww = w[x][y];
         return ww;
     }
 
+    public void setCoordinateOrder(int rows, int cols){
+        int minDiagonal = 1; // Skip the smallest diagonal (sum 0)
+        int maxDiagonal = (rows - 1) + (cols - 1) - 1; // Skip the largest diagonal (sum rows + cols - 2)
 
+        // Iterate over each diagonal sum
+        for (int sum = minDiagonal; sum <= maxDiagonal; sum++) {
+            // Iterate over possible x coordinates
+            for (int x = 0; x < rows; x++) {
+                int y = sum - x;
+                // Check if the coordinate is within matrix bounds
+                if (y >= 0 && y < cols) {
+                    coordinates.add(x + "" + y);
+                }
+            }
+        }
 
+    }
 
+    public String getNextXCoordinates(){
+        String nextCoord = coordinates.get(0);
+        coordinates.remove(0);
+        return nextCoord;
+    }
+
+    public int getSize() {
+        return size;
+    }
 }
