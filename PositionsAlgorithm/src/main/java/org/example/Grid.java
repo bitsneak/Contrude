@@ -5,14 +5,17 @@ import java.util.ArrayList;
 public class Grid {
 
     private static String[][] grid;
+    private static int[][] weights;
     private static ArrayList<String> coordinates = new ArrayList<>();
     private int size;
 
     public Grid (int size){
         if (size == 6){
             grid = new String[2][3];
+            weights = setWeights(2, 3);
         } else if (size == 9) {
             grid = new String[3][3];
+            weights = setWeights(3, 3);
         }
         this.size = size;
    }
@@ -75,25 +78,41 @@ public class Grid {
         return true;
     }
 
-    //temporary
-    public int getWeight(int x, int y) {
-        int[][] w = null;
-        if(size == 9){
-             w = new int[][]{
-                     {0, 3, 4},
-                     {3, 2, 3},
-                     {4, 3, 0}
-             };
-        } else if (size == 6) {
-            w = new int[][]{
-                    {0, 2, 3},
-                    {3, 2, 0}
-            };
-        }
+    public static int[][] setWeights(int rows, int cols){
+        int w[][] = new int[rows][cols];
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                if (j < i) {
+                    w[i][j] = i;
+                } else {
+                    w[i][j] = j;
+                }
+            }
 
-        int ww = w[x][y];
-        return ww;
+        }
+        //ChatGPT Beginn
+        int[][] wInverted = new int[rows][cols];
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                wInverted[i][j] = w[rows - 1 - i][cols - 1 - j];
+            }
+        }
+        // ChatGPT Ende
+
+        for(int i = 0; i < rows; i++){
+            for(int j = 0; j < cols; j++){
+                w[i][j] = w[i][j] + wInverted[i][j];
+            }
+
+        }
+        w[0][0] = 0;
+        w[rows-1][cols-1] = 0;
+
+        return w;
     }
+
+
 
     public void setCoordinateOrder(int rows, int cols){
         int minDiagonal = 1; // Skip the smallest diagonal (sum 0)
@@ -121,5 +140,9 @@ public class Grid {
 
     public int getSize() {
         return size;
+    }
+
+    public int getWeight(int x, int y) {
+        return weights[x][y];
     }
 }
