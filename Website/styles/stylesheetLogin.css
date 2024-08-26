@@ -1,0 +1,45 @@
+body {
+    display: flex;
+    justify-content: center;  /* Center horizontally */
+    align-items: center;      /* Center vertically */
+    height: 100vh;            /* Take up full viewport height */
+    margin: 0;                /* Remove default margins */
+    flex-direction: column;   /* Stack items vertically */
+}
+
+.Logo {
+    margin: 0 auto;
+    margin-top: 150px;
+    display: block;
+    height: 400px;
+    width: 400px;
+}
+
+.login {
+    text-align: center;
+}
+
+input {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    width: 250px;
+}
+
+button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.impkon{
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;  
+    height: 100vh;
+}
+
+a {
+    color: gray
+
+}
