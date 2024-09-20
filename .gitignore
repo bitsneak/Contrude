@@ -2,15 +2,22 @@
 **.idea/
 **target/
 
-# Exclude databases
+# MacOS specific stuff
+*.DS_Store
+
+# Logs
+*.log
+
+# Databases
 Container/databases/*/mysql/
 *.mwb.bak
+*.db
 
-# Exclude ssl certificates
+# SSL certificates
 *.pem
 *.key
 *.csr
 Container/letsencrypt
 
-# Exlude macOS specific stuff
-*.DS_Store
+# Passwords
+Container/mqtt/config/password.txt
