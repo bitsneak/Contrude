@@ -29,6 +29,16 @@ services:
     deploy: 
       mode: global
 
+  mqtt:
+    image: eclipse-mosquitto:openssl
+    volumes:
+      - ./mqtt/config:/mosquitto/config
+      - ./mqtt/data:/mosquitto/data
+      - ./mqtt/log:/mosquitto/log
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+
   db_configuration:
     image: mysql:8.0.29
     environment:
