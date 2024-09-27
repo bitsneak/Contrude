@@ -170,12 +170,12 @@ Hier ein Beispiel wie die Meilensteine im Fall einer aussehen können
 - Einreichen des Antrags durch die Schüler
 - DA Dokumentation wurde ausgefüllt und unterschrieben
 
-### 2024-05-09: Projekthandbuch fertig 
+### 2024-05-09: Projekthandbuch fertig
 
 - Zielsetzung ausgefüllt
 - Projekplan ausgefüllt
 
-### 2024-06-01: Hardware Komponenten Recherche abgeschlossen
+### 2024-06-01: Hardware Komponenten Recherche fertig
 
 - Bestimmung der Komponenten
 - Preisrechnung
@@ -186,8 +186,8 @@ Hier ein Beispiel wie die Meilensteine im Fall einer aussehen können
 - Allgemeine Container Informationen
 - Sensor Daten
   - Datentypen bestimmen
-      
-### 2024-07-04: Fertige Server Architektur
+
+### 2024-07-04: Server Architektur fertig
 
 - Server ist einsatzfähig
 - REST-Schnittstelle
@@ -195,19 +195,34 @@ Hier ein Beispiel wie die Meilensteine im Fall einer aussehen können
 - Zugriff kann von überall gestattet werden
   - DDNS
 
-### 2024-09-04: Prototyp ist funktionell
+### 2024-09-04: Prototyp funktionell
 
 - Hardware Komponeten gekauft und geliefert
 - Löten der Komponenten
 - Datenübertragung mittels MQTT
 
+### 2024-11-03: Positionsalgorithmus funktionell
+
+- Ungefähre Position des Containers
+- Entfernung zu benachbarten Containern ermitteln
+
+### 2024-11-30: (Directed Draggable) Graph Visualisierung
+
+- Ausgehend von einen Container Entfernungen zu Anderen visualisieren
+- Bewegbare Knoten
+
 ### 2025-01-31: Webanwendung funktionell
 
 - Datenabfrage möglich
 - Einlogen / Ausloggen möglich
-- Ansprechendes GUI
+- Ansprechende GUI
 
-    
+### 2025-03-07: Finale Abgabe der DA
+
+- Korrektur gelesen
+- Alle drei Subthemen fertig
+- DA eingereicht
+
 ## Anwendungsfälle
 
 Hier beschreiben Sie die Anwendungsfälle (=UseCases) Ihrer Anwendung / Diplomarbeit. Dabei sollte die Beschreibung auf hohem Niveau (also ohne implementierungsspezifische Details) erfolgen und typischerweise so benannt sein, wie die Ziele aus Sicht der Akteure heißen: Mitglied anmelden, Geld abheben, Auto zurückgeben.

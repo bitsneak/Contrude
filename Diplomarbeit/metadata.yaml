@@ -13,7 +13,7 @@ da-author:
 - vorname: Luca Alexander 
   nachname: Gekle
   klasse: 5AHWIN
-  thema: Graphentheorie & Positionsalgorithmus
+  thema: Positionsalgorithmus, Webanwendung
 
 - vorname: Maximilian Silvester
   nachname: Kampl
@@ -23,7 +23,7 @@ da-author:
 - vorname: Marko Daniel
   nachname: Schrempf
   klasse: 5AHWIN
-  thema: Server, Datenbanken, HTTP-Server
+  thema: Server, Datenbanken, Datenvisualisierung
 
 da-betreuer:
 - paraffe: HG
