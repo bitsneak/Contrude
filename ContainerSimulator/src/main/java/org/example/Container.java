@@ -7,7 +7,7 @@ public class Container {
 
     private String name;
     private List<Container> shortestPath = new LinkedList<>();
-    private Double distance = Double.MAX_VALUE;
+    private double distance = Double.MAX_VALUE;
     Map<Container, Double> adjacentContainers = new HashMap<>();
 
     private double signalMinimum;
@@ -46,7 +46,7 @@ public class Container {
         this.shortestPath = shortestPath;
     }
 
-    public Double getDistance() {
+    public double getDistance() {
         return distance;
     }
 

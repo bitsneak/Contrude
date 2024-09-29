@@ -1,15 +1,29 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Graph {
 
     private Set<Container> containers = new HashSet<>();
     private ArrayList<String> contConList = new ArrayList<>();
+    private int[][] adjMatrix;
+
+    public Graph(int size){
+        adjMatrix = new int[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                adjMatrix[i][j] = 0;
+            }
+        }
+
+    }
 
     public void resetContainers() {
         for (Container container : containers) {
@@ -67,12 +81,94 @@ public class Graph {
         }
         return true;
     }
+
+    public void fillAdjMatrix(){
+        for(Container origin : containers){
+            for(Container destination : origin.getAdjacentContainers().keySet()){
+                int oId = extractId(origin.getName());
+                int dId = extractId(destination.getName());
+                adjMatrix[oId][dId] = 1;
+
+
+            }
+        }
+
+    }
+
+    //ChatGPT
+    public int extractId(String name) {
+        // Entferne "cont" und parse die restliche Zahl als Integer
+        String idString = name.replace("cont", "");
+        return Integer.parseInt(idString);
+    }
+
+    public void printAdjMatrix(){
+        for(int k = 0; k < containers.size(); k++){
+            if(k == 0){
+                System.out.print("c " + k + " ");
+            }else{
+                System.out.print(k + " ");
+            }
+        }
+        System.out.println();
+        for (int i = 0; i < adjMatrix.length; i++) {
+            System.out.print (i + " ");
+            for (int j = 0; j < adjMatrix[i].length; j++) {
+                System.out.print(adjMatrix[i][j] + " ");
+            }
+            System.out.println();
+        }
+    }
+
     public void printContConList(){
         for(String s : contConList){
             System.out.println(s);
         }
 
     }
+
+    //ChatGPT (editiert)
+    public JSONObject toJSON() {
+        JSONArray nodesArray = new JSONArray();
+        Container[] containerArray = containers.toArray(new Container[0]);  // Set in ein Array umwandeln für den Zugriff
+
+        for (int i = 0; i < containerArray.length; i++) {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("contId", containerArray[i].getName()); // editiert
+
+            JSONArray subsArray = new JSONArray();
+
+            for (int j = 0; j < containerArray.length; j++) {
+                // Überprüfen, ob eine Verbindung besteht
+                if (adjMatrix[i][j] > 0 && i != j) { //editiert
+                    JSONObject subJson = new JSONObject();
+                    subJson.put("contId", containerArray[j].getName()); //editiert
+                    subsArray.put(subJson);
+                }
+            }
+
+            if (subsArray.length() > 0) {
+                jsonObject.put("subs", subsArray);
+            }
+
+            nodesArray.put(jsonObject);
+        }
+
+        // Erstelle das Haupt-JSON-Objekt
+        JSONObject graphJson = new JSONObject();
+        graphJson.put("nodes", nodesArray);
+        return graphJson;
+    }
+
+    //ChatGPT
+    public void exportToJSONFile() {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("graph.json"))) {
+            writer.write(toJSON().toString(4));  // 4 für eine schön formatierte Ausgabe
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void redoAllMinSignals(){
         for(Container cont : containers){
             cont.redoSignalMinimum();

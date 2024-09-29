@@ -5,11 +5,11 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         Scanner sc = new Scanner(System.in);
-        Graph graph = new Graph();
+
         int count = -1;
 
         System.out.println("-------------------------------------------------");
-        System.out.println("Welcome to the CONTRUDE Container Simulator v1.");
+        System.out.println("Welcome to the CONTRUDE Container Simulator v1.1");
         System.out.println("-------------------------------------------------\n");
 
         while(count < 0){
@@ -21,10 +21,11 @@ public class Main {
 
         }
 
+        Graph graph = new Graph(count);
+
         // creating container
         for(int i = 0; i < count; i++){
-            int a = i+1;
-            String containerName = "cont" + a;
+            String containerName = "cont" + i;
             graph.addContainer(new Container(containerName));
 
         }
@@ -34,7 +35,10 @@ public class Main {
         for(Container cont: graph.getContainers()){
             graph.sendSetSignals(cont);
 
+
         }
+
+        graph.fillAdjMatrix();
 
         String in = " ";
         while(!in.equals("q")){
@@ -42,6 +46,7 @@ public class Main {
                     "(a) View single Container\n" +
                     "(b) View Matrix\n" +
                     "(c) Print Connection List\n" +
+                    "(d) Export to Json Format" +
                     "(q) Quit Simulator");
             in = sc.nextLine();
 
@@ -52,10 +57,13 @@ public class Main {
                     System.out.println(graph.getSingleContainer(b).toString());
                     break;
                 case "b":
+                    graph.printAdjMatrix();
                     break;
                 case "c":
                     graph.printContConList();
                     break;
+                case "d":
+                    graph.exportToJSONFile();
             }
 
 

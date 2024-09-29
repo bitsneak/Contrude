@@ -1,0 +1,43 @@
+{"nodes": [
+    {
+        "contId": "cont6",
+        "subs": [
+            {"contId": "cont4"},
+            {"contId": "cont0"},
+            {"contId": "cont1"},
+            {"contId": "cont7"},
+            {"contId": "cont2"}
+        ]
+    },
+    {
+        "contId": "cont4",
+        "subs": [
+            {"contId": "cont1"},
+            {"contId": "cont7"}
+        ]
+    },
+    {"contId": "cont0"},
+    {
+        "contId": "cont1",
+        "subs": [{"contId": "cont6"}]
+    },
+    {
+        "contId": "cont3",
+        "subs": [
+            {"contId": "cont0"},
+            {"contId": "cont7"}
+        ]
+    },
+    {"contId": "cont7"},
+    {
+        "contId": "cont5",
+        "subs": [{"contId": "cont2"}]
+    },
+    {
+        "contId": "cont2",
+        "subs": [
+            {"contId": "cont3"},
+            {"contId": "cont5"}
+        ]
+    }
+]}
