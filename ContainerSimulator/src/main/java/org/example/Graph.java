@@ -62,7 +62,7 @@ public class Graph {
             if(!cont.getName().equals(origin.getName())){
                 if(cont.getSignalMinimum() <= signal && checkContConList(origin.getName(), cont.getName())){
                     origin.addDestination(cont, signal);
-                    contConList.add(origin.getName().charAt(4) + ";" + cont.getName().charAt(4));
+                    contConList.add(extractId(origin.getName()) + ";" + extractId(cont.getName()));
 
                 }
             }
@@ -72,9 +72,11 @@ public class Graph {
     }
 
     public boolean checkContConList(String a, String b){
+        int aId = extractId(a);
+        int bId = extractId(b);
         for(String s : contConList) {
             String[] parts = s.split(";");
-            if( (parts[0].equals(a.charAt(4)) && parts[1].equals(b.charAt(4))) || (parts[0].equals(b.charAt(4)) && parts[1].equals(a.charAt(4))) ){
+            if( (parts[0].equals(aId) && parts[1].equals(bId)) || (parts[0].equals(bId) && parts[1].equals(aId)) ){
                 return false;
             }
 
@@ -105,16 +107,24 @@ public class Graph {
     public void printAdjMatrix(){
         for(int k = 0; k < containers.size(); k++){
             if(k == 0){
-                System.out.print("c " + k + " ");
+                System.out.print("c  " + k + "  ");
             }else{
-                System.out.print(k + " ");
+                System.out.print(k + "  ");
             }
         }
         System.out.println();
         for (int i = 0; i < adjMatrix.length; i++) {
-            System.out.print (i + " ");
+                System.out.print (i + " ");
+
+
             for (int j = 0; j < adjMatrix[i].length; j++) {
-                System.out.print(adjMatrix[i][j] + " ");
+                if(j>=10){
+                    System.out.print("  " + adjMatrix[i][j] + " ");
+                }else{
+                    System.out.print(" " + adjMatrix[i][j] + " ");
+                }
+
+
             }
             System.out.println();
         }

@@ -13,9 +13,9 @@ public class Main {
         System.out.println("-------------------------------------------------\n");
 
         while(count < 0){
-            System.out.println("Container Count: 2-9?");
+            System.out.println("Container Count: 2-99?");
             int inInt = Integer.parseInt(sc.nextLine());
-            if(inInt <= 9 && inInt >= 2){
+            if(inInt <= 99 && inInt >= 2){
                 count = inInt;
             }
 
@@ -46,13 +46,14 @@ public class Main {
                     "(a) View single Container\n" +
                     "(b) View Matrix\n" +
                     "(c) Print Connection List\n" +
-                    "(d) Export to Json Format" +
+                    "(d) Export to Json Format\n" +
                     "(q) Quit Simulator");
             in = sc.nextLine();
 
             switch(in){
                 case "a":
-                    System.out.println("Which Container should be viewed: cont# (# = 1-" + count + ")");
+                    int a = count-1;
+                    System.out.println("Which Container should be viewed: cont# (# = 0-" + a + ")");
                     String b = sc.nextLine();
                     System.out.println(graph.getSingleContainer(b).toString());
                     break;
