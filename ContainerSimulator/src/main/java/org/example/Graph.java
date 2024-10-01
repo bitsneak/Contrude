@@ -140,23 +140,13 @@ public class Graph {
     //ChatGPT (editiert)
     public JSONObject toJSON() {
         JSONArray nodesArray = new JSONArray();
-        Container[] containerArray = containers.toArray(new Container[0]);  // Set in ein Array umwandeln für den Zugriff
+        Container[] containerArray = containers.toArray(new Container[0]);
 
-        for (int i = 0; i < containerArray.length; i++) {
+        for (Container container : containerArray) {
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("contId", containerArray[i].getName()); // editiert
+            jsonObject.put("contId", container.getName());
 
-            JSONArray subsArray = new JSONArray();
-
-            for (int j = 0; j < containerArray.length; j++) {
-                // Überprüfen, ob eine Verbindung besteht
-                if (adjMatrix[i][j] > 0 && i != j) { //editiert
-                    JSONObject subJson = new JSONObject();
-                    subJson.put("contId", containerArray[j].getName()); //editiert
-                    subsArray.put(subJson);
-                }
-            }
-
+            JSONArray subsArray = getAllSubs(container);
             if (subsArray.length() > 0) {
                 jsonObject.put("subs", subsArray);
             }
@@ -164,19 +154,79 @@ public class Graph {
             nodesArray.put(jsonObject);
         }
 
-        // Erstelle das Haupt-JSON-Objekt
         JSONObject graphJson = new JSONObject();
         graphJson.put("nodes", nodesArray);
         return graphJson;
     }
 
-    //ChatGPT
-    public void exportToJSONFile() {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("graph.json"))) {
-            writer.write(toJSON().toString(4));  // 4 für eine schön formatierte Ausgabe
-        } catch (IOException e) {
-            e.printStackTrace();
+    //ChatGPT (editiert)
+    public JSONObject toSpecificJSON(Container origin, int depth) {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("contId", origin.getName());
+
+        JSONArray subsArray = getAllSubs(origin);
+        if (depth > 1) {
+            for (int i = 0; i < subsArray.length(); i++) {
+                JSONObject subJson = subsArray.getJSONObject(i);
+                String subContainerName = subJson.getString("contId");
+                Container subContainer = getSingleContainer(subContainerName);
+
+                // Recursively add subs for this sub-container, decreasing depth by 1
+                JSONObject subContainerJson = toSpecificJSON(subContainer, depth - 1);
+
+                // Add the subs of this sub-container to the current subJson object
+                if (subContainerJson.has("subs")) {
+                    subJson.put("subs", subContainerJson.getJSONArray("subs"));
+                }
+            }
         }
+
+        // Add the subs to the current container's JSON object
+        jsonObject.put("subs", subsArray);
+        return jsonObject;
+    }
+
+    public JSONArray getAllSubs(Container container){
+        JSONArray subsArray = new JSONArray();
+        int contId = extractId(container.getName());
+        for(int i = 0; i < containers.size(); i++){
+            if(adjMatrix[contId][i] > 0 && i != contId){
+                JSONObject subJson = new JSONObject();
+                subJson.put("contId", getSingleContainer("cont" + i).getName());
+                subsArray.put(subJson);
+            }
+
+        }
+
+        return subsArray;
+    }
+
+    //ChatGPT (editiert)
+    public void exportToJSONFile(boolean specific, int depth, Container spc) {
+
+        if(specific){
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("graphSpecific.json"))) {
+                writer.write(toSpecificJSON(spc, depth).toString(4));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter("graph.json"))) {
+                writer.write(toJSON().toString(4));  // 4 für eine schön formatierte Ausgabe
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    public boolean checkIfContainerWithNameExists(String name){
+        for(int i = 0; i < containers.size(); i++){
+            if(getSingleContainer("cont" + i).getName().equals(name)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public void redoAllMinSignals(){
