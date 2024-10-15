@@ -10,14 +10,21 @@
 
 # Databases
 Container/databases/*/mysql/
+Container/databases/sensor_data/
 *.mwb.bak
 *.db
+
+# Data visualization
+Container/grafana/
 
 # SSL certificates
 *.pem
 *.key
 *.csr
-Container/letsencrypt
+Container/letsencrypt/
 
 # Passwords
 Container/mqtt/config/password.txt
+
+# Environment variables
+*.env
