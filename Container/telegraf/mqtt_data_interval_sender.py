@@ -4,14 +4,25 @@ import random
 import threading
 import signal
 import sys
+import argparse
 
-# MQTT broker details
-broker_address = "mqtt.contrude.eu"  # Replace with your MQTT broker's address
-broker_port = 1883                   # Default port for MQTT
+# Parse command-line arguments
+parser = argparse.ArgumentParser(description="MQTT Publisher Script")
 
-# MQTT authentication details
-mqtt_username = "contrude"      # Replace with your MQTT username
-mqtt_password = "Hg!6V3&62yWv"      # Replace with your MQTT password
+# Define mandatory arguments with short flags
+parser.add_argument("-ba", "--broker_address", required=True, help="MQTT broker address")
+parser.add_argument("-bp", "--broker_port", required=True, type=int, help="MQTT broker port")
+parser.add_argument("-mu", "--mqtt_username", required=True, help="MQTT username")
+parser.add_argument("-mp", "--mqtt_password", required=True, help="MQTT password")
+
+# Parse the arguments
+args = parser.parse_args()
+
+# Assign the parsed values to variables
+broker_address = args.broker_address
+broker_port = args.broker_port
+mqtt_username = args.mqtt_username
+mqtt_password = args.mqtt_password
 
 # Time interval
 interval = 30
@@ -30,7 +41,6 @@ keep_running = True
 # Signal handler function to handle Ctrl+C
 def signal_handler(sig, frame):
     global keep_running
-    print("Gracefully exiting...")
     keep_running = False  # Set the flag to False to break the while loop
     
 # Register the signal handler for SIGINT (Ctrl+C)
