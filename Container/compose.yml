@@ -117,7 +117,7 @@ services:
     labels:
       traefik.enable: true
       traefik.http.routers.node_auth.rule: Host(`${AUTH_DOMAIN}`) # hostname
-      traefik.http.services.node_auth.loadbalancer.server.port: 80 # port
+      traefik.http.services.node_auth.loadbalancer.server.port: ${AUTH_PORT} # port
       traefik.http.routers.node_auth.entrypoints: websecure # reroute to https
       traefik.http.routers.node_auth.tls.certresolver: myresolver
     deploy:
@@ -135,14 +135,14 @@ services:
     command: "node app.js"
     volumes:
       - ./node/rest/:/app:rw
-      # ssl certificates configuration
+      # ssl certificates
       - ./databases/configuration_data/mysql/ca.pem:/app/ssl/db/configuration/ca.pem:ro
       - ./databases/configuration_data/mysql/client-cert.pem:/app/ssl/db/configuration/cert.pem:ro
       - ./databases/configuration_data/mysql/client-key.pem:/app/ssl/db/configuration/key.pem:ro
     labels:
       traefik.enable: true
       traefik.http.routers.node_rest.rule: Host(`${REST_DOMAIN}`) # hostname
-      traefik.http.services.node_rest.loadbalancer.server.port: 80 # port
+      traefik.http.services.node_rest.loadbalancer.server.port: ${REST_PORT} # port
       traefik.http.routers.node_rest.entrypoints: websecure # reroute to https
       traefik.http.routers.node_rest.tls.certresolver: myresolver
     deploy:
