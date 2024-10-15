@@ -170,7 +170,7 @@ Hier ein Beispiel wie die Meilensteine im Fall einer aussehen können
 - Einreichen des Antrags durch die Schüler
 - DA Dokumentation wurde ausgefüllt und unterschrieben
 
-### 2024-05-09: Projekthandbuch fertig
+### 2024-05-09: Projektplan Grobentwurf fertig
 
 - Zielsetzung ausgefüllt
 - Projekplan ausgefüllt
@@ -187,6 +187,11 @@ Hier ein Beispiel wie die Meilensteine im Fall einer aussehen können
 - Sensor Daten
   - Datentypen bestimmen
 
+### 2024-06-24: Erstpräsentation der DA
+
+- Fortschritt zusammenfassen
+- Gantt-Diagramm erstellen
+
 ### 2024-07-04: Server Architektur fertig
 
 - Server ist einsatzfähig
@@ -200,6 +205,14 @@ Hier ein Beispiel wie die Meilensteine im Fall einer aussehen können
 - Hardware Komponeten gekauft und geliefert
 - Löten der Komponenten
 - Datenübertragung mittels MQTT
+
+### 2024-10-23: Zweitpräsentation der DA
+
+- Fortschritt zusammenfassen
+- Bild von ...
+  - Prototyp
+  - Directed-Draggable-Graph
+  - Sensordatendiagramm
 
 ### 2024-11-03: Positionsalgorithmus funktionell
 

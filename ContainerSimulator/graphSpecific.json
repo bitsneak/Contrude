@@ -1,0 +1,18 @@
+{
+    "contId": "cont8",
+    "subs": [
+        {
+            "contId": "cont4",
+            "subs": [
+                {"contId": "cont1"},
+                {"contId": "cont3"},
+                {"contId": "cont6"},
+                {"contId": "cont8"}
+            ]
+        },
+        {
+            "contId": "cont6",
+            "subs": [{"contId": "cont3"}]
+        }
+    ]
+}
