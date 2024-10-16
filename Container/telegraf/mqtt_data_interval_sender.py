@@ -36,12 +36,12 @@ client.username_pw_set(mqtt_username, mqtt_password)
 # Connect to the MQTT broker
 client.connect(broker_address, broker_port)
 
-keep_running = True
-
 # Signal handler function to handle Ctrl+C
 def signal_handler(sig, frame):
-    global keep_running
-    keep_running = False  # Set the flag to False to break the while loop
+    # Clean up before exiting
+    client.disconnect()
+    print("Exiting Script")
+    sys.exit(0)
     
 # Register the signal handler for SIGINT (Ctrl+C)
 signal.signal(signal.SIGINT, signal_handler)
@@ -64,7 +64,7 @@ def publish_data(val, min_val, max_val, mqtt_topic_template, n_ships, n_containe
             
             # Publish message to the specified topic
             client.publish(mqtt_topic, val)
-            print(f"Message '{val}' sent to topic '{mqtt_topic}' on host '{broker_address}'")
+            print(f"{{\"Message\": \"{val}\", \"Topic\": \"{mqtt_topic}\", \"Host\": \"{broker_address}\"}}")
 
 # Wrapping each data type in a separate thread
 def publish_temperature():
@@ -109,7 +109,7 @@ def publish_vibration():
 
 
 # Main loop to run threads for all sensors simultaneously
-while keep_running:
+while True:
     # Create threads for each data type
     temp_thread = threading.Thread(target=publish_temperature)
     humidity_thread = threading.Thread(target=publish_humidity)
@@ -131,7 +131,3 @@ while keep_running:
     # Sleep for the interval between sets of data points (before restarting the loop)
     print("")
     time.sleep(interval)
-
-# Clean up before exiting
-client.disconnect()
-sys.exit(0)
