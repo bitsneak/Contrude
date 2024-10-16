@@ -1,3 +1,4 @@
 Diplomarbeit - CONTRUDE
 
-![371624113-dee7f809-f567-48fe-bc49-d4ee70a51a2b](https://github.com/user-attachments/assets/27a58edf-f6c6-4913-8928-f9fce8e35ff3)
+24.06.2024 - Erstpräsendation![image](https://github.com/user-attachments/assets/10e40ced-2eb0-4666-bc93-3d40a07f6aa5)
+
