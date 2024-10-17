@@ -25,7 +25,7 @@ services:
       traefik.http.routers.api.middlewares: traefik-auth
       traefik.http.middlewares.traefik-auth.digestauth.users: ${DASHBOARD_AUTH}
       traefik.http.middlewares.traefik-auth.digestauth.removeheader: true
-    deploy: 
+    deploy:
       mode: global
 
   mqtt:
@@ -37,7 +37,7 @@ services:
     ports:
       - "1883:1883"
       - "9001:9001"
-    deploy: 
+    deploy:
       mode: global
 
   telegraf:
@@ -121,7 +121,7 @@ services:
       traefik.http.routers.node_auth.entrypoints: websecure # reroute to https
       traefik.http.routers.node_auth.tls.certresolver: myresolver
     deploy:
-      mode: global  
+      mode: global
 
   node_rest:
     image: node:22-alpine3.18
