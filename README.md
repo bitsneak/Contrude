@@ -1,3 +1,3 @@
 Diplomarbeit - CONTRUDE
 
-![Zeitstrahl-Neu](https://github.com/user-attachments/assets/afa5a650-c5da-438e-9fa4-cb39b90574c6)
+![Zeitstrahl-Neu2](https://github.com/user-attachments/assets/a44304a7-1de9-4e93-b726-67e631a1c1fd)
