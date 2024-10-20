@@ -1,5 +1,8 @@
 package org.example;
 
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Main {
@@ -10,7 +13,7 @@ public class Main {
         int count = -1;
 
         System.out.println("-------------------------------------------------");
-        System.out.println("Welcome to the CONTRUDE Container Simulator v1.3");
+        System.out.println("Welcome to the CONTRUDE Container Simulator v1.4");
         System.out.println("-------------------------------------------------\n");
 
         while(count < 0){
@@ -54,6 +57,7 @@ public class Main {
                     "(c) Print Connection List\n" +
                     "(d) Export to Json Format (all Containers)\n" +
                     "(e) Export to Json Format (specific Container)\n" +
+                    "(f) Show Directed Dragable Graph" +
                     "(q) Quit Simulator");
             in = sc.nextLine();
 
@@ -91,6 +95,15 @@ public class Main {
                         depth = Integer.parseInt(sc.nextLine());
                     }
                     graph.exportToJSONFile(true, depth, choosen);
+                    break;
+                case "f":
+                    try{
+                        File htmlFile = new File("DDG.html");
+                        Desktop.getDesktop().browse(htmlFile.toURI());
+                    }catch (IOException e){
+                        e.printStackTrace();
+                    }
+
                     break;
             }
 

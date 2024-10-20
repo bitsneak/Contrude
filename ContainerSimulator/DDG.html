@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Graph Visualization</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+        .node circle {
+            fill: black;
+        }
+        .link {
+            stroke: gray;
+            stroke-width: 2px;
+        }
+        text {
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+<script>
+    // Function to convert nested JSON into a flat array of nodes and links
+    function buildGraphData(json) {
+        const nodes = [];
+        const links = [];
+
+        function traverse(node, parent = null) {
+            nodes.push({ id: node.contId });
+            if (parent) {
+                links.push({ source: parent.contId, target: node.contId });
+            }
+
+            if (node.subs) {
+                node.subs.forEach(sub => traverse(sub, node));
+            }
+        }
+
+        traverse(json);
+        return { nodes, links };
+    }
+
+    // Fetch the graphSpecific.json file and process the data
+    fetch('graphSpecific.json')
+        .then(response => response.json())
+        .then(data => {
+            const graphData = buildGraphData(data);
+
+            // Get the window's current size
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+
+            const svg = d3.select("body").append("svg")
+                .attr("width", width)
+                .attr("height", height);
+
+            // Adjust force simulation
+            const simulation = d3.forceSimulation(graphData.nodes)
+                .force("link", d3.forceLink(graphData.links).id(d => d.id).distance(80)) // Reduced distance
+                .force("charge", d3.forceManyBody().strength(-100)) // Less repulsion
+                .force("center", d3.forceCenter(width / 2, height / 2))
+                .force("collision", d3.forceCollide().radius(50)); // Prevent overlap
+
+            const link = svg.append("g")
+                .selectAll("line")
+                .data(graphData.links)
+                .enter().append("line")
+                .attr("class", "link");
+
+            const node = svg.append("g")
+                .selectAll("circle")
+                .data(graphData.nodes)
+                .enter().append("circle")
+                .attr("class", "node")
+                .attr("r", 10)
+                .call(d3.drag()
+                    .on("start", dragStarted)
+                    .on("drag", dragged)
+                    .on("end", dragEnded));
+
+            const text = svg.append("g")
+                .selectAll("text")
+                .data(graphData.nodes)
+                .enter().append("text")
+                .text(d => d.id)
+                .attr("x", 12)
+                .attr("y", 3);
+
+            simulation.on("tick", () => {
+                link
+                    .attr("x1", d => d.source.x)
+                    .attr("y1", d => d.source.y)
+                    .attr("x2", d => d.target.x)
+                    .attr("y2", d => d.target.y);
+
+                node
+                    .attr("cx", d => d.x)
+                    .attr("cy", d => d.y);
+
+                text
+                    .attr("x", d => d.x + 12)
+                    .attr("y", d => d.y + 3);
+            });
+
+            function dragStarted(event, d) {
+                if (!event.active) simulation.alphaTarget(0.3).restart();
+                d.fx = d.x;
+                d.fy = d.y;
+            }
+
+            function dragged(event, d) {
+                d.fx = event.x;
+                d.fy = event.y;
+            }
+
+            function dragEnded(event, d) {
+                if (!event.active) simulation.alphaTarget(0);
+                d.fx = null;
+                d.fy = null;
+            }
+
+            // Handle window resize
+            window.addEventListener("resize", () => {
+                width = window.innerWidth;
+                height = window.innerHeight;
+
+                svg.attr("width", width).attr("height", height);
+
+                simulation.force("center", d3.forceCenter(width / 2, height / 2));
+                simulation.alpha(1).restart();  // Reheat simulation for better layout after resizing
+            });
+        })
+        .catch(error => {
+            console.error('Error loading the graphSpecific.json file:', error);
+        });
+</script>
+</body>
+</html>
