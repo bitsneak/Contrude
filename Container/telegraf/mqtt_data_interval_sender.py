@@ -10,15 +10,14 @@ import argparse
 parser = argparse.ArgumentParser(description="MQTT Publisher Script")
 
 # Define mandatory arguments with short flags
-parser.add_argument("-ba", "--broker_address", required=True, help="MQTT broker address")
-parser.add_argument("-bp", "--broker_port", required=True, type=int, help="MQTT broker port")
-parser.add_argument("-mu", "--mqtt_username", required=True, help="MQTT username")
-parser.add_argument("-mp", "--mqtt_password", required=True, help="MQTT password")
+parser.add_argument("-ba", "--broker_address", required=True, type=str)
+parser.add_argument("-bp", "--broker_port", required=True, type=int)
+parser.add_argument("-mu", "--mqtt_username", required=True, type=str, help="Needs to be quoted with ''")
+parser.add_argument("-mp", "--mqtt_password", required=True, type=str)
 
 # Parse the arguments
 args = parser.parse_args()
 
-# Assign the parsed values to variables
 broker_address = args.broker_address
 broker_port = args.broker_port
 mqtt_username = args.mqtt_username
@@ -73,8 +72,8 @@ def publish_temperature():
         min_val=5,
         max_val=70,
         mqtt_topic_template="contrude/{}/{}/temperature",
-        n_ships=2,
-        n_containers=2
+        n_ships=4,
+        n_containers=3
     )
 
 def publish_humidity():
@@ -83,8 +82,8 @@ def publish_humidity():
         min_val=5,
         max_val=100,
         mqtt_topic_template="contrude/{}/{}/humidity",
-        n_ships=2,
-        n_containers=2
+        n_ships=4,
+        n_containers=3
     )
 
 def publish_air_pressure():
@@ -93,8 +92,8 @@ def publish_air_pressure():
         min_val=1,
         max_val=10,
         mqtt_topic_template="contrude/{}/{}/pressure",
-        n_ships=2,
-        n_containers=2
+        n_ships=4,
+        n_containers=3
     )
 
 def publish_vibration():
@@ -103,30 +102,69 @@ def publish_vibration():
         min_val=5,
         max_val=100,
         mqtt_topic_template="contrude/{}/{}/vibration",
-        n_ships=2,
-        n_containers=2
+        n_ships=4,
+        n_containers=3
+    )
+    
+def publish_longitude():
+    publish_data(
+        val=0,
+        min_val=-180,
+        max_val=180,
+        mqtt_topic_template="contrude/{}/{}/longitude",
+        n_ships=4,
+        n_containers=3
+    )
+
+def publish_latitude():
+    publish_data(
+        val=0,
+        min_val=-90,
+        max_val=90,
+        mqtt_topic_template="contrude/{}/{}/latitude",
+        n_ships=4,
+        n_containers=3
+    )
+    
+def publish_altitude():
+    publish_data(
+        val=100,
+        min_val=-10,
+        max_val=700,
+        mqtt_topic_template="contrude/{}/{}/altitude",
+        n_ships=4,
+        n_containers=3
     )
 
 
 # Main loop to run threads for all sensors simultaneously
-while True:
+while True:        
     # Create threads for each data type
     temp_thread = threading.Thread(target=publish_temperature)
     humidity_thread = threading.Thread(target=publish_humidity)
     pressure_thread = threading.Thread(target=publish_air_pressure)
     vibration_thread = threading.Thread(target=publish_vibration)
+    longitude_thread = threading.Thread(target=publish_longitude)
+    latitude_thread = threading.Thread(target=publish_latitude)
+    altitude_thread = threading.Thread(target=publish_altitude)
 
     # Start the threads
     temp_thread.start()
     humidity_thread.start()
     pressure_thread.start()
     vibration_thread.start()
+    longitude_thread.start()
+    latitude_thread.start()
+    altitude_thread.start()
 
     # Wait for all threads to complete
     temp_thread.join()
     humidity_thread.join()
     pressure_thread.join()
     vibration_thread.join()
+    longitude_thread.join()
+    latitude_thread.join()
+    altitude_thread.join()
 
     # Sleep for the interval between sets of data points (before restarting the loop)
     print("")
