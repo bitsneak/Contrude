@@ -28,6 +28,5 @@ jobs:
           git pull https://${{ secrets.SSH_GITHUB_KEY }}@github.com/BitSneak/Contrude.git
           cd ./Container
           sudo docker compose down
-          sleep 30
           sudo docker compose up -d
           ENDSSH
