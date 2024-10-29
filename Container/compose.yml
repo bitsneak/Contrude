@@ -2,6 +2,7 @@ services:
   traefik:
     image: traefik:v3.1.5
     env_file: .env
+    restart: unless-stopped
     command:
       - "--api.dashboard=true"
       - "--providers.docker=true"
@@ -30,6 +31,7 @@ services:
 
   mqtt:
     image: eclipse-mosquitto:openssl
+    restart: unless-stopped
     volumes:
       - ./mqtt/config:/mosquitto/config:ro
       - ./mqtt/data:/mosquitto/data:rw
@@ -43,6 +45,7 @@ services:
   telegraf:
     image: telegraf:1.32-alpine
     env_file: ./telegraf/.env
+    restart: unless-stopped
     depends_on:
       - mqtt
       - db_sensor
@@ -57,6 +60,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 123
       MYSQL_ONETIME_PASSWORD: "yes"
+    restart: unless-stopped
     volumes:
       - ./databases/configuration_data/mysql:/var/lib/mysql:rw
       - ./databases/configuration_data/scripts:/docker-entrypoint-initdb.d/:ro
@@ -67,6 +71,7 @@ services:
 
   db_sensor:
     image: influxdb:2.7-alpine
+    restart: unless-stopped
     volumes:
       - ./databases/sensor_data/data:/var/lib/influxdb2:rw
     ports:
@@ -79,6 +84,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 123
       MYSQL_ONETIME_PASSWORD: "yes"
+    restart: unless-stopped
     volumes:
       - ./databases/user/mysql:/var/lib/mysql:rw
       - ./databases/user/scripts:/docker-entrypoint-initdb.d/:ro
@@ -92,6 +98,7 @@ services:
     environment:
       - GF_SECURITY_ALLOW_EMBEDDING=true
       - GF_AUTH_ANONYMOUS_ENABLED=true
+    restart: unless-stopped
     depends_on:
       - db_sensor
     volumes:
@@ -104,6 +111,7 @@ services:
   node_auth:
     image: node:22-alpine3.18
     env_file: ./node/auth/.env
+    restart: unless-stopped
     depends_on:
       - traefik
       - db_user
@@ -127,6 +135,7 @@ services:
   node_rest:
     image: node:22-alpine3.18
     env_file: ./node/rest/.env
+    restart: unless-stopped
     depends_on:
       - traefik
       - node_auth
