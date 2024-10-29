@@ -1,4 +1,5 @@
 import mysql from "mysql2";
+import { InfluxDB } from "@influxdata/influxdb-client";
 import dotenv from "dotenv";
 import fs from "fs";
 dotenv.config();
@@ -23,4 +24,4 @@ export const configuration = mysql
     }
   }).promise();
 
-  export const sensor = undefined; //TODO implement connection to influxdb2
+export const sensor = new InfluxDB({url: process.env.DB_SENSOR_URL, token: process.env.DB_SENSOR_TOKEN});
