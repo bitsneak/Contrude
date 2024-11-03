@@ -20,6 +20,8 @@ dotenv.config();
 
     if (!ship) return next(createCustomError("Ship id is required", 400));
     if (!container) return next(createCustomError("Container id is required", 400));
+    if (!start) return next(createCustomError("Start time is required", 400));
+    if (!stop) return next(createCustomError("Stop time id is required", 400));
 
     const flux = `
         from(bucket: "${process.env.DB_SENSOR_BUCKET_AIR_PRESSURE}") 
@@ -49,6 +51,8 @@ dotenv.config();
 
     if (!ship) return next(createCustomError("Ship id is required", 400));
     if (!container) return next(createCustomError("Container id is required", 400));
+    if (!start) return next(createCustomError("Start time is required", 400));
+    if (!stop) return next(createCustomError("Stop time id is required", 400));
 
     const flux = `
         from(bucket: "${process.env.DB_SENSOR_BUCKET_HUMIDITY}") 
@@ -78,6 +82,8 @@ export const getTemperature = tryCatchWrapper(async function (req, res, next) {
 
     if (!ship) return next(createCustomError("Ship id is required", 400));
     if (!container) return next(createCustomError("Container id is required", 400));
+    if (!start) return next(createCustomError("Start time is required", 400));
+    if (!stop) return next(createCustomError("Stop time id is required", 400));
 
     const flux = `
         from(bucket: "${process.env.DB_SENSOR_BUCKET_TEMPERATURE}") 
@@ -107,6 +113,8 @@ export const getVibration = tryCatchWrapper(async function (req, res, next) {
 
     if (!ship) return next(createCustomError("Ship id is required", 400));
     if (!container) return next(createCustomError("Container id is required", 400));
+    if (!start) return next(createCustomError("Start time is required", 400));
+    if (!stop) return next(createCustomError("Stop time id is required", 400));
 
     const flux = `
         from(bucket: "${process.env.DB_SENSOR_BUCKET_VIBRATION}") 
@@ -136,6 +144,8 @@ export const getAltitude = tryCatchWrapper(async function (req, res, next) {
 
     if (!ship) return next(createCustomError("Ship id is required", 400));
     if (!container) return next(createCustomError("Container id is required", 400));
+    if (!start) return next(createCustomError("Start time is required", 400));
+    if (!stop) return next(createCustomError("Stop time id is required", 400));
 
     const flux = `
         from(bucket: "${process.env.DB_SENSOR_BUCKET_ALTITUDE}") 
@@ -165,6 +175,8 @@ export const getLatitude = tryCatchWrapper(async function (req, res, next) {
 
     if (!ship) return next(createCustomError("Ship id is required", 400));
     if (!container) return next(createCustomError("Container id is required", 400));
+    if (!start) return next(createCustomError("Start time is required", 400));
+    if (!stop) return next(createCustomError("Stop time id is required", 400));
 
     const flux = `
         from(bucket: "${process.env.DB_SENSOR_BUCKET_LATITUDE}") 
@@ -194,6 +206,8 @@ export const getLongitude = tryCatchWrapper(async function (req, res, next) {
 
     if (!ship) return next(createCustomError("Ship id is required", 400));
     if (!container) return next(createCustomError("Container id is required", 400));
+    if (!start) return next(createCustomError("Start time is required", 400));
+    if (!stop) return next(createCustomError("Stop time id is required", 400));
 
     const flux = `
         from(bucket: "${process.env.DB_SENSOR_BUCKET_LONGITUDE}") 
