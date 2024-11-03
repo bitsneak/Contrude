@@ -41,6 +41,8 @@ export const sensor_session = async function(flux) {
 
                 // strip away unnecessary seconds
                 result["time"] = result["time"].split('.')[0] + 'Z';
+                // strip away unnecessary decimals
+                result["value"] = parseFloat(result["value"]).toFixed(2);
                 
                 results.push(result); // collect each row
             },
