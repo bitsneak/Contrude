@@ -55,15 +55,15 @@ services:
     deploy:
       mode: global
 
-  db_configuration:
+  db_container:
     image: mysql:8.0.29
     environment:
       MYSQL_ROOT_PASSWORD: 123
       MYSQL_ONETIME_PASSWORD: "yes"
     restart: unless-stopped
     volumes:
-      - ./databases/configuration_data/mysql:/var/lib/mysql:rw
-      - ./databases/configuration_data/scripts:/docker-entrypoint-initdb.d/:ro
+      - ./databases/container/mysql:/var/lib/mysql:rw
+      - ./databases/container/scripts:/docker-entrypoint-initdb.d/:ro
     ports:
       - "3307:3306"
     deploy:
@@ -73,7 +73,7 @@ services:
     image: influxdb:2.7-alpine
     restart: unless-stopped
     volumes:
-      - ./databases/sensor_data/data:/var/lib/influxdb2:rw
+      - ./databases/sensor/data:/var/lib/influxdb2:rw
     ports:
       - "8086:8086"
     deploy:
@@ -139,16 +139,16 @@ services:
     depends_on:
       - traefik
       - auth
-      - db_configuration
+      - db_container
       - db_sensor
     working_dir: /app
     command: "node app.js"
     volumes:
       - ./rest/:/app:rw
       # ssl certificates
-      - ./databases/configuration_data/mysql/ca.pem:/app/ssl/db/configuration/ca.pem:ro
-      - ./databases/configuration_data/mysql/client-cert.pem:/app/ssl/db/configuration/cert.pem:ro
-      - ./databases/configuration_data/mysql/client-key.pem:/app/ssl/db/configuration/key.pem:ro
+      - ./databases/container/mysql/ca.pem:/app/ssl/db/container/ca.pem:ro
+      - ./databases/container/mysql/client-cert.pem:/app/ssl/db/container/cert.pem:ro
+      - ./databases/container/mysql/client-key.pem:/app/ssl/db/container/key.pem:ro
     labels:
       traefik.enable: true
       traefik.http.routers.node_rest.rule: Host(`${REST_DOMAIN}`) # hostname

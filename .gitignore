@@ -13,7 +13,7 @@
 
 # Databases
 **mysql/
-Server/databases/sensor_data/
+Server/databases/sensor/
 *.mwb.bak
 *.db
 
