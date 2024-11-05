@@ -1,11 +1,11 @@
-import { configuration } from "./connect.js";
+import { container } from "./connect.js";
 import { sensor } from "./connect.js";
 import dotenv from "dotenv";
 dotenv.config();
 
-export const configuration_session = async function(sql, params) {
-    const con = await configuration.getConnection();
-    sql = params !== undefined ? configuration.format(sql, params) : sql;
+export const container_session = async function(sql, params) {
+    const con = await container.getConnection();
+    sql = params !== undefined ? container.format(sql, params) : sql;
     
     const result = await con.query(sql);
     con.release();

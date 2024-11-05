@@ -4,9 +4,9 @@ import dotenv from "dotenv";
 import fs from "fs";
 dotenv.config();
 
-export const configuration = mysql
+export const container = mysql
   .createPool({
-    host: "db_configuration",
+    host: "db_container",
     port: 3306,
     database: "configuration",
     database: "certificate",
