@@ -2,7 +2,10 @@
 **.idea/
 **target/
 
-# MacOS specific stuff
+# VisualStudio Code specific
+**.vscode/
+
+# MacOS specific
 *.DS_Store
 
 # Logs
