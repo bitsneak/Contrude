@@ -18,9 +18,9 @@ export const configuration = mysql
     connectionLimit: 100,
     ssl: {
       sslmode: "verify-full",
-      ca: fs.readFileSync("./ssl/db/configuration/ca.pem"),
-      cert: fs.readFileSync("./ssl/db/configuration/cert.pem"),
-      key: fs.readFileSync("./ssl/db/configuration/key.pem"),
+      ca: fs.readFileSync("./ssl/db/container/ca.pem"),
+      cert: fs.readFileSync("./ssl/db/container/cert.pem"),
+      key: fs.readFileSync("./ssl/db/container/key.pem"),
     }
   }).promise();
 

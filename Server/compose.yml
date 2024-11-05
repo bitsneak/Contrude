@@ -125,10 +125,10 @@ services:
       - ./databases/user/mysql/client-key.pem:/app/ssl/db/user/key.pem:ro
     labels:
       traefik.enable: true
-      traefik.http.routers.node_auth.rule: Host(`${AUTH_DOMAIN}`) # hostname
-      traefik.http.services.node_auth.loadbalancer.server.port: ${AUTH_PORT} # port
-      traefik.http.routers.node_auth.entrypoints: websecure # reroute to https
-      traefik.http.routers.node_auth.tls.certresolver: myresolver
+      traefik.http.routers.auth.rule: Host(`${AUTH_DOMAIN}`) # hostname
+      traefik.http.services.auth.loadbalancer.server.port: ${AUTH_PORT} # port
+      traefik.http.routers.auth.entrypoints: websecure # reroute to https
+      traefik.http.routers.auth.tls.certresolver: myresolver
     deploy:
       mode: global
 
@@ -151,9 +151,9 @@ services:
       - ./databases/container/mysql/client-key.pem:/app/ssl/db/container/key.pem:ro
     labels:
       traefik.enable: true
-      traefik.http.routers.node_rest.rule: Host(`${REST_DOMAIN}`) # hostname
-      traefik.http.services.node_rest.loadbalancer.server.port: ${REST_PORT} # port
-      traefik.http.routers.node_rest.entrypoints: websecure # reroute to https
-      traefik.http.routers.node_rest.tls.certresolver: myresolver
+      traefik.http.routers.rest.rule: Host(`${REST_DOMAIN}`) # hostname
+      traefik.http.services.rest.loadbalancer.server.port: ${REST_PORT} # port
+      traefik.http.routers.rest.entrypoints: websecure # reroute to https
+      traefik.http.routers.rest.tls.certresolver: myresolver
     deploy:
       mode: global
