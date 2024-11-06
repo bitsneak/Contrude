@@ -29,5 +29,8 @@ Server/letsencrypt/
 # Passwords
 Server/mqtt/config/password.txt
 
-# Environment variables
+# Environments
 *.env
+**node_modules/
+**package-lock.json
+**dist/

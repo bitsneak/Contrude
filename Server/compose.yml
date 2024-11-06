@@ -157,3 +157,21 @@ services:
       traefik.http.routers.rest.tls.certresolver: myresolver
     deploy:
       mode: global
+
+  web:
+    image: node:22-alpine3.18
+    working_dir: /app
+    command: >
+      sh -c "npm install &&
+             npm run build &&
+             npm run dev -- --host"
+    volumes:
+      - ../Website:/app:rw
+    labels:
+      traefik.enable: true
+      traefik.http.routers.rest.rule: Host(`${WEB_DOMAIN}`) # hostname
+      traefik.http.services.rest.loadbalancer.server.port: ${WEB_PORT} # port
+      traefik.http.routers.rest.entrypoints: websecure # reroute to https
+      traefik.http.routers.rest.tls.certresolver: myresolver
+    deploy:
+      mode: global
