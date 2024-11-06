@@ -169,9 +169,9 @@ services:
       - ../Website:/app:rw
     labels:
       traefik.enable: true
-      traefik.http.routers.rest.rule: Host(`${WEB_DOMAIN}`) # hostname
-      traefik.http.services.rest.loadbalancer.server.port: ${WEB_PORT} # port
-      traefik.http.routers.rest.entrypoints: websecure # reroute to https
-      traefik.http.routers.rest.tls.certresolver: myresolver
+      traefik.http.routers.web.rule: Host(`${WEB_DOMAIN}`) # hostname
+      traefik.http.services.web.loadbalancer.server.port: ${WEB_PORT} # port
+      traefik.http.routers.web.entrypoints: websecure # reroute to https
+      traefik.http.routers.web.tls.certresolver: myresolver
     deploy:
       mode: global
