@@ -116,7 +116,7 @@ services:
       - traefik
       - db_user
     working_dir: /app
-    command: "node app.js"
+    command: "sh -c 'npm install && node app.js'"
     volumes:
       - ./auth/:/app:rw
       # ssl certificates
@@ -142,7 +142,7 @@ services:
       - db_container
       - db_sensor
     working_dir: /app
-    command: "node app.js"
+    command: "sh -c 'npm install && node app.js'"
     volumes:
       - ./rest/:/app:rw
       # ssl certificates
@@ -160,11 +160,9 @@ services:
 
   web:
     image: node:22-alpine3.18
+    restart: unless-stopped
     working_dir: /app
-    command: >
-      sh -c "npm install &&
-             npm run build &&
-             npm run dev -- --host"
+    command: "sh -c 'npm install && npm run build && npm run dev -- --host'"
     volumes:
       - ../Website:/app:rw
     labels:
