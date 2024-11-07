@@ -65,7 +65,21 @@ services:
       - ./databases/container/mysql:/var/lib/mysql:rw
       - ./databases/container/scripts:/docker-entrypoint-initdb.d/:ro
     ports:
-      - "3307:3306"
+      - "3308:3306"
+    deploy:
+      mode: global
+
+  db_threshold:
+    image: mysql:8.0.29
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_ONETIME_PASSWORD: "yes"
+    restart: unless-stopped
+    volumes:
+      - ./databases/threshold/mysql:/var/lib/mysql:rw
+      - ./databases/threshold/scripts:/docker-entrypoint-initdb.d/:ro
+    ports:
+      - "3309:3306"
     deploy:
       mode: global
 
@@ -89,7 +103,7 @@ services:
       - ./databases/user/mysql:/var/lib/mysql:rw
       - ./databases/user/scripts:/docker-entrypoint-initdb.d/:ro
     ports:
-      - "3308:3306"
+      - "3310:3306"
     deploy:
       mode: global
 
