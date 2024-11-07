@@ -4,16 +4,16 @@ CREATE SCHEMA IF NOT EXISTS privilege DEFAULT CHARACTER SET utf8mb4 COLLATE utf8
 
 CREATE TABLE IF NOT EXISTS privilege.role
 (
-    id   INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL UNIQUE,
-    level INT NOT NULL UNIQUE,
+    id    INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    name  VARCHAR(255) NOT NULL UNIQUE,
+    level INT UNSIGNED NOT NULL UNIQUE,
 
     CHECK (NULLIF(name, '') IS NOT NULL AND LENGTH(name) <= 255)
 );
 
 CREATE TABLE IF NOT EXISTS privilege.permission
 (
-    id   INT PRIMARY KEY AUTO_INCREMENT,
+    id   INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL UNIQUE,
 
     CHECK (NULLIF(name, '') IS NOT NULL AND LENGTH(name) <= 255)
@@ -21,8 +21,8 @@ CREATE TABLE IF NOT EXISTS privilege.permission
 
 CREATE TABLE IF NOT EXISTS privilege.role_permission
 (
-    role       INT,
-    permission INT,
+    role       INT UNSIGNED,
+    permission INT UNSIGNED,
 
     PRIMARY KEY (role, permission),
 
@@ -55,12 +55,12 @@ CREATE TABLE IF NOT EXISTS corporation.company
 
 CREATE TABLE IF NOT EXISTS user.user
 (
-    id       INT PRIMARY KEY AUTO_INCREMENT,
+    id       INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     name     VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     email    VARCHAR(255) UNIQUE,
     company  VARCHAR(255) NOT NULL,
-    role     INT          NOT NULL,
+    role     INT UNSIGNED NOT NULL,
     disabled BOOLEAN      NOT NULL,
 
     UNIQUE (name, company),

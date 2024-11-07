@@ -8,8 +8,8 @@ CREATE TABLE IF NOT EXISTS threshold.parameter
 
     UNIQUE (name, unit),
 
-    CHECK (LENGTH(name) <= 255),
-    CHECK (LENGTH(unit) <= 255)
+    CHECK (NULLIF(name, '') IS NOT NULL AND LENGTH(name) <= 255),
+    CHECK (NULLIF(unit, '') IS NOT NULL AND LENGTH(unit) <= 255)
 );
 
 CREATE TABLE IF NOT EXISTS threshold.rule
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS threshold.rule
     id   INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL UNIQUE,
 
-    CHECK (LENGTH(name) <= 255)
+    CHECK (NULLIF(name, '') IS NOT NULL AND LENGTH(name) <= 255)
 );
 
 CREATE TABLE IF NOT EXISTS threshold.level
@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS threshold.level
 
     UNIQUE (name, priority),
 
-    CHECK (LENGTH(name) <= 255)
+    CHECK (NULLIF(name, '') IS NOT NULL AND LENGTH(name) <= 255)
 );
 
 CREATE TABLE IF NOT EXISTS threshold.threshold

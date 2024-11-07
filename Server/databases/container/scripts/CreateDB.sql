@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS corporation.continent
 
 CREATE TABLE IF NOT EXISTS dimension.equipment_identifier
 (
-    id         INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    identifier CHAR(1) NOT NULL UNIQUE,
+    id          INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    identifier  CHAR(1)     NOT NULL UNIQUE,
     explanation VARCHAR(50) NOT NULL,
 
     UNIQUE (identifier, explanation),
@@ -95,7 +95,7 @@ CREATE TABLE IF NOT EXISTS corporation.company
 
     CHECK (prefix IS NULL OR prefix REGEXP '^[A-Z]{3}$'),
     CHECK (NULLIF(name, '') IS NOT NULL AND LENGTH(name) <= 255),
-    CONSTRAINT c CHECK (abbreviation IS NULL OR (NULLIF(abbreviation, '') IS NOT NULL AND LENGTH(abbreviation) <= 31)),
+    CHECK (abbreviation IS NULL OR (NULLIF(abbreviation, '') IS NOT NULL AND LENGTH(abbreviation) <= 31)),
     CHECK ((owner AND prefix IS NOT NULL) OR (NOT owner AND prefix IS NULL)),
 
     FOREIGN KEY (country) REFERENCES country (id) ON DELETE RESTRICT
@@ -108,6 +108,7 @@ CREATE TABLE IF NOT EXISTS certificate.ic
     company INT UNSIGNED NOT NULL,
 
     UNIQUE (code, company),
+
     CHECK (LENGTH(code) = 2),
 
     FOREIGN KEY (company) REFERENCES corporation.company (id) ON DELETE RESTRICT
@@ -139,8 +140,10 @@ CREATE TABLE IF NOT EXISTS dimension.endorsement
     CHECK (LENGTH(stacking_capacity) <= 6),
     CHECK (LENGTH(stacking_load) <= 6),
     CHECK (LENGTH(transverse_racking) <= 6),
-    CHECK (LENGTH(SUBSTRING_INDEX(side_wall_strength, '.', 1)) <= 3 AND LENGTH(SUBSTRING_INDEX(side_wall_strength, '.', -1)) <= 3),
-    CHECK (LENGTH(SUBSTRING_INDEX(end_wall_strength, '.', 1)) <= 3 AND LENGTH(SUBSTRING_INDEX(end_wall_strength, '.', -1)) <= 3),
+    CHECK (LENGTH(SUBSTRING_INDEX(side_wall_strength, '.', 1)) <= 3 AND
+           LENGTH(SUBSTRING_INDEX(side_wall_strength, '.', -1)) <= 3),
+    CHECK (LENGTH(SUBSTRING_INDEX(end_wall_strength, '.', 1)) <= 3 AND
+           LENGTH(SUBSTRING_INDEX(end_wall_strength, '.', -1)) <= 3),
     CHECK (LENGTH(floor_strength) <= 6),
     CHECK (manufacture_date > '1900-01-01'),
     CHECK (first_examination_date > '1900-01-01')
@@ -173,7 +176,8 @@ CREATE TABLE IF NOT EXISTS certificate.ccc
     CHECK (certificate_number REGEXP '^[A-Z]{3}\\d{7}-\\d$'),
     CHECK (approval_reference REGEXP '^[A-Z]{1,2}/[A-Z]{1,2} \\d{5} [A-Z]{1,2}/\\d{4}$'),
     CHECK (owner_serial_number REGEXP '^[A-Z]{4} \\d{6}$'),
-    CHECK (manufacturer_prototype_serial_number IS NULL OR manufacturer_prototype_serial_number REGEXP '^\\d{2}[A-Z]{2} \\d{6}$'),
+    CHECK (manufacturer_prototype_serial_number IS NULL OR
+           manufacturer_prototype_serial_number REGEXP '^\\d{2}[A-Z]{2} \\d{6}$'),
     CHECK (manufacturer_serial_number REGEXP '^\\d{2}[A-Z]{2} \\d{6}$'),
     CHECK (manufacturer_model_number REGEXP '^[A-Z]{2}-\\d{2}[A-Z]{2}-[A-Z]\\([A-Z]{4}\\)$'),
     CHECK (manufacturer_type REGEXP '^\\d{1,2}\'\\d{1,2}"x\\d{1,2}\'\\d{1,2}"x\\d{1,2}\'\\d{1,2}" [\\S^ ]{0,106}$'),
@@ -199,9 +203,9 @@ CREATE TABLE IF NOT EXISTS certificate.csc
 
     UNIQUE (csc_number, ccc, tct, next_examination_date, acep),
 
-    CONSTRAINT a CHECK (csc_number REGEXP '^[A-Z]{2}-[A-Z]{1,2} \\d{5}-[0,1][1-9]/[1,2][0-9]{3}$'),
-    CONSTRAINT b CHECK (next_examination_date > '1900-01-01'),
-    CONSTRAINT c CHECK (acep IS NULL OR LENGTH(acep) <= 5),
+    CHECK (csc_number REGEXP '^[A-Z]{2}-[A-Z]{1,2} \\d{5}-[0,1][1-9]/[1,2][0-9]{3}$'),
+    CHECK (next_examination_date > '1900-01-01'),
+    CHECK (acep IS NULL OR LENGTH(acep) <= 5),
 
     FOREIGN KEY (ccc) REFERENCES ccc (id) ON DELETE RESTRICT,
     FOREIGN KEY (tct) REFERENCES tct (id) ON DELETE RESTRICT
@@ -222,7 +226,8 @@ CREATE TABLE IF NOT EXISTS configuration.container
 
     CHECK (LENGTH(serial_number) = 6),
     CHECK (LENGTH(check_digit) = 1),
-    CHECK (repair_recommendation IS NULL OR (NULLIF(repair_recommendation, '') IS NOT NULL AND LENGTH(repair_recommendation) <= 511)),
+    CHECK (repair_recommendation IS NULL OR
+           (NULLIF(repair_recommendation, '') IS NOT NULL AND LENGTH(repair_recommendation) <= 511)),
 
     FOREIGN KEY (csc) REFERENCES certificate.csc (id) ON DELETE RESTRICT,
     FOREIGN KEY (equipment_identifier) REFERENCES dimension.equipment_identifier (id) ON DELETE RESTRICT
