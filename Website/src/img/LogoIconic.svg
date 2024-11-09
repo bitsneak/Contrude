@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Ebene_2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 650.74 361.24">
+  <defs>
+    <style>
+      .cls-1 {
+        stroke-width: 32.59px;
+      }
+
+      .cls-1, .cls-2, .cls-3, .cls-4, .cls-5 {
+        stroke: #000;
+        stroke-miterlimit: 10;
+      }
+
+      .cls-1, .cls-2, .cls-4, .cls-5 {
+        fill: none;
+      }
+
+      .cls-2 {
+        stroke-width: 35.75px;
+      }
+
+      .cls-3 {
+        stroke-linecap: round;
+        stroke-width: 35.34px;
+      }
+
+      .cls-4 {
+        stroke-width: 35.71px;
+      }
+
+      .cls-5 {
+        stroke-width: 35.58px;
+      }
+    </style>
+  </defs>
+  <g id="Ebene_3">
+    <g>
+      <g>
+        <path class="cls-2" d="M151.51,339.46c-73.8,0-133.63-71.99-133.63-160.79,0-88.8,59.83-160.79,133.63-160.79"/>
+        <path class="cls-1" d="M196.11,269.79c-49.84,0-90.24-40.4-90.24-90.24,0-49.84,40.4-90.24,90.24-90.24"/>
+        <circle cx="213.43" cy="179.75" r="40.2"/>
+      </g>
+      <g>
+        <path class="cls-5" d="M631.67,206.32v75.36c0,82.36-191.73,82.36-191.73,0v-75.36c0,75.49,191.73,75.49,191.73,0Z"/>
+        <path class="cls-4" d="M631.83,39.92v75.36c0,82.36-193.2,82.36-193.2,0V39.92c0,75.49,193.2,75.49,193.2,0Z"/>
+        <line class="cls-3" x1="438.63" y1="18.91" x2="439.94" y2="275.79"/>
+        <line class="cls-3" x1="631.76" y1="19.79" x2="633.07" y2="276.67"/>
+      </g>
+    </g>
+  </g>
+</svg>
