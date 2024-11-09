@@ -1,31 +1,20 @@
-import React, { useState } from 'react';
+import React from 'react'
 
 const Sidebar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen);
-  };
-
   return (
-    <>
-      <button onClick={toggleSidebar} className="bg-blue-700 text-white p-2 m-2">
-        Open Sidebar
-      </button>
+    <div className="bg-white h-screen w-1/7 p-4 border-r-2 border-black">
+      {/* The image */}
+      <img 
+        className="mb-2 size-40" 
+        src="/src/img/LogoSimple.png" 
+        alt="Logo" 
+      />
       
-      {isOpen && (
-        <div className="bg-blue-400 h-screen w-1/4 fixed top-0 left-0 p-4">
-          <button onClick={toggleSidebar} className="bg-blue-700 text-white p-2 mb-2">
-            Close Sidebar
-          </button>
-          
-          {/* Add any sidebar content here */}
-          <div className='bg-white h-5/6'>
-            <p>Text</p>
-          </div>
-        </div>
-      )}
-    </>
+      {/* Sidebar content */}
+      <div className="bg-white h-5/6">
+        <p>Text</p>
+      </div>
+    </div>
   );
 };
 
