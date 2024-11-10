@@ -26,6 +26,7 @@ services:
       traefik.http.routers.api.middlewares: traefik-auth
       traefik.http.middlewares.traefik-auth.digestauth.users: ${DASHBOARD_AUTH}
       traefik.http.middlewares.traefik-auth.digestauth.removeheader: true
+      traefik.http.middlewares.strip-prefixes.stripPrefix.prefixes: ${AUTH_PREFIX}, ${REST_PREFIX}
     deploy:
       mode: global
 
@@ -139,10 +140,11 @@ services:
       - ./databases/user/mysql/client-key.pem:/app/ssl/db/user/key.pem:ro
     labels:
       traefik.enable: true
-      traefik.http.routers.auth.rule: Host(`${AUTH_DOMAIN}`) # hostname
+      traefik.http.routers.auth.rule: Host(`${API_DOMAIN}`) && PathPrefix(`${AUTH_PREFIX}`) # hostname
       traefik.http.services.auth.loadbalancer.server.port: ${AUTH_PORT} # port
       traefik.http.routers.auth.entrypoints: websecure # reroute to https
       traefik.http.routers.auth.tls.certresolver: myresolver
+      traefik.http.routers.auth.middlewares: strip-prefixes
     deploy:
       mode: global
 
@@ -165,10 +167,11 @@ services:
       - ./databases/container/mysql/client-key.pem:/app/ssl/db/container/key.pem:ro
     labels:
       traefik.enable: true
-      traefik.http.routers.rest.rule: Host(`${REST_DOMAIN}`) # hostname
+      traefik.http.routers.rest.rule: Host(`${API_DOMAIN}`) && PathPrefix(`${REST_PREFIX}`) # hostname
       traefik.http.services.rest.loadbalancer.server.port: ${REST_PORT} # port
       traefik.http.routers.rest.entrypoints: websecure # reroute to https
       traefik.http.routers.rest.tls.certresolver: myresolver
+      traefik.http.routers.rest.middlewares: strip-prefixes
     deploy:
       mode: global
 
