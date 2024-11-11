@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS privilege.role_permission
 
 CREATE TABLE IF NOT EXISTS corporation.country
 (
+    id           INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     abbreviation CHAR(2) PRIMARY KEY COMMENT 'ISO 3166 Alpha-2',
     name         VARCHAR(255) NOT NULL UNIQUE,
 
@@ -41,6 +42,7 @@ CREATE TABLE IF NOT EXISTS corporation.country
 
 CREATE TABLE IF NOT EXISTS corporation.company
 (
+    id         INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     name       VARCHAR(255) PRIMARY KEY,
     department VARCHAR(255) NOT NULL,
     country    CHAR(2)      NOT NULL,
