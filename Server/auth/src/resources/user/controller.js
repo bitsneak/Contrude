@@ -28,17 +28,17 @@ export const createUser = tryCatchWrapper(async function (req, res, next) {
   const creatingUserName = req.user.user;
 
   // sql statements
-  const searchUSerSql = "SELECT u.id FROM user.user u WHERE u.name = ?";
-  const searchEmailSql = "SELECT email FROM user.user u WHERE u.email = ?";
-  const searchCompanySql = "SELECT c.name FROM corporation.company c WHERE c.name = ?"
-  const searchRoleSql = "SELECT r.id, r.level FROM privilege.role r WHERE r.name = ?"
+  const searchUSerSql = "SELECT 1 FROM user.user u WHERE u.name = ? LIMIT 1";
+  const searchEmailSql = "SELECT 1 FROM user.user u WHERE u.email = ? LIMIT 1";
+  const searchCompanySql = "SELECT 1 FROM corporation.company c WHERE c.id = ? LIMIT 1"
+  const searchRoleSql = "SELECT r.id, r.level FROM privilege.role r WHERE r.id = ? LIMIT 1"
   const searchUserRoleSql = `
     SELECT r.level
       FROM privilege.role r
       INNER JOIN user.user u
         ON r.id = u.role
-      WHERE u.name = ?`;
-  const insertSql = "INSERT INTO user.user VALUES (NULL, ?, ?, ?, ?, ?, ?)";
+      WHERE u.id = ? LIMIT 1`;
+  const insertSql = "INSERT INTO user.user (name, password, email, company, role, disabled) VALUES (?, ?, ?, ?, ?, ?)";
 
   // check if user already exists
   let [rows] = await session(searchUSerSql, newUser);
@@ -81,16 +81,16 @@ export const createUser = tryCatchWrapper(async function (req, res, next) {
 
 /**
  * @description enables a user
- * @route POST /user/enable
- * @routeBody user
+ * @route POST /user/:id/enable
+ * @routeParam id - user id
  */
 export const enableUser = tryCatchWrapper(async function (req, res, next) {
   // extract data from req body
-  const userName = req.body.user;
+  const userName = req.params.id;
 
   // sql statements
-  const searchSql = "SELECT u.disabled FROM user.user u WHERE u.name = ?";
-  const updateSql = "UPDATE user.user u SET u.disabled = FALSE WHERE u.name = ?"
+  const searchSql = "SELECT u.disabled FROM user.user u WHERE u.id = ?  LIMIT 1";
+  const updateSql = "UPDATE user.user u SET u.disabled = FALSE WHERE u.id = ?"
 
   // check if user exists
   const [rows] = await session(searchSql, userName);
@@ -105,16 +105,16 @@ export const enableUser = tryCatchWrapper(async function (req, res, next) {
 
 /**
  * @description disables a user
- * @route POST /user/disable
- * @routeBody user
+ * @route POST /user/:id/disable
+ * @routeParam id - user id
  */
 export const disableUser = tryCatchWrapper(async function (req, res, next) {
   // extract data from req body
-  const userName = req.body.user;
+  const userName = req.params.id;
 
   // sql statements
-  const searchSql = "SELECT u.disabled FROM user.user u WHERE u.name = ?";
-  const updateSql = "UPDATE user.user u SET u.disabled = TRUE WHERE u.name = ?"
+  const searchSql = "SELECT u.disabled FROM user.user u WHERE u.id = ? LIMIT 1";
+  const updateSql = "UPDATE user.user u SET u.disabled = TRUE WHERE u.id = ?"
 
   // check if user exists
   const [rows] = await session(searchSql, userName);
@@ -139,9 +139,9 @@ export const changePassword = tryCatchWrapper(async function (req, res, next) {
   const changingUser = req.user.user;
 
   // sql statements
-  const searchPasswordSql = "SELECT u.password FROM user.user u WHERE u.name = ?";
+  const searchPasswordSql = "SELECT u.password FROM user.user u WHERE u.id = ? LIMIT 1";
   const searchRefreshTokenSql = "SELECT t.refresh FROM user.token t";
-  const updateSql = "UPDATE user.user u SET u.password = ? WHERE u.name = ?";
+  const updateSql = "UPDATE user.user u SET u.password = ? WHERE u.id = ?";
   const deleteSql = "DELETE FROM user.token t WHERE t.refresh = ?";
 
   // check if password is the same
@@ -177,15 +177,15 @@ export const changePassword = tryCatchWrapper(async function (req, res, next) {
  */
 export const login = tryCatchWrapper(async function (req, res, next) {
   // extract data from req body
-  const userName = req.body.user;
+  const user = req.body.user;
   const pwd = req.body.password;
 
   // sql statements
-  const searchSql = "SELECT u.password, u.role, u.disabled FROM user.user u WHERE u.name = ?";
+  const searchSql = "SELECT u.password, u.role, u.disabled FROM user.user u WHERE u.id = ? LIMIT 1";
   const insertSql = "INSERT INTO user.token VALUES (?, ?)";
 
   // check if user exists
-  const [rows] = await session(searchSql, userName);
+  const [rows] = await session(searchSql, user);
   if (rows.length == 0) return next(createCustomError("User does not exist", 404));
   // check if user is disabled
   if (rows[0].disabled) return next(createCustomError("User is disabled", 401));
@@ -193,8 +193,8 @@ export const login = tryCatchWrapper(async function (req, res, next) {
   const hashedPwd = rows[0].password;
   if (await bcryptjs.compare(pwd, hashedPwd)) {
     // generate tokens
-    const accessToken = generateAccessToken(userName, rows[0].role);
-    const refreshToken = generateRefreshToken(userName, rows[0].role);
+    const accessToken = generateAccessToken(user, rows[0].role);
+    const refreshToken = generateRefreshToken(user, rows[0].role);
 
     // insert tokens and send them back
     await session(insertSql, [accessToken, refreshToken]);
@@ -222,17 +222,17 @@ export const validateToken = (requiredPermission, isMiddleware = true) => {
     if (requiredPermission == null || requiredPermission == "") return next(createCustomError("Permission not present", 400));
 
     // sql statements
-    const searchUserSql = "SELECT * FROM user.user u WHERE u.name = ?";
-    const searchTokenSql = "SELECT t.access FROM user.token t WHERE t.access = ?";
+    const searchUserSql = "SELECT u.disabled FROM user.user u WHERE u.id = ? LIMIT 1";
+    const searchTokenSql = "SELECT 1 FROM user.token t WHERE t.access = ? LIMIT 1";
     // query to check if the role has the required permission
     const searchRolePermissionSql = `
-      SELECT rp.role
+      SELECT 1
         FROM privilege.role_permission rp
         INNER JOIN privilege.role r
           ON rp.role = r.id
         INNER JOIN privilege.permission p
           ON rp.permission = p.id
-        WHERE r.id = ? AND p.name = ?`;
+        WHERE r.id = ? AND p.name = ? LIMIT 1`;
 
     // check if token is valid
     let [rows] = await session(searchTokenSql, token);
@@ -273,8 +273,8 @@ export const refreshToken = tryCatchWrapper(async function (req, res, next) {
   const refreshTokenOld = req.body.refreshToken;
 
   // sql statements
-  const searchTokenSql = "SELECT t.refresh FROM user.token t WHERE t.refresh = ?";
-  const searchUserSql = "SELECT u.disabled FROM user.user u WHERE u.name = ?";
+  const searchTokenSql = "SELECT 1 FROM user.token t WHERE t.refresh = ? LIMIT 1";
+  const searchUserSql = "SELECT u.disabled FROM user.user u WHERE u.id = ? LIMIT 1";
   const updateSql = "UPDATE user.token t SET t.access = ?, t.refresh = ? WHERE t.refresh = ?";
 
   // check if token is valid
@@ -313,7 +313,7 @@ export const logout = tryCatchWrapper(async function (req, res, next) {
   const refreshToken = req.body.refreshToken;
 
   // sql statements
-  const searchSql = "SELECT t.refresh FROM user.token t WHERE t.refresh = ?";
+  const searchSql = "SELECT 1 FROM user.token t WHERE t.refresh = ? LIMIT 1";
   const deleteSql = "DELETE FROM user.token t WHERE t.refresh = ?";
 
   // check if token is valid

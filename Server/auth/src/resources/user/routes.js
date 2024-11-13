@@ -13,8 +13,8 @@ import {
 const router = express.Router();
 
 router.route("/user").post(validateToken("create user"), createUser);
-router.route("/user/enable").post(validateToken("enable user"), enableUser);
-router.route("/user/disable").post(validateToken("disable user"), disableUser);
+router.route("/user/:id/enable").post(validateToken("enable user"), enableUser);
+router.route("/user/:id/disable").post(validateToken("disable user"), disableUser);
 router.route("/user/password").post(validateToken("select"), changePassword);
 router.route("/login").post(login);
 router.route("/logout").delete(logout);
