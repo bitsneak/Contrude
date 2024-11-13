@@ -1,9 +1,7 @@
 import mysql from "mysql2";
-import dotenv from "dotenv";
 import fs from "fs";
-dotenv.config();
 
-export const user = mysql
+const user = mysql
 .createPool({
   host: "db_user",
   port: 3306,
@@ -21,3 +19,5 @@ export const user = mysql
     key: fs.readFileSync("./ssl/db/user/key.pem"),
   }
 }).promise();
+
+export default user;

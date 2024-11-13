@@ -4,20 +4,21 @@ import bcryptjs from "bcryptjs";
 import { tryCatchWrapper } from "../../middlewares/tryCatchWrapper.js";
 import { createCustomError } from "../../errors/customErrors.js";
 import session from "../../db/helper.js";
+import { generateAccessToken, generateRefreshToken } from "./helper.js";
 
 /**
- * @description creates a new user
+ * @description Create a new user
  * @route POST /user
- * @routeBody user
+ * @routeBody user - Username
  * @routeBody password
  * @routeBody email
- * @routeBody company
- * @routeBody role
+ * @routeBody company - Company id
+ * @routeBody role - Role id
  * @routeBody locked
  */
 export const createUser = tryCatchWrapper(async function (req, res, next) {
   // extract data from req body
-  const newUser = req.body.user;
+  const newUser = req.body.username;
   const newUserPwd = req.body.password;
   let email = req.body.email;
   const company = req.body.company;
@@ -80,12 +81,12 @@ export const createUser = tryCatchWrapper(async function (req, res, next) {
 });
 
 /**
- * @description enables a user
+ * @description Enable a user
  * @route POST /user/:id/enable
- * @routeParam id - user id
+ * @routeParameter id - User id
  */
 export const enableUser = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req body
+  // extract data from req parameters
   const userName = req.params.id;
 
   // sql statements
@@ -104,12 +105,12 @@ export const enableUser = tryCatchWrapper(async function (req, res, next) {
 });
 
 /**
- * @description disables a user
+ * @description Disable a user
  * @route POST /user/:id/disable
- * @routeParam id - user id
+ * @routeParameter id - User id
  */
 export const disableUser = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req body
+  // extract data from req parameters
   const userName = req.params.id;
 
   // sql statements
@@ -128,9 +129,9 @@ export const disableUser = tryCatchWrapper(async function (req, res, next) {
 });
 
 /**
- * @description changes the password of a user
+ * @description Change the password of a user
  * @route POST /user/password
- * @routeBody password
+ * @routeBody password - New password
  */
 export const changePassword = tryCatchWrapper(async function (req, res, next) {
   // extract data from req body
@@ -170,9 +171,9 @@ export const changePassword = tryCatchWrapper(async function (req, res, next) {
 });
 
 /**
- * @description logs the user in
+ * @description Log the user in
  * @route POST /login
- * @routeBody user
+ * @routeBody user - User id
  * @routeBody password
  */
 export const login = tryCatchWrapper(async function (req, res, next) {
@@ -205,7 +206,9 @@ export const login = tryCatchWrapper(async function (req, res, next) {
 });
 
 /**
- * @description checks validity of token and if user has the required permission
+ * @description Check validity of token and if user has the required permission
+ * @route GET /token/:permission
+ * @routeParameter permission - Permission which sould be checked
  * @param requiredPermission
  * @param {boolean} [isMiddleware=true] When directly used from a route to get a response it must be set to false
  */
@@ -264,7 +267,7 @@ export const validateToken = (requiredPermission, isMiddleware = true) => {
 };
 
 /**
- * @description refreshes the access token
+ * @description Refresh the access token
  * @route POST /token/refresh
  * @routeBody refreshToken
  */
@@ -304,7 +307,7 @@ export const refreshToken = tryCatchWrapper(async function (req, res, next) {
 });
 
 /**
- * @description logs the user out
+ * @description Log the user out
  * @route DELETE /logout
  * @routeBody refreshToken
  */
@@ -331,51 +334,76 @@ export const logout = tryCatchWrapper(async function (req, res, next) {
 });
 
 /**
- * @description generates an access token
+ * @description Return the username of the user with the given name
+ * @route GET /user/:name
+ * @routeParameter name - Username
  */
-const generateAccessToken = function(user, role) {
-  return jwt.sign({user, role}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15m"})
-};
+export const getIdFromUserName = tryCatchWrapper(async function (req, res, next) {
+  // extract data from req parameters
+  const name = req.params.name;
+  if (!name) return next(createCustomError("Username is required", 400));
+
+  const sql = "SELECT u.id FROM user.user u WHERE u.name = ? LIMIT 1";
+  const [rows] = await session(sql, name);
+
+  if (!rows.length) return next(createCustomError("Empty list", 204));
+  return res.status(200).json({ user: rows });
+});
 
 /**
- * @description generates a refresh token
+ * @description Return the id of the company with the given name
+ * @route GET /company/:name
+ * @routeParameter name - Company name
  */
-const generateRefreshToken = function(user, role) {
-  return jwt.sign({user, role}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "20m"})
-};
+export const getIdFromCompany = tryCatchWrapper(async function (req, res, next) {
+  // extract data from req parameters
+  const name = req.params.name;
+  if (!name) return next(createCustomError("Company name is required", 400));
+
+  const sql = "SELECT c.id FROM corporation.company c WHERE c.name = ? LIMIT 1";
+  const [rows] = await session(sql, name);
+
+  if (!rows.length) return next(createCustomError("Empty list", 204));
+  return res.status(200).json({ company: rows });
+});
 
 /**
- * @description check and delete expired tokens
+ * @description Return the id of the role with the given name
+ * @route GET /role/:name
+ * @routeParameter name - Role name
  */
-export const deleteExpiredTokens = async () => {
-  let counter = 0;
+export const getIdFromRole = tryCatchWrapper(async function (req, res, next) {
+  // extract data from req parameters
+  const name = req.params.name;
+  if (!name) return next(createCustomError("Role name is required", 400));
 
-  try {
-    // sql statements
-    const searchSql = "SELECT t.refresh FROM user.token t";
-    const deleteSql = "DELETE FROM user.token t WHERE t.refresh = ?";
+  const sql = "SELECT r.id FROM privilege.role r WHERE r.name = ? LIMIT 1";
+  const [rows] = await session(sql, name);
 
-    // retrieve all tokens
-    const [rows] = await session(searchSql);
+  if (!rows.length) return next(createCustomError("Empty list", 204));
+  return res.status(200).json({ role: rows });
+});
 
-    for (const row of rows) {
-      const refreshToken = row.refresh;
-      let deleteToken = false;
+/**
+ * @description Return all companies
+ * @route GET /role
+ */
+export const getAllCompanies = tryCatchWrapper(async function (req, res, next) {
+  const sql = "SELECT c.id FROM corporation.company c";
+  const [rows] = await session(sql);
 
-      // verify if the token is expired
-      jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, async (err, user) => {
-        if (err && err.name === "TokenExpiredError") deleteToken = true;
-      });
+  if (!rows.length) return next(createCustomError("Empty list", 204));
+  return res.status(200).json({ companies: rows });
+});
 
-      // delete expired token
-      if (deleteToken) {
-        await session(deleteSql, refreshToken);
-        counter++;
-      }
-    }
-  } catch (err) {
-    console.error("Error occurred while deleting expired tokens: ", err);
-  }
+/**
+ * @description Return all roles
+ * @route GET /role
+ */
+export const getAllRoles = tryCatchWrapper(async function (req, res, next) {
+  const sql = "SELECT r.id FROM privilege.role r";
+  const [rows] = await session(sql);
 
-  return counter;
-};
+  if (!rows.length) return next(createCustomError("Empty list", 204));
+  return res.status(200).json({ roles: rows });
+});

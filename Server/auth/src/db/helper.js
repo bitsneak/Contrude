@@ -1,4 +1,4 @@
-import { user } from "./connect.js";
+import user from "./connect.js";
 
 const session = async function(sql, params) {
     if (params !== undefined) sql = user.format(sql, params);

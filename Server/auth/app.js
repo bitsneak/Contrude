@@ -7,7 +7,7 @@ import http from "http";
 import { notFound } from "./src/middlewares/notFound.js";
 import { handleError } from "./src/middlewares/handleError.js";
 import userRoute from "./src/resources/user/routes.js";
-import { deleteExpiredTokens } from "./src/resources/user/controller.js";
+import { deleteExpiredTokens } from "./src/resources/user/helper.js";
 
 dotenv.config();
 const app = express();
