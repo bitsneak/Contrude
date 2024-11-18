@@ -9,16 +9,17 @@ import {
     getLatitude,
     getLongitude
 } from "./controller.js";
-import { validateToken } from "../../middlewares/validateToken.js";
+import validateToken from "../../middlewares/validateToken.js";
+import validateRouteParams from "../../middlewares/validateRouteParameter.js";
 
 const router = express.Router();
 
-router.route("/air_pressure/:ship/:container/:start/:stop").get(validateToken("select"), getAirPressure)
-router.route("/humidity/:ship/:container/:start/:stop").get(validateToken("select"), getHumidity)
-router.route("/temperature/:ship/:container/:start/:stop").get(validateToken("select"), getTemperature)
-router.route("/vibration/:ship/:container/:start/:stop").get(validateToken("select"), getVibration)
-router.route("/altitude/:ship/:container/:start/:stop").get(validateToken("select"), getAltitude)
-router.route("/latitude/:ship/:container/:start/:stop").get(validateToken("select"), getLatitude)
-router.route("/longitude/:ship/:container/:start/:stop").get(validateToken("select"), getLongitude)
+router.route("/sensor/air_pressure/:ship/:container/:start/:stop").get(validateRouteParams, validateToken("select"), getAirPressure);
+router.route("/sensor/humidity/:ship/:container/:start/:stop").get(validateRouteParams, validateToken("select"), getHumidity)
+router.route("/sensor/temperature/:ship/:container/:start/:stop").get(validateRouteParams, validateToken("select"), getTemperature)
+router.route("/sensor/vibration/:ship/:container/:start/:stop").get(validateRouteParams, validateToken("select"), getVibration)
+router.route("/sensor/altitude/:ship/:container/:start/:stop").get(validateRouteParams, validateToken("select"), getAltitude)
+router.route("/sensor/latitude/:ship/:container/:start/:stop").get(validateRouteParams, validateToken("select"), getLatitude)
+router.route("/sensor/longitude/:ship/:container/:start/:stop").get(validateRouteParams, validateToken("select"), getLongitude)
 
 export default router;

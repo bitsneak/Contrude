@@ -1,8 +1,6 @@
 import mysql from "mysql2";
 import { InfluxDB } from "@influxdata/influxdb-client";
-import dotenv from "dotenv";
 import fs from "fs";
-dotenv.config();
 
 export const container = mysql
   .createPool({

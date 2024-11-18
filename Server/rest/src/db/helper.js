@@ -1,7 +1,5 @@
 import { container } from "./connect.js";
 import { sensor } from "./connect.js";
-import dotenv from "dotenv";
-dotenv.config();
 
 export const container_session = async function(sql, params) {
     const con = await container.getConnection();

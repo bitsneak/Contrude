@@ -1,14 +1,17 @@
 import express from "express";
 
+/*
 import {
-    getAllCountries,
-    getAllCountriesFromContinent
+
 } from "./controller.js";
-import { validateToken } from "../../middlewares/validateToken.js";
+*/
+import validateToken from "../../middlewares/validateToken.js";
+import validateRouteParams from "../../middlewares/validateRouteParameter.js";
 
 const router = express.Router();
+// validate route parameters
+router.use(validateRouteParams);
 
-router.route("/countries").get(validateToken("select"), getAllCountries)
-router.route("/countries/:id").get(validateToken("select"), getAllCountriesFromContinent)
+//router.route("/").get(validateToken(""), example);
 
 export default router;

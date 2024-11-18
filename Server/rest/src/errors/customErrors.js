@@ -3,8 +3,10 @@ export class CustomError extends Error {
       super(message);
       this.statusCode = statusCode;
     }
-  }
+};
   
-  export const createCustomError = (message, statusCode) => {
-    return new CustomError(message, statusCode);
-  };
+const createCustomError = (message, statusCode) => {
+  return new CustomError(message, statusCode);
+};
+
+export default createCustomError;
