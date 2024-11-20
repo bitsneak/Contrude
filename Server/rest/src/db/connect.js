@@ -2,6 +2,26 @@ import mysql from "mysql2";
 import { InfluxDB } from "@influxdata/influxdb-client";
 import fs from "fs";
 
+export const ship = undefined;
+/*
+export const ship = mysql
+  .createPool({
+    host: "db_ship",
+    port: 3306,
+    database: "",
+    user: "rest",
+    password: process.env.DB_SHIP_PASSWORD,
+    waitForConnections: true,
+    connectionLimit: 100,
+    ssl: {
+      sslmode: "verify-full",
+      ca: fs.readFileSync("./ssl/db/ship/ca.pem"),
+      cert: fs.readFileSync("./ssl/db/ship/cert.pem"),
+      key: fs.readFileSync("./ssl/db/ship/key.pem"),
+    }
+  }).promise();
+*/
+
 export const container = mysql
   .createPool({
     host: "db_container",
@@ -10,8 +30,8 @@ export const container = mysql
     database: "certificate",
     database: "corporation",
     database: "dimension",
-    user: "api",
-    password: process.env.DB_CONFIGURATION_PASSWORD,
+    user: "rest",
+    password: process.env.DB_CONTAINER_PASSWORD,
     waitForConnections: true,
     connectionLimit: 100,
     ssl: {
@@ -23,3 +43,20 @@ export const container = mysql
   }).promise();
 
 export const sensor = new InfluxDB({url: process.env.DB_SENSOR_URL, token: process.env.DB_SENSOR_TOKEN});
+
+export const threshold = mysql
+  .createPool({
+    host: "db_threshold",
+    port: 3306,
+    database: "threshold",
+    user: "rest",
+    password: process.env.DB_THRESHOLD_PASSWORD,
+    waitForConnections: true,
+    connectionLimit: 100,
+    ssl: {
+      sslmode: "verify-full",
+      ca: fs.readFileSync("./ssl/db/threshold/ca.pem"),
+      cert: fs.readFileSync("./ssl/db/threshold/cert.pem"),
+      key: fs.readFileSync("./ssl/db/threshold/key.pem"),
+    }
+  }).promise();

@@ -6,6 +6,7 @@ import { notFound } from "./src/middlewares/notFound.js";
 import { handleError } from "./src/middlewares/handleError.js";
 import containerRoute from "./src/resources/container/routes.js";
 import sensorRoute from "./src/resources/sensor/routes.js";
+import thresholdRoute from "./src/resources/threshold/routes.js";
 
 dotenv.config();
 const app = express();
@@ -16,6 +17,7 @@ app.use(express.json());
 // api routes
 app.use(containerRoute);
 app.use(sensorRoute);
+app.use(thresholdRoute);
 
 app.use(notFound);
 app.use(handleError);

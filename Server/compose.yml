@@ -157,14 +157,19 @@ services:
       - auth
       - db_container
       - db_sensor
+      - db_threshold
     working_dir: /app
     command: "sh -c 'npm install && node app.js'"
     volumes:
       - ./rest/:/app:rw
-      # ssl certificates
+      # ssl certificates db_container
       - ./databases/container/mysql/ca.pem:/app/ssl/db/container/ca.pem:ro
       - ./databases/container/mysql/client-cert.pem:/app/ssl/db/container/cert.pem:ro
       - ./databases/container/mysql/client-key.pem:/app/ssl/db/container/key.pem:ro
+      # ssl certificates db_threshold
+      - ./databases/threshold/mysql/ca.pem:/app/ssl/db/threshold/ca.pem:ro
+      - ./databases/threshold/mysql/client-cert.pem:/app/ssl/db/threshold/cert.pem:ro
+      - ./databases/threshold/mysql/client-key.pem:/app/ssl/db/threshold/key.pem:ro
     labels:
       traefik.enable: true
       traefik.http.routers.rest.rule: Host(`${API_DOMAIN}`) && PathPrefix(`${REST_PREFIX}`) # hostname

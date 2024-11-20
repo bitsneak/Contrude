@@ -1,13 +1,33 @@
+import { ship } from "./connect.js";
 import { container } from "./connect.js";
 import { sensor } from "./connect.js";
+import { threshold } from "./connect.js";
 
-export const container_session = async function(sql, params) {
-    const con = await container.getConnection();
-    sql = params !== undefined ? container.format(sql, params) : sql;
+const dbMap = {
+    "ship": ship,
+    "container": container,
+    "threshold": threshold
+};
+
+const session = async function(sql, params, db) {    
+    const con = await dbMap[db].getConnection();
+    sql = params !== undefined ? dbMap[db].format(sql, params) : sql;
     
     const result = await con.query(sql);
     con.release();
     return result;
+};
+
+export const ship_session = async function(sql, params) {
+    return session(sql, params, "ship");
+};
+
+export const container_session = async function(sql, params) {
+    return session(sql, params, "container");
+};
+
+export const threshold_session = async function(sql, params) {
+    return session(sql, params, "threshold");
 };
 
 export const sensor_session = async function(flux) {

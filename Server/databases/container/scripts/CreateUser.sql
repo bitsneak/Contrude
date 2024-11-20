@@ -1,4 +1,4 @@
-CREATE ROLE IF NOT EXISTS 'admin', 'developer', 'api_get';
+CREATE ROLE IF NOT EXISTS 'admin', 'developer', 'api';
 
 CREATE USER IF NOT EXISTS 'BitSneak'@'%'
     IDENTIFIED WITH caching_sha2_password BY '123'
@@ -24,7 +24,7 @@ CREATE USER IF NOT EXISTS 'Max'@'%'
     PASSWORD EXPIRE
     PASSWORD HISTORY 5;
 
-CREATE USER IF NOT EXISTS 'api'@'%'
+CREATE USER IF NOT EXISTS 'rest'@'%'
     IDENTIFIED WITH caching_sha2_password BY '123'
     REQUIRE SSL
     WITH MAX_QUERIES_PER_HOUR 10000
