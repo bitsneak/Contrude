@@ -24,9 +24,7 @@ CREATE TABLE IF NOT EXISTS threshold.level
 (
     id       INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     name     VARCHAR(255) NOT NULL UNIQUE,
-    priority INT UNSIGNED NOT NULL,
-
-    UNIQUE (name, priority),
+    priority INT UNSIGNED NOT NULL UNIQUE,
 
     CHECK (NULLIF(name, '') IS NOT NULL AND LENGTH(name) <= 255)
 );

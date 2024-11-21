@@ -1,6 +1,6 @@
-CREATE DATABASE IF NOT EXISTS configuration DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+CREATE DATABASE IF NOT EXISTS container DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
 
-USE configuration;
+USE container;
 
 CREATE SCHEMA IF NOT EXISTS certificate DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
 CREATE SCHEMA IF NOT EXISTS corporation DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
@@ -211,7 +211,7 @@ CREATE TABLE IF NOT EXISTS certificate.csc
     FOREIGN KEY (tct) REFERENCES tct (id) ON DELETE RESTRICT
 ) COMMENT 'International Convention for Save Containers';
 
-CREATE TABLE IF NOT EXISTS configuration.container
+CREATE TABLE IF NOT EXISTS container.container
 (
     id                                 INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     serial_number                      INT UNSIGNED NOT NULL,

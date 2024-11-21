@@ -235,10 +235,10 @@ export const validateToken = (requiredPermission, isMiddleware = true) => {
     // retrieve token from header
     const authHeader = req.headers["authorization"];
 
-    if (authHeader === null) return next(createCustomError("Token not present", 400));
+    if (authHeader == null) return next(createCustomError("Token not present", 400));
   
     const token = authHeader.split(" ")[1];
-    if (token === null) return next(createCustomError("Token not present", 400));
+    if (token == null) return next(createCustomError("Token not present", 400));
 
     if (requiredPermission === null || requiredPermission === "") return next(createCustomError("Permission not present", 400));
 
