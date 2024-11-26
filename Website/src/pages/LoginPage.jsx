@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import LoginField from '../components/LoginField';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { HiArrowNarrowRight } from "react-icons/hi";
+import { useNavigate } from 'react-router-dom';
 
 
 // This is the Login Page that displays whenever the site is pulled up
@@ -9,6 +10,8 @@ const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault(); // Prevent form refresh
@@ -81,7 +84,9 @@ const LoginPage = () => {
           </div>
         )}
         
-        <button className='skipButton'>Skip</button>
+        <button 
+        className='skipButton'
+        onClick={() => navigate('/main')}>Skip</button>
       </div>
     </div>
   );

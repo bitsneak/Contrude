@@ -1,10 +1,8 @@
-import SearchBar from './SearchBar';
 import React, { useState } from "react";
+import SearchBar from './SearchBar';
 
-const Topbar = () => {
-  
+const Topbar = ({ gridSize, setGridSize }) => {  // Receive gridSize and setGridSize as props
   const [showDropdown, setShowDropdown] = useState(false);
-  const [gridSize, setGridSize] = useState(null);
 
   const gridOptions = [
     { label: "1x1", rows: 1, cols: 1 },
@@ -15,14 +13,13 @@ const Topbar = () => {
   ];
 
   const handleSelectGrid = (rows, cols) => {
-    setGridSize({ rows, cols });
+    setGridSize({ rows, cols });  // Update grid size
     setShowDropdown(false);
   };
 
   return (
-    <div className='h-24 bg-blue-200 flex items-center justify-between pt-3 pb-3 pl-12 pr-12'>
-      
-      {/*Left*/}
+    <div className='h-24 flex items-center justify-between pt-3 pb-3 pl-12 pr-12'>
+      {/* Left */}
       <div className='flex items-center space-x-1'>
         <SearchBar />
         <div className='bg-white w-14 h-9 border-2 border-black rounded-r-full flex justify-center items-center'>
@@ -30,34 +27,32 @@ const Topbar = () => {
         </div>
       </div>
 
-      {/*Right*/}
+      {/* Right */}
       <div className='flex space-x-1'>
         <div className='bg-white w-14 h-9 border-2 border-black rounded-l-full flex justify-center items-center' onClick={() => setShowDropdown(!showDropdown)}>
-          <img src="/src/icons/ZoomIcon.svg" alt="Ship-Icon" className='size-8'/>
+          <img src="/src/icons/ZoomIcon.svg" alt="Zoom-Icon" className='size-8'/>
         </div>
 
         {showDropdown && (
-        <div className="absolute bg-white border border-black rounded mt-9 z-5">
-          {gridOptions.map((option) => (
-            <div
-              key={option.label}
-              onClick={() => handleSelectGrid(option.rows, option.cols)}
-              className="p-2 cursor-pointer hover:bg-gray-200"
-            >
-              {option.label}
-            </div>
-          ))}
-        </div>
-      )}
+          <div className="absolute bg-white border border-black rounded mt-9 z-5">
+            {gridOptions.map((option) => (
+              <div
+                key={option.label}
+                onClick={() => handleSelectGrid(option.rows, option.cols)}
+                className="p-2 cursor-pointer hover:bg-gray-200"
+              >
+                {option.label}
+              </div>
+            ))}
+          </div>
+        )}
 
-          
         <div className='bg-white w-16 h-9 border-2 border-black rounded-r-full flex justify-center items-center'>
-          <p><p>{gridSize?.rows}x{gridSize?.cols}</p></p>
+          <p>{gridSize.rows}x{gridSize.cols}</p> {/* Display the current grid size */}
         </div>
       </div>
-
     </div>
-  )
-}
+  );
+};
 
 export default Topbar;
