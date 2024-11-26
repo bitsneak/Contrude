@@ -9,7 +9,7 @@ const Sidebar = () => {
     </div>
     
     <div className="h-[3%] border-b-2 pl-2 border-black border-dashed flex items-center">
-      <img className="size-7 mr-2" src="/src/icons/Favourite.svg" alt="FV" />
+      <img className="size-7 mr-2" src="/src/icons/FavouriteActive.svg" alt="FV" />
       <p className='font-bold'>Favoriten</p>
     </div>
     
