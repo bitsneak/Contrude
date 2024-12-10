@@ -10,11 +10,11 @@ Adafruit_BME280 bme;
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-const char *ssid = "";
-const char *password = "";
-const char *mqtt_server = "";
-const char *mqtt_username = "";
-const char *mqtt_password = "";
+const char *ssid = "You lost the Game";
+const char *password = "Achtzehn";
+const char *mqtt_server = "mqtt.contrude.eu";
+const char *mqtt_username = "contrude";
+const char *mqtt_password = "HaG1$Vk&62!cWv";
 const int mqtt_port = 1883;
 
 void setup_wifi();
@@ -26,8 +26,7 @@ void setup(){
   // BME
   if (!bme.begin(0x76)){
     Serial.print("No Connection");
-    while (1)
-      ;
+    while (1);
   }
   else{
     Serial.print("Connected");
@@ -42,25 +41,25 @@ long currentTime, LastTime;
 
 void loop(){
 
-  if (!client.connected()){
+  
+
+
+if (!client.connected()){
     reconnect();  
   }
 
   client.loop();  
 
-  client.publish("contrude/69/420/temperature", "1");
-  client.publish("contrude/69/420/pressure", "1");
-  client.publish("contrude/69/420/humidity", "1");
-/*
-client.publish("contrude/69/420/temperature", String(bme.readTemperature()).c_str());
+
+  client.publish("contrude/69/420/temperature", String(bme.readTemperature()).c_str());
   client.publish("contrude/69/420/pressure", String(bme.readPressure()).c_str());
   client.publish("contrude/69/420/humidity", String(bme.readHumidity()).c_str());
-  */
+
   
 
   delay(1000);
 
-  /*
+  
     currentTime = millis();
 
     if(currentTime - LastTime > 1000){
@@ -82,7 +81,7 @@ client.publish("contrude/69/420/temperature", String(bme.readTemperature()).c_st
 
       LastTime = millis();
   }
-  */
+  
 }
 
 void setup_wifi(){
