@@ -1,0 +1,12 @@
+digraph{
+    A -> B [label="-97"]
+    A -> C [label="-92"]
+    B -> C [label="-70"]
+    B -> D [label="-50"]
+    C -> A [label="-90"]
+    C -> B [label="-69"]
+    D -> E [label="-50"]
+    E -> D [label="-50"]
+    E -> F [label="-52"]
+
+}

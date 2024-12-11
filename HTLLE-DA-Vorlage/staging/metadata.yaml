@@ -1,0 +1,88 @@
+---
+da-titel: Container Tracking und Umweltdatenerfassung
+
+da-jahr: 2024/25 
+
+da-keywords: HTLLE, Container, Tracking, Sensoren, Umweltdaten, Graphen, Java, Docker
+
+#lang: english
+
+bibliography: [literatur.bib]
+
+da-author:
+- vorname: Luca Alexander 
+  nachname: Gekle
+  klasse: 5AHWIN
+  thema: Positionsalgorithmus, Webanwendung
+  ki-tools:
+  - name: ChatGPT3.5
+    zweck: Informationsbeschaffung
+
+- vorname: Maximilian Silvester
+  nachname: Kampl
+  klasse: 5AHWIN
+  thema: Hardware, Sensorik, MQTT
+  ki-tools:
+  - name: ChatGPT3.5
+    zweck: Informationsbeschaffung
+
+- vorname: Marko Daniel
+  nachname: Schrempf
+  klasse: 5AHWIN
+  thema: Server, Datenbanken, Datenvisualisierung
+  ki-tools:
+  - name: ChatGPT3.5
+    zweck: Informationsbeschaffung
+
+da-betreuer:
+- paraffe: HG
+  name: Ing. DI(FH) Günther Hutter, Msc.
+
+- paraffe: JG
+  name: DI Dr. Georg Judmaier
+
+da-kurzfassung-de: Die Platzierung der Container auf einem Frachtschiff ist in der Ladeliste vordefiniert. 
+Jedoch sind die Bezeichnungen der Container vom verladenden Kranführer nicht immer eindeutig identifizierbar. 
+Diese Unklarheit führt häufig zu einer falschen Platzierung der Fracht auf dem Schiff. 
+Folglich kann der angegebene Container nicht an seinem zugewiesenen Stellplatz, sondern an einem anderen Ort gefunden werden. 
+Zudem ist es nicht möglich, Informationen über den aktuellen Zustand des Inhalts des Containers abzurufen. 
+Dies könnte insbesondere bei sensiblen Frachtgütern von Nachteil sein, beispielsweise bei zerbrechlichen Gütern. 
+Es kommt auch des öfteren vor, dass Container während des Überseetransports vom Frachtschiff abhandenkommen, 
+jedoch wird dies erst im Eingangshafen erfasst.
+
+da-kurzfassung-en: The placement of containers on a cargo ship is predefined in the loading list. 
+However, the designations of the containers by the loading crane operator are not always clearly identifiable. 
+This lack of clarity often leads to incorrect placement of the cargo on the ship. 
+Consequently, the specified container may not be found at its assigned location but rather at a different one. 
+Additionally, it is not possible to retrieve information about the current condition of the container's contents. 
+This could be particularly disadvantageous for sensitive cargo, such as fragile goods. 
+It also frequently happens that containers go missing during overseas transport by the cargo ship, 
+but this is only recorded upon arrival at the port of entry.
+
+da-kiquellen:
+- ki: ChatGPT4
+  short-prompt: Erklärung Pandoc
+  pdf-file: gpt-pandoc.pdf
+
+- ki: ChatGPT3.5
+  short-prompt: Aufbau eines Atoms
+  pdf-file: gpt-atom.pdf
+
+
+da-appendix:
+- abschnitt: Technische Dokumentation
+  pdf-file: pandoc-manual.pdf
+  seiten: 53-73
+
+- abschnitt: Betreuungsprotokolle
+  pdf-file: betreuungsprotokolle.pdf    
+
+# Diplomarbeitsvereinbarungen müssen zum Schluss sein 
+
+- abschnitt: Diplomatbeitsvereinbarung Englisch
+  pdf-file: HTL-DA-Doku-EN.pdf
+
+- abschnitt: Diplomatbeitsvereinbarung Deutsch
+  pdf-file: HTL-DA-Doku-DE.pdf
+  
+---

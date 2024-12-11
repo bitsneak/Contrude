@@ -1,7 +1,7 @@
 ---
 da-titel: Container Tracking und Umweltdatenerfassung
 
-da-jahr: 2024/25
+da-jahr: 2024/25 
 
 da-keywords: HTLLE, Container, Tracking, Sensoren, Umweltdaten, Graphen, Java, Docker
 
@@ -14,16 +14,25 @@ da-author:
   nachname: Gekle
   klasse: 5AHWIN
   thema: Positionsalgorithmus, Webanwendung
+  ki-tools:
+  - name: ChatGPT3.5
+    zweck: Informationsbeschaffung
 
 - vorname: Maximilian Silvester
   nachname: Kampl
   klasse: 5AHWIN
   thema: Hardware, Sensorik, MQTT
+  ki-tools:
+  - name: ChatGPT3.5
+    zweck: Informationsbeschaffung
 
 - vorname: Marko Daniel
   nachname: Schrempf
   klasse: 5AHWIN
   thema: Server, Datenbanken, Datenvisualisierung
+  ki-tools:
+  - name: ChatGPT3.5
+    zweck: Informationsbeschaffung
 
 da-betreuer:
 - paraffe: HG
@@ -50,14 +59,30 @@ This could be particularly disadvantageous for sensitive cargo, such as fragile 
 It also frequently happens that containers go missing during overseas transport by the cargo ship, 
 but this is only recorded upon arrival at the port of entry.
 
+da-kiquellen:
+- ki: ChatGPT4
+  short-prompt: Erklärung Pandoc
+  pdf-file: gpt-pandoc.pdf
+
+- ki: ChatGPT3.5
+  short-prompt: Aufbau eines Atoms
+  pdf-file: gpt-atom.pdf
+
+
 da-appendix:
-- abschnitt: Begleitprotokolle
-  pdf-file: begleitprotokolle.pdf    
+- abschnitt: Technische Dokumentation
+  pdf-file: pandoc-manual.pdf
+  seiten: 53-73
 
-- abschnitt: Projekthandbuch
-  pdf-file: projekthandbuch.pdf
+- abschnitt: Betreuungsprotokolle
+  pdf-file: betreuungsprotokolle.pdf    
 
-- abschnitt: Diplomatbeitsvereinbarung
-  pdf-file: HTL-DA-Vereinbarung.pdf
+# Diplomarbeitsvereinbarungen müssen zum Schluss sein 
+
+- abschnitt: Diplomatbeitsvereinbarung Englisch
+  pdf-file: HTL-DA-Doku-EN.pdf
+
+- abschnitt: Diplomatbeitsvereinbarung Deutsch
+  pdf-file: HTL-DA-Doku-DE.pdf
   
 ---
