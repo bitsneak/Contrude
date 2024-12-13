@@ -1,4 +1,5 @@
 # Projekthandbuch
+
 \textauthor{Schueler XY}
 
 ## Entwicklungsplan
@@ -8,11 +9,10 @@
 Die Platzierung der Container auf einem Frachtschiff ist in der Ladeliste vordefiniert. 
 Jedoch sind die Bezeichnungen der Container vom verladenden Kranführer nicht immer eindeutig identifizierbar. 
 Diese Unklarheit führt häufig zu einer falschen Platzierung der Fracht auf dem Schiff. 
-Folglich kann der angegebene Container nicht an seinem zugewiesenen Stellplatz, sondern an einem anderen Ort gefunden werden. 
+Folglich kann der angegebene Container nicht an seinem zugewiesenen Stellplatz, sondern an einem anderen Ort gefunden werden.
 Zudem ist es nicht möglich, Informationen über den aktuellen Zustand des Inhalts des Containers abzurufen. 
-Dies könnte insbesondere bei sensiblen Frachtgütern von Nachteil sein, beispielsweise bei zerbrechlichen Gütern. 
+Dies könnte insbesondere bei sensiblen Frachtgütern von Nachteil sein, beispielsweise bei zerbrechlichen Gütern.
 Es kommt auch des öfteren vor, dass Container während des Überseetransports vom Frachtschiff abhandenkommen, jedoch wird dies erst im Eingangshafen erfasst.
-
 
 #### Projektziele
 
@@ -54,7 +54,6 @@ Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft u
 
 #### Projekttermine
 
-
 | Termin     | Inhalt                          |
 |-----------:|:--------------------------------|
 | 2023-11-23 | Abgabe DA-Vorschschläge         |
@@ -63,7 +62,6 @@ Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft u
 | 2024-06-12 | Erstpräsentation der Themenstellung              |
 
 : Projektterminübersicht
-
 
 #### Projektkosten
 
@@ -77,11 +75,8 @@ Hier dokumentieren Sie welche Kosten fallen Für Ihr Projekt an und wer kommt f�
 
  : Geplante Projektkosten
 
- 
- 
 Am ende sollten Sie eine Projektkostensumme ermitteln und hier angeben damit man sagen kann
-__Das Projekt kostet in Summe so und so viel Euro__. 
-
+__Das Projekt kostet in Summe so und so viel Euro__.
 
 Am Ende der Diplomarbeit fügen Sie hier noch eine Liste der tatsächlich angefallenen Kosten ein.
 
@@ -103,20 +98,20 @@ Hier ein Beispiel:
 ### Projektorganisation
 
 #### Projektbeteiligte
+
 Hier wird definiert wer (welche Personen) an diesem Projekt beteiligt im Prinzip beteiligt ist.
 
 | Vorname     | Nachname | Organisation | Kontaktinfos                |
 |:------------|:---------|:-----------  |:----------------------------|
-| Luca        | Gekle    | HTL Leoben   | 201wita04@o365.htl-leoben.at |
-| Marko       | Schrempf | HTL Leoben   | 201wita20@o365.htl-leoben.at |
-| Maximilian  | Kampl    | HTL Leoben   | 201wita27@o365.htl-leoben.at |
+| Luca Alexander       | Gekle    | HTL Leoben   | 201wita04@o365.htl-leoben.at |
+| Maximilian Silvester  | Kampl    | HTL Leoben   | 201wita27@o365.htl-leoben.at |
+| Marko Daniel       | Schrempf | HTL Leoben   | 201wita20@o365.htl-leoben.at |
 | Günther  | Hutter    | HTL Leoben   | hg@o365.htl-leoben.at |
 | Georg  | Judmaier    | HTL Leoben   | jg@o365.htl-leoben.at |
 
-
 : Projektbeteiligte
 
-Unter Kontaktinfos können neben der Emailadresse natürlich auch noch andere Informationen wie Telefonnunmmer, Postanschrift, usw. stehen. ... Im Prinzip alles was notwendig ist um die Person zu erreichen wenn es notwendig ist. 
+Unter Kontaktinfos können neben der Emailadresse natürlich auch noch andere Informationen wie Telefonnunmmer, Postanschrift, usw. stehen. ... Im Prinzip alles was notwendig ist um die Person zu erreichen wenn es notwendig ist.
 
 #### Projektrollen
 
@@ -124,7 +119,7 @@ Hier werden den Kontakten von oben konkrete Rollen zuewiesen.
 
 | Projektrolle           | Rollenbeschreibung                                 | Name              |
 |------------------------|----------------------------------------------------|-------------------|
-| Projektleiter          | Verantwortlicher für Einhaltung des Projektrahmens | Schrempf Marko    |
+| Projektleiter          | Verantwortlicher für Einhaltung des Projektrahmens | Marko Daniel Schrempf   |
 | Auftraggeber           | Auftraggeber der internen Diplomarbeit             | HTL Leoben        |
 | Betreuer               | Schulischer Betreuer                               | Günther Hutter         |
 | Betreuer               | Schulischer Betreuer                               | Georg Judmaier       |
@@ -137,7 +132,7 @@ Gerne können Sie hier auch noch zusätzlich eine Grafik oder ein Organisationsd
 
 ### Vorgehen bei Änderungen
 
-Hier dokumentieren sie betreffend des Meilensteinplans oder der Anwendungsfälle: 
+Hier dokumentieren sie betreffend des Meilensteinplans oder der Anwendungsfälle:
 
 * Wer wird informiert
   * Alle Projektbeteiligten
@@ -163,7 +158,6 @@ Meilensteine werden meist am Ende von Projektphasen definiert. Auch innerhalb vo
 Meilensteine verlaufen nie über eine Zeitdauer. Nie. Sie sind lediglich Entscheidungspunkte
 
 Hier ein Beispiel wie die Meilensteine im Fall einer aussehen können
-
 
 ### 2024-02-23: Genehmigung der DA
 
@@ -246,52 +240,66 @@ Damit man auch versteht wer mit welchem Anwendungsfall agiert bietet es sich an 
 
 ![Übersicht Anwendungsfälle](img/anwendungsfalldiagramm.png){width=60%}
 
-
 \newpage
+
 ### Anwendungsfallname
+
 Anwendungsfälle haben einen eindeutigen Namen aus dem man auf den Inhalt des Anwendungsfalls schließen kann. Wenn Sie agil arbeiten dann stellt ein Anwendungsfall eine UserStory dar welche im Backlog liegt und im Laufe des Projekts (in einem Sprint) abgearbeitet wird.
 
 #### Kurzbeschreibung
+
 Hier erfolgt eine kurze Beschreibung, was im Anwendungsfall passiert. Kurz bedeutet, dass es zwei oder drei Zeilen sind, selten mehr.
-      
+
 #### Trigger
+
 Der fachliche Grund bzw. die Gründe dafür, dass dieser Anwendungsfall ausgeführt 
 
 #### Vorbedingung
+
 Alle Bedingungen, die erfüllt sein müssen, damit dieser Anwendungsfall ausgeführt werden kann. Gibt es keine Vorbedingungen, so steht hier "keine".
-      
+
 #### Nachbedingung
+
 Der Zustand, der nach einem erfolgreichen Durchlauf des Anwendungsfalls erwartet wird.
 
 #### Akteure
+
 Akteure sind beteiligte Personen oder Systeme außerhalb (!) des beschriebenen Systems. Z. B. Anwender, angemeldeter Anwender, Kunde, System, Abrechnungsprozess.
 
 #### Standardablauf
+
 Hier wird das typische Szenario dargestellt, das leicht zu verstehen oder der am häufigsten vorkommende Fall ist. An seinem Ende steht die Zielerreichung des Primärakteurs. Die Ablaufschritte werden nummeriert und meist in strukturierter Sprache beschrieben. Ablaufpläne können jedoch ebenfalls benutzt werden, wenn es angebracht erscheint. Mittels der UML können diese Ablaufschritte in Aktivitätsdiagrammen oder Anwendungsfall-orientierten Sequenzdiagrammen dargestellt werden.
 
 #### Fehlersituationen
+
 Dies sind Szenarien, die sich außerhalb des Standardablaufs auch bei der (versuchten) Zielerreichung des Anwendungsfalls ereignen können. Sie werden meistens als konditionale Verzweigungen der normalen Ablaufschritte dargestellt. An ihrem Ende steht ein Misserfolg, die Zielerreichung des Primärakteurs oder eine Rückkehr zum Standardablauf.
 
 #### Systemzustand im Fehlerfall
+
 Der Zustand, der nach einem erfolglosen Durchlauf des Anwendungsfalls erwartet wird.
 
-
 \newpage
+
 ### Daten senden
 
 #### Kurzbeschreibung
-Das Gerät übermittelt dem Server seine erfasste Daten 
+
+Das Gerät übermittelt dem Server seine erfasste Daten
 
 #### Trigger
+
 Daten wurden registriert
 
 #### Vorbedingung
+
 Gerät ist aktiv
-      
+
 #### Nachbedingung
+
 Daten werden in der Datenbank gespeichert
 
 #### Akteure
+
 * Gerät
 * Server
 
@@ -301,11 +309,12 @@ Daten werden in der Datenbank gespeichert
 - Verbindung zu Server kann nicht bereitgestellt werden
 
 #### Systemzustand im Fehlerfall
+
 Daten werden nicht geschickt
 
 #### Standardablauf:
 
-1. Gerät wird aktiviert 
+1. Gerät wird aktiviert
 2. Sensor ermittelt Daten
 3. Daten werden gesendet
 
@@ -314,30 +323,38 @@ Daten werden nicht geschickt
 * Daten werden nicht gesendet
 
 \newpage
+
 ### Daten speichern
 
 #### Kurzbeschreibung
+
 Daten werden nach dem erhalten gespeichert
 
 #### Trigger
+
 Daten werden erhalten
 
 #### Vorbedingung
+
 Datenbank ist aktiv
-      
+
 #### Nachbedingung
+
 Neue Einträge in der Datenbank
 
 #### Akteure
+
 * Gerät
 * Datenbank
 * Server
 
 #### Fehlersituationen
+
 - Daten können nicht eingefügt
 - Verbindung zu Server kann nicht bereitgestellt werden
 
 #### Systemzustand im Fehlerfall
+
 Keine neuen Einträge
 
 #### Standardablauf:
@@ -351,29 +368,37 @@ Keine neuen Einträge
 * Daten werden nicht gespeichert
 
 \newpage
+
 ### Daten abrufen
 
 #### Kurzbeschreibung
+
 Daten werden von der Datenbank an die Webanwendung geschickt
 
 #### Trigger
+
 Neue Daten werden angefordert
 
 #### Vorbedingung
-Server ist ak
-      
+
+Server ist aktiv
+
 #### Nachbedingung
+
 Neue Daten werden geschickt
 
 #### Akteure
+
 * DB
 * Server
 * Webanwendung
 
 #### Fehlersituationen
+
 - Anfrage ist nicht korrekt
 
 #### Systemzustand im Fehlerfall
+
 Es werden keine (neuen) Daten angezeigt
 
 #### Standardablauf:
@@ -388,37 +413,43 @@ Es werden keine (neuen) Daten angezeigt
 
 \newpage
 
-\newpage
 ### Daten anzeigen
 
 #### Kurzbeschreibung
+
 Der Benutzer kann die ermittelten Daten abrufen
 
 #### Trigger
+
 Benutzer lädt die Seite
 
 #### Vorbedingung
+
 Benutzer ist angemeldet
-      
+
 #### Nachbedingung
+
 Daten werden (neu) geladen
 
 #### Akteure
+
 * Benutzer
 * Server
 
 #### Fehlersituationen
+
 - Benutzer bricht die Aktion ab
 - Keine Daten vorhanden
 - Server antwortet nicht
 
 #### Systemzustand im Fehlerfall
+
 Daten können nicht angezeigt werden
 
 #### Standardablauf:
 
 1. Benutzer lädt die Seite
-2. Benutzer meldet sich an 
+2. Benutzer meldet sich an
 3. Benutzer ruft Daten ab
 
 #### Alternativabläufe:

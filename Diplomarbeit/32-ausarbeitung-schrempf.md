@@ -1,5 +1,8 @@
-# Teilaufgabe Schüler Barodscheff
-\textauthor{Joltawan Barodscheff}
+# Teilaufgabe Schüler Schrempf
+
+\textauthor{Marko Daniel Schrempf}
+
+## Theorie
 
 Dieses Kapitel wird oft auch als _Literaturrecherche_ bezeichnet. Da gehört alles rein was der __normale__ Leser braucht um den praktischen Ansatz zu verstehen. Das bedeutet Sie brauchen einen roten Faden !
 
@@ -13,7 +16,7 @@ Die Frage nach der Detailgenauigkeit lässt sich wie folgt beantworten: So, dass
 
 ### Messergebnisse
 
-![Ein PNG Bild\label{fig:png_bild}](img/graph.png){width=70%} 
+![Ein PNG Bild\label{fig:png_bild}](img/graph.png){width=70%}
 
 Bilder sind so scharf wie möglich darzustellen. Unnötige Dinge (welche für den Leser keine Information liefern) sind wegzuschneiden. Üblicherweise versucht das Framework Bilder möglichst gut und vollflächig in die Seite einzupassen - was aber speziell bei kleinen Bildern keinen Sinn macht. Daher kann man die Breite des Bildes `{width=xx%}` beeinflussen. Generell macht es keinen Sinn reisen Bilder mit dieser Funktion niederzuskalieren, sondern eher die Bilder schon vorher mittels eines Bildbearbeitungsprogrammes niederzurechnen. Damit wird das endgültige PDF nicht so groß.
 
@@ -34,7 +37,3 @@ God gave you this gift of imagination. Use it. Use your imagination, let it go. 
 I sincerely wish for you every possible joy life could bring. Everybody needs a friend. That's crazy.
 
 If you don't like it - change it. It's your world. Isn't it great to do something you can't fail at? Play with the angles. See how easy it is to create a little tree right in your world. This piece of canvas is your world. This painting comes right out of your heart.
-
-
-
-

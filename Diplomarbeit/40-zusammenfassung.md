@@ -7,8 +7,6 @@ Dabei gehen Sie nicht ins Detail (dafür sind die Detailkapitel da) sondern besc
 
 Zum Schluss geben Sie noch einen Ausblick was die nächsten Schritte sein könnten und wo man bei Ihrer Arbeit anknüpfen könnte.
 
-
-
 ## Lesen und lesen lassen
 
 Wenn die Arbeit fertig ist, sollten Sie diese zunächst selbst nochmals vollständig undsorgfältig durchlesen, auch wenn man vielleicht das mühsam entstandene Produktlängst nicht mehr sehen möchte. Zusätzlich ist sehr zu empfehlen, auch einer weiterenPerson diese Arbeit anzutun – man wird erstaunt sein, wie viele Fehler man selbstüberlesen hat.

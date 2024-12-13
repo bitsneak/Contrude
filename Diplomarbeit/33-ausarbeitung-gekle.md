@@ -1,5 +1,6 @@
-# Teilaufgabe Schüler Bravo
-\textauthor{Schueler 2}
+# Teilaufgabe Schüler Gekle
+
+\textauthor{Luca Alexander Gekle}
 
 ## Theorie
 
@@ -7,19 +8,22 @@ Dieses Kapitel wird oft auch als _Literaturrecherche_ bezeichnet. Da gehört all
 
 Das sind z.B: allgemeine Definitionen, Beschreibung von fachspezifischen Vorgehensweisen, Frameworks, Theorie zu verwendeten Algorithmen, besondere Umstände, ...
 
-# Java Positionierungsalgorithmus (ALT)
+### Java Positionierungsalgorithmus (ALT)
+
 - Dijkstra Algorithmus
 - Was war die ursprüngliche Intention?
 - Warum wurde er (teils) in den Simulator überführt
 
-# Java Container Simulator
+### Java Container Simulator
+
 - Was aus dem Positionierungsalgorithmus überführt wurde
 - Warum wird er benötigt
 - Was kann er
 - Adjazenzmatrix
-- Directed Dragable Graph 
+- Directed Dragable Graph
 
-# Website
+### Website
+
 - Was die Website alles kann!
 - React
 - Vite
@@ -32,16 +36,19 @@ Hier beschreiben Sie ihren praktischen Teil. Es geht darum seine Implementierung
 
 Die Frage nach der Detailgenauigkeit lässt sich wie folgt beantworten: So, dass man Ihre Aufgabenstellung vollständig  nachvollziehen kann wenn man nur diese Diplomarbeit in Händen hat!
 
-# Java Positionierungsalgorithmus (ALT)
+### Java Positionierungsalgorithmus (ALT)
+
 - Dijkstra Implementierung in Java
 
-# Java Container Simulator
+### Java Container Simulator
+
 - Wie die Dummy-Daten generiert werden
 - Verwendung der Daten (Funktionsweisen des Simulators)
 - Exportieren in JSON files (+Konfigurationen)
 - Zustandekommen des Directed Dragable Graphs (JavaScript/ ChatGPT)
 
-# Website
+### Website
+
 - Design der Seiten (Adobe Illustrator)
 - Projektstruktur (Komponenten)
 - Cookies
@@ -189,7 +196,6 @@ Private Sub CallExitSub()
 End Sub
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 ### Auswertung der Ergebnisse
 
 Anhand von XY kann man folgende Tabelle ableiten:
@@ -205,7 +211,6 @@ Anhand von XY kann man folgende Tabelle ableiten:
 #### Eine Überschrift 4ter Ordnung
 
 Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext.
-
 
 #### Noch ein Überschrift 4ter Ordnung
 
@@ -224,4 +229,3 @@ Und mit einer Aufzählung:
 * Epsilon
 
  Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext.
-

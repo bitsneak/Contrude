@@ -1,4 +1,5 @@
 \newpage
+
 ## Dokumentation
 
 Im Abschnitt Projektdokumentation können Sie mit Hilfe eines Projektmanagementwerkzeuges Ihrer Wahl die Projektumsetzung dokumentieren. (Also ein fortlaufender Projektfortschrittsbericht)
@@ -27,7 +28,6 @@ Im folgenden Abschnitt ist ein solcher Fortschritt illustriert.
 * Es wurden alle Teile bestellt und die Hardware dimensioniert
 * Bei den Lieferungen hat es leichte Verspätungen gegeben
 
-
 | Dimension           | Status            |  Maßnahmen             |
 |:--------------------|:------------------|:-----------------------|
 | Leistungsziele      | In Ordnung        | keine                  |
@@ -47,6 +47,3 @@ Im folgenden Abschnitt ist ein solcher Fortschritt illustriert.
 * Start dder Implementierungsphase
 
 : Projektstatus Stand 05. August 2020
-
-
-

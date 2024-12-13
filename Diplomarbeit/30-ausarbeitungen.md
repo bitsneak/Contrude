@@ -1,15 +1,15 @@
-# Aufgabenstellung 
+# Aufgabenstellung
 
 ## Auftraggeber
+
 Wer ist der Auftraggeber, wie ist es zu dieser Arbeit gekommen, was verspricht sich der Auftraggeber davon
 
 ## Ausgangssituation
 
-Eine allgemeine Aufgabenstellung 
+Eine allgemeine Aufgabenstellung
 
-* Was ist die derzeitige Situation ? 
+* Was ist die derzeitige Situation ?
 * Wie wird derzeit gearbeitet ?
-
 
 ### So gehen Zitate
 
@@ -28,6 +28,6 @@ Name des Autors mit Jahr in Klammern
 
 Auch Videos kann man Zitieren wi Zum Biespiel hier [@Zatko15] in dieser Referenz.
 
-### Systembeschreibung Y 
+### Systembeschreibung Y
 
-### Systembeschreibung Z 
+### Systembeschreibung Z

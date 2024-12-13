@@ -1,5 +1,6 @@
-# Teilaufgabe Schüler Bravo
-\textauthor{Kampl Maximilian}
+# Teilaufgabe Schüler Kampl
+
+\textauthor{Maximilian Silvester Kampl}
 
 ## Theorie
 
@@ -155,7 +156,6 @@ Hier etwas in kotlin
 println("hello kotlin from latex")
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 Und noch ein Beispiel in vba
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{caption="Ein einfaches Visual Basic for Applications Beispiel" .vba}
@@ -179,7 +179,6 @@ Private Sub CallExitSub()
 End Sub
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-
 ### Auswertung der Ergebnisse
 
 Anhand von XY kann man folgende Tabelle ableiten:
@@ -195,7 +194,6 @@ Anhand von XY kann man folgende Tabelle ableiten:
 #### Eine Überschrift 4ter Ordnung
 
 Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext.
-
 
 #### Noch ein Überschrift 4ter Ordnung
 
@@ -214,4 +212,3 @@ Und mit einer Aufzählung:
 * Epsilon
 
  Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext.
-
