@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths-ignore:
+      - HTLLE-DA-Vorlage
+      - Diplomarbeit
 
 jobs:
   deploy:
