@@ -1,5 +1,5 @@
 ---
-da-titel: Container Tracking und Umweltdatenerfassung
+da-titel: Contianer-Tracking und Umweltdatenerfassung (CONTRUDE)
 
 da-jahr: 2024/25 
 
@@ -21,7 +21,7 @@ da-author:
 - vorname: Maximilian Silvester
   nachname: Kampl
   klasse: 5AHWIN
-  thema: Hardware, Sensorik, MQTT
+  thema: Hardware, Sensorik, Datenübertragung
   ki-tools:
   - name: ChatGPT3.5
     zweck: Informationsbeschaffung
@@ -29,7 +29,7 @@ da-author:
 - vorname: Marko Daniel
   nachname: Schrempf
   klasse: 5AHWIN
-  thema: Server, Datenbanken, Datenvisualisierung
+  thema: Serverarchitektur, Datenbanken, Datenvisualisierung
   ki-tools:
   - name: ChatGPT3.5
     zweck: Informationsbeschaffung
@@ -41,23 +41,9 @@ da-betreuer:
 - paraffe: JG
   name: DI Dr. Georg Judmaier
 
-da-kurzfassung-de: Die Platzierung der Container auf einem Frachtschiff ist in der Ladeliste vordefiniert. 
-Jedoch sind die Bezeichnungen der Container vom verladenden Kranführer nicht immer eindeutig identifizierbar. 
-Diese Unklarheit führt häufig zu einer falschen Platzierung der Fracht auf dem Schiff. 
-Folglich kann der angegebene Container nicht an seinem zugewiesenen Stellplatz, sondern an einem anderen Ort gefunden werden. 
-Zudem ist es nicht möglich, Informationen über den aktuellen Zustand des Inhalts des Containers abzurufen. 
-Dies könnte insbesondere bei sensiblen Frachtgütern von Nachteil sein, beispielsweise bei zerbrechlichen Gütern. 
-Es kommt auch des öfteren vor, dass Container während des Überseetransports vom Frachtschiff abhandenkommen, 
-jedoch wird dies erst im Eingangshafen erfasst.
+da-kurzfassung-de: Die Platzierung der Container auf einem Frachtschiff ist in der Ladeliste vordefiniert. Jedoch sind die Bezeichnungen der Container vom verladenden Kranführer nicht immer eindeutig identifizierbar. Diese Unklarheit führt häufig zu einer falschen Platzierung der Fracht auf dem Schiff. Folglich kann der angegebene Container nicht an seinem zugewiesenen Stellplatz, sondern an einem anderen Ort gefunden werden. Zudem ist es nicht möglich, Informationen über den aktuellen Zustand des Inhalts des Containers abzurufen. Dies könnte insbesondere bei sensiblen Frachtgütern von Nachteil sein, beispielsweise bei zerbrechlichen Gütern. Es kommt auch des öfteren vor, dass Container während des Überseetransports vom Frachtschiff abhandenkommen, jedoch wird dies erst im Eingangshafen erfasst.
 
-da-kurzfassung-en: The placement of containers on a cargo ship is predefined in the loading list. 
-However, the designations of the containers by the loading crane operator are not always clearly identifiable. 
-This lack of clarity often leads to incorrect placement of the cargo on the ship. 
-Consequently, the specified container may not be found at its assigned location but rather at a different one. 
-Additionally, it is not possible to retrieve information about the current condition of the container's contents. 
-This could be particularly disadvantageous for sensitive cargo, such as fragile goods. 
-It also frequently happens that containers go missing during overseas transport by the cargo ship, 
-but this is only recorded upon arrival at the port of entry.
+da-kurzfassung-en: The placement of containers on a cargo ship is predefined in the loading list. However, the designations of the containers by the loading crane operator are not always clearly identifiable. This lack of clarity often leads to incorrect placement of the cargo on the ship. Consequently, the specified container may not be found at its assigned location but rather at a different one. Additionally, it is not possible to retrieve information about the current condition of the container's contents. This could be particularly disadvantageous for sensitive cargo, such as fragile goods. It also frequently happens that containers go missing during overseas transport by the cargo ship, but this is only recorded upon arrival at the port of entry.
 
 da-kiquellen:
 - ki: ChatGPT4
