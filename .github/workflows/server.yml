@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths-ignore:
-      - HTLLE-DA-Vorlage
-      - Diplomarbeit
+      - "HTLLE-DA-Vorlage/**"
+      - "Diplomarbeit/**"
 
 jobs:
   deploy:
