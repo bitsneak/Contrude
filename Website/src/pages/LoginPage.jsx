@@ -21,28 +21,33 @@ const LoginPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-
+  
     try {
-      // First Call to get Id of username
+      // First Call to get ID of username
       const responseId = await axiosInstance.get(`/auth/user/${username}`);
       const id = responseId.data.user[0]?.id; // Zugriff auf die erste ID
-      console.log("Extracted ID:", id); // Prüfen, ob die ID korrekt ist
-      alert(id); // Zeigt die ID direkt an
-
+      console.log("Extracted ID:", id);
+  
       if (!id) {
         throw new Error('Invalid user ID received');
       }
-
-      // Second Call to login
-      const responseLogin = await axiosInstance.post('/auth/login', { id, password });
+  
+      const body = {
+        user: id,   
+        password: password,
+      };
+  
+      const responseLogin = await axiosInstance.post('/auth/login', body, {
+        headers: { "Content-Type": "application/json" },
+      });
       console.log("Data sent to /auth/login:", { id, password });
-
-      // If successful, navigate to main page
+  
+      // Navigate to main page on success
       navigate('/main');
-
+  
     } catch (error) {
       console.log('Error', error);
-      // If there is a response, return correct error
+      // Handle error
       if (error.response) {
         setError(error.response.data?.message || 'Login failed. Please try again.');
       } else {
@@ -50,6 +55,7 @@ const LoginPage = () => {
       }
     }
   };
+  
 
   return (
     <div className="flex h-screen items-center justify-center bg-cover bg-center">
