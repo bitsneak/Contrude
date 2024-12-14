@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import LoginField from '../components/LoginField';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { useNavigate } from 'react-router-dom';
-
 
 // This is the Login Page that displays whenever the site is pulled up
 const LoginPage = () => {
@@ -11,82 +11,67 @@ const LoginPage = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
 
+  // Create an Axios instance with an HTTPS agent to bypass SSL validation
+  const axiosInstance = axios.create({
+    baseURL: 'https://api.localhost', // Keep using HTTPS
+  });
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent form refresh
-    setError(null); // Reset any previous errors
-    console.log("Sended irgendwas");
+    e.preventDefault();
+    setError(null);
 
     try {
-      const response = await fetch('http://localhost:8080/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
-      });
+      // First Call to get Id of username
+      const responseId = await axiosInstance.get(`/auth/user/${username}`);
+      //const { id } = responseId.data
+      //const { id } = response.data.user[0]?.id;
+      const user = responseId.data.user;
+      const id = user[0]?.id; 
 
-      if (!response.ok) {
-        // Handle HTTP errors
-        throw new Error('Login failed');
+      alert({ id });
+
+      if (!id) {
+        throw new Error('Invalid user ID received');
       }
 
-      const data = await response.json();
-      if (data === false) {
-        setError('Invalid username or password');
-        return;
-      }
-      
-      console.log('Login successful:', data);
-      window.location.href = '/zwischen';
-    
+      // Second Call to login
+      const responseLogin = await axiosInstance.post('/auth/login', { id, password });
+
+      // If successful, navigate to main page
+      navigate('/main');
+
     } catch (error) {
-      setError(error.message); // Display error message to user
+      console.log('Error', error);
+      // If there is a response, return correct error
+      if (error.response) {
+        setError(error.response.data?.message || 'Login failed. Please try again.');
+      } else {
+        setError('Network error or server is down.');
+      }
     }
   };
-    skipButton => () =>
-    {
-      localStorage.setItem('token', 'Hallo')
-    }
 
   return (
-    <div
-      className="flex h-screen items-center justify-center bg-cover bg-center"
-    >
+    <div className="flex h-screen items-center justify-center bg-cover bg-center">
       <div className="bg-white p-6 rounded-lg max-w-md w-full border-2">
         <img className="mb-2" src="/src/img/Logo.jpg" alt="Logo" />
         <form onSubmit={handleSubmit} className="space-y-4">
-          <LoginField
-            placeholder="User"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <LoginField
-            placeholder="PW"
-            isPassword={true}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <LoginField placeholder="User" value={username} onChange={(e) => setUsername(e.target.value)} />
+          <LoginField placeholder="PW" isPassword={true} value={password} onChange={(e) => setPassword(e.target.value)} />
           <div className="w-full flex justify-center">
-            <button
-              type="submit"
-              className=" bg-gray-400 text-white text-2xl py-2 hover:bg-gray-700 rounded-full w-16 h-16 flex justify-center items-center hover:font-bold transform hover:scale-105 transition-all duration-200">
+            <button type="submit" className="bg-gray-400 text-white text-2xl py-2 hover:bg-gray-700 rounded-full w-16 h-16 flex justify-center items-center hover:font-bold transform hover:scale-105 transition-all duration-200">
               <HiArrowNarrowRight />
             </button>
           </div>
-          
         </form>
-
         {error && (
           <div className="text-red-500 text-center mt-4">
             {error}
           </div>
         )}
-        
-        <button 
-        className='skipButton'
-        onClick={() => navigate('/main')}>Skip</button>
+        <button className='skipButton' onClick={() => navigate('/main')}>Skip</button>
       </div>
     </div>
   );
