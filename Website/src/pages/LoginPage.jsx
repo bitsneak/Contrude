@@ -25,12 +25,9 @@ const LoginPage = () => {
     try {
       // First Call to get Id of username
       const responseId = await axiosInstance.get(`/auth/user/${username}`);
-      //const { id } = responseId.data
-      //const { id } = response.data.user[0]?.id;
-      const user = responseId.data.user;
-      const id = user[0]?.id; 
-
-      alert({ id });
+      const id = responseId.data.user[0]?.id; // Zugriff auf die erste ID
+      console.log("Extracted ID:", id); // Prüfen, ob die ID korrekt ist
+      alert(id); // Zeigt die ID direkt an
 
       if (!id) {
         throw new Error('Invalid user ID received');
@@ -38,6 +35,7 @@ const LoginPage = () => {
 
       // Second Call to login
       const responseLogin = await axiosInstance.post('/auth/login', { id, password });
+      console.log("Data sent to /auth/login:", { id, password });
 
       // If successful, navigate to main page
       navigate('/main');
