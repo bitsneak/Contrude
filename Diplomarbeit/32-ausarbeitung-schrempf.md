@@ -8,11 +8,44 @@ Dieses Kapitel wird oft auch als _Literaturrecherche_ bezeichnet. Da gehört all
 
 Das sind z.B: allgemeine Definitionen, Beschreibung von fachspezifischen Vorgehensweisen, Frameworks, Theorie zu verwendeten Algorithmen, besondere Umstände, ...
 
+### Datenspeicherung- und Visualisierung
+
+- Relational
+- Zeitreihe
+- Visualisierungsarten
+
+### CI/CD
+
+- Server
+- Docker
+- Pipeline
+
+### REST API
+
+- Design
+- JavaScript
+
 ## Praktische Arbeit
 
 > Hier beschreiben Sie ihren praktischen Teil. Es geht darum seine Implementierung / Versuche so darzustellen dass anhand dieser dre Leser erkennen kann was sie wie gemacht haben.
 
 Die Frage nach der Detailgenauigkeit lässt sich wie folgt beantworten: So, dass man Ihre Aufgabenstellung vollständig  nachvollziehen kann wenn man nur diese Diplomarbeit in Händen hat!
+
+### Datenspeicherung- und Visualisierung
+
+- MySQL
+- InfluxDB
+- Grafana
+
+### CI/CD
+
+- Server
+- Docker
+- GitHub Action
+
+### REST API
+
+- JavaScript
 
 ### Messergebnisse
 
