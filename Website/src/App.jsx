@@ -15,7 +15,7 @@ const router = createBrowserRouter(
       <Route path="/main" element={<MainPage />} />
       <Route path="*" element={<NotFoundPage/>}></Route>
       <Route path="test" element={<TestingPage/>}></Route>
-      <Route path="detail" element={<DetailPage/>}></Route>
+      <Route path="detail/:id" element={<DetailPage/>}></Route>
     </>
   )
 );
