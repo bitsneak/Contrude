@@ -1,6 +1,8 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
+import axiosInstance from '../api/AxiosInstance';
 
-const Detailspace = () => {
+const Detailspace = ({container}) => {
   const tableData = [
     { environment: "Temperature", value: "°C", level: "", problem: "" },
     { environment: "Pressure", value: "Pa", level: "Critical", problem: "High Pressure" },
@@ -9,13 +11,13 @@ const Detailspace = () => {
     { environment: "Altitude", value: "m", level: "", problem: "" },
     { environment: "Latitude", value: "DD", level: "", problem: "" },
     { environment: "Longitude", value: "DD", level: "", problem: "" },
-    // Add more rows here as needed
   ];
+  const { id } = useParams();
 
   return (
     <div className="flex-grow flex justify-center items-center pt-5 pb-5 pl-24 pr-24 gap-10">
       <div className="h-5/6 w-3/4 p-10">
-        <h1 className="text-2xl font-bold border-2 border-black p-1 mb-2">Container #</h1>
+        <h1 className="text-2xl font-bold border-2 border-black p-1 mb-2">Container {id}</h1>
         <table className="w-full border-collapse border-2 border-black">
           <thead>
             <tr>

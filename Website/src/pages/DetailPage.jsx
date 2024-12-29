@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from '../components/Sidebar';
 import Topbar from '../components/Topbar';
-import Workspace from '../components/Workspace';
 import SearchBar from "../components/SearchBar";
 import ShipButton from "../components/ShipButton";
 import DetailControl from "../components/DetailControl";
 import Detailspace from "../components/Detailspace";
 
-const DetailPage = () => {
+const DetailPage = ({container}) => {
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -25,7 +24,7 @@ const DetailPage = () => {
       leftComponents={[<SearchBar key="searchbar" />, <ShipButton />]}
       rightComponents={[<DetailControl />]}
       />
-      <Detailspace />
+      <Detailspace container={container}/>
       </div>
     </div>
   );

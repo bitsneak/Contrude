@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import axiosInstance from '../api/AxiosInstance';
 import LoginField from '../components/LoginField';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { HiArrowNarrowRight } from "react-icons/hi";
@@ -10,12 +11,6 @@ const LoginPage = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState(null);
-
-  // Create an Axios instance with an HTTPS agent to bypass SSL validation
-  const axiosInstance = axios.create({
-    baseURL: 'https://api.localhost', // Keep using HTTPS
-  });
-
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -47,7 +42,6 @@ const LoginPage = () => {
   
     } catch (error) {
       console.log('Error', error);
-      // Handle error
       if (error.response) {
         setError(error.response.data?.message || 'Login failed. Please try again.');
       } else {
