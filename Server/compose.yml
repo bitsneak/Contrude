@@ -170,6 +170,10 @@ services:
       - ./databases/threshold/mysql/ca.pem:/app/ssl/db/threshold/ca.pem:ro
       - ./databases/threshold/mysql/client-cert.pem:/app/ssl/db/threshold/cert.pem:ro
       - ./databases/threshold/mysql/client-key.pem:/app/ssl/db/threshold/key.pem:ro
+      # ssl certificates db_ship
+      - ./databases/ship/mysql/ca.pem:/app/ssl/db/ship/ca.pem:ro
+      - ./databases/ship/mysql/client-cert.pem:/app/ssl/db/ship/cert.pem:ro
+      - ./databases/ship/mysql/client-key.pem:/app/ssl/db/ship/key.pem:ro
     labels:
       traefik.enable: true
       traefik.http.routers.rest.rule: Host(`${API_DOMAIN}`) && PathPrefix(`${REST_PREFIX}`) # hostname
@@ -183,6 +187,9 @@ services:
   web:
     image: node:22-alpine3.18
     restart: unless-stopped
+    depends_on:
+      - auth
+      - rest
     working_dir: /app
     command: "sh -c 'npm install && npm run build && npm run dev -- --host'"
     volumes:
