@@ -214,6 +214,7 @@ CREATE TABLE IF NOT EXISTS certificate.csc
 CREATE TABLE IF NOT EXISTS container.container
 (
     id                                 INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    ship                               INT UNSIGNED NOT NULL,
     serial_number                      INT UNSIGNED NOT NULL,
     check_digit                        INT UNSIGNED NOT NULL,
     csc                                INT UNSIGNED NOT NULL,

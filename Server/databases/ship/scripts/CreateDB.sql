@@ -60,11 +60,11 @@ CREATE TABLE IF NOT EXISTS ship.ship
     imo_number           CHAR(10)       NOT NULL UNIQUE,
     registration_country INT UNSIGNED   NOT NULL,
     type                 INT UNSIGNED   NOT NULL,
-    length               DECIMAL(10, 2) NOT NULL COMMENT 'in meters',
-    width                DECIMAL(10, 2) NOT NULL COMMENT 'in meters',
-    draft                DECIMAL(10, 2) NOT NULL COMMENT 'in meters',
-    net_capacity         DECIMAL(12, 2) NOT NULL COMMENT 'in tonnes',
-    cargo_capacity       DECIMAL(12, 2) NOT NULL COMMENT 'in tonnes, max cargo weight',
+    length               DECIMAL(10, 2) NOT NULL COMMENT 'in m',
+    width                DECIMAL(10, 2) NOT NULL COMMENT 'in m',
+    draft                DECIMAL(10, 2) NOT NULL COMMENT 'in m',
+    net_capacity         DECIMAL(12, 2) NOT NULL COMMENT 'in t',
+    cargo_capacity       DECIMAL(12, 2) NOT NULL COMMENT 'in t, max cargo weight',
     container_capacity   INT UNSIGNED   NOT NULL COMMENT 'in TEU',
     owner                INT UNSIGNED   NOT NULL,
     operator             INT UNSIGNED   NOT NULL,
@@ -73,15 +73,15 @@ CREATE TABLE IF NOT EXISTS ship.ship
     UNIQUE (name, imo_number, registration_country, type, length, width, draft, net_capacity, cargo_capacity,
             container_capacity, owner, operator, year_built),
 
-    CONSTRAINT a CHECK (imo_number REGEXP '^IMO\\d{7}$'),
-    CONSTRAINT b CHECK (LENGTH(SUBSTRING_INDEX(length, '.', 1)) <= 10 AND LENGTH(SUBSTRING_INDEX(length, '.', -1)) = 2),
-    CONSTRAINT c CHECK (LENGTH(SUBSTRING_INDEX(width, '.', 1)) <= 10 AND LENGTH(SUBSTRING_INDEX(width, '.', -1)) = 2),
-    CONSTRAINT d CHECK (LENGTH(SUBSTRING_INDEX(draft, '.', 1)) <= 10 AND LENGTH(SUBSTRING_INDEX(draft, '.', -1)) = 2),
-    CONSTRAINT e CHECK (LENGTH(SUBSTRING_INDEX(net_capacity, '.', 1)) <= 12 AND
+    CHECK (imo_number REGEXP '^IMO\\d{7}$'),
+    CHECK (LENGTH(SUBSTRING_INDEX(length, '.', 1)) <= 10 AND LENGTH(SUBSTRING_INDEX(length, '.', -1)) = 2),
+    CHECK (LENGTH(SUBSTRING_INDEX(width, '.', 1)) <= 10 AND LENGTH(SUBSTRING_INDEX(width, '.', -1)) = 2),
+    CHECK (LENGTH(SUBSTRING_INDEX(draft, '.', 1)) <= 10 AND LENGTH(SUBSTRING_INDEX(draft, '.', -1)) = 2),
+    CHECK (LENGTH(SUBSTRING_INDEX(net_capacity, '.', 1)) <= 12 AND
                         LENGTH(SUBSTRING_INDEX(net_capacity, '.', -1)) = 2),
-    CONSTRAINT f CHECK (LENGTH(SUBSTRING_INDEX(cargo_capacity, '.', 1)) <= 12 AND
+    CHECK (LENGTH(SUBSTRING_INDEX(cargo_capacity, '.', 1)) <= 12 AND
                         LENGTH(SUBSTRING_INDEX(cargo_capacity, '.', -1)) = 2),
-    CONSTRAINT g CHECK (year_built > '1900'),
+    CHECK (year_built > '1900'),
 
     FOREIGN KEY (registration_country) REFERENCES corporation.country (id),
     FOREIGN KEY (type) REFERENCES corporation.country (id),
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS certificate.illc
     id                    INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
     certificate           INT UNSIGNED  NOT NULL,
     load_line_zone        INT UNSIGNED  NOT NULL,
-    freeboard_measurement DECIMAL(8, 2) NOT NULL COMMENT 'in meters',
+    freeboard_measurement DECIMAL(8, 2) NOT NULL COMMENT 'in m',
 
     UNIQUE (certificate, load_line_zone, freeboard_measurement),
 
