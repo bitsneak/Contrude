@@ -45,3 +45,5 @@ INSERT INTO certificate.csc VALUES (NULL, 'FR-BV 15018-06/2021', 1, 3, '2032-06-
 
 INSERT INTO container.container VALUES (NULL, 516737, 9, 1, 3, FALSE, NULL);
 INSERT INTO container.container VALUES (NULL, 879134, 5, 2, 1, TRUE, 'Always use the right tools to repair something like a container');
+INSERT INTO container.container VALUES (NULL, 123456, 7, 2, 2, TRUE, 'Ensure structural integrity before further use');
+INSERT INTO container.container VALUES (NULL, 654321, 3, 1, 1, FALSE, NULL);
