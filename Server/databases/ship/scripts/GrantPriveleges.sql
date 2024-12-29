@@ -1,5 +1,11 @@
 GRANT ALL PRIVILEGES ON *.* TO 'admin' WITH GRANT OPTION;
 
--- TODO
+GRANT ALL PRIVILEGES ON ship.* TO 'developer';
+GRANT ALL PRIVILEGES ON certificate.* TO 'developer';
+GRANT ALL PRIVILEGES ON corporation.* TO 'developer';
+
+GRANT SELECT, INSERT, UPDATE ON container.* TO 'api';
+GRANT SELECT, INSERT, UPDATE ON container.* TO 'api';
+GRANT SELECT, INSERT, UPDATE ON container.* TO 'api';
 
 FLUSH PRIVILEGES;

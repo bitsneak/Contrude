@@ -169,6 +169,7 @@ services:
     depends_on:
       - traefik
       - auth
+      - db_ship
       - db_container
       - db_sensor
       - db_threshold
