@@ -8,6 +8,10 @@
 # MacOS specific
 *.DS_Store
 
+# Simulator
+ContainerSimulator/graph.json
+ContainerSimulator/graphSpecific.json
+
 # Logs
 *.log
 
