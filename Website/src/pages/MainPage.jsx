@@ -60,7 +60,7 @@ const MainPage = () => {
             <GridDropDown key="gridDropdown" gridSize={gridSize} setGridSize={setGridSize} />
           ]}
         />
-        <Workspace gridSize={gridSize} containerCount={containerCount} ship={selectedShip} />
+        <Workspace gridSize={gridSize} ship={selectedShip} />
       </div>
     </div>
   );

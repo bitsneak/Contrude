@@ -20,12 +20,10 @@ const GridDropDown = ({ gridSize, setGridSize }) => {
   return (
     <div className="flex space-x-1">
       <div
-        className={`w-14 h-9 border-2 border-black rounded-l-full flex justify-center items-center transition-colors duration-300 ${
-          hovered ? "bg-black" : "bg-white"
-        }`}
+        className={`w-14 h-9 border-2 border-black rounded-l-full flex justify-center items-center transition-colors duration-300 group-hover:bg-black`}
         onClick={() => setShowDropdown(!showDropdown)}
-        onMouseEnter={() => setHovered(true)} // Set hover to true
-        onMouseLeave={() => setHovered(false)} // Set hover to false
+        onMouseEnter={() => setHovered(true)}
+        onMouseLeave={() => setHovered(false)}
       >
         <img
           src={hovered ? "/src/icons/ZoomIconInverted.svg" : "/src/icons/ZoomIcon.svg"}
@@ -48,8 +46,8 @@ const GridDropDown = ({ gridSize, setGridSize }) => {
         </div>
       )}
 
-      <div className={`bg-white w-16 h-9 border-2 border-black rounded-r-full flex justify-center items-center ${hovered ? "bg-black text-white" : "bg-white text-black"}`}>
-        <p>
+      <div className={`w-16 h-9 border-2 border-black rounded-r-full flex justify-center items-center group-hover:bg-black group-hover:text-white`}>
+        <p className="group-hover:text-white group-hover:bg-black">
           {gridSize.rows}x{gridSize.cols}
         </p>
       </div>

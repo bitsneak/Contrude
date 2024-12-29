@@ -23,7 +23,7 @@ const ContainerChooser = ({open, onClose, values, onSelect}) => {
             className="mt-4 w-full border-2 border-red-500 text-red-500 py-2 px-4 rounded hover:bg-red-500 hover:text-red-900"
             onClick={onClose}
           >
-            Schließen
+            Close
           </button>
         </div>
       </div>
