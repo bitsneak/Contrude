@@ -9,29 +9,35 @@ import axiosInstance from "../api/AxiosInstance";
 
 const MainPage = () => {
   const [gridSize, setGridSize] = useState({ rows: 1, cols: 1 });
-  const [containerCount, setContainerCount] = useState(1);
   const [ships, setShips] = useState([]);
   const [selectedShip, setSelectedShip] = useState(null);
 
   useEffect(() => {
     const fetchShips = async () => {
       try {
-        const shipResponse = await axiosInstance.get(`PATH`); // PATH
+        const accessToken = localStorage.getItem("accessToken");
+        const shipResponse = await axiosInstance.get(`/rest/ship`, {
+          headers: { 
+            'authorization': `Bearer ${accessToken}`
+          },
+        });
         const fetchedShips = shipResponse.data || [];
+        const shipLength = fetchedShips.length;
 
         setShips(fetchedShips);
-
-        if (fetchedShips.length > 0) {
+        setSelectedShip(fetchedShips[0]);
+        /*if (shipLength > 0) {
           setSelectedShip(fetchedShips[0]);
         } else {
           setGridSize({ rows: 0, cols: 0 });
-        }
+        }*/
       } catch (error) {
         console.error("Failed to fetch ships:", error.message);
         setGridSize({ rows: 0, cols: 0 });
       }
     };
 
+    
     fetchShips();
 
     // Cleanup for body scrolling
@@ -39,12 +45,13 @@ const MainPage = () => {
     return () => {
       document.body.style.overflow = '';
     };
-  }, []); // Run only once on mount
+  }, []);
+
 
   return (
     <div className="flex h-screen">
       <Sidebar />
-
+  
       <div className="flex-grow flex flex-col">
         <Topbar
           leftComponents={[
@@ -54,13 +61,13 @@ const MainPage = () => {
               ships={ships}
               selectedShip={selectedShip}
               onShipChange={setSelectedShip}
-            />
+            />,
           ]}
           rightComponents={[
-            <GridDropDown key="gridDropdown" gridSize={gridSize} setGridSize={setGridSize} />
+            <GridDropDown key="gridDropdown" gridSize={gridSize} setGridSize={setGridSize} />,
           ]}
         />
-        <Workspace gridSize={gridSize} ship={selectedShip} />
+        {selectedShip && <Workspace gridSize={gridSize} ship={selectedShip} />}
       </div>
     </div>
   );

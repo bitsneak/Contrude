@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const ShipButton = ({ ships, selectedShip, onShipChange }) => {
+const ShipButton = ({ ships, onShipChange }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSelect = (ship) => {

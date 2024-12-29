@@ -36,7 +36,12 @@ const LoginPage = () => {
         headers: { "Content-Type": "application/json" },
       });
       console.log("Data sent to /auth/login:", { id, password });
-  
+      
+      const {accessToken, refreshToken} = responseLogin.data;
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("refreshToken", refreshToken);
+      console.log("Access Token and Refresh Token saved", {accessToken, refreshToken});
+      
       // Navigate to main page on success
       navigate('/main');
   
