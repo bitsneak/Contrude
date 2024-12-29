@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
-const ShipButton = ({ ships, onShipChange }) => {
+const ShipButton = ({ ships, selectedShip, onShipChange }) => {
+  console.log(selectedShip);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleSelect = (ship) => {
-    onShipChange(ship); // Notify parent about the change
-    setIsOpen(false);
+    onShipChange(ship); // Notify the parent component about the change
+    setIsOpen(false); // Close the dropdown
   };
 
   return (
@@ -24,14 +25,16 @@ const ShipButton = ({ ships, onShipChange }) => {
 
       {/* Dropdown menu */}
       {isOpen && (
-        <ul className="absolute top-full left-0 bg-white border border-black rounded-md w-40">
+        <ul className="absolute top-full left-0 bg-white border border-black rounded-md w-40 z-10">
           {ships.map((ship) => (
             <li
-              key={ship.id}
+              key={ship.ship_id}
               onClick={() => handleSelect(ship)}
-              className="px-2 py-1 hover:bg-gray-200 cursor-pointer"
+              className={`px-2 py-1 hover:bg-gray-200 cursor-pointer ${
+                selectedShip?.ship_id === ship.ship_id ? "bg-gray-800" : ""
+              }`}
             >
-              {ship.name}
+              {ship.ship_name}
             </li>
           ))}
         </ul>

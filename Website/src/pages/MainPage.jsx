@@ -21,31 +21,38 @@ const MainPage = () => {
             'authorization': `Bearer ${accessToken}`
           },
         });
-        const fetchedShips = shipResponse.data || [];
-        const shipLength = fetchedShips.length;
-
+  
+        const fetchedShips = shipResponse.data?.ships || []; 
+  
+        if (!Array.isArray(fetchedShips)) {
+          console.error("Fetched data is not an array:", fetchedShips);
+          setGridSize({ rows: 0, cols: 0 });
+          return;
+        }
+  
         setShips(fetchedShips);
-        setSelectedShip(fetchedShips[0]);
-        /*if (shipLength > 0) {
+        if (fetchedShips.length > 0) {
           setSelectedShip(fetchedShips[0]);
+          console.log("Selected Ship:", selectedShip);
         } else {
           setGridSize({ rows: 0, cols: 0 });
-        }*/
+        }
+  
       } catch (error) {
         console.error("Failed to fetch ships:", error.message);
         setGridSize({ rows: 0, cols: 0 });
       }
     };
-
-    
+  
     fetchShips();
-
+  
     // Cleanup for body scrolling
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = '';
     };
   }, []);
+  
 
 
   return (
@@ -67,6 +74,7 @@ const MainPage = () => {
             <GridDropDown key="gridDropdown" gridSize={gridSize} setGridSize={setGridSize} />,
           ]}
         />
+        
         {selectedShip && <Workspace gridSize={gridSize} ship={selectedShip} />}
       </div>
     </div>
