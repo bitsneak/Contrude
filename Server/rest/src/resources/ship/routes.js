@@ -11,6 +11,6 @@ const router = express.Router();
 
 // ship routes
 router.route("/ship").get(validateToken("select"), getAllShips);
-router.route("/ship/:id/containers").get(validateToken("select"), getAllContainersPerShip);
+router.route("/ship/:id/containers").get(validateRouteParams, validateToken("select"), getAllContainersPerShip);
 
 export default router;

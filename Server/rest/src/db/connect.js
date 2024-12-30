@@ -2,13 +2,13 @@ import mysql from "mysql2";
 import { InfluxDB } from "@influxdata/influxdb-client";
 import fs from "fs";
 
-export const ship = undefined;
-/*
 export const ship = mysql
   .createPool({
     host: "db_ship",
     port: 3306,
-    database: "",
+    database: "ship",
+    database: "certificate",
+    database: "corporation",
     user: "rest",
     password: process.env.DB_SHIP_PASSWORD,
     waitForConnections: true,
@@ -20,7 +20,6 @@ export const ship = mysql
       key: fs.readFileSync("./ssl/db/ship/key.pem"),
     }
   }).promise();
-*/
 
 export const container = mysql
   .createPool({

@@ -11,8 +11,49 @@ export const getContainerById = tryCatchWrapper(async function (req, res, next) 
     // extract data from req params
     const id = req.params.id;
 
+    // sql statement
     const sql = "SELECT c.ship, c.serial_number, c.check_digit, c.csc, c.equipment_identifier, c.overhead_electrical_danger_warning, c.repair_recommendation FROM container.container c WHERE c.id = ? LIMIT 1";
     const [rows] = await container_session(sql, id);
   
     return res.status(200).json({ container: rows });
+});
+
+/**
+ * @description Return a serial number of a container by its id
+ * @route GET /container/:id/serial-number
+ * @routeParameter id - Container id
+ */
+export const getSerialNumberByContainerId = tryCatchWrapper(async function (req, res, next) {
+    // extract data from req params
+    const id = req.params.id;
+
+    // sql statement
+    const searchPrefixSql = `
+        SELECT 
+            container.serial_number,
+            container.check_digit,
+            dimension.equipment_identifier.identifier AS equipment_identifier,
+            corporation.company.prefix
+        FROM 
+            container.container
+        INNER JOIN 
+            certificate.csc ON container.csc = certificate.csc.id
+        INNER JOIN 
+            certificate.ccc ON certificate.csc.ccc = certificate.ccc.id
+        INNER JOIN 
+            corporation.company ON certificate.ccc.owner = corporation.company.id
+        INNER JOIN 
+            dimension.equipment_identifier ON container.equipment_identifier = dimension.equipment_identifier.id
+        WHERE 
+            container.id = ? LIMIT 1;
+        `;
+
+    // search for container
+    let [rows] = await container_session(searchPrefixSql, id);
+    if (rows.length === 0) return next(createCustomError("No container with such ID", 409));
+
+    // combine all to get the full serial number
+    let serial_number = rows[0].prefix + "" + rows[0].equipment_identifier + "" +  rows[0].serial_number + "" + rows[0].check_digit;
+
+    return res.status(200).json({ serial_number: serial_number });
 });
