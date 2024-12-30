@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
+          sudo apt-get install git build-essential make-guile texlive-full pandoc tree rsync hunspell hunspell-de-at
 
           
       - name: Build DA-Thesis
