@@ -18,6 +18,7 @@ parser.add_argument("-mp", "--mqtt_password", required=True, type=str)
 # Parse the arguments
 args = parser.parse_args()
 
+# MQTT broker details
 broker_address = args.broker_address
 broker_port = args.broker_port
 mqtt_username = args.mqtt_username
@@ -25,6 +26,10 @@ mqtt_password = args.mqtt_password
 
 # Time interval
 interval = 30
+
+# Ship and container details
+g_n_ships = 4
+g_n_containers = 9
 
 # Define MQTT client and connect to broker
 client = mqtt.Client()
@@ -72,8 +77,8 @@ def publish_temperature():
         min_val=5,
         max_val=70,
         mqtt_topic_template="contrude/{}/{}/temperature",
-        n_ships=4,
-        n_containers=3
+        n_ships=g_n_ships,
+        n_containers=g_n_containers
     )
 
 def publish_humidity():
@@ -82,8 +87,8 @@ def publish_humidity():
         min_val=5,
         max_val=100,
         mqtt_topic_template="contrude/{}/{}/humidity",
-        n_ships=4,
-        n_containers=3
+        n_ships=g_n_ships,
+        n_containers=g_n_containers
     )
 
 def publish_air_pressure():
@@ -92,8 +97,8 @@ def publish_air_pressure():
         min_val=1,
         max_val=10,
         mqtt_topic_template="contrude/{}/{}/pressure",
-        n_ships=4,
-        n_containers=3
+        n_ships=g_n_ships,
+        n_containers=g_n_containers
     )
 
 def publish_vibration():
@@ -102,8 +107,8 @@ def publish_vibration():
         min_val=5,
         max_val=100,
         mqtt_topic_template="contrude/{}/{}/vibration",
-        n_ships=4,
-        n_containers=3
+        n_ships=g_n_ships,
+        n_containers=g_n_containers
     )
     
 def publish_longitude():
@@ -112,8 +117,8 @@ def publish_longitude():
         min_val=-180,
         max_val=180,
         mqtt_topic_template="contrude/{}/{}/longitude",
-        n_ships=4,
-        n_containers=3
+        n_ships=g_n_ships,
+        n_containers=g_n_containers
     )
 
 def publish_latitude():
@@ -122,8 +127,8 @@ def publish_latitude():
         min_val=-90,
         max_val=90,
         mqtt_topic_template="contrude/{}/{}/latitude",
-        n_ships=4,
-        n_containers=3
+        n_ships=g_n_ships,
+        n_containers=g_n_containers
     )
     
 def publish_altitude():
@@ -132,8 +137,8 @@ def publish_altitude():
         min_val=-10,
         max_val=700,
         mqtt_topic_template="contrude/{}/{}/altitude",
-        n_ships=4,
-        n_containers=3
+        n_ships=g_n_ships,
+        n_containers=g_n_containers
     )
 
 
