@@ -12,6 +12,9 @@
 ContainerSimulator/graph.json
 ContainerSimulator/graphSpecific.json
 
+# Website
+Website/src/pages/TestingPage.jsx
+
 # Logs
 *.log
 

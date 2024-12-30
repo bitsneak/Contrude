@@ -3,55 +3,85 @@ import SearchBar from './SearchBar';
 import { useNavigate } from 'react-router-dom';
 import ContainerChooser from '../dialogs/ContainerChooser';
 import axiosInstance from '../api/AxiosInstance';
-import ContainerDistributer from '../util/ContainerDistributer'
+import ContainerDistributer from '../util/ContainerDistributer';
 
 const Workspace = ({ gridSize, ship }) => {
   const navigate = useNavigate();
   const [hoveredDiv, setHoveredDiv] = useState(null);
   const [isDialogOpen, setDialogOpen] = useState(false);
   const [selectedId, setSelectedId] = useState(null);
-  const [containerDistibution, setContainerDistribution] = useState(0);
+  const [containerDistribution, setContainerDistribution] = useState([]);
   const [containerIds, setContainerIds] = useState([]);
+  const [containerMap, setContainerMap] = useState(new Map());
+  const [dialogValues, setDialogValues] = useState([]); // State to store values for the dialog
 
-  const handleOpenDialog = () => setDialogOpen(true);
   const handleCloseDialog = () => setDialogOpen(false);
+
+  const handleOpenDialog = (row, col) => {
+    const key = `${row}-${col}`;
+    const values = containerMap.get(key) || []; // Get values from the map or an empty array if none exist
+    setDialogValues(values); // Update the dialog values
+    setDialogOpen(true); // Open the dialog
+  };
 
   useEffect(() => {
     const fetchContainerIdsOfShip = async () => {
-      try{
+      try {
         const accessToken = localStorage.getItem("accessToken");
-        console.log(ship);
         const shipId = ship.ship_id;
         const containerIdsResponse = await axiosInstance.get(`/rest/ship/${shipId}/containers`, {
           headers: { 
-            'authorization': `Bearer ${accessToken}`
+            'authorization': `Bearer ${accessToken}` 
           },
         });
 
-        const fetchedIds = containerIdsResponse.data?.fetchedIds || [];
+        const fetchedIds = containerIdsResponse.data?.containers || [];
         if (!Array.isArray(fetchedIds)) {
           console.error("Fetched data is not an array:", fetchedIds);
           return;
         }
         setContainerIds(fetchedIds);
 
-        if(fetchedIds.length > 0){
-          setContainerDistribution(ContainerDistributer(gridSize.rows, gridSize.columns, fetchedIds.length));
+        if (fetchedIds.length > 0) {
+          setContainerDistribution(ContainerDistributer(gridSize.rows, gridSize.cols, fetchedIds.length));
         }
-      }catch (error) {
+      } catch (error) {
         console.error("Failed to fetch containers of ship:", error.message);
       }
-    }
+    };
+
     fetchContainerIdsOfShip();
-  
+
     // Cleanup for body scrolling
     document.body.style.overflow = 'hidden';
     return () => {
       document.body.style.overflow = '';
     };
-  })
+  }, [ship, gridSize]);
 
-  //needs to be changed
+  useEffect(() => {
+    if (containerDistribution.length > 0) {
+      const newMap = new Map();
+      let containerIdCounter = 0;
+
+      for (let row = 0; row < containerDistribution.length; row++) {
+        for (let col = 0; col < containerDistribution[row].length; col++) {
+          const containerCount = containerDistribution[row][col] > 0 ? containerDistribution[row][col] : 0;
+          const idsPerKey = [];
+
+          for (let i = 0; i < containerCount; i++) {
+            idsPerKey.push(containerIds[i + containerIdCounter]);
+          }
+
+          containerIdCounter += containerCount;
+          newMap.set(`${row}-${col}`, idsPerKey);
+        }
+      }
+
+      setContainerMap(newMap);
+    }
+  }, [containerDistribution, containerIds]);
+
   const handleSelect = (value) => {
     setSelectedId(value);
     setDialogOpen(false);
@@ -59,32 +89,36 @@ const Workspace = ({ gridSize, ship }) => {
   };
 
   const renderGrid = () => {
-    if (gridSize.rows === 0 || gridSize.cols === 0) {
-      return null;
+    if (containerDistribution.length === 0) {
+      return <div>Loading...</div>;
     }
 
     const divs = [];
-    for (let row = 0; row < gridSize.rows; row++) {
+    for (let row = 0; row < containerDistribution.length; row++) {
       const rowDivs = [];
-      for (let col = 0; col < gridSize.cols; col++) {
-        const key = `${row}-${col}`; // Unique key for each div
+      for (let col = 0; col < containerDistribution[row].length; col++) {
+        const containerCount = containerDistribution[row][col] > 0 ? containerDistribution[row][col] : 0;
+
         rowDivs.push(
           <div
-            key={key}
+            key={`${row}-${col}`}
             className="relative flex justify-center items-center pl-10 pr-10"
-            onClick={() => setDialogOpen(true)}
-            onMouseEnter={() => setHoveredDiv(key)}
+            onClick={() => handleOpenDialog(row, col)} // Pass row and col to the handler
+            onMouseEnter={() => setHoveredDiv(`${row}-${col}`)}
             onMouseLeave={() => setHoveredDiv(null)}
           >
             <img className="size-52" src="/src/img/Container.svg" alt="Container" />
             <div className="w-16 h-5 absolute flex justify-center items-center">
-              <p className={`${hoveredDiv === key ? 'font-bold' : 'font-sans'}`}>0-10</p> {/*0-10 is still hardcoded*/}
+              <p className={`${hoveredDiv === `${row}-${col}` ? 'font-bold' : 'font-sans'}`}>
+                {containerCount > 0 ? containerCount : "Empty"}
+              </p>
             </div>
           </div>
         );
       }
+
       divs.push(
-        <div key={row} className="flex space-x-2"> {/* space-x-2 for horizontal spacing */}
+        <div key={row} className="flex space-x-2">
           {rowDivs}
         </div>
       );
@@ -93,13 +127,13 @@ const Workspace = ({ gridSize, ship }) => {
   };
 
   return (
-    <div className='flex-grow flex flex-col justify-center items-center p-5'>
+    <div className="flex-grow flex flex-col justify-center items-center p-5">
       {renderGrid()}
       <ContainerChooser
         open={isDialogOpen}
         onClose={handleCloseDialog}
         onSelect={handleSelect}
-        values={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]} //temporary!!!
+        values={dialogValues.map(value => value.id || value)} // Map objects to their `id` property or use the value directly
       />
     </div>
   );
