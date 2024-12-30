@@ -28,7 +28,7 @@ export const getSerialNumberByContainerId = tryCatchWrapper(async function (req,
     const id = req.params.id;
 
     // sql statement
-    const searchPrefixSql = `
+    const searchSql = `
         SELECT 
             container.serial_number,
             container.check_digit,
@@ -45,15 +45,64 @@ export const getSerialNumberByContainerId = tryCatchWrapper(async function (req,
         INNER JOIN 
             dimension.equipment_identifier ON container.equipment_identifier = dimension.equipment_identifier.id
         WHERE 
-            container.id = ? LIMIT 1;
+            container.id = ?
+        LIMIT 1;
         `;
 
     // search for container
-    let [rows] = await container_session(searchPrefixSql, id);
+    const [rows] = await container_session(searchSql, id);
     if (rows.length === 0) return next(createCustomError("No container with such ID", 409));
 
     // combine all to get the full serial number
-    let serial_number = rows[0].prefix + "" + rows[0].equipment_identifier + "" +  rows[0].serial_number + "" + rows[0].check_digit;
+    const serialNumber = rows[0].prefix + "" + rows[0].equipment_identifier + "" +  rows[0].serial_number + "" + rows[0].check_digit;
 
-    return res.status(200).json({ serial_number: serial_number });
+    return res.status(200).json({ serial_number: serialNumber });
+});
+
+/**
+ * @description Return a container id by its serial number
+ * @route GET /container/by-serial-number/:serial
+ * @routeParameter serial - Container serial number
+ */
+export const getContainerIdBySerialNumber = tryCatchWrapper(async function (req, res, next) {
+    // extract data from req params
+    const serialNumber = req.params.serial;
+
+    // validate serial number length
+    if (!serialNumber || serialNumber.length != 11) return next(createCustomError("Invalid serial number format", 400));
+
+    // split serial number into components
+    const prefix = serialNumber.substring(0, 3); // bic code
+    const equipmentIdentifier = serialNumber.charAt(3); // equipment identifier
+    const containerSerialNumber = serialNumber.substring(4, serialNumber.length - 1); // characters 5 to 10
+    const checkDigit = serialNumber.charAt(serialNumber.length - 1); // check digit
+
+    // sql statement
+    const searchSql = `
+        SELECT
+            container.id
+        FROM 
+            container.container
+        INNER JOIN 
+            certificate.csc ON container.csc = certificate.csc.id
+        INNER JOIN 
+            certificate.ccc ON certificate.csc.ccc = certificate.ccc.id
+        INNER JOIN 
+            corporation.company ON certificate.ccc.owner = corporation.company.id
+        INNER JOIN 
+            dimension.equipment_identifier ON container.equipment_identifier = dimension.equipment_identifier.id
+        WHERE 
+            corporation.company.prefix = ? 
+            AND dimension.equipment_identifier.identifier = ?
+            AND container.serial_number = ?
+            AND container.check_digit = ?
+        LIMIT 1;
+    `;
+
+    // search for container
+    const [rows] = await container_session(searchSql, [prefix, equipmentIdentifier, containerSerialNumber, checkDigit]);
+    if (rows.length === 0) return next(createCustomError("No container found with this serial number", 404));
+    const id = rows[0].id;
+
+    return res.status(200).json({ container: id });
 });
