@@ -13,7 +13,7 @@ da-author:
   klasse: 5AHWIN
   thema: Positionsalgorithmus, Webanwendung
   ki-tools:
-  - name: ChatGPT3.5
+  - name: ChatGPT-4o
     zweck: Informationsbeschaffung
 
 - vorname: Maximilian Silvester
@@ -21,7 +21,7 @@ da-author:
   klasse: 5AHWIN
   thema: Hardware, Sensorik, Datenübertragung
   ki-tools:
-  - name: ChatGPT3.5
+  - name: ChatGPT-4o
     zweck: Informationsbeschaffung
 
 - vorname: Marko Daniel
@@ -29,8 +29,10 @@ da-author:
   klasse: 5AHWIN
   thema: Serverarchitektur, Datenbanken, Datenvisualisierung
   ki-tools:
-  - name: ChatGPT3.5
-    zweck: Informationsbeschaffung
+  - name: ChatGPT-4o
+    zweck: Informationsbeschaffung / Codeerzeugung
+  - name: Microsoft Copilot
+    zweck: Informationsbeschaffung / Codeerzeugung
 
 da-betreuer:
 - paraffe: HG
@@ -44,12 +46,12 @@ da-kurzfassung-de: Die Platzierung der Container auf einem Frachtschiff ist in d
 da-kurzfassung-en: The placement of containers on a cargo ship is predefined in the loading list. However, the designations of the containers by the loading crane operator are not always clearly identifiable. This lack of clarity often leads to incorrect placement of the cargo on the ship. Consequently, the specified container may not be found at its assigned location but rather at a different one. Additionally, it is not possible to retrieve information about the current condition of the container's contents. This could be particularly disadvantageous for sensitive cargo, such as fragile goods. It also frequently happens that containers go missing during overseas transport by the cargo ship, but this is only recorded upon arrival at the port of entry.
 
 da-kiquellen:
-- ki: ChatGPT4
-  short-prompt: Erklärung Pandoc
+- ki: ChatGPT-4o
+  short-prompt: TODO
   pdf-file: gpt-pandoc.pdf
 
-- ki: ChatGPT3.5
-  short-prompt: Aufbau eines Atoms
+- ki: Microsoft Copilot
+  short-prompt: TODO
   pdf-file: gpt-atom.pdf
 
 
