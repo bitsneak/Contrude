@@ -24,61 +24,53 @@ Im folgenden Abschnitt ist ein solcher Fortschritt illustriert.
 
 #### Container-Position bestimmen
 
-**Beschreibung:** Das System versucht die Position des Containers auf dem Frachtschiff
-**Trigger:** Anfrage des Systems
-**Bedingungen:** Sensoren & GPS-Modul sind aktiv 
-**Ablauf:** 
-1. System sendet Anfrage an ESP32
-2. GPS-Daten werden ermittelt
-3. Position wird berechnet & ausgewertet
-**Alternative:** GPS-Signal ist nicht verfügbar
-**Ergebnis:** Positon des Containers wird durch Grafische Oberfläche angezeigt
+**Beschreibung:** Das System versucht die Position des Containers auf dem Frachtschiff zu bestimmen.  
+**Trigger:** Anfrage des Systems  
+**Bedingungen:** Sensoren & GPS-Modul sind aktiv  
+**Ablauf:**
+1. System sendet Anfrage an ESP32  
+2. GPS-Daten werden ermittelt  
+3. Position wird berechnet & ausgewertet  
+
+**Alternative:** GPS-Signal ist nicht verfügbar  
+**Ergebnis:** Position des Containers wird durch die grafische Oberfläche angezeigt
 
 #### Container-Status überwachen
 
-**Beschreibung:** Das System überwacht die Containerbedingunen wie die Temperatur & Luftfeuchtigkeit
-**Trigger:** Regelmäßige Anfrage
-**Bedingungen:** Sensoren sind Aktiv 
-**Ablauf:** 
-1. Sensoren erfassen Daten
-2. Daten werden an den Server gesendet
-3. Status wird angezeigt
-**Alternative:** Sensorfehler
-**Ergebnis:** Daten werden aktualisiert und auf der Webseite angezeigt
+**Beschreibung:** Das System überwacht die Umweltdaten im Container  
+**Trigger:** In einem regelmäßigen Zeitinterval
+**Bedingungen:** Sensoren sind Aktiv  
+**Ablauf:**
+1. Sensoren erfassen Daten  
+2. Daten werden an den Server gesendet  
+3. Status wird angezeigt 
+ 
+**Alternative:** Sensorfehler  
+**Ergebnis:** Daten werden aktualisiert und auf der Webseite angezeigt  
 
 #### Temperatur abfrage
 
-**Beschreibung:** Der Benutzer will die aktuelle Temperatur eines Containers sehen
-**Trigger:** Benutzeranfrage
-**Bedingungen:** Webandwendung ist aktiv 
-**Ablauf:** 
-1. Benutzer sendet Anfrage
-2. Server validiert Anfrage
-3. Temperaturdaten werden angezeigt
-**Alternative:** Datenbank nicht erreichbar
-**Ergebnis:** Temperatur wird mithilfe eines Grafen angezigt
+**Beschreibung:** Der Benutzer will die aktuelle Temperatur eines Containers sehen  
+**Trigger:** Benutzeranfrage  
+**Bedingungen:** Webandwendung ist aktiv  
+**Ablauf:**
+1. Benutzer sendet Anfrage  
+2. Server validiert Anfrage  
+3. Temperaturdaten werden angezeigt  
 
-#### Container auf Karte anzeigen
-
-**Beschreibung:** Der Benutzer will sich die Postion eines Containers  auf einer Karte dargestellen lassen 
-**Trigger:** Benutzer öffnet die Kartendarstellung  
-**Bedingungen:** Webanwendung ist aktiv  
-**Ablauf:**  
-1. Benutzer öffnet die Karte  
-2. Server sendet die Positionsdaten  
-3. Karte zeigt die Position an  
-**Alternative:** Kartenmodul ist fehlerhaft  
-**Ergebnis:** Position wird auf der Karte dargestellt  
+**Alternative:** Datenbank nicht erreichbar  
+**Ergebnis:** Temperatur wird mithilfe eines Grafen angezigt  
 
 #### Sensordaten speichern
 
-**Beschreibung:** Das System speichert die Sensordaten in der Datenbank
+**Beschreibung:** Das System speichert die Sensordaten in der Datenbank  
 **Trigger:** Neue Sensordaten werden an den Server gesendet  
-**Bedingungen:** Datenbank ist aktiv  
-**Ablauf:**  
+**Bedingungen:** Datenbank und Server sind aktiv  
+**Ablauf:**
 1. Datenbank empfängt Sensordaten  
 2. Sensordaten werden validiert  
 3. Sensordaten werden gespeichert  
+
 **Alternative:** Speicherfehler tritt auf  
 **Ergebnis:** Sensordaten sind in der Datenbank gespeichert  
 
@@ -87,72 +79,64 @@ Im folgenden Abschnitt ist ein solcher Fortschritt illustriert.
 **Beschreibung:** Der Benutzer meldet sich in der Webanwendung an  
 **Trigger:** Benutzer gibt Anmeldedaten ein  
 **Bedingungen:** Benutzerkonto existiert  
-**Ablauf:**  
+**Ablauf:**
 1. Benutzer gibt Zugangsdaten ein  
 2. Server validiert Zugangsdaten  
 3. Benutzer wird angemeldet  
+
 **Alternative:** Zugangsdaten sind falsch  
 **Ergebnis:** Benutzer ist erfolgreich angemeldet  
-
 
 #### Alarm bei Grenzwertüberschreitung auslösen
 
 **Beschreibung:** Das System löst einen Alarm aus, wenn ein definierter Grenzwert überschritten wird.  
 **Trigger:** Grenzwertüberschreitung erkannt  
-**Bedingungen:** Sensoren sind aktiv  
-**Ablauf:**  
-1. Sensor erkennt Grenzwertüberschreitung  
+**Bedingungen:** Server ist aktiv 
+**Ablauf:**
+1. Server erkennt Grenzwertüberschreitung  
 2. System löst Alarm aus  
 3. Alarm wird an Benutzer gesendet  
+
 **Alternative:** Fehler bei der Alarmübertragung  
 **Ergebnis:** Alarmbenachrichtigung wird gesendet  
 
-
-#### GPS-Signal aktualisieren
+#### GPS-Signal wird gesendet
 
 **Beschreibung:** Das System aktualisiert regelmäßig die GPS-Position des Containers.  
 **Trigger:** Zeitintervall erreicht  
-**Bedingungen:** GPS-Sensor ist aktiv  
-**Ablauf:**  
+**Bedingungen:** Server ist aktiv
+**Ablauf:**
 1. System fordert GPS-Daten an  
 2. GPS-Daten werden aktualisiert  
+
 **Alternative:** Kein GPS-Signal verfügbar  
 **Ergebnis:** Position des Containers ist aktualisiert  
 
-
 #### Benutzerrolle zuweisen
 
-**Beschreibung:** Ein Administrator weist einem Benutzer eine bestimmte Rolle zu.  
-**Trigger:** Neue Rolle wird zugewiesen  
-**Bedingungen:** Benutzerkonto existiert  
+**Beschreibung:** Ein Administrator erstellt einen neuen Benutzer und weist diesem eine bestimmte Rolle zu.  
+**Trigger:** Neuer Benutzer wird erstellt oder eine neue Rolle wird zugewiesen  
+**Bedingungen:** Benutzerkonto existiert oder wird erstellt  
 **Ablauf:**  
-1. Administrator wählt Benutzer  
-2. Administrator weist Rolle zu  
-3. System aktualisiert Benutzerrolle  
-**Alternative:** Rollenzuweisung schlägt fehl  
-**Ergebnis:** Benutzerrolle ist aktualisiert  
+1. Administrator erstellt neuen Benutzer (falls noch nicht vorhanden)  
+2. Administrator wählt den Benutzer aus  
+3. Administrator weist dem Benutzer eine Rolle zu  
+4. System erstellt Benutzerkonto (falls nicht vorhanden) und aktualisiert die Benutzerrolle  
 
-#### Serververbindung überprüfen
-
-**Beschreibung:** Das System stellt sicher, dass die Verbindung zum Server stabil ist.  
-**Trigger:** Regelmäßige Überprüfung  
-**Bedingungen:** Netzwerkverbindung ist aktiv  
-**Ablauf:**  
-1. System überprüft Verbindung zum Server  
-2. Verbindung wird bestätigt  
-**Alternative:** Verbindung schlägt fehl  
-**Ergebnis:** Serververbindung ist stabil  
+**Alternative:** Rollenzuweisung schlägt fehl oder Benutzererstellung schlägt fehl  
+**Ergebnis:** Benutzerkonto wird erstellt (falls notwendig) und die Benutzerrolle ist aktualisiert
+ 
 
 #### Container-Ortung starten
 
-**Beschreibung:** Das System startet die GPS-Ortung für einen bestimmten Container.  
-**Trigger:** Benutzer startet Ortung  
+**Beschreibung:** Das System ortet einen bestimmten Container.  
+**Trigger:** In einem regelmäßigen Zeitinterval  
 **Bedingungen:** GPS-Sensor ist aktiv  
-**Ablauf:**  
-1. Benutzer startet Ortung  
-2. GPS-Sensor sendet Daten  
-3. Position wird angezeigt  
-**Alternative:** GPS-Signal nicht verfügbar  
+**Ablauf:**
+1. GPS-Sensor sendet Daten  
+2. Position wird angezeigt  
+
+**Alternative:** GPS-Signal nicht verfügbar  --> Container verlust
 **Ergebnis:** Containerortung erfolgreich  
 
 #### Container-Verlust melden
@@ -160,35 +144,25 @@ Im folgenden Abschnitt ist ein solcher Fortschritt illustriert.
 **Beschreibung:** Verlust eines Containers wird gemeldet und dokumentiert.  
 **Trigger:** Container wird als verloren markiert  
 **Bedingungen:** System ist aktiv  
-**Ablauf:**  
+**Ablauf:**
 1. Benutzer markiert Container als verloren  
 2. System dokumentiert Verlust  
+
 **Alternative:** Fehlende Dokumentation  
 **Ergebnis:** Verlustmeldung erstellt  
 
-#### Systemdiagnose durchführen
-
-**Beschreibung:** Das System führt eine Diagnose zur Fehleranalyse durch.  
-**Trigger:** Diagnoseauftrag gestartet  
-**Bedingungen:** System ist aktiv  
-**Ablauf:**  
-1. Diagnose wird gestartet  
-2. Fehler werden analysiert  
-3. Diagnosebericht wird erstellt  
-**Alternative:** Diagnose schlägt fehl  
-**Ergebnis:** Diagnosebericht erstellt  
 
 #### Umweltdaten grafisch darstellen
 
-**Beschreibung:** Das System stellt die Umweltdaten visuell dar.  
+**Beschreibung:** Das System schickt die Umweltdaten ans Visualisierungstool.  
 **Trigger:** Benutzer öffnet Visualisierung  
-**Bedingungen:** Datenbank ist aktiv  
-**Ablauf:**  
+**Bedingungen:** Datenbank und Server sind aktiv  
+**Ablauf:**
 1. Daten werden abgerufen  
 2. Daten werden grafisch dargestellt  
-**Alternative:** Daten nicht verfügbar  
-**Ergebnis:** Umweltdaten sind visualisiert  
 
+**Alternative:** Daten nicht verfügbar  
+**Ergebnis:** Umweltdaten werden von Grafana visualisiert
 
 ### Projektfortschritt 01. Juni bis 05. August 2020
 
