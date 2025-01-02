@@ -26,8 +26,8 @@ const router = express.Router();
 // threshold routes
 router.route("/threshold").get(validateToken("select"), getAllThresholds);
 router.route("/threshold/:id").get(validateRouteParams, validateToken("select"), getThresholdById);
+router.route("/container/:id/thresholds").get(validateToken("select"), getThresholdsByContainerId);
 router.route("/container/:id/threshold").post(validateToken("insert"), insertThreshold);
-router.route("/container/:id/thresholds").get(validateToken("update"), getThresholdsByContainerId);
 // parameter routes
 router.route("/threshold/parameter").get(validateToken("select"), getAllParameters);
 router.route("/threshold/parameter/:id(\\d+)").get(validateRouteParams, validateToken("select"), getParameterById);

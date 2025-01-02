@@ -423,3 +423,66 @@ export const getAllRoles = tryCatchWrapper(async function (req, res, next) {
 
   return res.status(200).json({ roles: rows });
 });
+
+/**
+ * @description Inserts a favorite container for the user
+ * @route POST /user/:id/favorites/:container
+ * @routeParameter id - User id
+ * @routeParameter container - Container id
+ */
+export const insertFavoriteByUserId = tryCatchWrapper(async function (req, res, next) {
+  // extract data from req params
+  const user = req.params.id;
+  const container = req.params.container;
+
+  // sql statements
+  const searchSql = "SELECT 1 FROM user.favorites f WHERE f.user = ? and f.container = ? LIMIT 1";
+  const insertSql = "INSERT INTO user.favorites (user, container) VALUES (?, ?)";
+  
+  let [rows] = await session(searchSql, [user, container]);
+  if (rows.length !== 0) return next(createCustomError("Favorite already exists", 409));
+
+  [rows] = await session(insertSql, [user, container]);
+  if (rows.affectedRows === 0) return next(createCustomError("Could not insert favorite", 409));
+
+  return res.status(204).json();
+});
+
+/**
+ * @description Return all favorite containers of the user
+ * @route GET /user/:id/favorites
+ * @routeParameter id - User id
+ */
+export const getAllFavoritesByUserId = tryCatchWrapper(async function (req, res, next) {
+  // extract data from req params
+  const user = req.params.id;
+
+  const sql = "SELECT f.container FROM user.favorites f WHERE f.user = ?";
+  const [rows] = await session(sql, user);
+
+  return res.status(200).json({ favorites: rows });
+});
+
+/**
+ * @description Deletes a favorite container for the user
+ * @route DELETE /user/:id/favorites/:container
+ * @routeParameter id - User id
+ * @routeParameter container - Container id
+ */
+export const deleteFavoriteByUserId = tryCatchWrapper(async function (req, res, next) {
+  // extract data from req params
+  const user = req.params.id;
+  const container = req.params.container;
+
+  // sql statements
+  const searchSql = "SELECT 1 FROM user.favorites f WHERE f.user = ? and f.container = ? LIMIT 1";
+  const deleteSql = "DELETE FROM user.favorites f WHERE f.user = ? AND f.container = ?";
+
+  let [rows] = await session(searchSql, [user, container]);
+  if (rows.length === 0) return next(createCustomError("Favorite does not exist", 409));
+
+  [rows] = await session(deleteSql, [user, container]);
+  if (rows.affectedRows === 0) return next(createCustomError("Could not delete favorite", 409));
+
+  return res.status(204).json();
+});
