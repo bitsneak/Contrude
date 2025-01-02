@@ -24,7 +24,22 @@ export const getParameterById = tryCatchWrapper(async function (req, res, next) 
 
     const sql = "SELECT p.name, p.unit FROM threshold.parameter p WHERE p.id = ? LIMIT 1";
     const [rows] = await threshold_session(sql, id);
-  
+
+    return res.status(200).json({ parameter: rows });
+});
+
+/**
+ * @description Return a parameter by its name
+ * @route GET /threshold/parameter/:name
+ * @routeParameter name - Parameter name
+ */
+export const getParameterByName = tryCatchWrapper(async function (req, res, next) {
+    // extract data from req params
+    const name = req.params.name;
+
+    const sql = "SELECT p.id FROM threshold.parameter p WHERE p.name = ? LIMIT 1";
+    const [rows] = await threshold_session(sql, name);
+
     return res.status(200).json({ parameter: rows });
 });
 
@@ -84,6 +99,21 @@ export const getRuleById = tryCatchWrapper(async function (req, res, next) {
 });
 
 /**
+ * @description Return a rule by its name
+ * @route GET /threshold/rule/:name
+ * @routeParameter name - Rule name
+ */
+export const getRuleByName = tryCatchWrapper(async function (req, res, next) {
+    // extract data from req params
+    const name = req.params.name;
+
+    const sql = "SELECT r.id FROM threshold.rule r WHERE r.name = ? LIMIT 1";
+    const [rows] = await threshold_session(sql, name);
+
+    return res.status(200).json({ rules: rows });
+});
+
+/**
  * @description Insert a rule
  * @route POST /threshold/rule
  * @routeBody name - Rule name
@@ -133,6 +163,21 @@ export const getLevelById = tryCatchWrapper(async function (req, res, next) {
     const [rows] = await threshold_session(sql, id);
   
     return res.status(200).json({ level: rows });
+});
+
+/**
+ * @description Return a level by its name
+ * @route GET /threshold/level/:name
+ * @routeParameter name - Level name
+ */
+export const getLevelByName = tryCatchWrapper(async function (req, res, next) {
+    // extract data from req params
+    const name = req.params.name;
+
+    const sql = "SELECT l.id FROM threshold.level l WHERE l.name = ? LIMIT 1";
+    const [rows] = await threshold_session(sql, name);
+
+    return res.status(200).json({ rules: rows });
 });
 
 /**
@@ -197,8 +242,8 @@ export const getThresholdById = tryCatchWrapper(async function (req, res, next) 
 
 /**
  * @description Insert a threshold
- * @route POST /threshold/threshold
- * @routeBody containerId - Container id to which the threshold belongs
+ * @route POST /container/:id/threshold
+ * @routeParameter id - Container id to which the threshold belongs
  * @routeBody parameter - Parameter id
  * @routeBody rule - Rule id
  * @routeBody level - Level id
@@ -206,7 +251,7 @@ export const getThresholdById = tryCatchWrapper(async function (req, res, next) 
  */
 export const insertThreshold = tryCatchWrapper(async function (req, res, next) {
     // extract data from req body
-    const containerId = req.body.containerId;
+    const containerId = req.params.id;
     const parameter = req.body.parameter;
     const rule = req.body.rule;
     const level = req.body.level;
@@ -236,4 +281,19 @@ export const insertThreshold = tryCatchWrapper(async function (req, res, next) {
     await threshold_session(insertSql, [containerId, parameter, rule, level, value]).then((result) => {
         return res.status(201).json({ thresholdId: result[0].insertId });
     });
+});
+
+/**
+ * @description Get a threshold by its container id
+ * @route GET /container/:id/threshold
+ * @routeParameter id - Container id to which the threshold belongs
+ */
+export const getThresholdsByContainerId = tryCatchWrapper(async function (req, res, next) {
+    // extract data from req params
+    const id = req.params.id;
+
+    const sql = "SELECT t.id, t.parameter, t.rule, t.level, t.value FROM threshold.threshold t WHERE t.container_id = ?";
+    const [rows] = await threshold_session(sql, id);
+    
+    return res.status(200).json({ thresholds: rows });
 });
