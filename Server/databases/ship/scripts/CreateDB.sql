@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS corporation.country
     CHECK (NULLIF(name, '') IS NOT NULL AND LENGTH(name) <= 255),
     CHECK (abbreviation REGEXP '^[A-Z]{2}$'),
 
-    FOREIGN KEY (continent) REFERENCES corporation.continent (id)
+    FOREIGN KEY (continent) REFERENCES corporation.continent (id) ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS corporation.company
@@ -42,7 +42,7 @@ CREATE TABLE IF NOT EXISTS corporation.company
     CHECK (NULLIF(name, '') IS NOT NULL AND LENGTH(name) <= 255),
     CHECK (abbreviation IS NULL OR (NULLIF(abbreviation, '') IS NOT NULL AND LENGTH(abbreviation) <= 31)),
 
-    FOREIGN KEY (country) REFERENCES corporation.country (id)
+    FOREIGN KEY (country) REFERENCES corporation.country (id) ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS ship.type
@@ -78,15 +78,15 @@ CREATE TABLE IF NOT EXISTS ship.ship
     CHECK (LENGTH(SUBSTRING_INDEX(width, '.', 1)) <= 10 AND LENGTH(SUBSTRING_INDEX(width, '.', -1)) = 2),
     CHECK (LENGTH(SUBSTRING_INDEX(draft, '.', 1)) <= 10 AND LENGTH(SUBSTRING_INDEX(draft, '.', -1)) = 2),
     CHECK (LENGTH(SUBSTRING_INDEX(net_capacity, '.', 1)) <= 12 AND
-                        LENGTH(SUBSTRING_INDEX(net_capacity, '.', -1)) = 2),
+           LENGTH(SUBSTRING_INDEX(net_capacity, '.', -1)) = 2),
     CHECK (LENGTH(SUBSTRING_INDEX(cargo_capacity, '.', 1)) <= 12 AND
-                        LENGTH(SUBSTRING_INDEX(cargo_capacity, '.', -1)) = 2),
+           LENGTH(SUBSTRING_INDEX(cargo_capacity, '.', -1)) = 2),
     CHECK (year_built > '1900'),
 
-    FOREIGN KEY (registration_country) REFERENCES corporation.country (id),
-    FOREIGN KEY (type) REFERENCES corporation.country (id),
-    FOREIGN KEY (owner) REFERENCES corporation.company (id),
-    FOREIGN KEY (operator) REFERENCES corporation.company (id)
+    FOREIGN KEY (registration_country) REFERENCES corporation.country (id) ON DELETE RESTRICT,
+    FOREIGN KEY (type) REFERENCES corporation.country (id) ON DELETE RESTRICT,
+    FOREIGN KEY (owner) REFERENCES corporation.company (id) ON DELETE RESTRICT,
+    FOREIGN KEY (operator) REFERENCES corporation.company (id) ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS certificate.type
@@ -124,9 +124,9 @@ CREATE TABLE IF NOT EXISTS certificate.general_certificate
     CHECK (expiry_date > '1900-01-01'),
     CHECK (NULLIF(notes, '') IS NOT NULL),
 
-    FOREIGN KEY (ship) REFERENCES ship.ship (id),
-    FOREIGN KEY (type) REFERENCES certificate.type (id),
-    FOREIGN KEY (status) REFERENCES certificate.status (id)
+    FOREIGN KEY (ship) REFERENCES ship.ship (id) ON DELETE RESTRICT,
+    FOREIGN KEY (type) REFERENCES certificate.type (id) ON DELETE RESTRICT,
+    FOREIGN KEY (status) REFERENCES certificate.status (id) ON DELETE RESTRICT
 );
 
 CREATE TABLE IF NOT EXISTS certificate.load_line_zone
@@ -150,8 +150,8 @@ CREATE TABLE IF NOT EXISTS certificate.illc
     CHECK (LENGTH(SUBSTRING_INDEX(freeboard_measurement, '.', 1)) <= 8 AND
            LENGTH(SUBSTRING_INDEX(freeboard_measurement, '.', -1)) = 2),
 
-    FOREIGN KEY (certificate) REFERENCES certificate.general_certificate (id),
-    FOREIGN KEY (load_line_zone) REFERENCES certificate.load_line_zone (id)
+    FOREIGN KEY (certificate) REFERENCES certificate.general_certificate (id) ON DELETE RESTRICT,
+    FOREIGN KEY (load_line_zone) REFERENCES certificate.load_line_zone (id) ON DELETE RESTRICT
 ) COMMENT 'International Load Line Certificate';
 
 CREATE TABLE IF NOT EXISTS certificate.equipment_type
@@ -182,9 +182,9 @@ CREATE TABLE IF NOT EXISTS certificate.iopp
     CHECK (NULLIF(equipment_type, '') IS NOT NULL AND LENGTH(equipment_type) <= 255),
     CHECK (NULLIF(disposal_methode, '') IS NOT NULL AND LENGTH(disposal_methode) <= 255),
 
-    FOREIGN KEY (certificate) REFERENCES certificate.general_certificate (id),
-    FOREIGN KEY (equipment_type) REFERENCES certificate.equipment_type (id),
-    FOREIGN KEY (disposal_methode) REFERENCES certificate.disposal_method (id)
+    FOREIGN KEY (certificate) REFERENCES certificate.general_certificate (id) ON DELETE RESTRICT,
+    FOREIGN KEY (equipment_type) REFERENCES certificate.equipment_type (id) ON DELETE RESTRICT,
+    FOREIGN KEY (disposal_methode) REFERENCES certificate.disposal_method (id) ON DELETE RESTRICT
 ) COMMENT 'International Oil Pollution Prevention Certificate';
 
 CREATE TABLE IF NOT EXISTS certificate.treatment_system
@@ -205,8 +205,8 @@ CREATE TABLE IF NOT EXISTS certificate.bwmc
 
     CHECK (NULLIF(treatment_system, '') IS NOT NULL AND LENGTH(treatment_system) <= 255),
 
-    FOREIGN KEY (certificate) REFERENCES certificate.general_certificate (id),
-    FOREIGN KEY (treatment_system) REFERENCES certificate.treatment_system (id)
+    FOREIGN KEY (certificate) REFERENCES certificate.general_certificate (id) ON DELETE RESTRICT,
+    FOREIGN KEY (treatment_system) REFERENCES certificate.treatment_system (id) ON DELETE RESTRICT
 ) COMMENT 'Ballast Water Management Certificate';
 
 CREATE TABLE IF NOT EXISTS certificate.iapp
@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS certificate.iapp
 
     UNIQUE (certificate, sox_compliance, nox_compliance),
 
-    FOREIGN KEY (certificate) REFERENCES certificate.general_certificate (id)
+    FOREIGN KEY (certificate) REFERENCES certificate.general_certificate (id) ON DELETE RESTRICT
 ) COMMENT 'International Air Pollution Prevention Certificate';
 
 CREATE TABLE IF NOT EXISTS certificate.smc
@@ -229,5 +229,5 @@ CREATE TABLE IF NOT EXISTS certificate.smc
 
     CHECK (NULLIF(audit_results, '') IS NOT NULL),
 
-    FOREIGN KEY (certificate) REFERENCES certificate.general_certificate (id)
+    FOREIGN KEY (certificate) REFERENCES certificate.general_certificate (id) ON DELETE RESTRICT
 ) COMMENT 'Safety Management Certificate';

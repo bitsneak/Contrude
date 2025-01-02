@@ -221,6 +221,7 @@ CREATE TABLE IF NOT EXISTS container.container
     equipment_identifier               INT UNSIGNED NOT NULL,
     overhead_electrical_danger_warning BOOLEAN      NOT NULL,
     repair_recommendation              VARCHAR(511),
+    notes                              TEXT,
 
     UNIQUE (serial_number, check_digit, csc, equipment_identifier, overhead_electrical_danger_warning,
             repair_recommendation),

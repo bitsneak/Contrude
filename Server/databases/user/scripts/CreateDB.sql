@@ -84,3 +84,12 @@ CREATE TABLE IF NOT EXISTS user.token
 
     PRIMARY KEY (access, refresh)
 );
+
+CREATE TABLE IF NOT EXISTS user.favorites
+(
+    user      INT UNSIGNED,
+    container INT UNSIGNED,
+
+    PRIMARY KEY (user, container),
+    FOREIGN KEY (user) REFERENCES user.user (id) ON DELETE RESTRICT
+);
