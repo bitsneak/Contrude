@@ -50,39 +50,39 @@ INSERT INTO certificate.csc VALUES (NULL, 'GB-LR 25182-09/2019', 1, 3, '2030-01-
 INSERT INTO certificate.csc VALUES (NULL, 'FR-BV 15018-06/2021', 1, 3, '2032-06-01', 4526);
 
 -- Ship 1: 9 containers
-INSERT INTO container.container VALUES (NULL, 1, 100001, 1, 1, 1, FALSE, 'Routine checks required', 'Routine maintenance checks scheduled for this container.');
+INSERT INTO container.container VALUES (NULL, 1, 100001, 1, 1, 1, FALSE, 'Routine checks required', NULL);
 INSERT INTO container.container VALUES (NULL, 1, 100002, 2, 2, 2, TRUE, 'Repair internal damage before use', 'Internal damage noted; repair needed before next operation.');
 INSERT INTO container.container VALUES (NULL, 1, 100003, 3, 1, 3, FALSE, NULL, 'No additional issues reported.');
 INSERT INTO container.container VALUES (NULL, 1, 100004, 4, 2, 1, TRUE, NULL, 'Overhead electrical danger warning present.');
 INSERT INTO container.container VALUES (NULL, 1, 100005, 5, 1, 2, FALSE, 'Minor corrosion at the base', 'Corrosion identified at the container base; monitor for further deterioration.');
 INSERT INTO container.container VALUES (NULL, 1, 100006, 6, 2, 3, TRUE, NULL, 'Container flagged for inspection.');
 INSERT INTO container.container VALUES (NULL, 1, 100007, 7, 1, 2, FALSE, NULL, 'Routine checks completed; no issues found.');
-INSERT INTO container.container VALUES (NULL, 1, 100008, 8, 2, 1, TRUE, 'Check structural integrity', 'Structural review recommended to ensure safety.');
+INSERT INTO container.container VALUES (NULL, 1, 100008, 8, 2, 1, TRUE, 'Check structural integrity', NULL);
 INSERT INTO container.container VALUES (NULL, 1, 100009, 9, 1, 3, FALSE, NULL, 'No repair or maintenance needs identified.');
 
 -- Ship 2: 8 containers
 INSERT INTO container.container VALUES (NULL, 2, 200001, 1, 2, 2, TRUE, 'Inspect locking mechanisms', 'Locks must be inspected for secure operation.');
 INSERT INTO container.container VALUES (NULL, 2, 200002, 2, 1, 1, FALSE, NULL, 'No maintenance tasks assigned.');
-INSERT INTO container.container VALUES (NULL, 2, 200003, 3, 2, 3, TRUE, 'Handle with care: fragile cargo', 'Label updated to handle with care due to fragile content.');
+INSERT INTO container.container VALUES (NULL, 2, 200003, 3, 2, 3, TRUE, 'Handle with care: fragile cargo', NULL);
 INSERT INTO container.container VALUES (NULL, 2, 200004, 4, 1, 2, FALSE, 'Inspect door seals for leaks', 'Potential leak points in door seals noted for further action.');
 INSERT INTO container.container VALUES (NULL, 2, 200005, 5, 2, 1, TRUE, NULL, 'No significant findings; container ready for use.');
-INSERT INTO container.container VALUES (NULL, 2, 200006, 6, 1, 3, FALSE, 'Ensure weight limits are not exceeded', 'Weight capacity warning issued for this container.');
+INSERT INTO container.container VALUES (NULL, 2, 200006, 6, 1, 3, FALSE, 'Ensure weight limits are not exceeded', NULL);
 INSERT INTO container.container VALUES (NULL, 2, 200007, 7, 2, 2, TRUE, 'Repaint external walls', 'Scheduled for repainting of exterior surfaces.');
 INSERT INTO container.container VALUES (NULL, 2, 200008, 8, 1, 1, FALSE, NULL, 'No recommendations at this time.');
 
 -- Ship 3: 7 containers
 INSERT INTO container.container VALUES (NULL, 3, 300001, 1, 2, 3, FALSE, 'Scheduled maintenance required', 'General maintenance planned for the upcoming cycle.');
 INSERT INTO container.container VALUES (NULL, 3, 300002, 2, 1, 1, TRUE, NULL, 'No additional remarks or concerns.');
-INSERT INTO container.container VALUES (NULL, 3, 300003, 3, 2, 2, FALSE, 'Verify temperature control systems', 'Temperature regulation systems must be checked.');
+INSERT INTO container.container VALUES (NULL, 3, 300003, 3, 2, 2, FALSE, 'Verify temperature control systems', NULL);
 INSERT INTO container.container VALUES (NULL, 3, 300004, 4, 1, 3, TRUE, 'Reinforce base panels', 'Structural base panel reinforcement required.');
 INSERT INTO container.container VALUES (NULL, 3, 300005, 5, 2, 1, FALSE, NULL, 'Container operational with no reported defects.');
-INSERT INTO container.container VALUES (NULL, 3, 300006, 6, 1, 2, TRUE, 'Inspect hinges for rust', 'Hinges observed for rust accumulation; cleaning scheduled.');
+INSERT INTO container.container VALUES (NULL, 3, 300006, 6, 1, 2, TRUE, 'Inspect hinges for rust', NULL);
 INSERT INTO container.container VALUES (NULL, 3, 300007, 7, 2, 3, FALSE, NULL, 'Routine checks completed; no further actions required.');
 
 -- Ship 4: 6 containers
 INSERT INTO container.container VALUES (NULL, 4, 400001, 1, 1, 2, TRUE, 'Scheduled cleaning required', 'Cleaning scheduled to remove accumulated debris.');
 INSERT INTO container.container VALUES (NULL, 4, 400002, 2, 2, 1, FALSE, NULL, 'No reported issues or maintenance needs.');
-INSERT INTO container.container VALUES (NULL, 4, 400003, 3, 1, 3, TRUE, 'Inspect corner posts for damage', 'Damage to corner posts under investigation.');
+INSERT INTO container.container VALUES (NULL, 4, 400003, 3, 1, 3, TRUE, 'Inspect corner posts for damage', NULL);
 INSERT INTO container.container VALUES (NULL, 4, 400004, 4, 2, 2, FALSE, 'Replace damaged flooring', 'Floor replacement noted as priority for repair.');
-INSERT INTO container.container VALUES (NULL, 4, 400005, 5, 1, 1, TRUE, 'Check refrigeration unit', 'Refrigeration system needs performance verification.');
+INSERT INTO container.container VALUES (NULL, 4, 400005, 5, 1, 1, TRUE, 'Check refrigeration unit', NULL);
 INSERT INTO container.container VALUES (NULL, 4, 400006, 6, 2, 3, FALSE, NULL, 'Container cleared for immediate use.');
