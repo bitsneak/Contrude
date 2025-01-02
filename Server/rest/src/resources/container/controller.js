@@ -12,10 +12,39 @@ export const getContainerById = tryCatchWrapper(async function (req, res, next) 
     const id = req.params.id;
 
     // sql statement
-    const sql = "SELECT c.ship, c.serial_number, c.check_digit, c.csc, c.equipment_identifier, c.overhead_electrical_danger_warning, c.repair_recommendation FROM container.container c WHERE c.id = ? LIMIT 1";
+    const sql = "SELECT c.ship, c.serial_number, c.check_digit, c.csc, c.equipment_identifier, c.overhead_electrical_danger_warning, c.repair_recommendation, c.notes FROM container.container c WHERE c.id = ? LIMIT 1";
     const [rows] = await container_session(sql, id);
   
     return res.status(200).json({ container: rows });
+});
+
+/**
+ * @description Update a Container by its id
+ * @route PUT /container/:id
+ * @routeParameter id - Container id
+ */
+export const updateContainerById = tryCatchWrapper(async function (req, res, next) {
+    // extract data from req params
+    const id = req.params.id;
+    // extract data from req body
+    const ship = req.body.ship;
+    const serial_number = req.body.serial_number;
+    const check_digit = req.body.check_digit;
+    const csc = req.body.csc;
+    const equipment_identifier = req.body.equipment_identifier;
+    const overhead_electrical_danger_warning = req.body.overhead_electrical_danger_warning;
+    const repair_recommendation = req.body.repair_recommendation;
+    const notes = req.body.notes;
+
+    // sql statement
+    const updateSql = `UPDATE container.container c SET c.ship = ?, c.serial_number = ?, c.check_digit = ?, c.csc = ?, c.equipment_identifier = ?, c.overhead_electrical_danger_warning = ?, c.repair_recommendation = ?, c.notes = ? WHERE id = ?`;
+
+    // update container
+    const [rows] = await container_session(updateSql, [ship, serial_number, check_digit, csc, equipment_identifier, overhead_electrical_danger_warning, repair_recommendation, notes, id]);
+    console.log(rows.affectedRows);
+    if (rows.affectedRows === 0) return next(createCustomError("There was a problem with updating the container", 409));
+    
+    return res.status(204).json();
 });
 
 /**
