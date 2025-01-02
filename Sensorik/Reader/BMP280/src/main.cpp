@@ -10,8 +10,8 @@ Adafruit_BME280 bme;
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-const char *ssid = "You lost the Game";
-const char *password = "Achtzehn";
+const char *ssid = "";
+const char *password = "";
 const char *mqtt_server = "mqtt.contrude.eu";
 const char *mqtt_username = "contrude";
 const char *mqtt_password = "HaG1$Vk&62!cWv";
@@ -21,18 +21,22 @@ void setup_wifi();
 void reconnect();
 
 void setup(){
-  Serial.begin(9600);
+  Serial.begin(460800);
+  Wire.begin(21, 22); //SDA = GPIO21, SCL = GPIO22
 
-  // BME
+while(1){
+    // BME
   if (!bme.begin(0x76)){
-    Serial.print("No Connection");
-    while (1);
+    Serial.print("No Connection\n");
   }
   else{
     Serial.print("Connected");
+    break;
   }
+}
 
-  // MQTT-Server
+
+ // MQTT-Server
   setup_wifi();
   client.setServer(mqtt_server, mqtt_port);
 }
@@ -55,11 +59,9 @@ if (!client.connected()){
   client.publish("contrude/69/420/pressure", String(bme.readPressure()).c_str());
   client.publish("contrude/69/420/humidity", String(bme.readHumidity()).c_str());
 
-  
-
   delay(1000);
 
-  
+
     currentTime = millis();
 
     if(currentTime - LastTime > 1000){
