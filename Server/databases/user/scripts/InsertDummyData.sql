@@ -45,7 +45,21 @@ INSERT INTO corporation.country (abbreviation, name) VALUES ('AT', 'Austria');
 
 INSERT INTO corporation.company (name, department, country) VALUES ('HTL Leoben', 'IT', (SELECT id FROM corporation.country WHERE abbreviation = 'AT'));
 
-INSERT INTO user.user (name, password, email, company, role, disabled) VALUES 
+INSERT INTO user.user (name, password, email, company, role, disabled) VALUES
     ('BitSneak', '$2a$10$WGAOnOUAKLdIO.PxJQ8WNuh4ma40MFE5RwWEpH02M2BQnzr3rIw2y', '201wita20@o365.htl-leoben.at', (SELECT id FROM corporation.company WHERE name = 'HTL Leoben'), (SELECT id FROM privilege.role WHERE name = 'Admin'), FALSE),
     ('Luca', '$2a$10$Sjh1lIi84hsSqb.MOoCY6um20Ik1/gdy./NOdAlWY1QmDkTB/7glK', '201wita04@o365.htl-leoben.at', (SELECT id FROM corporation.company WHERE name = 'HTL Leoben'), (SELECT id FROM privilege.role WHERE name = 'Developer'), FALSE),
     ('Max', '$2a$10$PpQk7Z/gtg7xvxlxL0zGdOp34SDmK9gWoDMumKHhFV2OJnDjxnTie', '201wita27@o365.htl-leoben.at', (SELECT id FROM corporation.company WHERE name = 'HTL Leoben'), (SELECT id FROM privilege.role WHERE name = 'Developer'), FALSE);
+
+INSERT INTO user.favorites (user, container) VALUES
+    (1, 1),
+    (1, 2),
+    (1, 3),
+    (1, 9),
+    (1, 12),
+    (2, 2),
+    (2, 5),
+    (2, 20),
+    (3, 3),
+    (3, 15),
+    (3, 10),
+    (3, 17);
