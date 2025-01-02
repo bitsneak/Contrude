@@ -110,7 +110,7 @@ export const getRuleByName = tryCatchWrapper(async function (req, res, next) {
     const sql = "SELECT r.id FROM threshold.rule r WHERE r.name = ? LIMIT 1";
     const [rows] = await threshold_session(sql, name);
 
-    return res.status(200).json({ rules: rows });
+    return res.status(200).json({ rule: rows });
 });
 
 /**
@@ -177,7 +177,7 @@ export const getLevelByName = tryCatchWrapper(async function (req, res, next) {
     const sql = "SELECT l.id FROM threshold.level l WHERE l.name = ? LIMIT 1";
     const [rows] = await threshold_session(sql, name);
 
-    return res.status(200).json({ rules: rows });
+    return res.status(200).json({ level: rows });
 });
 
 /**
