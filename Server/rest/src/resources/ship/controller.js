@@ -14,6 +14,20 @@ export const getAllShips = tryCatchWrapper(async function (req, res, next) {
 });
 
 /**
+ * @description Return a ship name by its id
+ * @route GET /ship/:id
+ */
+export const getShipById = tryCatchWrapper(async function (req, res, next) {
+    // extract data from req params
+    const id = req.params.id;
+
+    const sql = "SELECT s.name, s.imo_number, s.registration_country, s.type, s.length, s.width, s.draft, s.net_capacity, s.cargo_capacity, s.container_capacity, s.owner, s.operator, s.year_built FROM ship.ship s WHERE s.id = ? LIMIT 1";
+    const [rows] = await ship_session(sql, id);
+
+    return res.status(200).json({ ship: rows });
+});
+
+/**
  * @description Return all containers per ship
  * @route GET /ship/:id/containers
  * @routeParameter id - Ship Id
