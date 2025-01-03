@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../api/AxiosInstance';
 
-const ThresholdViewer = ({ open, onClose }) => {
+const ThresholdViewer = ({ open, onClose, onSentencesUpdate}) => {
     const { shipId, containerId } = useParams();
     const [thresholds, setThresholds] = useState([]); // Correct state definition
     const [thresholdSentences, setThresholdSentences] = useState([]); // Correct state definition
@@ -75,6 +75,7 @@ const ThresholdViewer = ({ open, onClose }) => {
                     }
 
                     setThresholdSentences(sentences);
+                    onSentencesUpdate(sentences); // So that the DetailPage can pass it to the Detailspace!
                 } catch (error) {
                     console.error("Error fetching additional data:", error.message);
                 }

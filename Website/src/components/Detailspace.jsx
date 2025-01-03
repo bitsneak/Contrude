@@ -1,36 +1,79 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../api/AxiosInstance';
+import ConditionsChecker from '../util/ConditionsChecker';
+import checkConditions from "../util/ConditionsChecker";
 
-const Detailspace = () => {
+const Detailspace = ({thresholdSentences}) => {
   
   const {shipId, containerId} = useParams();
 
   const [container, setContainer] = useState(null);
   const [combinedSerialNumber, setCombinedSerialNumber] = useState("Loading...");
   const [notes, setNotes] = useState("");
-
-  const [temperature, setTemperature] = useState("");
-  const [pressure, setPressure] = useState("");
-  const [humidity, setHumidity] = useState("");
-  const [vibration, setVibration] = useState("");
-  const [altitude, setAltitude] = useState("");
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
   
   const [saved, setSaved] = useState(false);
   const [notSaved, setNotSaved] = useState(false); // If the save fails this is used
 
-  const tableData = [
-    { environment: "Temperature", value: "°C", level: "", problem: "" },
-    { environment: "Pressure", value: "Pa", level: "Critical", problem: "High Pressure" },
-    { environment: "Humidity", value: "%", level: "", problem: "" },
-    { environment: "Vibration", value: "m/s2", level: "", problem: "" },
-    { environment: "Altitude", value: "m", level: "", problem: "" },
-    { environment: "Latitude", value: "DD", level: "", problem: "" },
-    { environment: "Longitude", value: "DD", level: "", problem: "" },
-  ];
+  const [tableData, setTableData] = useState([
+    { environment: "Temperature", value: "-", unit: "°C", alert: "" },
+    { environment: "Pressure", value: "-", unit: "Pa", alert: "" },
+    { environment: "Humidity", value: "-", unit: "%", alert: "" },
+    { environment: "Vibration", value: "-", unit: "m/s2", alert: "" },
+    { environment: "Altitude", value: "-", unit: "m", alert: "" },
+    { environment: "Latitude", value: "-", unit: "DD", alert: "" },
+    { environment: "Longitude", value: "-", unit: "DD", alert: "" },
+  ]);
 
+  //ChatGPT editiert
+  const updateTableData = (newValue, sensor) => {
+    setTableData((prevData) =>
+      prevData.map(item => {
+        switch(sensor) {
+          case "temperature":
+            if (item.environment === "Temperature") {
+              return { ...item, value: newValue };
+            }
+            break;
+          case "pressure":
+            if (item.environment === "Pressure") {
+              return { ...item, value: newValue };
+            }
+            break;
+          case "humidity":
+            if (item.environment === "Humidity") {
+              return { ...item, value: newValue };
+            }
+            break;
+          case "vibration":
+            if (item.environment === "Vibration") {
+              return { ...item, value: newValue };
+            }
+            break;
+          case "altitude":
+            if (item.environment === "Altitude") {
+              return { ...item, value: newValue };
+            }
+            break;
+          case "latitude":
+            if (item.environment === "Latitude") {
+              return { ...item, value: newValue };
+            }
+            break;
+          case "longitude":
+            if (item.environment === "Longitude") {
+              return { ...item, value: newValue };
+            }
+            break;
+          default:
+            return item;
+        }
+        return item;  // Return the item unchanged if no conditions match
+      })
+    );
+  };
+
+  
   const handleNotesChange = (event) => {
     setNotes(event.target.value);
   };
@@ -60,83 +103,60 @@ const Detailspace = () => {
       console.error("Failed to save notes:", error.message);
     }
   };
-  
-  // Fetch Data
-  /*useEffect(() => {
-    const fetchContainerIdsOfShip = async () => {
+
+  // Fetch Data when containerId or shipId changes
+  useEffect(() => {
+    const fetchContainerEnvironmentData = async () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
-        const currentUTCDate = new Date().toISOString();
-    
-        // Temperature
-        const temperatureResponse = await axiosInstance.get(`/rest/sensor/temperature/${shipId}/${containerId}/${currentUTCDate}/${currentUTCDate}`, {
+         // Temperature
+        const environmentDataResponse = await axiosInstance.get(`/rest/sensor/${shipId}/${containerId}`, {
           headers: {
             'authorization': `Bearer ${accessToken}`,
           },
         });
-        const temperatureValue = temperatureResponse.data.temperature[0]?.value;
-        setTemperature(airPressureValue);
+        const temperatureValue = environmentDataResponse.data.sensor_data.temperature[0].value;
+        const temperatureSensor = environmentDataResponse.data.sensor_data.temperature[0].sensor;
+        updateTableData(temperatureValue, temperatureSensor);
 
-        // Air Pressure
-        const airPressureResponse = await axiosInstance.get(`/rest/sensor/air_pressure/${shipId}/${containerId}/${currentUTCDate}/${currentUTCDate}`, {
-          headers: {
-            'authorization': `Bearer ${accessToken}`,
-          },
-        });
-        const airPressureValue = airPressureResponse.data.air_pressure[0]?.value;
-        setPressure(airPressureValue);
+        const pressureValue = environmentDataResponse.data.sensor_data.air_pressure[0].value;
+        const pressureSensor = environmentDataResponse.data.sensor_data.air_pressure[0].sensor;
+        updateTableData(pressureValue, pressureSensor);
 
-         // Humidity
-         const humidityResponse = await axiosInstance.get(`/rest/sensor/humidity/${shipId}/${containerId}/${currentUTCDate}/${currentUTCDate}`, {
-          headers: {
-            'authorization': `Bearer ${accessToken}`,
-          },
-        });
-        const humidityValue = humidityResponse.data.air_pressure[0]?.value;
-        setHumidity(humidityValue);
+        const humidityValue = environmentDataResponse.data.sensor_data.humidity[0].value;
+        const humiditySensor = environmentDataResponse.data.sensor_data.humidity[0].sensor;
+        updateTableData(humidityValue, humiditySensor);
 
-         // Air Pressure
-         const vibrationResponse = await axiosInstance.get(`/rest/sensor/vibration/${shipId}/${containerId}/${currentUTCDate}/${currentUTCDate}`, {
-          headers: {
-            'authorization': `Bearer ${accessToken}`,
-          },
-        });
-        const vibrationValue = vibrationResponse.data.vibration[0]?.value;
-        setVibration(vibrationValue);
+        const vibrationValue = environmentDataResponse.data.sensor_data.vibration[0].value;
+        const vibrationSensor = environmentDataResponse.data.sensor_data.vibration[0].sensor;
+        updateTableData(vibrationValue, vibrationSensor);
 
-         // Altitude
-         const altitudeResponse = await axiosInstance.get(`/rest/sensor/altitude/${shipId}/${containerId}/${currentUTCDate}/${currentUTCDate}`, {
-          headers: {
-            'authorization': `Bearer ${accessToken}`,
-          },
-        });
-        const altitudeValue = airPressureResponse.data.altitude[0]?.value;
-        setAltitude(altitudeValue);
-        
-         // Latitude
-         const latitudeResponse = await axiosInstance.get(`/rest/sensor/latitude/${shipId}/${containerId}/${currentUTCDate}/${currentUTCDate}`, {
-          headers: {
-            'authorization': `Bearer ${accessToken}`,
-          },
-        });
-        const latitudeValue = latitudeResponse.data.latitude[0]?.value;
-        setLatitude(latitudeValue);
+        const altitudeValue = environmentDataResponse.data.sensor_data.altitude[0].value;
+        const altitudeSensor = environmentDataResponse.data.sensor_data.altitude[0].sensor;
+        updateTableData(altitudeValue, altitudeSensor);
 
-         // Longitude
-         const longitudeResponse = await axiosInstance.get(`/rest/sensor/longitude/${shipId}/${containerId}/${currentUTCDate}/${currentUTCDate}`, {
-          headers: {
-            'authorization': `Bearer ${accessToken}`,
-          },
-        });
-        const longitudeValue = longitudeResponse.data.longitude[0]?.value;
-        setLongitude(longitudeValue);
-    
+        const latitudeValue = environmentDataResponse.data.sensor_data.latitude[0].value;
+        const latitudeSensor = environmentDataResponse.data.sensor_data.latitude[0].sensor;
+        updateTableData(latitudeValue, latitudeSensor);
+
+        const longitudeValue = environmentDataResponse.data.sensor_data.longitude[0].value;
+        const longitudeSensor = environmentDataResponse.data.sensor_data.longitude[0].sensor;
+        updateTableData(longitudeValue, longitudeSensor);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
-    fetchContainerIdsOfShip;
-  })*/
+    fetchContainerEnvironmentData();
+  }, [containerId, shipId])
+
+  useEffect(() => {
+    const validValues = Array.isArray(thresholdSentences) ? thresholdSentences : []
+    if(validValues.length > 0){
+        const tableNew = checkConditions(tableData, thresholdSentences);
+        setTableData(tableNew);
+
+      }
+  }, [thresholdSentences])
 
   // Fetch combined Container Serial Number when id changes
   useEffect(() => {
@@ -188,19 +208,19 @@ const Detailspace = () => {
         <table className="w-full border-collapse border-2 border-black">
           <thead>
             <tr>
-              <th className="border border-black px-4 py-2">Environment Data</th>
-              <th className="border border-black px-4 py-2">Value</th>
-              <th className="border border-black px-4 py-2">Level</th>
-              <th className="border border-black px-4 py-2">Problem</th>
+              <th className="border border-black px-4 py-2 w-2/12">Environment Data</th>
+              <th className="border border-black px-4 py-2 w-5/12">Value</th>
+              <th className="border border-black px-4 py-2 w-1/12">Unit</th>
+              <th className="border border-black px-4 py-2 w-4/12">Alert</th>
             </tr>
           </thead>
           <tbody>
             {tableData.map((row, index) => (
               <tr key={index}>
-                <td className="border border-black px-4 py-2">{row.environment}</td>
-                <td className="border border-black px-4 py-2">{row.value}</td>
-                <td className="border border-black px-4 py-2">{row.level}</td>
-                <td className="border border-black px-4 py-2">{row.problem}</td>
+                <td className="border border-black px-4 py-2 w-2/12">{row.environment}</td>
+                <td className="border border-black px-4 py-2 w-5/12">{row.value}</td>
+                <td className="border border-black px-4 py-2 w-1/12">{row.unit}</td>
+                <td className="border border-black px-4 py-2 w-4/12">{row.alert}</td>
               </tr>
             ))}
           </tbody>
@@ -225,13 +245,4 @@ const Detailspace = () => {
     </div>
   );
 };
-
-/*VALUES ('Air Pressure', 'Pa'),
-('Humidity', '%'),
-('Temperature', '°C'),
-('Vibration', 'm/s²'),
-('Altitude', 'm'),
-('Latitude', 'DD'),
-('Longitude', 'DD');*/
-
 export default Detailspace;

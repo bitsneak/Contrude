@@ -8,7 +8,14 @@ import Detailspace from "../components/Detailspace";
 import ThresholdViewer from "../dialogs/ThresholdViewer";
 
 const DetailPage = () => {
-  const [threshholdViewerOpen, setThreshholdViewerOpen] = useState(false);
+  const [threshholdViewerOpen, setThreshholdViewerOpen] = useState(true);
+  const [thresholdSentences, setThresholdSentences] = useState([]);
+
+
+  const handleThresholdSentencesUpdate = (sentences) => {
+    setThresholdSentences(sentences);
+  };
+
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -23,24 +30,25 @@ const DetailPage = () => {
 
   return (
     <div className='flex h-screen'>
-      <Sidebar />
+      <Sidebar />,
       
       <div className='flex-grow flex flex-col'>
         <Topbar
-          leftComponents={[<SearchBar key="searchbar" />, <ShipSelect />]}
+          leftComponents={[<SearchBar key="searchbar" />]}
           rightComponents={[
             <DetailControl
               onGoAlertClick={handleThreshholdViewerToggle} // Pass handler
             />
           ]}
         />
-        <Detailspace />
+        <Detailspace thresholdSentences={thresholdSentences}/>
       </div>
 
       {threshholdViewerOpen && (
         <ThresholdViewer
           open={threshholdViewerOpen}
           onClose={handleThreshholdViewerToggle} // Pass onClose handler
+          onSentencesUpdate={handleThresholdSentencesUpdate}
         />
       )}
     </div>
