@@ -21,7 +21,7 @@ const LoginPage = () => {
       // First Call to get ID of username
       const responseId = await axiosInstance.get(`/auth/user/${username}`);
       const id = responseId.data.user[0]?.id; // Zugriff auf die erste ID
-      console.log("Extracted ID:", id);
+      //console.log("Extracted ID:", id);
   
       if (!id) {
         throw new Error('Invalid user ID received');
@@ -35,12 +35,11 @@ const LoginPage = () => {
       const responseLogin = await axiosInstance.post('/auth/login', body, {
         headers: { "Content-Type": "application/json" },
       });
-      console.log("Data sent to /auth/login:", { id, password });
       
       const {accessToken, refreshToken} = responseLogin.data;
+      localStorage.setItem("userId", id);
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("refreshToken", refreshToken);
-      console.log("Access Token and Refresh Token saved", {accessToken, refreshToken});
       
       // Navigate to main page on success
       navigate('/main');
@@ -57,8 +56,8 @@ const LoginPage = () => {
   
 
   return (
-    <div className="flex h-screen items-center justify-center bg-cover bg-center">
-      <div className="bg-white p-6 rounded-lg max-w-md w-full border-2">
+    <div className="flex flex-col h-screen items-center justify-center bg-cover bg-center">
+      <div className="bg-white p-6 rounded-lg max-w-md w-full border-2 mt-36">
         <img className="mb-2" src="/src/img/Logo.jpg" alt="Logo" />
         <form onSubmit={handleSubmit} className="space-y-4">
           <LoginField placeholder="User" value={username} onChange={(e) => setUsername(e.target.value)} />
@@ -74,7 +73,9 @@ const LoginPage = () => {
             {error}
           </div>
         )}
-        <button className='skipButton' onClick={() => navigate('/main')}>Skip</button>
+      </div>
+      <div className='text-gray-400 mt-auto mb-2'>
+        Impressum | Kontakt
       </div>
     </div>
   );
