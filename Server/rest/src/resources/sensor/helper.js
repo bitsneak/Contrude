@@ -1,5 +1,5 @@
 /**
- * @description Build a flux query to get sensor data
+ * @description Build a flux query to get sensor data in a time range
  * @param {string} bucket 
  * @param {int} ship 
  * @param {int} container 
@@ -7,12 +7,30 @@
  * @param {DateTime} stop 
  * @returns {string} Flux query
  */
-export const fluxQuery = function(bucket, ship, container, start, stop) {
-return `
-    from(bucket: "${bucket}") 
-    |> range(start: ${start}, stop: ${stop}) 
-    |> filter(fn: (r) => r["ship"] == "${ship}") 
-    |> filter(fn: (r) => r["container"] == "${container}")`;
+export const fluxQueryTimeRange = function(bucket, ship, container, start, stop) {
+    return `
+        from(bucket: "${bucket}") 
+        |> range(start: ${start}, stop: ${stop}) 
+        |> filter(fn: (r) => r["ship"] == "${ship}") 
+        |> filter(fn: (r) => r["container"] == "${container}")`;
+};
+
+/**
+ * @description Build a flux query to get the latest sensor data
+ * @param {string} bucket 
+ * @param {int} ship 
+ * @param {int} container 
+ * @returns {string} Flux query
+ */
+export const fluxQueryLatest = function(bucket, ship, container) {
+    return `
+        from(bucket: "${bucket}") 
+        |> range(start: 0) 
+        |> filter(fn: (r) => r["ship"] == "${ship}") 
+        |> filter(fn: (r) => r["container"] == "${container}")
+        |> group()
+        |> sort(columns: ["_time"], desc: true)
+        |> limit(n: 1)`;
 };
   
 /**
