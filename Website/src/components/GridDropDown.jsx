@@ -33,17 +33,17 @@ const GridDropDown = ({ gridSize, setGridSize }) => {
       </div>
 
       {showDropdown && (
-        <div className="absolute bg-white border border-black rounded mt-9 z-5">
+        <ul className="absolute bg-white border border-black rounded mt-9 z-5">
           {gridOptions.map((option) => (
-            <div
+            <li
               key={option.label}
               onClick={() => handleSelectGrid(option.rows, option.cols)}
               className="p-2 cursor-pointer hover:bg-gray-200"
             >
               {option.label}
-            </div>
+            </li>
           ))}
-        </div>
+        </ul>
       )}
 
       <div className={`w-16 h-9 border-2 border-black rounded-r-full flex justify-center items-center group-hover:bg-black group-hover:text-white`}>

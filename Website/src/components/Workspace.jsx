@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import SearchBar from './SearchBar';
 import { useNavigate } from 'react-router-dom';
 import ContainerChooser from '../dialogs/ContainerChooser';
 import axiosInstance from '../api/AxiosInstance';
@@ -28,7 +27,7 @@ const Workspace = ({ gridSize, ship }) => {
     const fetchContainerIdsOfShip = async () => {
       try {
         const accessToken = localStorage.getItem("accessToken");
-        const shipId = ship.ship_id;
+        const shipId = ship.id;
         const containerIdsResponse = await axiosInstance.get(`/rest/ship/${shipId}/containers`, {
           headers: { 
             'authorization': `Bearer ${accessToken}` 
@@ -85,7 +84,7 @@ const Workspace = ({ gridSize, ship }) => {
   const handleSelect = (value) => {
     setSelectedId(value);
     setDialogOpen(false);
-    navigate(`/detail/${value}`);
+    navigate(`/detail/${ship.id}/${value}`);
   };
 
   const renderGrid = () => {
