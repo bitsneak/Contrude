@@ -4,309 +4,113 @@ import { sensor_session } from "../../db/helper.js";
 import { fluxQueryTimeRange, fluxQueryLatest, checkParams } from "./helper.js";
 
 /**
- * @description Get the air pressure of a container
- * @route GET /sensor/air_pressure/:ship/:container/:start/:stop
- * @routeParam ship - Ship id
- * @routeParam container - Container id
- * @routeParam start - Start time of the meassurement in ISO 8601 (UTC) 
- * @routeParam stop - Stop time of the meassurement in ISO 8601 (UTC) 
+ * @description Map sensor config to the respective bucket and response key
  */
-export const getAirPressure = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req params
-  const ship  = req.params.ship;
-  const container = req.params.container;
-  const start = req.params.start;
-  const stop = req.params.stop;
+const SENSOR_CONFIG = {
+  air_pressure: {
+    bucket: process.env.DB_SENSOR_BUCKET_AIR_PRESSURE,
+    responseKey: "air_pressure",
+  },
+  humidity: {
+    bucket: process.env.DB_SENSOR_BUCKET_HUMIDITY,
+    responseKey: "humidity",
+  },
+  temperature: {
+    bucket: process.env.DB_SENSOR_BUCKET_TEMPERATURE,
+    responseKey: "temperature",
+  },
+  vibration: {
+    bucket: process.env.DB_SENSOR_BUCKET_VIBRATION,
+    responseKey: "vibration",
+  },
+  altitude: {
+    bucket: process.env.DB_SENSOR_BUCKET_ALTITUDE,
+    responseKey: "altitude",
+  },
+  latitude: {
+    bucket: process.env.DB_SENSOR_BUCKET_LATITUDE,
+    responseKey: "latitude",
+  },
+  longitude: {
+    bucket: process.env.DB_SENSOR_BUCKET_LONGITUDE,
+    responseKey: "longitude",
+  },
+};
 
-  // check start / stop time validity
-  const checked = checkParams(start, stop);
-  if (checked) return next(createCustomError(checked, 400));
-
-  // build and execute flux query
-  const flux = fluxQueryTimeRange(process.env.DB_SENSOR_BUCKET_AIR_PRESSURE, ship, container, start, stop);
-  const rows = await sensor_session(flux);
-
-  return res.status(200).json({ air_pressure: rows });
-});
 
 /**
- * @description Get the latest air pressure of a container
- * @route GET /sensor/air_pressure/:ship/:container/latest
+ * @description Get the sensor data of a container
+ * @route GET /sensor/:ship/:container/{sensorType}
+ * @param {string} sensorType - The type of sensor data to fetch
  * @routeParam ship - Ship id
  * @routeParam container - Container id
+ * @queryParam start - Start time of the measurement in ISO 8601 (UTC) (optional, must pair with `stop`)
+ * @queryParam stop - Stop time of the measurement in ISO 8601 (UTC) (optional, must pair with `start`)
+ * @queryParam latest - Boolean, if true, fetch the latest sensor data (optional, must not pair with `start` and `stop`)
  */
-export const getLatestAirPressure = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req params
-  const ship  = req.params.ship;
-  const container = req.params.container;
+export const getSensorData = (sensorType) => {
+  return tryCatchWrapper(async function (req, res, next) {
+    // extract data from req params
+    const ship = req.params.ship;
+    const container = req.params.container;
+    // extract data from req query
+    const start = req.query.start;
+    const stop = req.query.stop;
+    const latest = req.query.latest;
 
-  // build and execute flux query
-  const flux = fluxQueryLatest(process.env.DB_SENSOR_BUCKET_AIR_PRESSURE, ship, container);
-  const rows = await sensor_session(flux);
+    // get the configuration for the given sensor type
+    const config = SENSOR_CONFIG[sensorType];
+    if (!config) return next(createCustomError("Invalid sensor type", 400));
 
-  return res.status(200).json({ air_pressure: rows });
-});
+    // validate query parameters
+    let flux;
+    if (latest) {
+      // build query for the latest data
+      flux = fluxQueryLatest(config.bucket, ship, container);
+    } else if (start && stop) {
+      // validate start and stop
+      const checked = checkParams(start, stop);
+      if (checked) return next(createCustomError(checked, 400));
+
+      // build query for the time range
+      flux = fluxQueryTimeRange(config.bucket, ship, container, start, stop);
+    } else {
+      // invalid query parameters
+      return next(createCustomError("No valid query parameters", 400));
+    }
+
+    // execute query
+    const rows = await sensor_session(flux);
+    return res.status(200).json({ [config.responseKey]: rows });
+  });
+};
 
 /**
- * @description Get the humidity of a container
- * @route GET /sensor/humidity/:ship/:container/:start/:stop
- * @routeParam ship - Ship id
- * @routeParam container - Container id
- * @routeParam start - Start time of the meassurement in ISO 8601 (UTC) 
- * @routeParam stop - Stop time of the meassurement in ISO 8601 (UTC) 
- */
-export const getHumidity = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req params
-  const ship  = req.params.ship;
-  const container = req.params.container;
-  const start = req.params.start;
-  const stop = req.params.stop;
-
-  // check start / stop time validity
-  const checked = checkParams(start, stop);
-  if (checked) return next(createCustomError(checked, 400));
-
-  // build and execute flux query
-  const flux = fluxQueryTimeRange(process.env.DB_SENSOR_BUCKET_HUMIDITY, ship, container, start, stop);
-  const rows = await sensor_session(flux);
-
-  return res.status(200).json({ humidity: rows });
-});
-
-/**
- * @description Get the latest humidity of a container
- * @route GET /sensor/humidity/:ship/:container/latest
+ * @description Get all latest sensor data of a container
+ * @route GET /sensor/:ship/:container
  * @routeParam ship - Ship id
  * @routeParam container - Container id
  */
-export const getLatestHumidity = tryCatchWrapper(async function (req, res, next) {
+export const getAllSensorDataPerContainer = tryCatchWrapper(async function (req, res, next) {
   // extract data from req params
-  const ship  = req.params.ship;
+  const ship = req.params.ship;
   const container = req.params.container;
 
-  // build and execute flux query
-  const flux = fluxQueryLatest(process.env.DB_SENSOR_BUCKET_HUMIDITY, ship, container);
-  const rows = await sensor_session(flux);
+  // get data for all sensors
+  const sensorDataPromises = Object.keys(SENSOR_CONFIG).map(async (sensorType) => {
+    const config = SENSOR_CONFIG[sensorType];
+    const flux = fluxQueryLatest(config.bucket, ship, container);
+    const rows = await sensor_session(flux);
+    return { [config.responseKey]: rows };
+  });
 
-  return res.status(200).json({ humidity: rows });
-});
+  console.log(sensorDataPromises);
 
-/**
- * @description Get the temperature of a container
- * @route GET /sensor/temperature/:ship/:container/:start/:stop
- * @routeParam ship - Ship id
- * @routeParam container - Container id
- * @routeParam start - Start time of the meassurement in ISO 8601 (UTC) 
- * @routeParam stop - Stop time of the meassurement in ISO 8601 (UTC) 
- */
-export const getTemperature = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req params
-  const ship  = req.params.ship;
-  const container = req.params.container;
-  const start = req.params.start;
-  const stop = req.params.stop;
+  // resolve all promises
+  const sensorDataArray = await Promise.all(sensorDataPromises);
 
-  // check start / stop time validity
-  const checked = checkParams(start, stop);
-  if (checked) return next(createCustomError(checked, 400));
+  // combine results into a single object
+  const sensorData = sensorDataArray.reduce((acc, data) => ({ ...acc, ...data }), {});
 
-  // build and execute flux query
-  const flux = fluxQueryTimeRange(process.env.DB_SENSOR_BUCKET_TEMPERATURE, ship, container, start, stop);
-  const rows = await sensor_session(flux);
-
-  return res.status(200).json({ temperature: rows });
-});
-
-/**
- * @description Get the latest temperature of a container
- * @route GET /sensor/temperature/:ship/:container/latest
- * @routeParam ship - Ship id
- * @routeParam container - Container id
- */
-export const getLatestTemperature = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req params
-  const ship  = req.params.ship;
-  const container = req.params.container;
-
-  // build and execute flux query
-  const flux = fluxQueryLatest(process.env.DB_SENSOR_BUCKET_TEMPERATURE, ship, container);
-  const rows = await sensor_session(flux);
-
-  return res.status(200).json({ temperature: rows });
-});
-
-/**
- * @description Get the vibration of a container
- * @route GET /sensor/vibration/:ship/:container/:start/:stop
- * @routeParam ship - Ship id
- * @routeParam container - Container id
- * @routeParam start - Start time of the meassurement in ISO 8601 (UTC) 
- * @routeParam stop - Stop time of the meassurement in ISO 8601 (UTC) 
- */
-export const getVibration = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req params
-  const ship  = req.params.ship;
-  const container = req.params.container;
-  const start = req.params.start;
-  const stop = req.params.stop;
-
-  // check start / stop time validity
-  const checked = checkParams(start, stop);
-  if (checked) return next(createCustomError(checked, 400));
-
-  // build and execute flux query
-  const flux = fluxQueryTimeRange(process.env.DB_SENSOR_BUCKET_VIBRATION, ship, container, start, stop);
-  const rows = await sensor_session(flux);
-
-  return res.status(200).json({ vibration: rows });
-});
-
-/**
- * @description Get the latest vibration of a container
- * @route GET /sensor/vibration/:ship/:container/latest
- * @routeParam ship - Ship id
- * @routeParam container - Container id
- */
-export const getLatestVibration = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req params
-  const ship  = req.params.ship;
-  const container = req.params.container;
-
-  // build and execute flux query
-  const flux = fluxQueryLatest(process.env.DB_SENSOR_BUCKET_VIBRATION, ship, container);
-  const rows = await sensor_session(flux);
-
-  return res.status(200).json({ vibration: rows });
-});
-
-/**
- * @description Get the altitude of a container
- * @route GET /sensor/altitude/:ship/:container/:start/:stop
- * @routeParam ship - Ship id
- * @routeParam container - Container id
- * @routeParam start - Start time of the meassurement in ISO 8601 (UTC) 
- * @routeParam stop - Stop time of the meassurement in ISO 8601 (UTC) 
- */
-export const getAltitude = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req params
-  const ship  = req.params.ship;
-  const container = req.params.container;
-  const start = req.params.start;
-  const stop = req.params.stop;
-
-  // check start / stop time validity
-  const checked = checkParams(start, stop);
-  if (checked) return next(createCustomError(checked, 400));
-
-  // build and execute flux query
-  const flux = fluxQueryTimeRange(process.env.DB_SENSOR_BUCKET_ALTITUDE, ship, container, start, stop);
-  const rows = await sensor_session(flux);
-
-  return res.status(200).json({ altitude: rows });
-});
-
-/**
- * @description Get the latest altitude of a container
- * @route GET /sensor/altitude/:ship/:container/latest
- * @routeParam ship - Ship id
- * @routeParam container - Container id
- */
-export const getLatestAltitude = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req params
-  const ship  = req.params.ship;
-  const container = req.params.container;
-
-  // build and execute flux query
-  const flux = fluxQueryLatest(process.env.DB_SENSOR_BUCKET_ALTITUDE, ship, container);
-  const rows = await sensor_session(flux);
-
-  return res.status(200).json({ altitude: rows });
-});
-
-/**
- * @description Get the latitude of a container
- * @route GET /sensor/latitude/:ship/:container/:start/:stop
- * @routeParam ship - Ship id
- * @routeParam container - Container id
- * @routeParam start - Start time of the meassurement in ISO 8601 (UTC) 
- * @routeParam stop - Stop time of the meassurement in ISO 8601 (UTC)  
- */
-export const getLatitude = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req params
-  const ship  = req.params.ship;
-  const container = req.params.container;
-  const start = req.params.start;
-  const stop = req.params.stop;
-
-  // check start / stop time validity
-  const checked = checkParams(start, stop);
-  if (checked) return next(createCustomError(checked, 400));
-
-  // build and execute flux query
-  const flux = fluxQueryTimeRange(process.env.DB_SENSOR_BUCKET_LATITUDE, ship, container, start, stop);
-  const rows = await sensor_session(flux);
-
-  return res.status(200).json({ latitude: rows });
-});
-
-/**
- * @description Get the latest latitude of a container
- * @route GET /sensor/latitude/:ship/:container/latest
- * @routeParam ship - Ship id
- * @routeParam container - Container id
- */
-export const getLatestLatitude = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req params
-  const ship  = req.params.ship;
-  const container = req.params.container;
-
-  // build and execute flux query
-  const flux = fluxQueryLatest(process.env.DB_SENSOR_BUCKET_LATITUDE, ship, container);
-  const rows = await sensor_session(flux);
-
-  return res.status(200).json({ latitude: rows });
-});
-
-/**
- * @description Get the longitude of a container
- * @route GET /sensor/longitude/:ship/:container/:start/:stop
- * @routeParam ship - Ship id
- * @routeParam container - Container id
- * @routeParam start - Start time of the meassurement in ISO 8601 (UTC) 
- * @routeParam stop - Stop time of the meassurement in ISO 8601 (UTC) 
- */
-export const getLongitude = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req params
-  const ship  = req.params.ship;
-  const container = req.params.container;
-  const start = req.params.start;
-  const stop = req.params.stop;
-
-  // check start / stop time validity
-  const checked = checkParams(start, stop);
-  if (checked) return next(createCustomError(checked, 400));
-
-  // build and execute flux query
-  const flux = fluxQueryTimeRange(process.env.DB_SENSOR_BUCKET_LONGITUDE, ship, container, start, stop);
-  const rows = await sensor_session(flux);
-
-  return res.status(200).json({ longitude: rows });
-});
-
-/**
- * @description Get the latest longitude of a container
- * @route GET /sensor/longitude/:ship/:container/latest
- * @routeParam ship - Ship id
- * @routeParam container - Container id
- */
-export const getLatestLongitude = tryCatchWrapper(async function (req, res, next) {
-  // extract data from req params
-  const ship  = req.params.ship;
-  const container = req.params.container;
-
-  // build and execute flux query
-  const flux = fluxQueryLatest(process.env.DB_SENSOR_BUCKET_LONGITUDE, ship, container);
-  const rows = await sensor_session(flux);
-
-  return res.status(200).json({ longitude: rows });
+  return res.status(200).json({ sensor_data: sensorData });
 });
