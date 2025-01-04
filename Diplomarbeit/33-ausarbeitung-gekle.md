@@ -103,7 +103,7 @@ Der große Vorteil des Dragable Graphs besteht darin, dass er interaktiv ist.
 Bei React handelt es sich anders als bei z.B. Angular nicht tatsächlich um ein Framework im herkömmlichen Sinne. Vielmehr ist es eine Bibliothek zum Rendern graphischer Oberflächen. React setzt sehr stark auf Komponentenorientierung, wobei zwischen klassenbasierten und funktionalen Komponenten unterscheidet. Die Tendenz geht allerdings immer mehr in Richtung funktioneller Komponente. [1]  
   
 Auch hier im folgenden Beispiel ist eine funktionelle Komponente der Diplomarbeits-Website zu sehen. Dies lässt sich u.a. an dem für JavaScript typischen Syntax wie das "=>" erkennen, aber auch daran, dass sogenannte Hooks (z.B. useStates) verwendet werden:
-```JS
+```{.js}
 const LoginField = ({ placeholder, value, onChange, isPassword = false }) => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {(...)}
@@ -114,7 +114,6 @@ const LoginField = ({ placeholder, value, onChange, isPassword = false }) => {
   );
 };
 export default LoginField;
-
 ```
 
 `DetailControl` kann rein theoretisch überall eingesetzt werden, da diese Komponente an und für sich nur  eine spezielle Funktion übernimmt, jedoch kann man  Komponenten aber auch so gestalten, dass sie sich je nach Einsatzgebiet sich unterschiedlich verhalten (z.B. anders aussehen, verschiedene andere Komponente übernehmen etc.).
