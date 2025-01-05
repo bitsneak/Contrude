@@ -165,9 +165,133 @@ jobs:
 
 ### REST API
 
+Eine API ist Programmierschnittstelle, die dafür entworfen worden ist, um autonomen Anwendungen das Kommunizieren und den Austausch von Daten zu erleichtern und zwischen ihnen zu standardisieren. REST steht nun für Representational State Transfer und ist ein Prinzip, welches verschieden umgesetzt werden kann, als Zwischendienst zwischen dem Client und dem Backend dient und als Schnitstelle zum Abrufen von Ressourcen vom Client and den Server verwendet wird. Hierbei nutzt man URIs. Ein Uniform Resource Identifier ist dafür da, eine Ressource eindeutig zu identifizieren. [vgl. @REST-API-Design-Rulebook, S. 11]
+
+Bei RESTful APIs sendet der Client eine Anfrage über HTTP an eine URI und bekommt daraufhin seine Antwort. [@redhat-rest]
+Die möglichen Anfragearten des Clients nennt man HTTP-Methodes und diese sind: [@mozilla-rest]
+
+- GET
+  - Ruft eine Ressource vom Server ab, ohne den Zustand der Ressource zu verändern.
+- HEAD
+  - Ruft nur die Header-Informationen einer Ressource ab, ohne den eigentlichen Inhalt.
+- POST
+  - Sendet Daten an den Server, um eine neue Ressource zu erstellen.
+- PUT
+  - Erstellt eine neue Ressource oder aktualisiert eine bestehende vollständig.
+- DELETE
+  - Löscht eine Ressource auf dem Server.
+- OPTIONS
+  - Ruft Informationen über die Kommunikationsoptionen mit dem Server ab.
+  - Gibt zurück, welche HTTP-Methoden und Header von einer URI unterstützt werden.
+- TRACE
+  - Gibt die Anfrage so zurück, wie sie der Server erhalten hat.
+- PATCH
+  - Aktualisiert eine Ressource teilweise, ohne sie vollständig zu ersetzen.
+
 #### Design
 
+Es gibt zwar verschiedene Ansätze so eine API umzusetzen, jedoch gibt es Richtlinien und Best-Practices. Die Antwort des Servers and den Client sollte in JSON verfasst sein. Um die Skalierbarkeit der Anwendungen zu garantieren, ist eine Server nicht dazu verpflichtet, den Status einer Ressource sich zu merken. Diese Aufgabe obligt rein dem Client.
+[vgl. @REST-API-Design-Rulebook, S. 3 f.]
+
+Eine URI soll klar verständlich und strukturell aufklärend designed sein. Wenn man die URI begutachtet, soll genau ersichtlich sein, welche Ressource man bei Aufruf erhält. Der Aufbau ist in der RFC 3986 beschrieben unter dem Format:
+
+```URI = scheme "://" authority "/" path [ "?" query ] [ "#" fragment ]```
+
+**URI Namensregeln**:
+
+- Ein / wird für hierachische Abhängikeiten benutzt
+  - Ein / darf nicht am Ende einer URI stehen, da es sonst zu Verwirrung führen kann, ob eine neue Ressource anfängt oder nicht
+- Zusammengesetzte Wörter sind mittels - zu trennen
+  - Ein _ als Trennzeichen ist aufgrund der erschwerte Lesbarkeit zu vermeiden
+- Groß- und Kleinschreibung
+  - In Schema und Authority wird sie ignoriert
+  - Im Path wird sie berücksichtigt
+  - Um unnötige Probleme zu vermeiden soll die gesamte URI klein geschrieben werden
+- File extensions dürfen nicht in in der URI vorkommen
+- Widerspruchsfreie Namen für Subdomains.
+- CRUD Namen dürfen in keinem Part der URI verwendet werden.
+[vgl. @REST-API-Design-Rulebook, S. 11 - 13]
+
+**URI Designregeln**:
+
+- Jeder neue / bedeutet einen neuen Path und somit eine neue abfragbare Ressource.
+  - Jeder einzelne Path beinhaltet eine abfragbare Ressource.
+  - Paths sind mit Nomen zu benennen.
+  - Paths bei denen nur ein Datenpunkt übermittelt wird, sind im Singular zu benennen.
+    - Solche Paths werden Document genannt
+  - Paths bei denen ein Set an Daten zurückgegeben wird, sind im Plural zu benennen.
+    - Solche Paths werden Collection genannt
+- Stores sind Path Variables und können anstelle eines Nomens eingesetzt werden.
+  - Ein Store erzeugt keine neue URI.
+  - Ein Store benennt eine Ressource in der URI.
+  - Ein Store wird zur genauerene Identifikation / Spezifikation einer Ressource verwendet. (z.B. ID)
+- Controller Elemente werden als letztes and die URI angehängt.
+  - Sie können nicht den CRUD-Operationen zugeordnet werden.
+  - Sie spiegeln aufrufbare Funktionen wider.
+  - Verben sind für die Namensgebung zu verwenden.
+- Eine URI soll im Schema ```{collection}/{store}/{document}``` aufgebaut sein.
+[vgl. @REST-API-Design-Rulebook, S. 14 - 18]
+
+**URI Optionals**:
+
+- Queries dienen dazu, Daten anzugeben, die nicht strikt aneinander gekoppelt sind, jedoch miteinander korrelieren.
+  - Der Inhalt der Base-URI darf sich nicht verändern durch das Weglassen eines Query-Parameters.
+  - Sie werden auf Collections und Stores angewandt.
+  - Sie dienen meistens zum Suchen / Filtern der Daten aus einer Ressource.
+[vgl. @REST-API-Design-Rulebook, S. 19 f.]
+- Fragemnts werden nach Queries angegeben und geben eine spezifische Sektion oder ein Element in der URI an.
+  - Sie sind bei der Navigation auf der Webpage hilfreichn
+  - Sie können die Status einer Webpage angeben / ändern  ohne diese neu laden zu müssen.
+[@medium-uri-fragment]
+
+Beispiele von URIs nach besprochenem Konzepten sind ```https://api.contrude.eu/sensors/42/7/temperature?latest=true``` oder ```https://contrude.eu/ships?user=123#page2```.
+
 #### JavaScript
+
+Mit Frameworks wie Node.js kann auch eine Frontendorientierte Sprache wie JavaScript fürs Backend genutzt werden. Ein großer Vorteil von Node.js, welcher es auch attraktiv für API-Design macht, ist seine ereignisgesteuerte, nicht-blockierenden Umsetzung. Dieses mächtige Framework bietet sehr viele Packages an, was auch die Entwicklung sehr modular gestaltet. Express ist ein Modul, welches den Prozess des API Programmierens erleichtert. Anzumerken ist jedoch, dass Express keine wirkliche Funktionalität für REST-Services anbietet, sondern nur das Erstellen von Routes (path + query + fragment) ermöglicht. In die Routes muss man die selbst progammierte Middleware einbinden, welche dann als Backend fungiert, weitere Funktionen aufruft, Prozesse startet oder direkt mit Datenbanken kommuniziert.
+
+Um eine Node.js REST-Appp zu erstellen, muss man als erstes einen Ordner seiner Wahl als ein Node.js project initialisieren. Als Package-Manager wird hier NPM verwendet.
+
+```console
+npm init
+```
+
+Danach können benötigte Packages installiert werden. In unserem fall Express.
+
+```console
+npm install express
+```
+
+Eine JS Datei mit folgendem Inhalt muss noch erstellt werden um einen REST-Express Server in der Node.js Anwendung zu starten:
+
+```js
+import express from "express";
+
+const app = express(); // lässt die App Express verwenden
+const port = 80; // Port, auf dem der Server läuft
+
+// Middleware
+app.use(express.json());
+
+// API-Routen
+// Route, um eine JSON-Antwort bei einer GET-Anfrage an /hello zu senden
+app.get("/hello", (req, res) => {
+  res.status(200).json({ message: "Hello Express" });
+});
+
+// Starte den Server auf zuvor definiertem Port
+app.listen(port, () => {
+  console.log(`Server läuft auf Port ${port}`);
+});
+```
+
+Mit dem letzten Befehl
+
+```console
+node app.js
+```
+
+wird die Applikation gestarted und kann auf ```http://localhost:80/hello``` aufgerufen werden. [@medium-rest-node-js]
 
 ## Praktische Arbeit
 
