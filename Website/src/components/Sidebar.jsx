@@ -24,23 +24,14 @@ const Sidebar = ({selectedShip}) => {
   useEffect(() => {
     const fetchFavoritesById = async() => {
       try {
-        const accessToken = localStorage.getItem("accessToken");
         const userId = localStorage.getItem("userId"); 
-        const favoritesResponse = await axiosInstance.get(`/auth/user/${userId}/favorites`, {
-          headers: { 
-            'authorization': `Bearer ${accessToken}` 
-          },
-        });
+        const favoritesResponse = await axiosInstance.get(`/auth/user/${userId}/favorites`);
 
         const fetchedFavorites = favoritesResponse.data?.favorites || [];
 
         const getSerialNumbers = await Promise.all(fetchedFavorites.map(async (favorite) => {
           const containerId = favorite.container;
-          const serialNumberResponse = await axiosInstance.get(`/rest/container/${containerId}/serial-number`, {
-            headers: { 
-              'authorization': `Bearer ${accessToken}` 
-            },
-          });
+          const serialNumberResponse = await axiosInstance.get(`/rest/container/${containerId}/serial-number`);
           return serialNumberResponse.data.serial_number;
 
         }))

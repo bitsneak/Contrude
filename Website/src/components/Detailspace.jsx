@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import axiosInstance from '../api/AxiosInstance';
-import ConditionsChecker from '../util/ConditionsChecker';
 import checkConditions from "../util/ConditionsChecker";
 
 const Detailspace = ({thresholdSentences}) => {
@@ -73,7 +72,7 @@ const Detailspace = ({thresholdSentences}) => {
     );
   };
 
-  
+
   const handleNotesChange = (event) => {
     setNotes(event.target.value);
   };
@@ -82,14 +81,9 @@ const Detailspace = ({thresholdSentences}) => {
     if (!container) return;
 
     try {
-      const accessToken = localStorage.getItem("accessToken");
       const updatedContainer = { ...container, notes };
 
-      const updateResponse = await axiosInstance.put(`/rest/container/${containerId}`, updatedContainer, {
-        headers: {
-          authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const updateResponse = await axiosInstance.put(`/rest/container/${containerId}`, updatedContainer);
 
       if (updateResponse.status === 204) {
         setSaved(true);
@@ -108,13 +102,7 @@ const Detailspace = ({thresholdSentences}) => {
   useEffect(() => {
     const fetchContainerEnvironmentData = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken");
-         // Temperature
-        const environmentDataResponse = await axiosInstance.get(`/rest/sensor/${shipId}/${containerId}`, {
-          headers: {
-            'authorization': `Bearer ${accessToken}`,
-          },
-        });
+        const environmentDataResponse = await axiosInstance.get(`/rest/sensor/${shipId}/${containerId}`);
         const temperatureValue = environmentDataResponse.data.sensor_data.temperature[0].value;
         const temperatureSensor = environmentDataResponse.data.sensor_data.temperature[0].sensor;
         updateTableData(temperatureValue, temperatureSensor);
@@ -162,13 +150,7 @@ const Detailspace = ({thresholdSentences}) => {
   useEffect(() => {
     const fetchSerialNumberOfContainer = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken");
-        const containerSerialNumberResponse = await axiosInstance.get(`/rest/container/${containerId}/serial-number`, {
-          headers: {
-            authorization: `Bearer ${accessToken}`,
-          },
-        });
-
+        const containerSerialNumberResponse = await axiosInstance.get(`/rest/container/${containerId}/serial-number`);
         const fetchedSerialNumber = containerSerialNumberResponse.data.serial_number;
         setCombinedSerialNumber(fetchedSerialNumber);
       } catch (error) {
@@ -181,14 +163,8 @@ const Detailspace = ({thresholdSentences}) => {
   // Fetch entire Container by ID when the id changes
   useEffect(() => {
     const fetchContainerData = async () => {
-      try {
-        const accessToken = localStorage.getItem('accessToken');
-        
-        const containerResponse = await axiosInstance.get(`/rest/container/${containerId}`, {
-          headers: {
-            authorization: `Bearer ${accessToken}`,
-          },
-        });
+      try {      
+        const containerResponse = await axiosInstance.get(`/rest/container/${containerId}`);
         const fetchedContainer = containerResponse.data.container[0];
         setContainer(fetchedContainer);
         setNotes(fetchedContainer.notes);

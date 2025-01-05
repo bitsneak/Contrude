@@ -11,12 +11,7 @@ const ThresholdViewer = ({ open, onClose, onSentencesUpdate}) => {
     useEffect(() => {
         const fetchThresholdsOfContainer = async () => {
             try {
-                const accessToken = localStorage.getItem("accessToken");
-                const threshHoldsResponse = await axiosInstance.get(`/rest/container/${containerId}/thresholds`, {
-                    headers: {
-                        authorization: `Bearer ${accessToken}`,
-                    },
-                });
+                const threshHoldsResponse = await axiosInstance.get(`/rest/container/${containerId}/thresholds`);
 
                 const fetchedThresholds = threshHoldsResponse.data?.thresholds || [];
                 if (!Array.isArray(fetchedThresholds)) {
@@ -36,7 +31,6 @@ const ThresholdViewer = ({ open, onClose, onSentencesUpdate}) => {
     useEffect(() => {
         const fetchAdditionalData = async () => {
             const validThresholds = Array.isArray(thresholds) ? thresholds : [];
-            const accessToken = localStorage.getItem("accessToken");
             const sentences = [];
 
             if (validThresholds.length > 0) {
@@ -44,29 +38,17 @@ const ThresholdViewer = ({ open, onClose, onSentencesUpdate}) => {
                     for (let i = 0; i < validThresholds.length; i++) {
                         // Parameter
                         const parameterId = validThresholds[i].parameter;
-                        const parameterResponse = await axiosInstance.get(`/rest/threshold/parameter/${parameterId}`, {
-                            headers: {
-                                authorization: `Bearer ${accessToken}`,
-                            },
-                        });
+                        const parameterResponse = await axiosInstance.get(`/rest/threshold/parameter/${parameterId}`);
                         const parameterValue = parameterResponse.data.parameter[0].name;
 
                         // Rule
                         const ruleId = validThresholds[i].rule;
-                        const ruleResponse = await axiosInstance.get(`/rest/threshold/rule/${ruleId}`, {
-                            headers: {
-                                authorization: `Bearer ${accessToken}`,
-                            },
-                        });
+                        const ruleResponse = await axiosInstance.get(`/rest/threshold/rule/${ruleId}`);
                         const ruleValue = ruleResponse.data.rule[0].name;
 
                         // Level
                         const levelId = validThresholds[i].level;
-                        const levelResponse = await axiosInstance.get(`/rest/threshold/level/${levelId}`, {
-                            headers: {
-                                authorization: `Bearer ${accessToken}`,
-                            },
-                        });
+                        const levelResponse = await axiosInstance.get(`/rest/threshold/level/${levelId}`);
                         const levelValue = levelResponse.data.level[0].name;
 
                         // Sentence

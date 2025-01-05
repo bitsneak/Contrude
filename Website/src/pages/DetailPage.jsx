@@ -8,7 +8,7 @@ import Detailspace from "../components/Detailspace";
 import ThresholdViewer from "../dialogs/ThresholdViewer";
 
 const DetailPage = () => {
-  const [threshholdViewerOpen, setThreshholdViewerOpen] = useState(true);
+  const [thresholdViewerOpen, setThresholdViewerOpen] = useState(true);
   const [thresholdSentences, setThresholdSentences] = useState([]);
 
 
@@ -24,8 +24,8 @@ const DetailPage = () => {
     };
   }, []);
 
-  const handleThreshholdViewerToggle = () => {
-    setThreshholdViewerOpen((prev) => !prev);
+  const handleThresholdViewerToggle = () => {
+    setThresholdViewerOpen(!thresholdViewerOpen);
   };
 
   return (
@@ -37,17 +37,17 @@ const DetailPage = () => {
           leftComponents={[<SearchBar key="searchbar" />]}
           rightComponents={[
             <DetailControl
-              onGoAlertClick={handleThreshholdViewerToggle} // Pass handler
+              onGoAlertClick={handleThresholdViewerToggle}
             />
           ]}
         />
         <Detailspace thresholdSentences={thresholdSentences}/>
       </div>
 
-      {threshholdViewerOpen && (
+      {thresholdViewerOpen && (
         <ThresholdViewer
-          open={threshholdViewerOpen}
-          onClose={handleThreshholdViewerToggle} // Pass onClose handler
+          open={thresholdViewerOpen}
+          onClose={handleThresholdViewerToggle}
           onSentencesUpdate={handleThresholdSentencesUpdate}
         />
       )}

@@ -26,13 +26,8 @@ const Workspace = ({ gridSize, ship }) => {
   useEffect(() => {
     const fetchContainerIdsOfShip = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken");
         const shipId = ship.id;
-        const containerIdsResponse = await axiosInstance.get(`/rest/ship/${shipId}/containers`, {
-          headers: { 
-            'authorization': `Bearer ${accessToken}` 
-          },
-        });
+        const containerIdsResponse = await axiosInstance.get(`/rest/ship/${shipId}/containers`);
 
         const fetchedIds = containerIdsResponse.data?.containers || [];
         if (!Array.isArray(fetchedIds)) {

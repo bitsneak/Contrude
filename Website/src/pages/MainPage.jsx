@@ -37,12 +37,7 @@ const MainPage = () => {
   useEffect(() => {
     const fetchIdOfSerialNumber = async () => {
       try{
-        const accessToken = localStorage.getItem("accessToken");
-        const containerSerialNumberResponse = await axiosInstance.get(`/rest/container/by-serial-number/${searchTerm}`, {
-          headers: {
-            authorization: `Bearer ${accessToken}`,
-          },
-        });
+        const containerSerialNumberResponse = await axiosInstance.get(`/rest/container/by-serial-number/${searchTerm}`);
         const fetchedId = containerSerialNumberResponse.data?.container || "";
         if(fetchedId){
           setDialogValues([fetchedId]);
@@ -61,12 +56,7 @@ const MainPage = () => {
   useEffect(() => {
     const fetchShips = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken");
-        const shipResponse = await axiosInstance.get(`/rest/ship`, {
-          headers: { 
-            'authorization': `Bearer ${accessToken}`
-          },
-        });
+        const shipResponse = await axiosInstance.get(`/rest/ship`);
   
         const fetchedShips = shipResponse.data?.ships || []; 
   

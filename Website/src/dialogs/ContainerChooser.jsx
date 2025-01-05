@@ -6,18 +6,13 @@ const ContainerChooser = ({ open, onClose, values = [], onSelect }) => {
   const validValues = Array.isArray(values) ? values : []
 
   useEffect(() => {
-    if(values != null){
+    if(validValues != null){
       const fetchSerialNumbersOfContainers = async () => {
         try {
           const fetchedSerialNumbers = [];
           for (let i = 0; i < validValues.length; i++) {
-            const accessToken = localStorage.getItem("accessToken");
             const id = validValues[i];
-            const containerSerialNumberResponse = await axiosInstance.get(`/rest/container/${id}/serial-number`, {
-              headers: {
-                authorization: `Bearer ${accessToken}`,
-              },
-            });
+            const containerSerialNumberResponse = await axiosInstance.get(`/rest/container/${id}/serial-number`);
   
             const fetchedSerialNumber = containerSerialNumberResponse.data;
             fetchedSerialNumbers.push(fetchedSerialNumber);

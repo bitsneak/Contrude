@@ -32,9 +32,7 @@ const LoginPage = () => {
         password: password,
       };
   
-      const responseLogin = await axiosInstance.post('/auth/login', body, {
-        headers: { "Content-Type": "application/json" },
-      });
+      const responseLogin = await axiosInstance.post('/auth/login', body);
       
       const {accessToken, refreshToken} = responseLogin.data;
       localStorage.setItem("userId", id);
