@@ -1,142 +1,141 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive Graph Visualization</title>
+    <title>Draggable Graph</title>
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
-        body {
-            margin: 0;
-            overflow: hidden;
-        }
-        .node circle {
-            fill: black;
+        .node {
+            fill: #000; /* Schwarze Knotenfarbe */
+            cursor: pointer;
         }
         .link {
-            stroke: gray;
-            stroke-width: 2px;
+            fill: none;
+            stroke: #ccc;
+            stroke-width: 1.5px;
         }
-        text {
-            font-size: 12px;
+        .node text {
+            font: 12px sans-serif;
+            pointer-events: none;
+            fill: #000; /* Schwarze Schriftfarbe */
         }
     </style>
 </head>
 <body>
+<svg width="960" height="600"></svg>
+
 <script>
-    // Function to convert nested JSON into a flat array of nodes and links
-    function buildGraphData(json) {
+    // Asynchrones Laden der JSON-Datei
+    d3.json('graphSpecific.json').then(function(graphData) {
+        // Verbindungen und Knoten vorbereiten
         const nodes = [];
         const links = [];
+        const nodeMap = {};  // Um doppelte IDs zu vermeiden
 
-        function traverse(node, parent = null) {
-            nodes.push({ id: node.contId });
-            if (parent) {
-                links.push({ source: parent.contId, target: node.contId });
-            }
-
-            if (node.subs) {
-                node.subs.forEach(sub => traverse(sub, node));
-            }
+        // Funktion zur Rekursion der Container-Struktur
+        function traverse(subs, parentId) {
+            subs.forEach(sub => {
+                // Wenn der Container noch nicht im nodes-Array ist
+                if (!nodeMap[sub.contId]) {
+                    nodes.push({ id: sub.contId });
+                    nodeMap[sub.contId] = true;
+                }
+                // Verbindung zwischen parentId und sub.contId
+                links.push({ source: parentId, target: sub.contId });
+                // Rekursion für tiefer verschachtelte Subs
+                if (sub.subs && sub.subs.length > 0) {
+                    traverse(sub.subs, sub.contId);
+                }
+            });
         }
 
-        traverse(json);
-        return { nodes, links };
-    }
+        // Der Root-Container (cont4) wird als Startpunkt genutzt
+        nodes.push({ id: graphData.contId });
+        nodeMap[graphData.contId] = true;
 
-    // Fetch the graphSpecific.json file and process the data
-    fetch('graphSpecific.json')
-        .then(response => response.json())
-        .then(data => {
-            const graphData = buildGraphData(data);
+        // Die Verschachtelung der Subs des Root-Containers verarbeiten
+        if (graphData.subs) {
+            traverse(graphData.subs, graphData.contId);
+        }
 
-            // Get the window's current size
-            let width = window.innerWidth;
-            let height = window.innerHeight;
-
-            const svg = d3.select("body").append("svg")
-                .attr("width", width)
-                .attr("height", height);
-
-            // Adjust force simulation
-            const simulation = d3.forceSimulation(graphData.nodes)
-                .force("link", d3.forceLink(graphData.links).id(d => d.id).distance(80)) // Reduced distance
-                .force("charge", d3.forceManyBody().strength(-100)) // Less repulsion
-                .force("center", d3.forceCenter(width / 2, height / 2))
-                .force("collision", d3.forceCollide().radius(50)); // Prevent overlap
-
-            const link = svg.append("g")
-                .selectAll("line")
-                .data(graphData.links)
-                .enter().append("line")
-                .attr("class", "link");
-
-            const node = svg.append("g")
-                .selectAll("circle")
-                .data(graphData.nodes)
-                .enter().append("circle")
-                .attr("class", "node")
-                .attr("r", 10)
-                .call(d3.drag()
-                    .on("start", dragStarted)
-                    .on("drag", dragged)
-                    .on("end", dragEnded));
-
-            const text = svg.append("g")
-                .selectAll("text")
-                .data(graphData.nodes)
-                .enter().append("text")
-                .text(d => d.id)
-                .attr("x", 12)
-                .attr("y", 3);
-
-            simulation.on("tick", () => {
-                link
-                    .attr("x1", d => d.source.x)
-                    .attr("y1", d => d.source.y)
-                    .attr("x2", d => d.target.x)
-                    .attr("y2", d => d.target.y);
-
-                node
-                    .attr("cx", d => d.x)
-                    .attr("cy", d => d.y);
-
-                text
-                    .attr("x", d => d.x + 12)
-                    .attr("y", d => d.y + 3);
-            });
-
-            function dragStarted(event, d) {
-                if (!event.active) simulation.alphaTarget(0.3).restart();
-                d.fx = d.x;
-                d.fy = d.y;
+        // Alle Knoten, die ohne Verbindung sind, als unabhängige Knoten hinzufügen
+        Object.keys(nodeMap).forEach(id => {
+            if (!nodes.find(node => node.id === id)) {
+                nodes.push({ id });
             }
-
-            function dragged(event, d) {
-                d.fx = event.x;
-                d.fy = event.y;
-            }
-
-            function dragEnded(event, d) {
-                if (!event.active) simulation.alphaTarget(0);
-                d.fx = null;
-                d.fy = null;
-            }
-
-            // Handle window resize
-            window.addEventListener("resize", () => {
-                width = window.innerWidth;
-                height = window.innerHeight;
-
-                svg.attr("width", width).attr("height", height);
-
-                simulation.force("center", d3.forceCenter(width / 2, height / 2));
-                simulation.alpha(1).restart();  // Reheat simulation for better layout after resizing
-            });
-        })
-        .catch(error => {
-            console.error('Error loading the graphSpecific.json file:', error);
         });
+
+        // SVG und D3-Setup
+        const svg = d3.select('svg');
+        const width = +svg.attr('width');
+        const height = +svg.attr('height');
+
+        const simulation = d3.forceSimulation(nodes)
+            .force('link', d3.forceLink(links).id(d => d.id).distance(100))
+            .force('charge', d3.forceManyBody().strength(-200))
+            .force('center', d3.forceCenter(width / 2, height / 2));
+
+        // Links erstellen
+        const link = svg.append('g')
+            .selectAll('.link')
+            .data(links)
+            .enter().append('line')
+            .attr('class', 'link');
+
+        // Knoten erstellen
+        const node = svg.append('g')
+            .selectAll('.node')
+            .data(nodes)
+            .enter().append('g')
+            .attr('class', 'node')
+            .call(d3.drag()
+                .on('start', dragStarted)
+                .on('drag', dragged)
+                .on('end', dragEnded));
+
+        // Knotenkreis und Text hinzufügen
+        node.append('circle')
+            .attr('r', 20)
+            .attr('class', 'node');
+
+        node.append('text')
+            .attr('dy', -25)
+            .attr('text-anchor', 'middle')
+            .text(d => d.id);
+
+        // Simulation tickt und aktualisiert Positionen der Knoten und Verbindungen
+        simulation.on('tick', function() {
+            link
+                .attr('x1', d => d.source.x)
+                .attr('y1', d => d.source.y)
+                .attr('x2', d => d.target.x)
+                .attr('y2', d => d.target.y);
+
+            node
+                .attr('transform', d => `translate(${d.x},${d.y})`);
+        });
+
+        // Drag-Verhalten
+        function dragStarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragEnded(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+    }).catch(function(error) {
+        console.log(error);
+    });
 </script>
 </body>
 </html>

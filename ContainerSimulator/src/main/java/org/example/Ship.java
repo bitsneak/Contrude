@@ -3,19 +3,18 @@ package org.example;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class Graph {
+public class Ship {
 
     private Set<Container> containers = new HashSet<>();
     private ArrayList<String> contConList = new ArrayList<>();
     private int[][] adjMatrix;
 
-    public Graph(int size){
+    public Ship(int size){
         adjMatrix = new int[size][size];
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
@@ -23,13 +22,6 @@ public class Graph {
             }
         }
 
-    }
-
-    public void resetContainers() {
-        for (Container container : containers) {
-            container.setDistance(Double.MAX_VALUE);
-            container.setShortestPath(new LinkedList<>());
-        }
     }
 
     public void addContainer(Container cont) {
@@ -61,7 +53,7 @@ public class Graph {
         for(Container cont : this.containers){
             if(!cont.getName().equals(origin.getName())){
                 if(cont.getSignalMinimum() <= signal && checkContConList(origin.getName(), cont.getName())){
-                    origin.addDestination(cont, signal);
+                    origin.addDestination(cont);
                     contConList.add(extractId(origin.getName()) + ";" + extractId(cont.getName()));
 
                 }
@@ -86,7 +78,7 @@ public class Graph {
 
     public void fillAdjMatrix(){
         for(Container origin : containers){
-            for(Container destination : origin.getAdjacentContainers().keySet()){
+            for(Container destination : origin.getAdjacentContainers()){
                 int oId = extractId(origin.getName());
                 int dId = extractId(destination.getName());
                 adjMatrix[oId][dId] = 1;
@@ -94,7 +86,6 @@ public class Graph {
 
             }
         }
-
     }
 
     //ChatGPT
