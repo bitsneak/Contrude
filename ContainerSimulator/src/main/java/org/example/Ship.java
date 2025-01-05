@@ -137,53 +137,72 @@ public class Graph {
 
     }
 
-    //ChatGPT (editiert)
-    public JSONObject toJSON() {
-        JSONArray nodesArray = new JSONArray();
-        Container[] containerArray = containers.toArray(new Container[0]);
+    public JSONObject parseSpecificToJSON(Container origin, int length){
+        // Erstelle das JSON-Objekt für den Ursprung-Container
+        JSONObject originJSONObject = new JSONObject();
+        originJSONObject.put("contId", origin.getName());
 
-        for (Container container : containerArray) {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("contId", container.getName());
+        // Wenn die Tiefe größer als 0 ist, rekursiv die Subcontainer hinzufügen
+        if (length > 0) {
+            JSONArray subsArray = new JSONArray();
+            // Hole alle Subcontainer des aktuellen Containers
+            JSONArray subsOfOrigin = getAllSubs(origin);
 
-            JSONArray subsArray = getAllSubs(container);
-            if (subsArray.length() > 0) {
-                jsonObject.put("subs", subsArray);
+            // Wenn es Subcontainer gibt, füge sie rekursiv hinzu
+            if (subsOfOrigin != null) {
+                for (Object sub : subsOfOrigin) {
+                    // Wenn sub ein JSONObject ist, müssen wir es zu einem Container umwandeln
+                    if (sub instanceof JSONObject) {
+                        // Beispiel: Umwandlung von JSONObject zu Container
+                        JSONObject subJSONObject = (JSONObject) sub;
+                        Container subContainer = convertJSONToContainer(subJSONObject);
+
+                        // Rufe rekursiv die Methode für den Subcontainer auf
+                        JSONObject subContainerJSON = parseSpecificToJSON(subContainer, length - 1);
+                        subsArray.put(subContainerJSON);
+                    } else if (sub instanceof Container) {
+                        // Falls es bereits ein Container ist, direkt verwenden
+                        Container subContainer = (Container) sub;
+                        JSONObject subContainerJSON = parseSpecificToJSON(subContainer, length - 1);
+                        subsArray.put(subContainerJSON);
+                    }
+                }
+                originJSONObject.put("subs", subsArray);
             }
-
-            nodesArray.put(jsonObject);
         }
 
-        JSONObject graphJson = new JSONObject();
-        graphJson.put("nodes", nodesArray);
-        return graphJson;
+        return originJSONObject;
     }
 
-    //ChatGPT (editiert)
-    public JSONObject toSpecificJSON(Container origin, int depth) {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("contId", origin.getName());
+    // Hilfsmethode zum Umwandeln eines JSONObject in einen Container
+    private Container convertJSONToContainer(JSONObject json) {
+        // Hier kannst du die Umwandlung von einem JSONObject zu einem Container anpassen
+        String name = json.getString("contId");
+        return new Container(name);  // Beispiel für eine einfache Umwandlung
+    }
 
-        JSONArray subsArray = getAllSubs(origin);
-        if (depth > 1) {
-            for (int i = 0; i < subsArray.length(); i++) {
-                JSONObject subJson = subsArray.getJSONObject(i);
-                String subContainerName = subJson.getString("contId");
-                Container subContainer = getSingleContainer(subContainerName);
 
-                // Recursively add subs for this sub-container, decreasing depth by 1
-                JSONObject subContainerJson = toSpecificJSON(subContainer, depth - 1);
 
-                // Add the subs of this sub-container to the current subJson object
-                if (subContainerJson.has("subs")) {
-                    subJson.put("subs", subContainerJson.getJSONArray("subs"));
-                }
+
+    public JSONObject parseAllContainersToJSON(){
+        Container[] containersArray = containers.toArray(new Container[0]);
+        JSONArray containersJSON = new JSONArray();
+
+        for(Container c : containers){
+            JSONObject containerJSONObject = new JSONObject();
+            containerJSONObject.put("contId", c.getName());
+
+            if(getAllSubs(c) != null){
+                JSONArray subsOfC = getAllSubs(c);
+                containerJSONObject.put("subs", subsOfC);
             }
+            containersJSON.put(containerJSONObject);
+
         }
 
-        // Add the subs to the current container's JSON object
-        jsonObject.put("subs", subsArray);
-        return jsonObject;
+        JSONObject finalJSON = new JSONObject();
+        finalJSON.put("containers", containersJSON);
+        return finalJSON;
     }
 
     public JSONArray getAllSubs(Container container){
@@ -197,27 +216,32 @@ public class Graph {
             }
 
         }
+        if(subsArray.length() == 0){
+            return null;
+        }
 
         return subsArray;
     }
 
-    //ChatGPT (editiert)
+    //ChatGPT (editiert - kommentare entfernt)
     public void exportToJSONFile(boolean specific, int depth, Container spc) {
-
-        if(specific){
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("graphSpecific.json"))) {
-                writer.write(toSpecificJSON(spc, depth).toString(4));
+        JSONObject jsonToExport;
+        if (specific) {
+            jsonToExport = parseSpecificToJSON(spc, depth);
+            try (FileWriter file = new FileWriter("graphSpecific.json")) {
+                file.write(jsonToExport.toString(4));  // 4 ist die Indentation für das Format
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }else{
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("graph.json"))) {
-                writer.write(toJSON().toString(4));  // 4 für eine schön formatierte Ausgabe
+
+        } else {
+            jsonToExport = parseAllContainersToJSON();
+            try (FileWriter file = new FileWriter("graph.json")) {
+                file.write(jsonToExport.toString(4));  // 4 ist die Indentation für das Format
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
     }
 
     public boolean checkIfContainerWithNameExists(String name){

@@ -366,24 +366,150 @@ Die Fehlerbehandlung ist durch Axios ebenfalls verbessert. So sieht fetch das Pr
 
 ## Praktische Arbeit
 
-Hier beschreiben Sie ihren praktischen Teil. Es geht darum seine Implementierung / Versuche so darzustellen dass anhand dieser dre Leser erkennen kann was sie wie gemacht haben.
-
-Die Frage nach der Detailgenauigkeit lässt sich wie folgt beantworten: So, dass man Ihre Aufgabenstellung vollständig  nachvollziehen kann wenn man nur diese Diplomarbeit in Händen hat!
-
-### Java Positionierungsalgorithmus (ALT)
-
-- Dijkstra Implementierung in Java
-
 ### Java Container Simulator
 
-- Wie die Dummy-Daten generiert werden
-- Verwendung der Daten (Funktionsweisen des Simulators)
-- Exportieren in JSON files (+Konfigurationen)
-- Zustandekommen des Directed Dragable Graphs (JavaScript/ ChatGPT)
+#### Klassen
 
-### Website
+##### Container
+Diese Klasse ist eine etwas modifizierte POJO (Plain Old Java Object) Klasse mit folgenden Variablen:
+- String `name`
+- List\<Container> `adjacentContainers`(ArrayList)
+- dounle `signalMinimum`
 
-- Design der Seiten (Adobe Illustrator)
-- Projektstruktur (Komponenten)
-- Cookies
-- REST mit Axios
+Die `name`-Variable aller Container ist gleich aufgebaut: "cont#", wobei # für eine beliebige Nummer steht. Dies macht die Namen nicht unnötig kompliziert und hat auch innerhalb der Konsolen-Interaktion mit dem User seinen Vorteil. In `adjacentContainers` werden alle benachbarten Container, also jene, zu welchen der ausgewählte Container eine Verbindung hat bzw. welche in seiner Nähe sind, abgespeichert. Die Variable `signalMinimum` ist eine mithilfe von `ThreadLocalRandom.current()` erstellte zufällige Double-Variable, welche für das generieren der Verbindung zwischen der einzelnen Container noch wichtig wird. `ThreadLocalRandom` wird eigentlich eher für Multithreading-Anwendungen benutzt [17], jedoch ist der Syntax um eine Zufallszahl mit "von-bis" zu generieren etwas angenehmer zu lesen:
+```Java
+// Mit Math.random
+this.signalMinimum = 10 + (25 - 10) * Math.random();
+
+// Mit ThreadLocalRandom
+this.signalMinimum = ThreadLocalRandom.current().nextDouble(10, 25);
+```
+Der Grund hierfür ist, da `Math.random` nur eine Zahl zwischen 0 & 1 generiert, während man bei `ThreadLocalRandom` den Minimalen und Maximalen Wert einfach angeben kann.
+
+Bezüglich Methoden hat `Container` für alle Variablen Getter und Setter und einen Konstruktor, mit welchem `name` und `signalMinimum` gesetzt werden. Mithilfe von `void addDestination(Container con)` kann ein benachbarter Container zur Liste hinzugefügt werden (die Liste wird außerhalb des Konstruktors initialisiert . Auch die `toString` wurde etwas angepasst, um die Ausgabe in der Konsole etwas besser aussehen zu lassen:
+```JAVA
+@Override
+public String toString() {
+    StringBuilder adjacent = new StringBuilder();
+    for (Container container : adjacentContainers) {
+        adjacent.append(container.getName()).append(", ");
+    }
+  
+    return "Container{" +
+            "name='" + name + '\'' +
+            ", adjacentContainers=" + adjacent +
+            ", signalMinimum=" + signalMinimum +
+            '}';
+}
+```
+Entspricht:
+~~~~~
+Container{name='cont1', adjacentContainers=cont0, , signalMinimum=10.753991237010691}
+~~~~~
+##### Ship
+Dies ist die zweite Klasse, in welcher alle für den Simulator notwendigen Funktionen implementiert sind. Die Klasse selbst verwaltet drei Variablen:
+- Set\<Container> `containers` (HashSet)
+- ArrayList\<String> `contConList`
+- int[][] `adjMatrix`
+In dem HashSet werden alle in der Main Klasse generierten Container abgespeichert. In der `contConList` werden alle Verbindungen zeischen Containern im Format "A;B" abgespeichert, wobei A für Container (= Knoten im Graphen) und das Semicolon für die Verbindung (=Kante im Graphen) stehen. Das 2d-Array repräsentiert eine Adjazenzmatrix, welche u.a für das schreiben in JSON Files benötigt wird.
+
+Mit `void addContainer (Container con)` können Container in das Set hinzugefügt werden. Weitere Methoden sind diejenigen zum Schreiben in JSON Files oder jene, welche für das Konsolen-Programm benötigt werden (z.B. `printAdjMatrix` zum Schreiben der Adjazenz Matrix). Außerdem erledigt die die Aufgabe der Erstellung der Verbindungen zwischen den einzelnen Container-Objekten.
+##### Main
+Der Container Simulator ist an und für sich ein Konsolen-Programm. Die Interaktion zwischen dem User und dem Simulator passiert also (fast) rein in der Konsole. Die `Main`-Klasse regelt diese. Sie erstellt die Container, basierend auf der vom User eingegebenen Menge und übergibt diese an die ebenfalls von ihr erstellten `Ship`-Klasse. Die User-Interaktion wird dann innerhalb einer `while`-Schleife fortgesetzt. Hier kann der User mehrere Buchstaben eingeben, welche für verschiedene Aktionen stehen:
+```JAVA
+System.out.println("\nChoose an option:\n" +
+        "(a) View single Container\n" +
+        "(b) View Matrix\n" +
+        "(c) Print Connection List\n" +
+        "(d) Export to Json Format (all Containers)\n" +
+        "(e) Export to Json Format (specific Container)\n" +
+        "(q) Quit Simulator");
+in = sc.nextLine();
+```
+Über einen `Scanner` wird diese Eingabe dann geprüft. Das Ausführen der passenden Aktionen regelt ein `switch-case`, wobei auf ein `default` gesetzt ist, sollte die User-Eingabe inkorrekt sein. Sobald der User "q" eingibt bricht die `while`-Schleife ab, dies wird durch folgenden Ausdruck ermöglich:
+~~~~
+while(!in.equals("q")){}
+~~~~
+#### Wie die Dummy-Daten + Verbindungen generiert werden
+ Startet man das Programm so wird man als erstes zu folgendem aufgefordert:
+![[Pasted image 20250105203011.png]]
+Der User bestimmt also, wie viele Container für die Simulation erstellt werden sollen. ">=2" wurde deshalb als Bedingung eingeführt, da ein Simuliertes Schiff mit nur einem Container keinen Graph mit Knoten und Kanten entsprechen würde. Da es ja das Ziel ist, die Kommunikationsstruktur mit Kanten darzustellen, mach die Auswahl 1 wenig Sinn.
+
+Bestätigt der User seine Eingabe mit Enter, so wird ein `Ship` Objekt erstellt. Dieses hat als Zentrale Variable ein `Container`-Set namens `containers`, worin alle Container gespeichert werden. Das Erstellen und Speichern der Container selbst passiert in der `Main` mit folgendem Code:
+```JAVA
+for(int i = 0; i < count; i++){
+    String containerName = "cont" + i;
+    ship.addContainer(new Container(containerName));
+}
+```
+Die `count` Variable ist zu Beginn auf -1 gesetzt. Dies hat den Hintergrund, da die Namen der Container bei 0 anfangen (also mit "cont0"), der User aber die tatsächliche Anzahl eingeben soll (z.B.: Eingabe = 7 --> Container Namen: cont0 bis cont6 = 7 Stk). Wichtig ist auch anzumerken, dass nur der Container Name in `ship` gespeichert wird, da `signalMinimum` einfach dann von den Methoden selbst geholt wird, welche diese brauchen.
+
+Nachdem die Container erstellt sind müssen noch die Verbindungen bzw. Nachbarschaften der Container bestimmt werden. Dies übernimmt folgende Methode:
+```JAVA
+public void sendSetSignals(Container container){
+    double signal = 15;
+    double randomNum = ThreadLocalRandom.current().nextDouble(0.1, 1.0);
+    boolean add = ThreadLocalRandom.current().nextBoolean();
+  
+    if(add){
+        signal = signal + randomNum;
+    }else{
+        signal = signal - randomNum;
+    }
+  
+    Container origin = container;
+    for(Container cont : this.containers){
+        if(!cont.getName().equals(origin.getName())){
+            if(cont.getSignalMinimum() <= signal && checkContConList(origin.getName(),
+             cont.getName())){
+                origin.addDestination(cont);
+                contConList.add(extractId(origin.getName()) + ";" +
+                extractId(cont.getName()));
+            }
+        }
+    }
+    redoAllMinSignals();
+}
+```
+Als Basis-Signal wurde willkürlich 15 hergenommen, dieser Wert wird dann um einen zufälligen Wert zwischen 0.1 und 1 ebenfalls zufällig verkleinert oder vergrößert. Dann wird der momentan übergebene Container (z.B. cont5) auf `origin` gesetzt. Innerhalb der `for`-Schleife wird dann solange werden dann alle Container durchgegangen. Entspricht `cont` nicht `origin`, so wird geprüft ob das abgewandelte `signal` kleiner-gleich dem Minimum-Signal von `cont` ist. Sollte dies der Fall sein und besteht noch keine Verbindung zwischen den beiden (`checkContConList`), so gilt `cont` als Nachbar von `origin` und wird dementsprechend auch als solcher festgehalten. Es ist wichtig anzumerken, dass diese Methode von der `main` innerhalb einer `for-each` Schleife aufgerufen wird, also jeder erstellte Container einmal `origin` ist.
+
+Was würde es nun bewirken, wenn `randomNum` weiter verstreut wird (z.B, 0.1 bis 10)? Würde man diese Umstellung im Simulator umsetzten, dann steigt der Wert um welchen das Basis-Signal (15) erhöht werden KANN (auch eine Verringerung ist natürlich möglich). Dies bedeutet, dass der Wahrscheinlichkeit, dass folgender Fall entritt: `cont.getSignalMinimum() <= signal => TRUE` steigt, was wiederum bedeutet, dass die Vernetzung zwischen den Containern dichter wird. Anders sinkt die Eintritts-Wahrscheinlichkeit des Ausdrucks, wenn `randomNum` verringert wird (z.B. auf 0.01 bis 0.1).
+
+#### Verwendung der Daten (Funktionen des Simulators)
+Ist die Anzahl der Container erst einmal eingegeben, so wird der User mit folgendem konfrontiert:
+![[Pasted image 20250105220906.png]]
+Der User hat nun also die Wahl zwischen sechs verschiedenen Funktionalitäten des Containers.
+##### View single Container
+Möchte man zu einem Container die Details einsehen, wie etwa welche Nachbar-Container dieser besitzt kann mit (a) dies gemacht werden. Der User wird gefragt, welchen Container er einsehen möchte, hierbei wird auch deutlich gemacht, dass die Eingabe des Users `cont#` sein sollte wobei der Hashtag für eine Zahl steht. Der Eingelesene Name wird dann mit der `checkIfContainerWithNameExists`-Methode des `ship` überprüft, gibt diese NULL zurück, so wird dem User mitgeteilt, dass für den eingegebenen Namen kein Container existiert, ansonsten wird wird über die `getSingleContainer` (ebenfalls von `ship`) das gesamte Container Objekt zurückgegeben und mithilfe der Veränderten `.toString` ausgegeben.
+##### View Matrix
+Teil des `ship` ist ebenfalls eine Adjazenzmatrix, welche nach dem Erstellen der Container und deren Vernetzungen in der `void fillAdjMatrix()` von `ship` angelegt wird. Dies geschieht durch zwei `for-each`-Schleifen:
+- Die Erste geht alle Container der `containers`-Set durch (=`origin`)
+- Die Zweite geht alle benachbarten Container von `origin` durch, welche mittels dem Getter von `adjacentContainers` hergeholt werden (=`destination`)
+Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \[ID-origin]\[ID-destination]gespeichert. Was ist die ID? Die ID ist jene Zahl, welche nach dem "cont" des Namens steht (z.B: name="cont2"; ID = 2). Dies wird über eine separate Methode namens `extractID` gemacht. [18] 
+
+Wählt der User nun "View Matrix" aus so wird sie folgendermaßen ausgegeben:
+~~~~~
+c  0  1  2  3
+0  0  1  0  0 
+1  0  0  1  0 
+2  0  1  0  1 
+3  0  0  1  0 
+~~~~~
+(Beispiel mit 4 Containern)
+
+Für die Ausgabe ist eine weitere Methode von `ship` verantwortlich: `void AdjMatrix()`. Diese gibt zuerst die erste Zeile beginnend mit dem "c" aus, wobei die Länge der `for`-Schleife in welcher dies passiert, auf `containers.size()` beschränkt ist. Danach geht eine verschachtelte `for`-Schleife das 2d-Array der Adjazenzmatrix durch und gibt entwerder 0 (keine Verbindung) oder 1 (Verbindung) aus.
+
+##### Print Connection List
+Möchte der User sich über die "primitivste" Weiße, alle Verbindungen zwischen den Containern haben, so kann er sich die `contConList` von `ship` ausgeben lassen. Dies passiert über die Methode `void printContConList()`, welch die eben erwähnte Variable mit einer `for`-Schleife durchgeht und printet. Dies könnte in etwa so aussehen:
+~~~~
+cont0;cont1
+cont0;cont3
+cont1;cont2
+cont2:cont0
+~~~~
+(Beispiel mit 4 Containern)
+
+Besonders aber in der Entwicklungsphase des Simulators war dies sehr nützlich um schnell zu sehen welcher Container von sich aus die meisten Verbindungen hatte. Dies war besonders später beim Erstellen der Dragable Graphs sehr nützlich, da dieser immer einen Container als Ausgangspunkt nimmt. Die Liste ist auch bis zu einem gewissen Grad sortiert, da beim Muster "A;B" A sich erste ändert, wenn alle Bs durch sind.
+#### Exportieren in JSON files 
+#### Zustandekommen des Directed Dragable Graphs
+## Website
