@@ -19,7 +19,8 @@ Im Rahmen der Diplomarbeit werden aber nur 3 Prototypen angefertigt, welche eine
 Das Endergebnis des Simulators sollt ein Graph sein, welcher dabei hilft, die Verbindungen zwischen den einzelnen Containern zu visualisieren. Die Graphentheorie, ein Teilgebiet der Mathematik, spielt hierbei eine essenzielle Rolle.
 
 Allgemein gilt folgendes:
-> Ein **Graph** G besteht aus einer Menge V von **Knoten** und einer Menge E von Knotenpaaren, welche als **Kanten** bezeichnet werden. Die Notation für einen Graphen lautet G=(V,E)G=(V,E). E und V stehen dabei für _edges_ und _vertices_, also die englischen Begriffe für Kanten und Knoten. Eine Kante {u, v} ELEMENT E verbindet die Knoten u und v. [vgl. @Uni-Bremen-Graphentheorie]
+
+>Ein **Graph** G besteht aus einer Menge V von **Knoten** und einer Menge E von Knotenpaaren, welche als **Kanten** bezeichnet werden. Die Notation für einen Graphen lautet G=(V,E)G=(V,E). E und V stehen dabei für _edges_ und _vertices_, also die englischen Begriffe für Kanten und Knoten. Eine Kante {u, v} ELEMENT E verbindet die Knoten u und v. [vgl. @Uni-Bremen-Graphentheorie]
 
 Zusätzlich muss man innerhalb der Graphentheorie zwischen Ungerichteten und Gerichteten Graphen unterscheiden. Der primäre Unterschied liegt darin, ob die Kanten als einfache Striche (ungerichtet) oder Pfeile (gerichtet) dargestellt werden. [vgl. @Studyflix-Graphentheorie] 
 Bei einem gerichteten Graph ist daher die Richtung der Kante/ Beziehung zu beachten. Gilt z.B. A -> B -> C mit V={A, B, C} und E={{A,B}, {B,C}}, dann ist es nicht erlaubt, etwa von C zu B zu gehen, sondern nur von B nach C. Bei einem ungerichteten Graph gilt diese Regel nicht. Selbiges Beispiel nur ungerichtet: A - B - C; hier darf man sowohl von B nach C als auch umgekehrt von C nach B gehe.
@@ -450,7 +451,8 @@ while(!in.equals("q")){}
 ```
 #### Wie die Dummy-Daten + Verbindungen generiert werden
  Startet man das Programm so wird man als erstes zu folgendem aufgefordert:
-![[Pasted image 20250105203011.png]]
+![SimulatorConsole1](img/Gekle/SimulatorConsole1.png)
+
 Der User bestimmt also, wie viele Container für die Simulation erstellt werden sollen. ">=2" wurde deshalb als Bedingung eingeführt, da ein Simuliertes Schiff mit nur einem Container keinen Graph mit Knoten und Kanten entsprechen würde. Da es ja das Ziel ist, die Kommunikationsstruktur mit Kanten darzustellen, mach die Auswahl 1 wenig Sinn.
 
 Bestätigt der User seine Eingabe mit Enter, so wird ein `Ship` Objekt erstellt. Dieses hat als Zentrale Variable ein `Container`-Set namens `containers`, worin alle Container gespeichert werden. Das Erstellen und Speichern der Container selbst passiert in der `Main` mit folgendem Code:
@@ -495,15 +497,17 @@ Was würde es nun bewirken, wenn `randomNum` weiter verstreut wird (z.B, 0.1 bis
 
 #### Verwendung der Daten (Funktionen des Simulators)
 Ist die Anzahl der Container erst einmal eingegeben, so wird der User mit folgendem konfrontiert:
-![[Pasted image 20250105220906.png]]
+![SimulatorConsole2](img/Gekle/SimulatorConsole2.png)
+
 Der User hat nun also die Wahl zwischen sechs verschiedenen Funktionalitäten des Containers.
+
 ##### View single Container
 Möchte man zu einem Container die Details einsehen, wie etwa welche Nachbar-Container dieser besitzt kann mit (a) dies gemacht werden. Der User wird gefragt, welchen Container er einsehen möchte, hierbei wird auch deutlich gemacht, dass die Eingabe des Users `cont#` sein sollte wobei der Hashtag für eine Zahl steht. Der Eingelesene Name wird dann mit der `checkIfContainerWithNameExists`-Methode des `ship` überprüft, gibt diese NULL zurück, so wird dem User mitgeteilt, dass für den eingegebenen Namen kein Container existiert, ansonsten wird wird über die `getSingleContainer` (ebenfalls von `ship`) das gesamte Container Objekt zurückgegeben und mithilfe der Veränderten `.toString` ausgegeben.
 ##### View Matrix
 Teil des `ship` ist ebenfalls eine Adjazenzmatrix, welche nach dem Erstellen der Container und deren Vernetzungen in der `void fillAdjMatrix()` von `ship` angelegt wird. Dies geschieht durch zwei `for-each`-Schleifen:
 - Die Erste geht alle Container der `containers`-Set durch (=`origin`)
 - Die Zweite geht alle benachbarten Container von `origin` durch, welche mittels dem Getter von `adjacentContainers` hergeholt werden (=`destination`)
-Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \[ID-origin]\[ID-destination]gespeichert. Was ist die ID? Die ID ist jene Zahl, welche nach dem "cont" des Namens steht (z.B: name="cont2"; ID = 2). Dies wird über eine separate Methode namens `extractID` gemacht. [18] 
+Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \[ID-origin]\[ID-destination]gespeichert. Was ist die ID? Die ID ist jene Zahl, welche nach dem "cont" des Namens steht (z.B: name="cont2"; ID = 2). Dies wird über eine separate Methode namens `extractID` gemacht. [CHATGPT] 
 
 Wählt der User nun "View Matrix" aus so wird sie folgendermaßen ausgegeben:
 ```
@@ -528,6 +532,126 @@ cont2:cont0
 (Beispiel mit 4 Containern)
 
 Besonders aber in der Entwicklungsphase des Simulators war dies sehr nützlich um schnell zu sehen welcher Container von sich aus die meisten Verbindungen hatte. Dies war besonders später beim Erstellen der Dragable Graphs sehr nützlich, da dieser immer einen Container als Ausgangspunkt nimmt. Die Liste ist auch bis zu einem gewissen Grad sortiert, da beim Muster "A;B" A sich erste ändert, wenn alle Bs durch sind.
-#### Exportieren in JSON files 
+#### Exportieren in JSON files
+ Es gibt zwei mögliche JSON Files, welche erstellt werden können:
+- `graph.json`
+- `graphSpecific.json`
+Beide sind in ihrem Aufbau sehr ähnlich, dienen aber unterschiedlichen Zwecken. 
+
+`graph.json` entspringt folgender Methode:
+```JS
+public JSONObject parseAllContainersToJSON(){
+    JSONArray containersJSON = new JSONArray();
+  
+    for(Container c : containers){
+        JSONObject containerJSONObject = new JSONObject();
+        containerJSONObject.put("contId", c.getName());
+  
+        if(getAllSubs(c) != null){
+            JSONArray subsOfC = getAllSubs(c);
+            containerJSONObject.put("subs", subsOfC);
+        }  
+        containersJSON.put(containerJSONObject);
+  
+    }
+  
+    JSONObject finalJSON = new JSONObject();
+    finalJSON.put("containers", containersJSON);
+    return finalJSON;
+}
+```
+
+Diese Methode geht alle bestehenden Container durch. Es wird jeweils ein neues `JSONObject` erstellt und mit `.put` der Name des momentanen Containers zusammen mit "contId" in das neu erstellte JSON-Objekt hinzugefügt. Nun kommt die `getAllSubs`-Methode in das Spiel: Dieser wird der aktuelle Container übergeben und sie checkt dann anhand der **Adjazenz-Matrix**, ob es "1", also Verbindungen zu anderen Container gibt. Ist dies der Fall, gibt sie ein `JSONArray` zurück, ist dies nicht der Fall, NULL. Im Fall, ein `JSON`-Array vorhanden ist, fügt die `parseAllContainersToJSON`-Methode dieses mit dem Key "subs" (Sub-Container = benachbarte Container) ebenfalls zum JSON-Objekt hinzu , bevor dieses dann selbst in das `containersJSON`-Array hinzugefügt wird. Da die Methode ein `JSONObject` zurückgeben soll (Grund: da die Export-Methode dies verlangt), wird ein abschließendes `JSONObject` erstellt, welches das Array mit dem key "containers" abspeicher.
+[vgl. @HowToDoInJava-JSON & @MavenRepository-JSON]
+
+Das zweite File, entstammt einer anderen Funktion namens `parseSpecificToJSON`:
+```JAVA
+public JSONObject parseSpecificToJSON(Container origin, int depth){ 
+    JSONObject originJSONObject = new JSONObject();
+    originJSONObject.put("contId", origin.getName());
+    
+    if (depth > 0) {
+        JSONArray subsArray = new JSONArray();
+        JSONArray subsOfOrigin = getAllSubs(origin);
+  
+        if (subsOfOrigin != null) {
+            for (Object sub : subsOfOrigin) {
+                JSONObject subJSONObject = (JSONObject) sub;
+                Container subContainer = convertJSONToContainer(subJSONObject);
+  
+                JSONObject subContainerJSON = parseSpecificToJSON(subContainer, depth -1);
+                subsArray.put(subContainerJSON);
+            }
+            originJSONObject.put("subs", subsArray);
+        }
+    }
+ return originJSONObject;
+}
+```
+[CHATGPT21]
+Diese Methode übernimmt einen Ausgangscontainer `origin` und eine Tiefe `depth`. Zeil dieser Methode ist es, bis zu einer gewissen Tiefe die Sub-Container eines Ausgangscontainers in ein JSON-Objekt zu schreiben. Angenommen der Ausgangscontainer ist "cont0" und die Tiefe ist 3, dann wird der Ausgangscontainer (Tiefe 0), seine Verbindungs-Container (Tiefe 1) und deren Verbindungs-Container (Tiefe 2) in ein JSON-File geschrieben. Es ist diese Methode, welches die Grundlage für das JSON File liefert, welches später im Dragable Graph ebenfalls verwendet wird.
+
+Zur  Erklärung dieser Methode: Sollte eine passende Tiefe (>0) übergeben worden sein und besitzt der Ausgangs-Container Verbindungen zu Anderen, so wird eine `For`-Schleife ausgelöst, welche alle Sub-Container des `origin` durchgeht. Jedes dieser "sub Objects" wird dann in ein `JSOBObject` gecastet und daraufhin mit einer Hilfsmethode (=`convertJSONToContainer` [CHATGPT21]) in ein `Container`-Objekt umgewandelt. Nun beginnt das rekursive Aufrufen der Methode, wobei `depth` immer um eins verringert wird. Durch dieses rekursive Aufrufen wird immer einer der `subs` von dem ursprünglichen `origin`, das neue `origin` bis eben die Tiefe 0 erreicht hat und die Methode zu Ende ist. 
+
+Das eigentliche Schreiben in die jeweiligen JSON Files übernimmt die Methode `exportToJsonFile` ([CHATGPT21]), welche folgende drei Variablen übernimmt:
+- boolean `sepcific`
+- int `depth`
+- Container `spc`
+Ist `sepcifc = false`, dann ruft die Methode `parseAllContainersToJSON` auf, ist sie TRUE `parseSpecificToJSON(spc, depth)`. Mithilfe eines `FileWriters` wird dann entweder in `graph.json` (bei `sepcifc = false`) oder in `graphSpecific.json` (bei `sepcifc = true`) geschrieben.
+
+Das Aufrufen dieser Methode geschieht in der `Main`, wobei der User den Ausgangscontainer und die Tiefe angeben muss, sollte er "specific" wählen.
+
+Unter folgender Annahme:
+```
+Container Anzahl = 4
+Adjazenz Matrix =
+c  0  1  2  3
+0  0  1  1  1 
+1  1  0  0  0 
+2  0  0  0  0 
+3  0  0  1  0 
+
+Origin = cont1
+Tiefe = 2
+```
+... würden folgende 2 Files entstehen:
+
+**graph.json**:
+```JSON
+{"containers": [
+    {"contId": "cont2"},
+    {
+        "contId": "cont1",
+        "subs": [{"contId": "cont0"}]
+    },
+    {
+        "contId": "cont0",
+        "subs": [
+            {"contId": "cont1"},
+            {"contId": "cont2"},
+            {"contId": "cont3"}
+        ]
+    },
+    {
+        "contId": "cont3",
+        "subs": [{"contId": "cont2"}]
+    }]}
+```
+
+**graphSpecific.json**:
+```JSON
+{
+    "contId": "cont1",
+    "subs": [{
+        "contId": "cont0",
+        "subs": [
+            {"contId": "cont1"},
+            {"contId": "cont2"},
+            {"contId": "cont3"}
+        ]
+    }]
+}
+```
+
 #### Zustandekommen des Directed Dragable Graphs
 ## Website
