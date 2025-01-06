@@ -360,12 +360,14 @@ headers: { 'Content-Type': 'application/json', }, });
 Die BaseURL und der Header sind bei jedem Call über die gesamte Website hinweg die gleichen, daher kann man in einem separaten JavaScript File eine sogenannte Axios Instanz [CHATGPT] erstellen:
 ```JS
 import axios from 'axios';
+
 const axiosInstance = axios.create({
-  baseURL: 'https://api.contrude.eu',
-  headers: {
-    'Content-Type': 'application/json',
-  },
+  baseURL: 'https://api.contrude.eu',
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
+
 export default axiosInstance;
 ```
 
@@ -419,9 +421,9 @@ public String toString() {
 }
 ```
 Entspricht:
-~~~~~
+```
 Container{name='cont1', adjacentContainers=cont0, , signalMinimum=10.753991237010691}
-~~~~~
+```
 ##### Ship
 Dies ist die zweite Klasse, in welcher alle für den Simulator notwendigen Funktionen implementiert sind. Die Klasse selbst verwaltet drei Variablen:
 - Set\<Container> `containers` (HashSet)
@@ -443,9 +445,9 @@ System.out.println("\nChoose an option:\n" +
 in = sc.nextLine();
 ```
 Über einen `Scanner` wird diese Eingabe dann geprüft. Das Ausführen der passenden Aktionen regelt ein `switch-case`, wobei auf ein `default` gesetzt ist, sollte die User-Eingabe inkorrekt sein. Sobald der User "q" eingibt bricht die `while`-Schleife ab, dies wird durch folgenden Ausdruck ermöglich:
-~~~~
+```
 while(!in.equals("q")){}
-~~~~
+```
 #### Wie die Dummy-Daten + Verbindungen generiert werden
  Startet man das Programm so wird man als erstes zu folgendem aufgefordert:
 ![[Pasted image 20250105203011.png]]
@@ -504,25 +506,25 @@ Teil des `ship` ist ebenfalls eine Adjazenzmatrix, welche nach dem Erstellen der
 Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \[ID-origin]\[ID-destination]gespeichert. Was ist die ID? Die ID ist jene Zahl, welche nach dem "cont" des Namens steht (z.B: name="cont2"; ID = 2). Dies wird über eine separate Methode namens `extractID` gemacht. [18] 
 
 Wählt der User nun "View Matrix" aus so wird sie folgendermaßen ausgegeben:
-~~~~~
+```
 c  0  1  2  3
 0  0  1  0  0 
 1  0  0  1  0 
 2  0  1  0  1 
 3  0  0  1  0 
-~~~~~
+```
 (Beispiel mit 4 Containern)
 
 Für die Ausgabe ist eine weitere Methode von `ship` verantwortlich: `void AdjMatrix()`. Diese gibt zuerst die erste Zeile beginnend mit dem "c" aus, wobei die Länge der `for`-Schleife in welcher dies passiert, auf `containers.size()` beschränkt ist. Danach geht eine verschachtelte `for`-Schleife das 2d-Array der Adjazenzmatrix durch und gibt entwerder 0 (keine Verbindung) oder 1 (Verbindung) aus.
 
 ##### Print Connection List
 Möchte der User sich über die "primitivste" Weiße, alle Verbindungen zwischen den Containern haben, so kann er sich die `contConList` von `ship` ausgeben lassen. Dies passiert über die Methode `void printContConList()`, welch die eben erwähnte Variable mit einer `for`-Schleife durchgeht und printet. Dies könnte in etwa so aussehen:
-~~~~
+```
 cont0;cont1
 cont0;cont3
 cont1;cont2
 cont2:cont0
-~~~~
+```
 (Beispiel mit 4 Containern)
 
 Besonders aber in der Entwicklungsphase des Simulators war dies sehr nützlich um schnell zu sehen welcher Container von sich aus die meisten Verbindungen hatte. Dies war besonders später beim Erstellen der Dragable Graphs sehr nützlich, da dieser immer einen Container als Ausgangspunkt nimmt. Die Liste ist auch bis zu einem gewissen Grad sortiert, da beim Muster "A;B" A sich erste ändert, wenn alle Bs durch sind.
