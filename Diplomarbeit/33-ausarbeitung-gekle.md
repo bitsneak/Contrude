@@ -8,21 +8,21 @@
 
 #### Warum wird er benötigt
 
-Ein zentraler Aspekt der Diplomarbeit ist das ungefähre Identifizieren der Position eines bestimmten Containers auf einem Containerschiff.  
-  
-Die Kapazität eines Schiffes wird in der Regel mit TEUs (Twenty Foot Equivalent Units) angegeben. Jeder Container ist also 20 Fuß (6,1 m) oder ca. 6 Meter lang. Containerschiffe können von weniger als tausend TEUs bis hin zu 24000 TEUs haben. [14] + [15]  
-  
+Ein zentraler Aspekt der Diplomarbeit ist das ungefähre Identifizieren der Position eines bestimmten Containers auf einem Containerschiff.
+
+Die Kapazität eines Schiffes wird in der Regel mit TEUs (Twenty Foot Equivalent Units) angegeben. Jeder Container ist also 20 Fuß (6,1 m) oder ca. 6 Meter lang. Containerschiffe können von weniger als tausend TEUs bis hin zu 24000 TEUs haben. [14] + [15]
+
 Im Rahmen der Diplomarbeit werden aber nur 3 Prototypen angefertigt, welche einerseits die benötigten Umweltdaten, andererseits aber auch miteinander kommunizieren. Die Komplexität eines "Containergeflechts" bestehend aus nur 3 Containern hält sich daher in Grenzen und um den vollen Umfang unserer Diplomarbeit zu veranschaulichen ist ein anderer Weg vonnöten. Dies ist, wo der Simulator ins Spiel kommt: Er übernimmt die Aufgabe, ein System an Containern ohne hunderten oder gar tausenden Prototypen darzustellen.
 
 #### Graphentheorie
 
-Das Endergebnis des Simulators sollt ein Graph sein, welcher dabei hilft, die Verbindungen zwischen den einzelnen Containern zu visualisieren. Die Graphentheorie, ein Teilgebiet der Mathematik, spielt hierbei eine essenzielle Rolle.  
-  
-Allgemein gilt folgendes:  
->Ein **Graph** G besteht aus einer Menge V von **Knoten** und einer Menge E von Knotenpaaren, welche als **Kanten** bezeichnet werden. Die Notation für einen Graphen lautet G=(V,E)G=(V,E). E und V stehen dabei für _edges_ und _vertices_, also die englischen Begriffe für Kanten und Knoten. Eine Kante {u, v} ELEMENT E verbindet die Knoten u und v. [16]  
-  
-Zusätzlich muss man innerhalb der Graphentheorie zwischen Ungerichteten und Gerichteten Graphen unterscheiden. Der primäre Unterschied liegt darin, ob die Kanten als einfacher Strich (ungerichtet) oder ein Pfeil (gerichtet) dargestellt werden. [17] Bei einem gerichteten Graph ist daher die Richtung der Kante/ Beziehung zu beachten. Gilt z.B. A -> B -> C mit V={A, B, C} und E={{A,B}, {B,C}}, dann ist es nicht erlaubt, etwa von C zu B zu gehen, nur von B nach C. Bei einem ungerichteten Graph gilt diese Regel nicht. Selbiges Beispiel nur ungerichtet: A - B - C; hier darf man sowohl von B nach C als auch umgekehrt von C nach B gehe.  
-  
+Das Endergebnis des Simulators sollt ein Graph sein, welcher dabei hilft, die Verbindungen zwischen den einzelnen Containern zu visualisieren. Die Graphentheorie, ein Teilgebiet der Mathematik, spielt hierbei eine essenzielle Rolle.
+
+Allgemein gilt folgendes:
+>Ein **Graph** G besteht aus einer Menge V von **Knoten** und einer Menge E von Knotenpaaren, welche als **Kanten** bezeichnet werden. Die Notation für einen Graphen lautet G=(V,E)G=(V,E). E und V stehen dabei für _edges_ und _vertices_, also die englischen Begriffe für Kanten und Knoten. Eine Kante {u, v} ELEMENT E verbindet die Knoten u und v. [16]
+
+Zusätzlich muss man innerhalb der Graphentheorie zwischen Ungerichteten und Gerichteten Graphen unterscheiden. Der primäre Unterschied liegt darin, ob die Kanten als einfacher Strich (ungerichtet) oder ein Pfeil (gerichtet) dargestellt werden. [17] Bei einem gerichteten Graph ist daher die Richtung der Kante/ Beziehung zu beachten. Gilt z.B. A -> B -> C mit V={A, B, C} und E={{A,B}, {B,C}}, dann ist es nicht erlaubt, etwa von C zu B zu gehen, nur von B nach C. Bei einem ungerichteten Graph gilt diese Regel nicht. Selbiges Beispiel nur ungerichtet: A - B - C; hier darf man sowohl von B nach C als auch umgekehrt von C nach B gehe.
+
 Abschließend muss man noch auf den Zusammenhang der einzelnen Knoten schauen. Ein ungerichteter Graph ist dann zusammenhängend, wenn alle Knoten erreichbar, also es zu jedem Knoten einen Weg gibt. Ist dies nicht der Fall, sprich es gibt sogenannte isolierte Knoten, dann ist der Graph nicht zusammenhängend. Bei gerichteten Graphen unterscheidet man zusätzlich zwischen schwach und stark zusammenhängenden Graphen. [17] In dem Beispiel A -> B mit V={A, B} und E={A,B}, ist der Knoten A nur erreichbar, wenn man die Richtung außer Acht lässt, man spricht von einem schwach zusammenhängenden Graph. Für einen stark zusammenhängenden Graph müsste zusätzlich noch ein Knoten {B, A} bestehen.
 
 Der Containersimulator hat als Endergebnis einen **ungerichteten** Graphen wie im folgenden Bild zu sehen ist:
@@ -113,8 +113,8 @@ Der große Vorteil des Dragable Graphs besteht darin, dass er interaktiv ist. Ei
 
 #### React
 
-Bei React handelt es sich anders als bei z.B. Angular nicht tatsächlich um ein Framework im herkömmlichen Sinne. Vielmehr ist es eine Bibliothek zum Rendern graphischer Oberflächen. React setzt sehr stark auf Komponentenorientierung, wobei zwischen klassenbasierten und funktionalen Komponenten unterscheidet. Die Tendenz geht allerdings immer mehr in Richtung funktioneller Komponente. [1]  
-  
+Bei React handelt es sich anders als bei z.B. Angular nicht tatsächlich um ein Framework im herkömmlichen Sinne. Vielmehr ist es eine Bibliothek zum Rendern graphischer Oberflächen. React setzt sehr stark auf Komponentenorientierung, wobei zwischen klassenbasierten und funktionalen Komponenten unterscheidet. Die Tendenz geht allerdings immer mehr in Richtung funktioneller Komponente. [1]
+
 Auch hier im folgenden Beispiel ist eine funktionelle Komponente der Diplomarbeits-Website zu sehen. Dies lässt sich u.a. an dem für JavaScript typischen Syntax wie das "=>" erkennen, aber auch daran, dass sogenannte Hooks (z.B. useStates) verwendet werden:
 
 ```js
@@ -130,7 +130,7 @@ const LoginField = ({ placeholder, value, onChange, isPassword = false }) => {
 export default LoginField;
 ```
 
-`DetailControl` kann rein theoretisch überall eingesetzt werden, da diese Komponente an und für sich nur  eine spezielle Funktion übernimmt, jedoch kann man  Komponenten aber auch so gestalten, dass sie sich je nach Einsatzgebiet sich unterschiedlich verhalten (z.B. anders aussehen, verschiedene andere Komponente übernehmen etc.).
+`LoginField` kann rein theoretisch überall eingesetzt werden, da diese Komponente an und für sich nur eine spezielle Funktion übernimmt, jedoch kann man Komponenten aber auch so gestalten, dass sie sich je nach Einsatzgebiet sich unterschiedlich verhalten (z.B. anders aussehen, verschiedene andere Komponente übernehmen etc.).
 
 Im folgenden Bild lässt sich dies auch gut erkennen. Der Code entspringt eine "Page", also einer Seite, welche der User sieht. Der Code wird aber nicht von oben bis unten durch in dieser einen Page (ebenfalls eine funktionelle Komponente) geschrieben, sondern in mehrere Komponenten aufgebrochen. Diese können dann ganz einfach in die Page eingefügt werden. (z.B. `Sidebar`, `Topbar`, `Detailspace` usw.). Betrachtet man die `Topbar` Komponente, so sieht man, dass ihr weitere Komponenten übergeben werden, welche sie dann nutzen kann. Wie eben erwähnt können die Parameter oder Komponenten welche übergeben werden von Anwendungsfall zu Anwendungsfall komplett unterschiedlich sein:
 
@@ -203,15 +203,15 @@ Die 3 "Basic Hooks" sind hierbei allerdings die wichtigsten. Neben dem bereits e
 
 ##### React Router
 
-Viele Webanwendungen sind sogenannte "Single-Page-Webanwendungen". Sie bestehen also aus nur einem HTML-Dokument, wobei der Inhalt dynamisch nachgeladen wird. Bei komplexeren Anwendungen wird jedoch eher auf die "Multi-Page-Webanwendungen" zurückgegriffen. Um so eine zu erstellen, muss das Routing verwendet werden. Mithilfe des Routings werden Komponenten Routen zugeordnet.  
-  
+Viele Webanwendungen sind sogenannte "Single-Page-Webanwendungen". Sie bestehen also aus nur einem HTML-Dokument, wobei der Inhalt dynamisch nachgeladen wird. Sogenannte SPA (Single Page Applications) beinhalten also Komponenten, welche sich wie Seiten verhalten. Um so etwas zu erstellen, muss React-Router und das Routing verwendet werden. Mithilfe des Routings werden Komponenten Routen zugeordnet. Dies stellt `react-router-dom` zur Verfügung[4] 
+
 Dies erfolgt über das "Route" Element:
 
 ```js
 <Route path="/main" element={<MainPage />} />
 ```
 
-Hierbei wird  über die URL ".../main" auf die MainPage verwiesen. Gibt man  in der Adresszeile eines Browsers die URL ein, würde man also auf der MainPage landen.
+Hierbei wird über die URL ".../main" auf die MainPage verwiesen. Gibt man in der Adresszeile eines Browsers die URL ein, würde man also auf der MainPage landen.
 
 Es ist wichtig anzumerken, dass alle Routes logischerweise teil eines Routers sein müssen. Dies würde in etwa so aussehen:
 
@@ -247,7 +247,7 @@ Selbst aber mit dem HMR (Hot Module Replacement --> Änderungen im Code werden s
 
 >Wenn Sie ein Modul importieren, behandelt Vite es als virtuelles Modul. Während der Entwicklung bündelt es nicht Ihren gesamten Code in eine einzelne Datei. Stattdessen erstellt es bei Bedarf Builds für jedes Modul und stellt sie in separaten Dateien bereit. Dieser Ansatz eliminiert die Notwendigkeit eines vollständigen Bündelungsprozesses bei jeder Änderung, führt zu schnelleren Reloads und – natürlich – zu einem zufriedenen Entwickler. [6]
 
-##### Erstellen und bundeln mit Vite
+##### Erstellen eines React-Projekt mit Vite
 
 Text
 
@@ -325,7 +325,7 @@ Die Anfrage geht dann beim Server ein und die REST API kümmert sich darum, dass
 
 Damit eine REST API gültig ist, müssen 6 Kriterien erfüllt sein:
 
-1. Architektur --> Clients,  Servern und Ressourcen bei welcher Anfragen über HTTP laufen
+1. Architektur --> Clients, Servern und Ressourcen bei welcher Anfragen über HTTP laufen
 2. "Statelessness" --> es werden keine Client-Informationen zwischen Anfragen gespeichert
 3. Cachefähige Daten --> optimiert Interaktion zwischen Client und Server
 4. einheitliche Schnittstelle zwischen Komponenten --> von überall kann auf Ressourcen gleich zugegriffen werden
@@ -360,9 +360,28 @@ const response = await axios.post('localhost:8000/login', loginData, {
 headers: { 'Content-Type': 'application/json', }, });
 ```
 
+Die BaseURL und der Header sind von jedem Call über die gesamte Website hinweg die gleichen, daher wurde in einem separaten JavaScript File eine sogenannte Axios Instanz [13] erstellt:
+```JS
+import axios from 'axios';
+const axiosInstance = axios.create({
+  baseURL: 'https://api.contrude.eu',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+export default axiosInstance;
+```
+
+Diese wird dann in allen Komponenten eingebunden, welche man REST-Abfrage durchführen: `import axiosInstance from '../api/AxiosInstance';`
+
+Ein Call würde dann noch einfacher aussehen:
+```JS
+const response = await axiosinstance.post('localhost:8000/login', loginData);
+```
+
 Die Fehlerbehandlung ist durch Axios ebenfalls verbessert. So sieht fetch das Promise bei z.B. HTTP Fehlercodes wie 404 oder 500 trotzdem als erfüllt. Sprich: Der Status Code muss explizit überprüft werden. Ein Fehler wird also nur ausgelöst, wenn es sich um ein Netzwerkproblem handelt (z.B. Server nicht erreichbar). Axios sieht HTTP-Fehler aber automatisch als das, was sie sind, Fehler, und lehnt das Promise ab wodurch die Fehlerbehandlung vereinfacht wird. [13]
 
-(Quellenangabe folgt!!!)
+Alle Abfragen werden innerhalb von asynchronen Funktionen durchgeführt. Dies hat einerseits den Vorteil, dass der Code besser lesbar ist, da man ohne `async` mit `.then` und `.catch` gearbeitet werden muss, so wird zusätzlich sogenannten "Callback-Hells" vorgebeugt, da man sich nicht in `then` Schleifen verliert. Auch die Fehlerbehandlung ist aufgrund von `try/catch` einfacher und sauberer. [23]
 
 ## Praktische Arbeit
 
