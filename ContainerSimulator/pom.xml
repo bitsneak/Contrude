@@ -15,11 +15,13 @@
     </properties>
 
     <dependencies>
+        <!-- https://mvnrepository.com/artifact/org.json/json -->
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-            <version>20210307</version> <!-- Stelle sicher, die neueste Version zu verwenden -->
+            <version>20240303</version>
         </dependency>
+
     </dependencies>
 
 </project>

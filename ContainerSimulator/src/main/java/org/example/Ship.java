@@ -128,13 +128,14 @@ public class Ship {
 
     }
 
-    public JSONObject parseSpecificToJSON(Container origin, int length){
+    //ChatGPT -editiert (removed unneeded if)
+    public JSONObject parseSpecificToJSON(Container origin, int depth){
         // Erstelle das JSON-Objekt für den Ursprung-Container
         JSONObject originJSONObject = new JSONObject();
         originJSONObject.put("contId", origin.getName());
 
         // Wenn die Tiefe größer als 0 ist, rekursiv die Subcontainer hinzufügen
-        if (length > 0) {
+        if (depth > 0) {
             JSONArray subsArray = new JSONArray();
             // Hole alle Subcontainer des aktuellen Containers
             JSONArray subsOfOrigin = getAllSubs(origin);
@@ -142,21 +143,12 @@ public class Ship {
             // Wenn es Subcontainer gibt, füge sie rekursiv hinzu
             if (subsOfOrigin != null) {
                 for (Object sub : subsOfOrigin) {
-                    // Wenn sub ein JSONObject ist, müssen wir es zu einem Container umwandeln
-                    if (sub instanceof JSONObject) {
-                        // Beispiel: Umwandlung von JSONObject zu Container
-                        JSONObject subJSONObject = (JSONObject) sub;
-                        Container subContainer = convertJSONToContainer(subJSONObject);
+                    JSONObject subJSONObject = (JSONObject) sub;
+                    Container subContainer = convertJSONToContainer(subJSONObject);
 
-                        // Rufe rekursiv die Methode für den Subcontainer auf
-                        JSONObject subContainerJSON = parseSpecificToJSON(subContainer, length - 1);
-                        subsArray.put(subContainerJSON);
-                    } else if (sub instanceof Container) {
-                        // Falls es bereits ein Container ist, direkt verwenden
-                        Container subContainer = (Container) sub;
-                        JSONObject subContainerJSON = parseSpecificToJSON(subContainer, length - 1);
-                        subsArray.put(subContainerJSON);
-                    }
+                    // Rufe rekursiv die Methode für den Subcontainer auf
+                    JSONObject subContainerJSON = parseSpecificToJSON(subContainer, depth - 1);
+                    subsArray.put(subContainerJSON);
                 }
                 originJSONObject.put("subs", subsArray);
             }
@@ -171,9 +163,6 @@ public class Ship {
         String name = json.getString("contId");
         return new Container(name);  // Beispiel für eine einfache Umwandlung
     }
-
-
-
 
     public JSONObject parseAllContainersToJSON(){
         Container[] containersArray = containers.toArray(new Container[0]);
