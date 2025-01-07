@@ -4,6 +4,7 @@
 
 ## Theorie
 
+<<<<<<< HEAD
 ### Benötigte Hardwarekomponenten
 
 Um ein Projekt zu realisieren, bei dem Umweltdaten ausgelesen werden, benötigt man geeignete Komponenten, auf denen die Software zuverlässig läuft. Bei der Auswahl dieser Komponenten spielten mehrere Faktoren eine Rolle, darunter die Kosten, die Größe sowie die Anzahl der verfügbaren Funktionen.
@@ -26,6 +27,9 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
    - **Grund**: Der MPU6050 ist eine Kombination aus Beschleungiungssensor und Gyroskop. Damit können Bewegungen auf der X, der Y und der Z-Achse erfasst werden.
 4. ***GY-GPSMV2***
    - **Grund**: Das GY-GPSMV2-Modul ermöglicht die Standortbestimmung über GPS. Es bietet eine hohe Genauigkeit und eine stabile Leistung, wodurch die Postion präzise erfasst werden kann.
+=======
+### Die Welt der Hardware  (Benötigte Hardwarekomponenten)
+>>>>>>> ac9d57a363895aae07ce377b2aa2e6be93514bc6
 
 #### Kosten
 
@@ -133,10 +137,6 @@ framework = mbed
 
 ## Praktische Arbeit
 
-Hier beschreiben Sie ihren praktischen Teil. Es geht darum seine Implementierung / Versuche so darzustellen dass anhand dieser der Leser erkennen kann was sie wie gemacht haben.
-
-Die Frage nach der Detailgenauigkeit lässt sich wie folgt beantworten: So, dass man Ihre Aufgabenstellung vollständig  nachvollziehen kann wenn man nur diese Diplomarbeit in Händen hat!
-
 ### Zusammensetzen und Löten des Prototypen
 
 ### Schreiben eines MQTT Programmes
@@ -144,3 +144,7 @@ Die Frage nach der Detailgenauigkeit lässt sich wie folgt beantworten: So, dass
 ### Durchführung der Tests (kontinuirlich)
 
 
+<<<<<<< HEAD
+=======
+### Erzeugen von Java Quellcode
+>>>>>>> ac9d57a363895aae07ce377b2aa2e6be93514bc6

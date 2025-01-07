@@ -12,8 +12,8 @@ Eine Datenbank ermöglicht die Speicherung und Verwaltung von zusammenhängenden
 
 In einem relationalen Datenbanksystem werden Daten in Form von Tabellen gespeichert. Jede Tabelle hat eine Relation zu einer anderen Tabelle, entweder inhaltich oder strukturell. Durch diese Beziehungen, wenn sie richtig definiert sind, werden Redundanzen vermieden. Um solche Beziehungen richtig aufzubauen gibt es das Konzept der Normalisierung.
 
-@Nachhilfe-Team
 > Die Normalisierung von relationalen Datenbanken ist ein Vorgehen, bei dem die Ausgangstabelle in mehrere kleine Tabellen zerlegt wird. Dann werden sie über Fremdschlüssel in Beziehung gesetzt. Ziel einer solchen Normalisierung ist das Erschaffen einer redundanzfreien Datenspeicherung, die Vermeidung von Anomalien, sowie die Erstellung eines klar strukturierten Datenbankmodells.
+[@Nachhilfe-Team]
 
 Der entscheidende Vorteil von RDBs ist, dass sie eine gemeinsame standardisierte Sprache für die Datenabfrage- und verarbeitung besitzen - SQL. In relationalen Datenbanken werden primär Informationen persistiert, welche auf längere Zeit vorhanden bleiben und auf die nicht in kurzen Zeitintervallen zugegriffen wird.
 
@@ -27,8 +27,8 @@ Ein Sonderfall der TSDB ist die Round Robin Database (RRD). Diese löscht alte D
 
 #### Visualisierungsarten
 
-@aws-datenvisualisierung
 > Datenvisualisierung ist der Prozess der Verwendung visueller Elemente wie Diagramme, Grafiken oder Karten zur Darstellung von Daten. Sie übersetzt komplexe, umfangreiche oder numerische Daten in eine visuelle Darstellung, die leichter zu verarbeiten ist.
+[@aws-datenvisualisierung]
 
 Um Rohdaten verständlich zu machen, im Kontext betrachten zu können und etwaige Korrelationen zwischen verschiedenen Datensets sichtbar zu machen, ist es notwendig, die oben genannten Methoden anzuwenden. Hierbei ist eine unkomplizierte Grafik als Endprodukt das Ziel.
 
@@ -36,9 +36,9 @@ Um solch ein Ergebnis zu erreichen, müssen vorhandene Daten bereinigt, gefilter
 
 ### CI/CD
 
-![Projektorganisationsdiagramm](img/Schrempf/CI_CD.png){width=100%} [@bestarion]
+![CI/CD Ablauf [@bestarion]](img/Schrempf/CI_CD.png){width=100%}
 
-CI / CD ist ein Konzept, welches Entwicklerteams, dazu anregt, kontinuirlich und in kürzeren Abständen Dinge am Code zu ändern, diesen zu verbessern und zu automatisieren. Wie oben dargestellt, ist es ein nie endender Kreislauf. Man unterscheidet zwei Komponenten voneinander: Continuous integration und Continuous delivery.
+CI/CD ist ein Konzept, welches Entwicklerteams, dazu anregt, kontinuirlich und in kürzeren Abständen Dinge am Code zu ändern, diesen zu verbessern und zu automatisieren. Wie oben dargestellt, ist es ein nie endender Kreislauf. Man unterscheidet zwei Komponenten voneinander: Continuous integration und Continuous delivery.
 
 Unter CI versteht man das tatsächliche Entwickeln, Testen und Hochladen des Codes in das VCS. Dies wird durch verschiedene Methoden und Prozesse erleichtert, wie zum Beispiel automatisches Testen des Programms oder agiles Projektmanagement.
 
@@ -69,7 +69,7 @@ Jedes Image wird in einem Dockerfile definiert. Hierbei spricht man nur von eine
 
 Docker compose ist eine Funktionalität von Docker. Es ermöglicht die Definition von mehreren Microservices in einer YAML-Konfigurationsdatei Namens ```compose.yml```. Hier wird ein Microservice nur Service genannt. Ein Service kann wieder als Dockerfile definiert werden oder sogar das Image vom Docker Hub benutzt und in der Datei bis zu einem gewissen Maß weiter spezialisiert werden. In der ```compose.yml``` werden Ports, Secrets, zu benutzende Volumes, Networks und die Anzahl der Container des Services beschrieben. Secrets sind Umgebungsvariablen die an den entstehenden Container weitergegeben werden. Volumes werden benutzt um fixe Daten, z.B. Code, in den Container oder Daten vom Container, z.B. Datenbanken, auf dem Hostsystem zu persistieren. Da nun mehrere Microservices zwar als Bausteine definiert werden, jedoch miteinander interagierene können um ein ganzes Konstrukt zu bilden, gibt es Networks. Über diese können Tasks, wie Containerübergreifende Datenkommunikation, realisiert werden. So sieht eine ```compose.yml``` Datei grundelegend aus:
 
-```yaml
+```{caption="Beispiel eines docker compose files" .yml}
 services:
   frontend:
     image: example/webapp
@@ -134,7 +134,7 @@ Eine GitHub Action besteht aus folgenden Komponenten:
 
 Hier wird eine workflow.yml dargestellt, welche eine Java-Applikation beim Push-Event testet.
 
-```yaml
+```{caption="Beispiel einer github action" .yaml}
 name: Test
 
 on:
@@ -252,19 +252,19 @@ Mit Frameworks wie Node.js kann auch eine Frontendorientierte Sprache wie JavaSc
 
 Um eine Node.js REST-Appp zu erstellen, muss man als erstes einen Ordner seiner Wahl als ein Node.js project initialisieren. Als Package-Manager wird hier NPM verwendet.
 
-```console
+```{caption="Initialisieren eines Node.js Projekts" .cmd}
 npm init
 ```
 
 Danach können benötigte Packages installiert werden. In unserem fall Express.
 
-```console
+```{caption="Installieren vom Express package" .cmd}
 npm install express
 ```
 
 Eine JS Datei mit folgendem Inhalt muss noch erstellt werden um einen REST-Express Server in der Node.js Anwendung zu starten:
 
-```js
+```{caption="Beispiel für eine REST Schnitstelle in Node.js" .js}
 import express from "express";
 
 const app = express(); // lässt die App Express verwenden
@@ -287,7 +287,7 @@ app.listen(port, () => {
 
 Mit dem letzten Befehl
 
-```console
+```{caption="Starten einer Node.js Applikation" .cmd}
 node app.js
 ```
 
@@ -298,6 +298,8 @@ wird die Applikation gestarted und kann auf ```http://localhost:80/hello``` aufg
 ### Datenspeicherung- und Visualisierung
 
 #### MySQL
+
+MySQL ist ein Open-Source RDBMS, welches von Oracle verwaltet wird. Diese DB wird stetig weiterentwickelt und ist sogar optimal in der Cloud hostbar. [@talend-mysql]
 
 #### InfluxDB
 
