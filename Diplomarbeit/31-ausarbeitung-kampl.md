@@ -4,25 +4,132 @@
 
 ## Theorie
 
-Dieses Kapitel wird oft auch als _Literaturrecherche_ bezeichnet. Da gehört alles rein was der __normale__ Leser braucht um den praktischen Ansatz zu verstehen. Das bedeutet Sie brauchen einen roten Faden !
+### Benötigte Hardwarekomponenten
 
-Das sind z.B: allgemeine Definitionen, Beschreibung von fachspezifischen Vorgehensweisen, Frameworks, Theorie zu verwendeten Algorithmen, besondere Umstände, ...
+Um ein Projekt zu realisieren, bei dem Umweltdaten ausgelesen werden, benötigt man geeignete Komponenten, auf denen die Software zuverlässig läuft. Bei der Auswahl dieser Komponenten spielten mehrere Faktoren eine Rolle, darunter die Kosten, die Größe sowie die Anzahl der verfügbaren Funktionen.
 
-### Die Welt der Hardware  (Benötigte Hardwarekomponenten)
+Unser finaler Prototyp sollte folgende Messungen ermöglichen:
+
+- Temperatur
+- Luftfeuchtigkeit
+- Luftdruck
+- Beschleunigung und Geschwindigkeit
+- Standortbestimmung mittels GPS
+
+Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Komponenten entschieden:
+
+1. ***ESP32***
+   - **Grund**: Der ESP32 ist ein leistungsstarker und kostengünstiger Mikrocontroller mit integrierter WLAN- und Bluetooth Funktionalität. Er bietet eine höhere Rechenleistung als ein Arduino und ist im durchschnitt auch kleiner als jener, was für die mobile Nutzung vom Vorteil ist.
+2. ***BME280***
+   - **Grund**: Der BME280 ist ein vielseitiger Sensor, welcher sowohl die Temperatur, die Luftfeuchtigkeit als auch den Luftdruck messen kann. Außerdem ist er kompakt und kostengünstig.
+3. ***MPU6050***
+   - **Grund**: Der MPU6050 ist eine Kombination aus Beschleungiungssensor und Gyroskop. Damit können Bewegungen auf der X, der Y und der Z-Achse erfasst werden.
+4. ***GY-GPSMV2***
+   - **Grund**: Das GY-GPSMV2-Modul ermöglicht die Standortbestimmung über GPS. Es bietet eine hohe Genauigkeit und eine stabile Leistung, wodurch die Postion präzise erfasst werden kann.
 
 #### Kosten
 
+| Anzahl | Ort        | Produkt             | Einzelpreis | Lieferkosten | Preis gesamt |
+|--------|-----------|----------------------|------------:|------------:|-------------:|
+| 3      | Ali-Express | GY-NEO6MV2         | 3,19 €      | 2,46 €      | 12,03 €      |
+| 3      | AZ         | BME280              | 3,47 €      | 5,98 €      | 16,39 €      |
+| 32     | Reichelt   | Lochrasterplatinen  | 13,21 €     | 6,65 €      | 19,86 €      |
+| 3      | AZ         | GY-521              | 2,50 €      | 5,30 €      | 12,79 €      |
+| 1      | Amazon     | ET-Starterkit       | 16,13 €     | 3,99 €      | 20,12 €      |
+
+
+| Preis Hardware insgesamt |
+|--------|
+|  81,19 € | 
+
+
 ### Aufsetzung der Prototypen
 
-#### Software
+#### PlatformIO
 
-### Datenübertragung mittels MQTT
+Um ein Programm erfolgreich auf dem ESP32 ausführen zu können, benötigt man eine geeignete IDE (Integrated Development Environment). Eine der bekanntesten und am weitesten verbreiteten Entwicklungsumgebungen für Mikrocontroller ist die Arduino IDE. Allerdings stießen wir bei unserem Projekt auf Anforderungen, die mehr Kontrolle über den Entwicklungs- und Upload-Prozess erforderten. Daher entschieden wir uns für eine professionellere und flexiblere Lösung: PlatformIO.
 
-#### Daten lesen
+<img src="img/Kampl/ArduinoIDE.png" alt="ArduinoIDE" width="500"/>
 
-#### Daten übertragen
+---
 
-### Durchführung der Tests (kontinuirlich)
+<img src="img/Kampl/PlatformIO.png" alt="PlatformIO" width="700"/>
+
+PlatformIO ist eine Entwicklungsumgebung, die als Erweiterung für den Texteditor Visual Studio Code genutzt wird. Sie bietet eine bessere Projektstruktur, eine fortschrittlichere Konfigurationsverwaltung und umfangreiche Unterstützung für verschiedene Mikrocontroller. Zwei zentrale Elemente sorgen dabei für einen reibungslosen Ablauf: die Hauptdatei (Main-File) und die Plattform-Konfigurationsdatei (.ini-File). Besonders die .ini-Datei spielt eine entscheidende Rolle, da sie die Projektkonfiguration festlegt und sicherstellt, dass der Upload-Prozess auf den Mikrocontroller zuverlässig und ohne Komplikationen funktioniert.
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{caption="Beispiel einer .ini Datei" .ini} 
+
+    ; PlatformIO Project Configuration File
+    ;
+    ;   Build options: build flags, source filter
+    ;   Upload options: custom upload port, speed and extra flags
+    ;   Library options: dependencies, extra library storages
+    ;   Advanced options: extra scripting
+    ;
+    ; Please visit documentation for the other options and examples
+    ; https://docs.platformio.org/page/projectconf.html
+
+    [env:board_name]
+    platform = platform_name
+    board = board_name
+    framework = framework_name
+
+    ; Zusätzliche Konfigurationsoptionen
+    monitor_speed = 115200   ; Serielle Monitor-Geschwindigkeit
+    upload_speed = 115200    ; Upload-Geschwindigkeit
+    build_flags = -DDEBUG    ; Build-Flags hinzufügen
+    lib_deps =               ; Bibliotheken hinzufügen
+        library1
+        library2
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
+[@gpt-inifile]
+
+##### Aufsetzung
+
+Um PlatformIO benutzen zu können muss man ganz einfach die PlatformIO IDE in Visual Studio installieren. Nach der Installation und einem schnellen Neustart kann man ein erstes Projekt erstellen.
+
+Um nun ein erstes Projekt zu erstellen muss mann einfach nur auf den PlatformIO Home Knopf drücken. Danach drückt man auf "New Project" und wähl das passende Board aus. [@PlatformIO-firststeps]
+
+##### Tools
+
+<img src="img/Kampl/platformio-ide-vscode-toolbar.png" alt="Toolbar" width="500"/>
+
+<br>
+
+1. **Home**: sorgt dafür, dass das Home Menü von PlatformIO. In diesem kann man seine Projekte verwalten sowie Bibiliothekten für das aktuelle hinzufügen.
+2. **Build**: Kompiliert den Code des Projekts und erstellt eine Datei welche auf den Mikrocontroller hochgeladen werden kann.
+3. **Upload**: Lädt die erstellte Datei von der Build Funktion auf das Festgelegte Zielgerät, in unseren Fall ein ESP32, hoch. 
+   1. Zuerst sucht PlatformIO nach richtigen Port. Entweder in der .ini-Datei festgelegt oder er wird automatisch erkannt.
+   2. Die Firmware (.bin oder .hex Datei) wird auf das Gerät über den Port hochgeladen.
+   3. Während des Uploads wird jeglicher Fortschritt im Terminal angezeigt.
+4. **Clean**: Löscht alle temporären Dateien, welche  beim Build-Prozess erstellt wurden. (z.B.: kompilierte Objektdateien, die Firmware-Datei). Im Grunde wird der /.pio Ordner gelöscht.
+5. **Serial Port Monitor**: Öffnet eine Konsole innerhalb von Visual Studio, welche die Kommunikation zwischen dem ESP32 und dem Computer überwacht. Wichtig dabei ist zu beachten das die Baudrate richtig eingestellt ist. Normale Baudraten sind 9600 sowie 115200.
+6. **Core (CLI)**: Ist eine Kommandozeilen-Toolbox, welche die vorher genannten Funktionen anbietet.
+7. **Project Environment Switcher**: Erlaubt es zwischen verschiedenen Umgebungen innerhalb eines Projektes zu wechseln, falls sie vorhanden sind. Diese Umgebungen werden in der platformio.ini Datei angelegt. Das könnte ungefähr so aussehen:
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{caption="BeispielVonMehrerenUmgebungen" .ini}
+
+[env:esp32]
+platform = espressif32
+board = esp32dev
+framework = arduino
+
+[env:stm32]
+platform = ststm32
+board = nucleo_f401re
+framework = mbed
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+[@PlatformIO-firststeps]
+
+### C++
+
+### Datenübertragung
+
+#### MQTT
+
+#### Miscalanious 
 
 ## Praktische Arbeit
 
@@ -32,183 +139,8 @@ Die Frage nach der Detailgenauigkeit lässt sich wie folgt beantworten: So, dass
 
 ### Zusammensetzen und Löten des Prototypen
 
-### Schreiben eines MQTT Java Programmes
+### Schreiben eines MQTT Programmes
 
 ### Durchführung der Tests (kontinuirlich)
 
-## Vorlage Praktisch
 
-### Erzeugen von Java Quellcode
-
-Unter einem Array in Java versteht man ein Feld oder Container, das in der Lage ist, mehrere Objekte vom gleichen Typ aufzunehmen und zu verwalten. Dabei wird in Java das Array als eine spezielle Klasse repräsentiert, was unter anderem mit sich bringt, dass man auf spezielle Methoden und Operationen bei Arrays zurückgreifen kann. Der Umgang mit Arrays mag gerade am Anfang etwas schwerer sein und birgt viele Fehlerquellen, nach und nach wird man das System das hinter den Arrays steht aber gut nachvollziehen können. 
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{caption="Initialisieren eines Arrays" .java}
-Typ[] Name = new Typ[Anzahl];
-Typ Name[] = new Typ[Anzahl];
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Etwas erfahrenere Programmierer werden jetzt schon erkennen, worauf es beim Zugriff auf Elemente im Array meist hinausläuft: Auf Schleifen!
-Schleifen sind ein komfortables Mittel um alle Elemente eines Arrays durchzugehen und auf Wunsch auszugeben oder andere Operationen darauf anzuwenden. Allerdings muss man nicht nur hier aufpassen, dass man die länge des Arrays in der Schleife nicht überschreitet und so auf Felder zugreift die gar nicht existieren. Damit so etwas erst gar nicht passiert, kann man in der Abbruchbedingung der for-Schleife direkt die Länge des Arrays ausgeben mit: array.length.
-
-Möchte man nun also alle 5 Elemente unseres Beispiels-Arrays mit einer Schleife ausgeben lassen, dann würde das so gehen:
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{caption="Examples of array manipulations" .java}
-// (c) by Mike Scott
-
-public class ArrayExamples
-{	public static void main(String[] args)
-	{	int[] list = {1, 2, 3, 4, 1, 2, 3};
-		findAndPrintPairs(list, 5);
-		bubblesort(list);
-		showList(list);
-
-		list = new int[]{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
-		bubblesort(list);
-		showList(list);
-
-		list = new int[]{11, 10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1, -2};
-		bubblesort(list);
-		showList(list);
-
-		list = new int[]{1};
-		bubblesort(list);
-		showList(list);
-	}
-
-
-	// pre: list != null, list.length > 0
-	// post: return index of minimum element of array
-	public static int findMin(int[] list)
-	{	assert list != null && list.length > 0 : "failed precondition";
-
-		int indexOfMin = 0;
-		for(int i = 1; i < list.length; i++)
-		{	if(list[i] < list[indexOfMin])
-			{	indexOfMin = i;
-			}
-		}
-
-		return indexOfMin;
-	}
-}
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Obwohl hier nur java gezeigt ist, unterstützt das Template auch scala, java, javascript, css, html5 und xml
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{caption="Ein einfaches XML" .xml}
-<?xml version="1.0" standalone="yes"?>
-<!DOCTYPE module [
-    <!ELEMENT module (module|property|metadata|message)*>
-    <!ATTLIST module name NMTOKEN #REQUIRED>
-    <!ELEMENT property EMPTY>
-    <!ATTLIST property
-        name NMTOKEN #REQUIRED
-        value CDATA #REQUIRED
-        default CDATA #IMPLIED
-    >
-    <!ELEMENT metadata EMPTY>
-    <!ATTLIST metadata
-        name NMTOKEN #REQUIRED
-        value CDATA #REQUIRED
-    >
-    <!ELEMENT message EMPTY>
-    <!ATTLIST message
-        key NMTOKEN #REQUIRED
-        value CDATA #REQUIRED
-    >
-]>
-
-<!--
-    Checkstyle configuration that checks if the braces are set correctly
- -->
-
-<module name = "Checker">
-    <property name="charset" value="UTF-8"/>
-    <property name="severity" value="warning"/>
-
-    <property name="fileExtensions" value="java"/>
-    <!-- Checks for whitespace                               -->
-    <!-- See http://checkstyle.sf.net/config_whitespace.html -->
-
-    <module name="TreeWalker">
-        
-        <module name="NeedBraces"/>
-        <module name="LeftCurly">
-        	<property name="option" value="nl"/>
-        </module>
-
-        <module name="RightCurly">
-            <property name="id" value="RightCurlyAlone"/>
-            <property name="option" value="alone"/>
-            <property name="tokens"
-             value="CLASS_DEF, METHOD_DEF, CTOR_DEF, LITERAL_FOR, LITERAL_WHILE, STATIC_INIT,
-                    INSTANCE_INIT,LITERAL_TRY, LITERAL_CATCH, LITERAL_FINALLY, LITERAL_IF, LITERAL_ELSE,
-                    LITERAL_DO"/>
-        </module>
-    </module>
-</module>
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Hier etwas in kotlin
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{caption="Ein einfaches Kotlin Beispiel" .kotlin}
-// this is a simple code listing:
-println("hello kotlin from latex")
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-Und noch ein Beispiel in vba
-
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{caption="Ein einfaches Visual Basic for Applications Beispiel" .vba}
-Private Sub ExitSub()
- 
-    Dim i As Integer
- 
-    For i = 1 To 10      
-        If i = 5 Then
-            Exit Sub
-            MsgBox "The value of i is" & i
-        End If
-    Next i 
- 
-End Sub
- 
- 
-Private Sub CallExitSub()
-    Call ExitSub
-    MsgBox "Exit Sub"  
-End Sub
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-### Auswertung der Ergebnisse
-
-Anhand von XY kann man folgende Tabelle ableiten:
-
-| Right | Left | Default | Center |
-|------:|:-----|---------|:------:|
-|   12  |  12  |    12   |    12  |
-|  123  |  123 |   123   |   123  |
-|    1  |    1 |     1   |     1  |
-
-: Eine Tolle tabelle
-
-#### Eine Überschrift 4ter Ordnung
-
-Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext.
-
-#### Noch ein Überschrift 4ter Ordnung
-
-Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext.
-
-Und mit einer Aufzählung:
-
-* Alpha
-* Bravo
-* Charlie
-    * Charlie 1
-    * Charlie 2
-    * Charlie 3
-    * Charlie 4
-* Delta
-* Epsilon
-
- Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext. Mit etwas Fließtext.
