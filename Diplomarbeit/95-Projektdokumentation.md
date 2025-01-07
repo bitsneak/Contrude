@@ -115,7 +115,6 @@
 
 **Alternative:** Rollenzuweisung schlägt fehl oder Benutzererstellung schlägt fehl  
 **Ergebnis:** Benutzerkonto wird erstellt (falls notwendig) und die Benutzerrolle ist aktualisiert
- 
 
 #### Container-Ortung starten
 
@@ -143,15 +142,14 @@
 **Alternative:** Fehlende Dokumentation  
 **Ergebnis:** Verlustmeldung erstellt  
 
-
 #### Umweltdaten grafisch darstellen
 
 **Beschreibung:** Das System schickt die Umweltdaten ans Visualisierungstool.  
 **Trigger:** Benutzer öffnet Visualisierung  
 **Bedingungen:** Datenbank und Server sind aktiv  
-**Ablauf:*
-*
-1. Daten werden abgerufen  
+**Ablauf:**
+
+1. Daten werden abgerufen
 2. Daten werden grafisch dargestellt  
 
 **Alternative:** Daten nicht verfügbar  
