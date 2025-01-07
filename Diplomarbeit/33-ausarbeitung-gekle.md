@@ -451,6 +451,7 @@ while(!in.equals("q")){}
 ```
 #### Wie die Dummy-Daten + Verbindungen generiert werden
  Startet man das Programm so wird man als erstes zu folgendem aufgefordert:
+
 ![SimulatorConsole1](img/Gekle/SimulatorConsole1.png)
 
 Der User bestimmt also, wie viele Container für die Simulation erstellt werden sollen. ">=2" wurde deshalb als Bedingung eingeführt, da ein Simuliertes Schiff mit nur einem Container keinen Graph mit Knoten und Kanten entsprechen würde. Da es ja das Ziel ist, die Kommunikationsstruktur mit Kanten darzustellen, mach die Auswahl 1 wenig Sinn.
@@ -497,6 +498,7 @@ Was würde es nun bewirken, wenn `randomNum` weiter verstreut wird (z.B, 0.1 bis
 
 #### Verwendung der Daten (Funktionen des Simulators)
 Ist die Anzahl der Container erst einmal eingegeben, so wird der User mit folgendem konfrontiert:
+
 ![SimulatorConsole2](img/Gekle/SimulatorConsole2.png)
 
 Der User hat nun also die Wahl zwischen sechs verschiedenen Funktionalitäten des Containers.
