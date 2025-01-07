@@ -286,7 +286,7 @@ Mit Tailwind CSS:
 </div>
 ```
 
-Tailwind CSS scannt alle HTML-Dateien, JavaScript-Komponenten und andere Templates nach Klassenbezeichnern. Diese Bezeichner, die du in deinem Code verwendest (z. B. `w-72`, `bg-white`, `flex`), repräsentieren bestimmte Stileigenschaften. Nachdem Tailwind alle genutzten Klassen gefunden hat, generiert es die entsprechenden CSS-Regeln und schreibt sie in eine statische CSS-Datei. [vgl. @TailwindCSS-Docs]
+Tailwind CSS scannt alle HTML-Dateien, JavaScript-Komponenten und andere Templates nach Klassenbezeichnern. Diese Bezeichner, die du in deinem Code verwendest (z. B. `w-72`, `bg-white`, `flex`), repräsentieren bestimmte Stileigenschaften. Nachdem Tailwind alle genutzten Klassen gefunden hat, generiert es die entsprechenden CSS-Regeln und schreibt sie in eine statische CSS-Datei. [vgl. @TailwindCSS-Docs-GettingStarted]
 
 Es ist auch möglich, Tailwind CSS mit bestimmten Ereignissen zu verknüpfen. So ist es z.B. möglich folgendes zu tun:
 
@@ -656,4 +656,429 @@ Tiefe = 2
 ```
 
 #### Zustandekommen des Directed Dragable Graphs
-## Website
+
+### Website
+
+#### Design der Seiten
+Bevor die Website überhaupt mithilfe von React umgesetzt werden konnte, musste ein Design entworfen werden, mit welchem sich alle Beteiligten der Diplomarbeit ein Bild machen konnten, wie die Webanwendung letztendlich aussehen sollte. Die Umsetzung erfolgte über das Vektorgraphikprogramm Adobe Illustrator. 
+Die Website wurde primär auf 3 Seiten aufgeteilt:
+- Login Page
+- Main Page
+- Detail Page
+
+##### Login Page
+Die Login Page ist selbstverständlich für die Anmeldung des Users verantwortlich. Im Rahmen der Diplomarbeit beschränkt sich diese aber wirklich nur auf das Anmelden und bietet daher keine Funktion zum anlegen/ registrieren eines neuen Users. Des weiteren sollte die "vollumfangende" Version des Logos, welches ebenfalls in Adobe Illustrator erstellt wurde zu sehen sein.
+
+![Alle Versionen des Logos; 1:Nur-Text 2:Symbole 3:Normal 4:Vollumfassend](img/Gekle/Contrude_All-Logos.png)
+
+##### Main Page
+Hat der User sich erfolgreich eingeloggt so kommt er auf die Hauptseite oder Main Page. Hier liegt der Fokus voll und ganz auf der Visualisierung und Bereitstellung des zentralen Elements der Diplomarbeit, den Containern. Die Idee war, dass man über ein Dropdown Menu ein Grid einstellen kann. Je nachdem welches Grid ausgewählt wurde (z.B. 2x2) werden so viele Container angezeigt (im Beispiel: 4 Container, 2 oben 2 unten). Diese Container können aber mehrere Container repräsentieren. 
+
+##### Detail Page
+Klickt der User auf einen dieser auf einen Container so wird er auf die Detail Page weitergeleitet. Diese beinhält das zweite Zentrale Komponente der Diplomarbeit, die Umweltdaten. Tabellarisch werden passend zu dem ausgewählten Container die Daten angezeigt (inkl. Seriennummer). Die Tabelle selbst besteht aus folgenden Spalten: 
+- Umweltdaten
+- Wert
+- Einheit
+- ausgelöste Threshholds
+Die letzte dient dazu, dass wenn z.B. ein Container zu heiß ist, dies auch symbolisiert und beschrieben wird. 
+
+Der Erstentwurf der Website sah dann folgendermaßen aus:
+
+![First Version of Website Design](img/Gekle/DesignV1.png)
+
+(1... Login Page, 2... Main Page, 3... Detail Page)
+
+##### Weiterentwicklung der Website
+Der Erstentwurf wurde dann von den an der Diplomarbeit Beteiligten analysiert. Dies hatte das Ziel Schwächen, schlechte Design Entscheidungen und fehlende Komponente der Website aufzuzeigen. Basierend auf dem Feedback wurde dann im Rahmen einer Gruppenarbeit entschieden, welche Änderungsvorschläge tatsächlich umgesetzt werden und welche nicht.
+
+In der Login Page wurde mittels eines Hyperlinks die Möglichkeit bereitgestellt, auf eine Impressum & Kontakt Seite zu gelangen. Die Detailpage wurde um eine Notizenfunktion erweitert, mit welcher der Usereigene Notizen zu den jeweiligen Containern verschriftlichen kann. Diese wird links neben der Tabelle zu sehen sein. 
+
+Die Main Page wurde mit großem Abstand am stärksten verändert. Bei der Containerzoom-Funktion wurde der Button von links nach rechts verschoben, wo sie die Vor- und Zurückfunktion ersetzten. Daneben eine Anzeige des aktuellen Zooms hinzugefügt. Anstelle des Zoom Button wurde auf der linken Seite ein "ShipSelect" Button eingeführt, welcher das Wechseln des Schiffs ermöglicht. Auch wurde das Design allgemein verbessert.
+
+Ein völlig neues Komponente war der ShipChooser-Dialog. Dieser wird aufgerufen, wenn auf einen durch das Grid angezeigten Containers geklickt wird. Angenommen ein Container repräsentiert zehn Container, dann kann über den Dialog noch ausgewählt werden, welchen Container man genau haben möchte und man wird dann zu der passenden Detail Page weitergeleitet.
+
+**TBC**
+
+#### Allgemeine Struktur des React Projekts TBC
+
+#### Aufbau der Pages
+
+##### Aufbau MainPage
+Die MainPage selbst besteht aus 3 großen "Parent-Komponenten", welche wiederum viele andere "Child-Komponenten" benutzen. Dies bewirkt, dass die MainPage in 3 wichtige Teile geteilt wird:
+- Workspace (weiß)
+- Sidebar (blau)
+- Topbar (gelb)
+
+![Structure of the Main Page](img/Gekle/MainPageStructure.png)
+
+Zu den Funktionen, welche von der MainPage als ganzes übernommen werden zählen das Anzeigen eines oder mehrerer Sammel-Container(s) im `Workspace` basierend auf der Grid-Einstellung aus der `Topbar`. Auch das Suchen von spezifischen Containern und das wechseln des Schiffes werden über die `Topbar` ermöglicht.
+
+##### Aufbau DetailPage
+Wie auch die MainPage unterteilt sich die Detail Page in 3 große Komponente:
+- Detailspace (vgl. mit Workspace der MainPage)
+- Topbar
+- Sidebar
+
+![Structure of the Detail Page](img/Gekle/DetailPageStructure.png)
+
+Die `Detailspace` ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit Notizen, welche auch gespeichert werden, hinzuzufügen zählt ebenfalls zu den Aufgaben der `DetailSpace`. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Threshholds und Zurückgehen zur MainPage bietet.
+
+#### Funktionsweise der Komponenten
+##### LoginField der LoginPage
+Die Login Page verwaltet zwei `useState`-Variablen: `username` und `password`. Für beide dieser Daten muss ein Feld zur Verfügung gestellt werden, in welches der User schreiben kann. Diese beiden Felder sind sogenannte "**LoginFields**". Dieses Komponent verhaltet sich bei den beiden Daten etwas unterschiedlich:
+```JS
+<LoginField placeholder="User" value={username} onChange={(e) => setUsername(e.target.value)} />
+
+<LoginField placeholder="PW" isPassword={true} value={password} onChange={(e) => setPassword(e.target.value)} />
+```
+Innerhalb des Komponents wird ein HTML `input`-Tag benutzt. Input kann verschiedene Typen annehmen wie hier etwa "text" und "password". Dem `LoginField` werden auch alle weiteren wichtigen Daten für das Input übergeben wie etwa den Placeholder und den Wert (Value) den der User eingibt. Die Variable `isPassword` bestimmt ob "text" oder "password" als Passwort angenommen wird und in Folge dessen, ob der Text im `LoginField` als Plaintext oder ob der Text maskiert wird. [vgl. @GeeksForGeeks-HTMLInputTag]. Wird `onChange` innerhalb verändert, sprich der User gibt etwas neues ein oder editiert bereits eingegebenes, dann gibt das `LoginField` den neuen Wert an die Login Page zurück, wo sie dann mit `setPassword/ setUsername` des `useState` auch wieder verändert werden.
+
+##### Workspace (MainPage)
+Die **Workspace** Komponente selbst übernimmt zwei Variablen aus der MainPage: `gridSize`, welche dem aktuell ausgewählte Grid entspricht und `selectedShip`, also das momentan ausgewählte Schiff. Die zentrale Aufgabe des Workspaces, das anzeigen der Container, wird von der **renderGrid**-Methode:
+
+```JS
+const renderGrid = () => {
+  if (containerDistribution.length === 0) {
+    return <div>Loading...</div>;
+  }
+
+  const divs = [];
+
+  for (let row = 0; row < containerDistribution.length; row++) {
+    const rowDivs = [];
+
+    for (let col = 0; col < containerDistribution[row].length; col++) {
+      const containerCount =
+        containerDistribution[row][col] > 0
+          ? containerDistribution[row][col]
+          : 0;
+
+      rowDivs.push(
+        <div
+          key={`${row}-${col}`}
+          className="relative flex justify-center items-center pl-10 pr-10"
+          onClick={() => handleOpenDialog(row, col)} // Pass row and col to the handler
+          onMouseEnter={() => setHoveredDiv(`${row}-${col}`)}
+          onMouseLeave={() => setHoveredDiv(null)}
+        >
+          <img
+            className="size-52"
+            src="/src/img/Container.svg"
+            alt="Container"
+          />
+          <div className="w-16 h-5 absolute flex justify-center items-center">
+            <p
+              className={`${
+                hoveredDiv === `${row}-${col}` ? 'font-bold' : 'font-sans'
+              }`}
+            >
+              {containerCount > 0 ? containerCount : 'Empty'}
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    divs.push(
+      <div key={row} className="flex space-x-2">
+        {rowDivs}
+      </div>
+    );
+  }
+
+  return divs;
+};
+```
+[CHATGPT-2]
+
+Unter der Vorrausetzung, dass die `ContainerDistribution useState` (ein Array) nicht 0 lang ist, sprich dass die Aufteilung aller **realen Container** auf die "**Sammel-Container**" (die angezeigten Container welche für mehrere stehen) von dem **ContainerDistributor** Script abgeschlossen ist, wird die Darstellung der Sammel-Container im Grid ermöglicht. Dieses Script errechnet mathematisch wie viele reale Container eines Schiffes je nach GridSize pro Sammel-Container repräsentiert werden sollen und gibt dies in einem (2)d-Array zurück. Um dies zu verdeutlichen:
+```
+Grid = 2x2
+Anzahl reale Container = 9
+Repräsentierung pro Sammelcontainer (SCON):
+-------------------------
+SCON (links oben) = 3
+SCON (rechts oben) = 2
+SCON (links unten) = 2
+SCON (rechts unten) = 2
+------------------------
+Rückgabe = [[3, 2] [2, 2]]
+```
+Dies erfolgt so, dass zuerst errechnet wird, wie viele Reale Container jedem Sammel-Container anfänglich zugewiesen werden sollen, indem die Anzahl der realen Container durch die Grid-Anzahl (z.B. 2x2 Grid = 4) dividiert und abgerundet wird. Danach werden die verbleibenden realen Container auf die Sammel-Container verteilt und mithilfe einer doppelten For-Schleife das Array erstellt:
+
+```JS
+function distributeValues(gridRows, gridCols, totalValues) {
+  // Calculate total number of grid cells
+  const totalCells = gridRows * gridCols;
+
+  // Calculate the base values per cell
+  const baseValue = Math.floor(totalValues / totalCells);
+
+  // Calculate remaining values to be distributed
+  const remainder = totalValues % totalCells;
+
+  // Create a grid and distribute values
+  const grid = [];
+  let remaining = remainder;
+
+  for (let i = 0; i < gridRows; i++) {
+    const row = [];
+    for (let j = 0; j < gridCols; j++) {
+      // Add base value to the cell
+      let value = baseValue;
+
+      // Distribute the remaining values
+      if (remaining > 0) {
+        value += 1;
+        remaining -= 1;
+      }
+
+      row.push(value);
+    }
+    grid.push(row);
+  }
+
+  return grid;
+}
+
+export default distributeValues;
+```
+[CHATGPT3]
+
+Wurde dies nun errechnet beginnt die eigentlich **renderGrid** Methode. Auch diese arbeitet mit einer verschachtelten `for`-Schleife um durch die einzelnen Grid-Spots durch zu iterieren. Hierbei ist auch das Array des ``ContainerDistributer`` wichtig, da es bestimmt wie lange die Schleifen anhalten soll. Pro Spot wird dann ein HTML-`div` zu einem Array hinzugefügt (mit `.push(<div\> <\/div>)`). Jedes dieser Divs hat durch die Rechnung $Row - Column$ (aus den For Schleifen) eine eindeutige ID welche etwa dafür wichtig ist, dass wenn man über das jeweilige Div hovert nur dieses eine hervorgehoben wird. Außerdem wird über `onClick` bestimmt, dass im Falle des klickens auf ein `div` die `handleOpenDialog` aufgerufen wird, mit welcher der Dialog zum aussuchen des richtigen realen Containers geöffnet wird.
+
+Die zweite wichtige Methode ist also die **handleOpenDialog** Methode, welche den eben erwähnte Dialog öffnet. Sie liest mit der eindeutigen Id der Sammel-Container aus einer in einem `useEffect` erstellten Map. Diese ordnet jedem Sammel-Container mithilfe ihrer eindeutigen Id die realen Container Ids (Mehrzahl!!) zu. Die realen Ids waren zuvor in dem `useState` Array `containerIds` in zufälliger Reihenfolge gespeichert und nun werden nur die passenden in die `dialogValues useState` gespeichert. Zusätzlich wird mithilfe der `isDialogOpen useState` der Dialog wird geöffnet. Das `ContainerChooser` Element (der Dialog) ist hier zu sehen:
+```JS
+<ContainerChooser
+	open={isDialogOpen}
+	onClose={handleCloseDialog}
+	onSelect={handleSelect}
+	values={dialogValues.map(value => value.id || value)}
+/>
+```
+
+Der **ContainerChooser** Dialog selbst listet die zu den Ids passenden Seriennummern der realen Container auf. Klickt man auf eine dieser Nummern wird man auf die korrekte DetailPage weitergeleitet. Die Funktionsweise des Dialogs sieht genauer wie folgt aus:
+1. Klickt der User auf den Close Button so wird durch `onClick={onClose}` (innerhalb des `ContainerChooser`) im Workspace `handleCloseDialog` ausgeführt, welches den Dialog schließt
+2. Klickt der User auf einen der angezeigten Seriennummern, so wird er durch `onSelect(id)` (ebenfalls innerhalb des `ContainerChooser`) so wird durch die MainPage auf die passende DetailPage weitergeleitet.
+Letzteres passiert in der handleSelect Methode, welche die selectedId useState setzt, den Dialog schließt und zur DetailPage navigiert. Das Navigieren selbst wird durch das useNavigate und seiner navigate Funktion ermöglicht: [vgl. @GeeksForGeeks-useNavigate]
+
+```JS
+const handleSelect = (value) => {
+  setSelectedId(value);
+  setDialogOpen(false);
+  navigate(`/detail/${value}`);
+};
+```
+
+Wichtig: auch wenn ein Sammel-Container (das `div`) nur einen oder gar keinen realen Container repräsentiert wird trotzdem der Dialog geöffnet. Sollte keiner vorhanden sein, so ist nur der Close-Button zu sehen.
+
+##### Komponenten der Topbar der MainPage
+Der Nutzen der MainPage wird durch die `TopBar` sehr stark erweitert. Dies liegt vor allem an drei Dingen:
+1. Sie ermöglicht das Ändern des Grids (z.B. von 2x2 auf 1x1)
+2. Sie bietet eine Suchleiste, mit welcher man über die SerienNummer direkt den ContainerChooser Dialog geöffnet werden kann.
+3. Sie ermöglicht es das Schiff zu wechseln.
+
+Die `Topbar` ist konfigurierbar, dass bedeutet man kann ihr je nach Anwendungszweck verschiedene weitere Komponente übergeben. Hierbei kann man zwischen "Left" und "Right" unterscheiden, also ob man die Komponente linksbündig oder rechtsbündig haben möchte. Hier etwa die Erstellung der Topbar für die Main Page:
+
+```JS
+<Topbar
+  leftComponents={[ // Hier werden die linksbündigen Komponenten gesetzt
+    <SearchBar 
+      key="searchbar" 
+      selectedShip={selectedShip} 
+      onSearchSubmit={handleSearchSubmit} 
+    />,
+    <ShipButton
+      key="shipButton"
+      ships={ships}
+      selectedShip={selectedShip}
+      onShipChange={setSelectedShip}
+    />,
+  ]}
+  rightComponents={[ // Hier werden die rechtsbündigen Komponenten gesetzt
+    <GridDropDown 
+      key="gridDropdown" 
+      gridSize={gridSize} 
+      setGridSize={setGridSize} 
+    />,
+  ]}
+/>
+
+```
+(Left... Searchbar & ShipButton; Right: GridDropDown)
+
+Innerhalb der `Topbar` werden die Items dann mittels dem CSS `Justify-Between` und `flex`-Tags nach links bzw. rechts gedrückt. [vgl. @DeveloperMozilla-JustifyContent] Mit Tailwind CSS wurde dies so umgesetzt:
+
+```HTML
+<div className='h-24 flex items-center justify-between pt-3 pb-3 pl-12 pr-12'>
+  {/* Left */}
+  <div className='flex items-center space-x-1'>
+  </div>
+
+  {/* Right */}
+  <div className='flex items-center space-x-1'>
+  </div>
+</div>
+```
+
+Im Kontext der MainPage ist die einzige rechts positionierte Komponente das **GridDropDown**, ein Dropdown Menü, über welches das Grid der Sammel-Container geändert werden kann. Es übernimmt die `gridSize` Variable aus der MainPage (=aktuelle Grid Einstellung) und ein `setGridSize` um diese zu ändern. Fünf verschiedene Grid Optionen werden zur Verfügung gestellt: 1x1, 2x2, 2x4, 3x4 und 4x4. Diese werden in einem Array gespeichert, indem ein `label`, `rows` und `cols` definiert wird (z.B.: {label:3x4, rows:3. cols:4}). Das erscheinen des DropDowns regelt wieder eine useState Variable namens `showDropDown`. Diese wird immer auf den gegenteiligen Status des aktuellen `showDropDown` gesetzt, also wenn sie aktuell FALSE ist wird sie auf TRUE gesetzt und vice versa. TRUE bedeutet hierbei, dass das DropDown Menü angezeigt werden soll und FALSE nicht. Dies erfolgt folgendermaßen:
+
+```JS
+{showDropdown && (
+  <div className="absolute bg-white border border-black rounded mt-9 z-5">
+    {gridOptions.map((option) => (
+      <div
+        key={option.label}
+        onClick={() => handleSelectGrid(option.rows, option.cols)}
+        className="p-2 cursor-pointer hover:bg-gray-200"
+      >
+        {option.label}
+      </div>
+    ))}
+  </div>
+)}
+```
+
+Ist `showDropDown` nun TRUE, kommt die `.map` Funktion zum Einsatz. Diese hilft dabei, durch jedes Objekt der `gridOptions` durch zu iterieren und pro Objekt (in diesem Fall `option`) wird ein neues HTML `List`-Item (\<li>) innerhalb einer Unordered List (\<ul>) angelegt. [vgl. @Ionos-JS-map] Jedes dieser List-Items repräsentiert eine Auswahlmöglichkeit des DropDown Menüs. Mithilfe des `labels` wird jedes eindeutig identifiziert und mittels `rows und cols` (aus dem `gridOptions` Array) wird dem User die dazu passende Grid Option angezeigt. Über `onClick` wird noch definiert, dass die `handleSelectGrid`-Methode aufgerufen werden soll, in welcher `showDropDown` wieder auf FALSE gesetzt und die `gridSize` Variable aus der MainPage über setGridSize, je nach User Auswahl neu gesetzt wird. Diese Änderung übernimmt, da es sich bei `gridSize` um eine useState-Variable handelt, dann auch die MainPage und in weiterer Folge der Workspace. Die Folge: das Grid wird neu gerendert. 
+
+Zusätzlich soll direkt neben dem `div`, welches das Zoom-Icon representiert, ein zweites `div` erstellt werden, welches den aktuellen Status von `gridSize.rows` und `gridSize.cols` anzeigt. Der Aufbau des GridDropDowns sieht also simpel dargestellt so aus:
+```HTML
+<div> Hier wird das ZoomIcon dargestellt </div>
+{showDropDown && (<ul> 
+Hier werden die Optionen des DropDowns angezeigt, aber nur wenn showDropDown positiv ist 
+</ul>)}
+<div> Hier wird der aktuelle Stand von gridSize angezeigt</div>
+```
+
+Das erste der beiden linken Komponenten ist das **ShipSelect** Dropdown Menü. Die Funktionsweiße dieses Drop Down Menüs ist ident zu dem Grid Drop Down Menü.[vgl. @Ionos-JS-map] Der Nutzen von dieser Komponente ist allerdings ein anderer. Hier wird es dem User ermöglicht, dass Schiff und damit die am Grid angezeigten Container zu wechseln. Anders als GridDropDown funktioniert aber die Anzeige des ausgewählten Schiffs. Dies wird nämlich auf die zweite, rechts befindende, Komponente verlagert.
+
+Bei diesem handelt es sich um die Suchleiste, welche mithilfe der **Searchbar** Komponente dargestellt wird. Diese übernimmt das durch das `ShipSelect` ausgewählte Schiff aus der MainPage und setzt dieses neben dem HTML `input`-Tag ein, wodurch der Name des ausgewählten Schiffs angezeigt wird. Davor steht ein vordefinierter Text: "of container on Ship". Als Placeholder für das Eingabefeld wurde "Serial Number" gewählt, dadurch entsteht folgendes Design:
+
+![The Searchbar + ShipSelect Button](img/Gekle/Searchbar.png)
+
+Hier ist links neben der Suchleiste auch das `ShipSelect`-Icon und die damit verbundene Komponente zu sehen. Die `Searchbar` verändert ihre Länge dynamisch, da der Name eines Schiffes viel länger sein kann, als der eines anderen. Dies wird in Tailwind mithilfe des CSS Attributs `flex-grow` erreicht. [vgl. @TailwindCSS-Docs-FlexGrow]
+
+Der Kern der Suchleiste ist aber das Eingabefeld selbst. Dieses wurde unter der Beachtung erstellt, dass die Eingabe des Users maximal 11 Zeichen haben darf, da auch die Seriennummer in der Regel nur so lang ist. [vgl. @ContainerBasis-Containernummern] Aktiviert wird die Suche durch das Drücken der Enter Taste, was über das `onKeyDown`-Event des `input`-Tags erreicht wird:
+```JS
+<input
+	className="border-none outline-none flex-shrink-0 w-[108px]"
+	placeholder="Serial Number"
+	maxLength="11"
+	value={inputValue}
+	onChange={(event) => setInputValue(event.target.value)}
+	onKeyDown={handleEventEnter} // KeyDown Event
+/>
+```
+[vgl. @Pluralsight-KeyboardEvents]
+
+Es wird geschaut, ob irgendeine zufällig Taste gedrückt wurde, ist das der Fall wird die `handleEventEnter`-Methode aufgerufen und ein Event-Objekt (`event`) übergeben. Dieses wird auf `event.key === Enter` überprüft, also ob die Taste Enter gedrückt wurde. Falls das so sein sollte, wird die `onSearchSubmit`-Methode aufgerufen, die die Eingabe des Users an das übergeordnete Element, also der MainPage übergibt, welche diese dann weiter diese dann weiter verarbeitet.
+##### Detailspace (DetailPage)
+Den Kern der `Detailspace`-Komponente bildet ein `useState`-Array namens **TableData**. Dieses hat folgenden Aufbau:
+
+```JS
+const [tableData, setTableData] = useState([
+  { environment: "Temperature", value: "-", unit: "°C", alert: "" },
+  { environment: "Pressure", value: "-", unit: "Pa", alert: "" },
+  { environment: "Humidity", value: "-", unit: "%", alert: "" },
+  { environment: "Vibration", value: "-", unit: "m/s2", alert: "" },
+  { environment: "Altitude", value: "-", unit: "m", alert: "" },
+  { environment: "Latitude", value: "-", unit: "DD", alert: "" },
+  { environment: "Longitude", value: "-", unit: "DD", alert: "" },
+]);
+```
+
+Es besitzt denselben Aufbau wie die Tabelle (`table`), in welcher die Umweltdaten und Alerts der Threshholds angezeigt werden und baut daher auch auf dem Array auf. Nachdem die Umweltdaten von dem Backend gefetcht wurden, wird `value` des Arrays für jedes `environment` überschrieben, was durch die `updateTableData` Methode geschieht. Diese übernimmt den gefetchten Wert und von welchen Sensor dieser kommt (z.B. temperatur):
+
+```JS
+const updateTableData = (newValue, sensor) => {
+  setTableData((prevData) =>
+    prevData.map(item => {
+      switch (sensor) {
+        case "temperature":
+          if (item.environment === "Temperature") {
+            return { ...item, value: newValue };
+          }
+          break;
+        case "pressure":
+          // Alle weiteren Umweltdaten werden durchgegangen
+          break;
+        default:
+          return item;
+      }
+      return item; // Falls keine Änderungen wird item ungeändert zurückgegeben
+    })
+  );
+};
+
+```
+[CHATGPT9]
+
+Es wird wieder mithilfe der `.map`-Funktion durch das Array iteriert und mittels eines `Switch/Case` geschaut, um welchen Sensor es sich handelt. Einmal das richtige Case gefunden wird eine Kopie von `item` erstellt und der richtige Wert verändert. Der Grund wieso eine Kopie erstellt werden muss ist folgender:
+
+> Eine **Shallow Copy** muss returned werden, da React nur Änderungen erkennt, wenn der Verweis auf das Objekt oder Array geändert wird, was bei direkter Mutation des ursprünglichen Objekts/Arrays nicht der Fall ist. [CHATGPT9]
+
+Weiters werden die Notizen (ein HTML `TextArea`-Element) von `Detailspace` verwaltet. Hierzu kommen zwei Methoden ins Spiel:
+1. `handleBlur` --> um das Geschriebene zu speichern, sobald der User aus der `TextArea` rausklickt
+2. `handleNotesChange` --> um die `useState`-Variable `notes`, welche von `handleBlur` benutzt wird mit den neuen Notizen zu überschreiben 
+Das `TextArea`-Feld selbst sieht folgendermaßen aus:
+
+```JS
+<textarea
+  className="resize-none overflow-auto text-base w-full border-2 border-dashed border-gray-400 bg-gray-100 text-gray-700 h-[385px] p-2"
+  name="notes"
+  id="notes"
+  placeholder="Notes..."
+  value={notes || ""}
+  onChange={handleNotesChange}
+  onBlur={handleBlur}
+/>
+```
+
+Die **handleBlur**-Methode wird wie der Name vermuten lässt über `onBlur` aufgerufen. Dieses Event aktiviert sich dann, wenn etwa eine `TextArea` Fokus verliert. [vgl. @GeeksForGeeks-onBlur] Der Sinn dahinter ist, dass ein dezidierter Button extra für das Speichern der Notizen nicht benötigt wird. Der User muss einfach aus dem Notizfeld rausklicken und darunter wird dann kurz ein Text erscheinen welcher entweder "Notes saved!" oder "Failed to save notes!" sagt. Für beide dieser Aussagen gibt es eine eigene `useState`-Variable welche auf TRUE gesetzt wird, wann auch immer das jeweilige Ereignis eintritt, werden die Notes abgespeichert oder aber nicht. Auch dies wird innerhalb der `handleBlur`-Methode entschieden: Dort wird der Container im Backend mit den neuen Notizen geupdatet und je nach Status Code seitens des Servers wird entschieden, ob das Sichern erfolgreich war oder nicht. 
+
+Dieser Info-Text bleibt aber nur für zwei Sekunden sichtbar und verschwindet dann wieder. Das ermöglicht `setTimeout`, indem etwa gesagt wird, dass die `useState`-Variable, welche bestimmt, wann der Info-Text angezeigt wird, nach 2000 Millisekunden (=2 Sek) zurück auf FALSE gesetzt werden soll, was im Umkehrschluss bedeutet, dass der Text nach dieser Zeit verschwindet:
+
+```JS
+if (updateResponse.status === 204) {
+  setSaved(true);
+  setTimeout(() => { setSaved(false); }, 2000);
+} else {
+  setNotSaved(true);
+  setTimeout(() => { setNotSaved(false); }, 2000);
+}
+```
+[vgl. @FreeCodeCamp-setTimeOut]
+
+##### Komponenten der Topbar der DetailPage
+Die Topbar innerhalb der Detailpage ist nicht dieselbe, wie in der MainPage. Die Unterschiede sind folgende:
+
+|                                                 | MainPage                                    | DetailPage      |
+| -------------------------------- | ----------------------------------- | --------------- |
+| Linksbündige Komponenten   | `Searchbar` & `Shipselect` | `Searchbar`     |
+| Rechtsbündige Komponenten | `GridDropDown`                  | `DetailControl` |
+
+**Detailcontrol** besteht aus folgenden 2 wichtigen Buttons:
+1. Button um festgelegte Threshholds des Containers sich ausgeben zu lassen
+2. Button um zur MainPage zurück zu gelangen
+
+==!!! Bild der Topbar der Detailpage !!==
+
+Die Retour Funktion nutzt wieder `useNavigate` von `react-router-dom`, indem durch das Klicken auf das `div`, welches hinter dem Retour-Icon liegt `navigate('/main')` ausgeführt wird. Dadurch gelangt der User zurück auf die MainPage.
+
+Innerhalb von `DetailControl` versteckt sich hinter dem Alarm-Icon, welches den **Threshhold-Button** kennzeichnet, auch ein `div` in welchen `onClick={onGoAlertClick}`definiert ist. `onGoAlertClick` wird `DetailControl` von der DetailPage übergeben:
+
+```JS
+<DetailControl
+  onGoAlertClick={handleThresholdViewerToggle}
+/>
+```
+
+Klickt der User also auf das Alarm-Icon, dann wird in der DetailPage die `handleThreshholdViewerToggle`-Methode aufgerufen, welche den Stand der `thresholdViewOpen useState` von FALSE auf TRUE bzw. von TRUE auf FALSE setzt. Ist diese Variable TRUE, so wird folgender Dialog geöffnet: `ThresholdViewer`.
+
+**ThreshholdViewer** fragt für den aktuell ausgewählten Container alle Thresholds aus dem Backend ab und wandelt diese in einen gut lesbaren Zustand ("Satzform") um (=**Satzform**):
+
+![Threshhold Viwer Dialog](img/Gekle/ThreshholdViewer.png)
+
+So wird z.B. angegeben, dass folgender Threshold existiert: Wenn die Latitude (Breitengrad) < als 90 Grad ist, dann befindet sich Latitude im kritischen Zustand. Wie auch der `ContainerChooser` besitzt dieser Dialog folgenden Code innerhalb eines Close `Button` : `onClick={onClose}`.
+
+##### Sidebar
