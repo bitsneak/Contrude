@@ -11,10 +11,10 @@ da-author:
 - vorname: Luca Alexander 
   nachname: Gekle
   klasse: 5AHWIN
-  thema: Container-Simulator, Webanwendung
+  thema: Positionierungsalgorithmus, Webanwendung
   ki-tools:
   - name: ChatGPT-4o
-    zweck: Informationsbeschaffung/ Codeerzeugung
+    zweck: Informationsbeschaffung / Codeerzeugung
 
 - vorname: Maximilian Silvester
   nachname: Kampl
@@ -47,21 +47,8 @@ da-kurzfassung-en: The placement of containers on a cargo ship is predefined in 
 
 da-kiquellen:
 - ki: ChatGPT-4o
-  short-prompt: TODO
-  pdf-file: gpt-pandoc.pdf
-
-- ki: Microsoft Copilot
-  short-prompt: TODO
-  pdf-file: gpt-atom.pdf
-
-
-da-appendix:
-- abschnitt: Technische Dokumentation
-  pdf-file: pandoc-manual.pdf
-  seiten: 53-73
-
-- abschnitt: Betreuungsprotokolle
-  pdf-file: betreuungsprotokolle.pdf    
+  short-prompt: Grundstruktur einer .ini-Datei
+  pdf-file: Kampl/ki/PlatformIO-INI-FILE-BSP-ChatGPT
 
 # Diplomarbeitsvereinbarungen müssen zum Schluss sein 
 

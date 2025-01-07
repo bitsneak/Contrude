@@ -4,7 +4,6 @@
 
 ## Theorie
 
-<<<<<<< HEAD
 ### Benötigte Hardwarekomponenten
 
 Um ein Projekt zu realisieren, bei dem Umweltdaten ausgelesen werden, benötigt man geeignete Komponenten, auf denen die Software zuverlässig läuft. Bei der Auswahl dieser Komponenten spielten mehrere Faktoren eine Rolle, darunter die Kosten, die Größe sowie die Anzahl der verfügbaren Funktionen.
@@ -27,9 +26,8 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
    - **Grund**: Der MPU6050 ist eine Kombination aus Beschleungiungssensor und Gyroskop. Damit können Bewegungen auf der X, der Y und der Z-Achse erfasst werden.
 4. ***GY-GPSMV2***
    - **Grund**: Das GY-GPSMV2-Modul ermöglicht die Standortbestimmung über GPS. Es bietet eine hohe Genauigkeit und eine stabile Leistung, wodurch die Postion präzise erfasst werden kann.
-=======
+
 ### Die Welt der Hardware  (Benötigte Hardwarekomponenten)
->>>>>>> ac9d57a363895aae07ce377b2aa2e6be93514bc6
 
 #### Kosten
 
@@ -41,11 +39,9 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 | 3      | AZ         | GY-521              | 2,50 €      | 5,30 €      | 12,79 €      |
 | 1      | Amazon     | ET-Starterkit       | 16,13 €     | 3,99 €      | 20,12 €      |
 
-
 | Preis Hardware insgesamt |
 |--------|
-|  81,19 € | 
-
+|  81,19 € |
 
 ### Aufsetzung der Prototypen
 
@@ -61,8 +57,7 @@ Um ein Programm erfolgreich auf dem ESP32 ausführen zu können, benötigt man e
 
 PlatformIO ist eine Entwicklungsumgebung, die als Erweiterung für den Texteditor Visual Studio Code genutzt wird. Sie bietet eine bessere Projektstruktur, eine fortschrittlichere Konfigurationsverwaltung und umfangreiche Unterstützung für verschiedene Mikrocontroller. Zwei zentrale Elemente sorgen dabei für einen reibungslosen Ablauf: die Hauptdatei (Main-File) und die Plattform-Konfigurationsdatei (.ini-File). Besonders die .ini-Datei spielt eine entscheidende Rolle, da sie die Projektkonfiguration festlegt und sicherstellt, dass der Upload-Prozess auf den Mikrocontroller zuverlässig und ohne Komplikationen funktioniert.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{caption="Beispiel einer .ini Datei" .ini} 
-
+```{caption="Beispiel einer .ini Datei" .ini}
     ; PlatformIO Project Configuration File
     ;
     ;   Build options: build flags, source filter
@@ -85,8 +80,8 @@ PlatformIO ist eine Entwicklungsumgebung, die als Erweiterung für den Textedito
     lib_deps =               ; Bibliotheken hinzufügen
         library1
         library2
+```
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ 
 [@gpt-inifile]
 
 ##### Aufsetzung
@@ -103,7 +98,7 @@ Um nun ein erstes Projekt zu erstellen muss mann einfach nur auf den PlatformIO 
 
 1. **Home**: sorgt dafür, dass das Home Menü von PlatformIO. In diesem kann man seine Projekte verwalten sowie Bibiliothekten für das aktuelle hinzufügen.
 2. **Build**: Kompiliert den Code des Projekts und erstellt eine Datei welche auf den Mikrocontroller hochgeladen werden kann.
-3. **Upload**: Lädt die erstellte Datei von der Build Funktion auf das Festgelegte Zielgerät, in unseren Fall ein ESP32, hoch. 
+3. **Upload**: Lädt die erstellte Datei von der Build Funktion auf das Festgelegte Zielgerät, in unseren Fall ein ESP32, hoch.
    1. Zuerst sucht PlatformIO nach richtigen Port. Entweder in der .ini-Datei festgelegt oder er wird automatisch erkannt.
    2. Die Firmware (.bin oder .hex Datei) wird auf das Gerät über den Port hochgeladen.
    3. Während des Uploads wird jeglicher Fortschritt im Terminal angezeigt.
@@ -112,8 +107,7 @@ Um nun ein erstes Projekt zu erstellen muss mann einfach nur auf den PlatformIO 
 6. **Core (CLI)**: Ist eine Kommandozeilen-Toolbox, welche die vorher genannten Funktionen anbietet.
 7. **Project Environment Switcher**: Erlaubt es zwischen verschiedenen Umgebungen innerhalb eines Projektes zu wechseln, falls sie vorhanden sind. Diese Umgebungen werden in der platformio.ini Datei angelegt. Das könnte ungefähr so aussehen:
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~{caption="BeispielVonMehrerenUmgebungen" .ini}
-
+```{caption="BeispielVonMehrerenUmgebungen" .ini}
 [env:esp32]
 platform = espressif32
 board = esp32dev
@@ -123,8 +117,8 @@ framework = arduino
 platform = ststm32
 board = nucleo_f401re
 framework = mbed
+```
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 [@PlatformIO-firststeps]
 
 ### C++
@@ -133,7 +127,7 @@ framework = mbed
 
 #### MQTT
 
-#### Miscalanious 
+#### Miscalanious
 
 ## Praktische Arbeit
 
@@ -143,8 +137,4 @@ framework = mbed
 
 ### Durchführung der Tests (kontinuirlich)
 
-
-<<<<<<< HEAD
-=======
 ### Erzeugen von Java Quellcode
->>>>>>> ac9d57a363895aae07ce377b2aa2e6be93514bc6
