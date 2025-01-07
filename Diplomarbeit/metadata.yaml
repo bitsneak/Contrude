@@ -11,10 +11,10 @@ da-author:
 - vorname: Luca Alexander 
   nachname: Gekle
   klasse: 5AHWIN
-  thema: Positionsalgorithmus, Webanwendung
+  thema: Container-Simulator, Webanwendung
   ki-tools:
   - name: ChatGPT-4o
-    zweck: Informationsbeschaffung
+    zweck: Informationsbeschaffung/ Codeerzeugung
 
 - vorname: Maximilian Silvester
   nachname: Kampl
