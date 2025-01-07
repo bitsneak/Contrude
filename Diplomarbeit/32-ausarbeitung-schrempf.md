@@ -299,6 +299,8 @@ wird die Applikation gestarted und kann auf ```http://localhost:80/hello``` aufg
 
 #### MySQL
 
+MySQL ist ein Open-Source RDBMS, welches von Oracle verwaltet wird. Diese DB wird stetig weiterentwickelt und ist sogar optimal in der Cloud hostbar. [@talend-mysql]
+
 #### InfluxDB
 
 #### Grafana
