@@ -53,7 +53,16 @@ da-kiquellen:
 # Gekle
 - ki: ChatGPT-4o
   short-prompt: Erklaerung eines Dragable Graphs
-  pdf-file: Gekle/KI/DG-ChatGPT.pdf
+  pdf-file: Gekle/KI/Theorie/DG-ChatGPT.pdf
+
+- ki: ChatGPT-4o
+  short-prompt: Vorteile von Axios
+  pdf-file: Gekle/KI/Theorie/AxiosVorteile-ChatGPT.pdf
+
+- ki: ChatGPT-4o
+  short-prompt: Warum async bei REST-Call Funktionen
+  pdf-file: Gekle/KI/Theorie/WarumAsync-ChatGPT.pdf
+
 
 da-appendix:
 - abschnitt: Embedded Systems
