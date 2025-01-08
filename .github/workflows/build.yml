@@ -10,7 +10,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     container:
       image: bytebang/htlle-da-env
       options: --volume=${{ github.workspace }}:/workspace
