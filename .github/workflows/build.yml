@@ -22,11 +22,11 @@ jobs:
           packages: git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
           version: 1.0
 
-      - name: Build Diploma thesis
+      - name: Build diploma thesis
         run: |
           make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
 
-      - name: Send Diploma thesis
+      - name: Send diploma thesis
         uses: dawidd6/action-send-mail@v2
         with:
           server_address: smtp.gmail.com
