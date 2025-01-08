@@ -50,6 +50,11 @@ da-kiquellen:
   short-prompt: Grundstruktur einer .ini-Datei
   pdf-file: Kampl/ki/PlatformIO-INI-FILE-BSP-ChatGPT.pdf
 
+# Gekle
+- ki: ChatGPT-4o
+  short-prompt: Erklaerung eines Dragable Graphs
+  pdf-file: Gekle/KI/DG-ChatGPT.pdf
+
 da-appendix:
 - abschnitt: Embedded Systems
   pdf-file: Kampl/NTVS-5IT-SJ24-25-Embedded-Systems.pdf
