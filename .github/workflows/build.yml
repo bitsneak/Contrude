@@ -11,22 +11,19 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04
+    container:
+      image: bytebang/htlle-da-env
+      options: --volume=${{ github.workspace }}:/workspace
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Cache dependencies
-        uses: awalsh128/cache-apt-pkgs-action@latest
-        with:
-          packages: git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
-          version: 1.0
-
-      - name: Build diploma thesis
+      - name: Copy PDF to workspace
         run: |
-          make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
+          cp /workspace/Diplomarbeit/diplomarbeit.pdf $GITHUB_WORKSPACE/diplomarbeit.pdf
 
-      - name: Send diploma thesis
+      - name: Send File via Email
         uses: dawidd6/action-send-mail@v2
         with:
           server_address: smtp.gmail.com
@@ -37,4 +34,4 @@ jobs:
           body: " "
           to: ${{ secrets.TEAMS_MAIL }}
           from: ${{ secrets.GMAIL_MAIL }}
-          attachments: Diplomarbeit/diplomarbeit.pdf
+          attachments: diplomarbeit.pdf
