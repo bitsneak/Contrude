@@ -16,7 +16,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Restore packages
+      - name: Restore dependencies
         id: cache-restore
         uses: actions/cache/restore@v4
         with:
@@ -24,21 +24,21 @@ jobs:
             /var/cache/apt
             /var/lib/apt/lists
           key: ${{ runner.os }}-da-packages
-
+      
       - name: Install dependencies
         if: steps.cache-restore.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
-
-      - name: Save packages
+      
+      - name: Save dependencies
         id: cache-save
         uses: actions/cache/save@v4
         with:
           path: |
             /var/cache/apt
             /var/lib/apt/lists
-          key: ${{ steps.cache-restore.outputs.cache-da-packages }}
+          key: ${{ runner.os }}-da-packages
         
       - name: Build DA-Thesis
         run: |
