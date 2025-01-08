@@ -27,8 +27,6 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 4. ***GY-GPSMV2***
    - **Grund**: Das GY-GPSMV2-Modul ermöglicht die Standortbestimmung über GPS. Es bietet eine hohe Genauigkeit und eine stabile Leistung, wodurch die Postion präzise erfasst werden kann.
 
-### Die Welt der Hardware  (Benötigte Hardwarekomponenten)
-
 #### Kosten
 
 | Anzahl | Ort        | Produkt             | Einzelpreis | Lieferkosten | Preis gesamt |
@@ -43,7 +41,24 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 |--------|
 |  81,19 € |
 
-### Aufsetzung der Prototypen
+### Eingebettete Systeme
+
+Um zu verstehen wie die Hardware nun funktioniert muss man ersteinmal wissen was ein Embedded System ist. Ein Eingebettetes System ist Teil eines viel größeren Systems wie z.B.: Handys, Autos, Waschmaschinen, usw..
+
+
+Solche Systeme gibt es bereits seit den 1960. Damals baute der amerikanische Ingenieur Charles Stark Draper während des Apollo Raumprogrammes die erste integrierte Schaltung. Diese wurde dann auf dem Apollo Guidance Computer installiert um Flugdaten in Echtzeit sammeln zu können.
+Später wurden dann solche Mikroprozessoren in der 1600 Serie von Volkswagen verwendet um das Kraftstoffeinspritzsystem zu steuern.
+In den 70ern konnte Intel den ersten Prozessor entwickeln, welcher der Öffentlichkeit zugänglich war: den Intel 4004. Ein 4-Bit-Mikroprozessor, wlecher in Taschenrechnern und anderen kleineren elektronischen Geräte verwendet wurde.
+
+
+Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Software und Hardware ist für einen speziell programmierte Aufgabe. Obwohl man ein ES mit einem Computer gleichstellen kann, haben sie des öfteren keine Graphische Oberfläche für Benutzer.
+[@EmbeddedSystems]
+
+#### Komponenten
+
+
+
+### Aufbau des Prototypen
 
 #### PlatformIO
 
@@ -84,7 +99,7 @@ PlatformIO ist eine Entwicklungsumgebung, die als Erweiterung für den Textedito
 
 [@gpt-inifile]
 
-##### Aufsetzung
+##### Aufsetzen
 
 Um PlatformIO benutzen zu können muss man ganz einfach die PlatformIO IDE in Visual Studio installieren. Nach der Installation und einem schnellen Neustart kann man ein erstes Projekt erstellen.
 
