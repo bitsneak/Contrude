@@ -11,7 +11,7 @@ da-author:
 - vorname: Luca Alexander 
   nachname: Gekle
   klasse: 5AHWIN
-  thema: Positionierungsalgorithmus, Webanwendung
+  thema: Container-Simulator, Webanwendung
   ki-tools:
   - name: ChatGPT-4o
     zweck: Informationsbeschaffung / Codeerzeugung
