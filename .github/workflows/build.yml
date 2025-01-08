@@ -1,4 +1,4 @@
-name: Build and send diploma thesis
+name: Build and Send Thesis
 
 on:
   push:
@@ -10,21 +10,23 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-    container:
-      image: bytebang/htlle-da-env
-      options: --volume=${{ github.workspace }}:/workspace
+    runs-on: ubuntu-22.04
 
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Copy PDF to workspace
+      - name: Install dependencies
         run: |
-          cp /workspace/Diplomarbeit/diplomarbeit.pdf $GITHUB_WORKSPACE/diplomarbeit.pdf
+          sudo apt-get update
+          sudo apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
+          
+      - name: Build diploma thesis
+        run: |
+          make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
 
-      - name: Send File via Email
-        uses: dawidd6/action-send-mail@v2
+      - name:  Send diploma thesis
+        uses: dawidd6/action-send-mail@v4
         with:
           server_address: smtp.gmail.com
           server_port: 587
@@ -34,4 +36,4 @@ jobs:
           body: " "
           to: ${{ secrets.TEAMS_MAIL }}
           from: ${{ secrets.GMAIL_MAIL }}
-          attachments: diplomarbeit.pdf
+          attachments: Diplomarbeit/diplomarbeit.pdf
