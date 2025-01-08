@@ -371,6 +371,7 @@ const axiosInstance = axios.create({
 
 export default axiosInstance;
 ```
+[vgl. @Axios-Docs-Instance]
 
 Diese wird dann in allen Komponenten eingebunden, in welchen man REST-Abfrage durchführt: `import axiosInstance from '../api/AxiosInstance';`
 
@@ -709,7 +710,7 @@ Die MainPage selbst besteht aus 3 großen "Parent-Komponenten", welche wiederum 
 - Sidebar (blau)
 - Topbar (gelb)
 
-![Structure of the Main Page](img/Gekle/MainPageStructure.png)
+![Struktur der Main Page](img/Gekle/MainPageStructure.png)
 
 Zu den Funktionen, welche von der MainPage als ganzes übernommen werden zählen das Anzeigen eines oder mehrerer Sammel-Container(s) im `Workspace` basierend auf der Grid-Einstellung aus der `Topbar`. Auch das Suchen von spezifischen Containern und das wechseln des Schiffes werden über die `Topbar` ermöglicht.
 
@@ -719,7 +720,7 @@ Wie auch die MainPage unterteilt sich die Detail Page in 3 große Komponente:
 - Topbar
 - Sidebar
 
-![Structure of the Detail Page](img/Gekle/DetailPageStructure.png)
+![Struktur der Detail Page](img/Gekle/DetailPageStructure.png)
 
 Die `Detailspace` ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit Notizen, welche auch gespeichert werden, hinzuzufügen zählt ebenfalls zu den Aufgaben der `DetailSpace`. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Threshholds und Zurückgehen zur MainPage bietet.
 
@@ -954,7 +955,7 @@ Das erste der beiden linken Komponenten ist das **ShipSelect** Dropdown Menü. D
 
 Bei diesem handelt es sich um die Suchleiste, welche mithilfe der **Searchbar** Komponente dargestellt wird. Diese übernimmt das durch das `ShipSelect` ausgewählte Schiff aus der MainPage und setzt dieses neben dem HTML `input`-Tag ein, wodurch der Name des ausgewählten Schiffs angezeigt wird. Davor steht ein vordefinierter Text: "of container on Ship". Als Placeholder für das Eingabefeld wurde "Serial Number" gewählt, dadurch entsteht folgendes Design:
 
-![The Searchbar + ShipSelect Button](img/Gekle/Searchbar.png)
+![Searchbar + ShipSelect Button](img/Gekle/Searchbar.png)
 
 Hier ist links neben der Suchleiste auch das `ShipSelect`-Icon und die damit verbundene Komponente zu sehen. Die `Searchbar` verändert ihre Länge dynamisch, da der Name eines Schiffes viel länger sein kann, als der eines anderen. Dies wird in Tailwind mithilfe des CSS Attributs `flex-grow` erreicht. [vgl. @TailwindCSS-Docs-FlexGrow]
 
@@ -1080,5 +1081,301 @@ Klickt der User also auf das Alarm-Icon, dann wird in der DetailPage die `handle
 ![Threshhold Viwer Dialog](img/Gekle/ThreshholdViewer.png)
 
 So wird z.B. angegeben, dass folgender Threshold existiert: Wenn die Latitude (Breitengrad) < als 90 Grad ist, dann befindet sich Latitude im kritischen Zustand. Wie auch der `ContainerChooser` besitzt dieser Dialog folgenden Code innerhalb eines Close `Button` : `onClick={onClose}`.
+
+##### Sidebar
+
+#### REST Calls mit Axios
+
+##### Axios Instanz
+Mit Ausnahme der LoginPage wird für das Abfragen von Daten immer ein "Access Token" benötigt und muss daher in die Abfrage eingefügt werden. Mit einer normalen Axios Instanz wie dieser:
+```JS
+const axiosInstance = axios.create({
+  baseURL: 'https://api.contrude.eu',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+```
+...würde eine Abfrage etwa so aussehen:
+```JS
+const accessToken = localStorage.getItem('accessToken');
+const containerResponse = await axiosInstance.get(
+  `/rest/container/${containerId}`,
+  {
+    headers: {
+      authorization: `Bearer ${accessToken}`,
+    },
+  }
+);
+
+
+```
+In den Header wird also immer der Access Token eingefügt. Allerdings lässt sich dies vermeiden indem in die Axios Instanz ein `interceptor` eingefügt wird, welcher bei jedem Aufruf der Instanz ausgeführt wird:
+```JS
+// Add request interceptor to attach access token to headers
+axiosInstance.interceptors.request.use(
+  (config) => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (accessToken) {
+      config.headers['Authorization'] = `Bearer ${accessToken}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+```
+[CHATGPT14]
+Hierbei handelt es sich um einen einen `request interceptor`. Dieser überprüft ob ein Access Token vorhanden ist. Ist dies der Fall wird der Authorization Header in die Abfrage eingefügt. Der Call von oben würde dann so aussehen:
+```JS
+const containerResponse = await axiosInstance.get(`/rest/container/${containerId}`);
+```
+
+Weiters kümmert sich die Instanz um die Refresh Token, damit im Falle das der Access Token ausläuft ein neuer angefordert und mit dem Abgelaufen ersetzt wird. Auch hierfür wurde ein `interceptor` eingefügt:
+```JS
+// Add response interceptor to handle token refresh
+axiosInstance.interceptors.response.use(
+  (response) => response,
+  async (error) => {
+    if (error.response && error.response.status === 403) {
+      // Token has expired, try refreshing it
+      try {
+        const refreshToken = localStorage.getItem('refreshToken');
+        if (!refreshToken) {
+          throw new Error('No refresh token found');
+        }
+        // Send a request to refresh the token
+        const response = await axios.post('/auth/token/refresh', { refreshToken });
+        // Get the new access token from the response
+        const { accessToken } = response.data;
+        localStorage.setItem('accessToken', accessToken);
+        // Retry the original request with the new access token
+        error.config.headers['Authorization'] = `Bearer ${accessToken}`;
+        return axiosInstance(error.config); // Retry original request
+      } catch (refreshError) {
+        console.log('Error refreshing token', refreshError);
+        // Handle token refresh failure (e.g., log the user out)
+      }
+    }
+    return Promise.reject(error);
+  }
+);
+
+```
+[CHATGPT14]
+Dieser reagiert auf `responses` also Antworten: Kommt ein Status-Code vom Server zurück, so versucht er den Access Token mithilfe des Refresh Tokens zu aktualisieren. Dies funktioniert nur dann, wenn ein valider Refresh Token vorhanden ist. Sollte dies nicht der Fall sein, dann bedeutet dass, dass der User ausgeloggt wurde.
+
+##### LoginPage
+Die LoginPage ist einzigartig darin, dass die API-Calls hier nicht innerhalb eines `useEffect` , also  nicht nebenbei sondern ganz bewusst ausgeführt werden. Dies wird ausgelöst, wenn der User auf den Login Button klickt, woraufhin die vom User eingegebenen Daten benutzt werden um den Login durchzuführen. Zuerst muss der eingegeben Username in eine ID umgewandelt werden, da der eigentliche Login Call eine ID und das Passwort benötigt. Diese werden in eine Variable geschrieben. Ist der tatsächliche Call einmal ausgeführt, so wird der User mit `useNavigate()` [vgl. @GeeksForGeeks-useNavigate] an die MainPage weitergeleitet. Ist dies nicht der Fall wird fängt das `try/catch` den Fehler und der Login schlägt fehle:
+```JS
+} catch (error) {
+  console.log('Error', error);
+  if (error.response) {
+    setError(error.response.data?.message || 'Login failed. Please try again.');
+  } else {
+    setError('Network error or server is down.');
+  }
+}
+
+```
+Ist das Passwort falsch eingegeben, so übernimmt die Website die Antwort vom Server (falls nicht vorhanden einen vordefinierten Text) und zeigt diesen an. Handelt es sich um ein anderes Problem, so wird ein anderer Error-Text verwendet. Dieses Anzeigen erfolgt über eine `useState` Variable namens `error`, welche standardmäßig auf NULL gesetzt ist und nur durch den `catch` Block upgedatet und in weiterer Folge dieser Code ausgeführt wird, welcher die Fehlermessage anzeigt:
+```JS
+{error && (
+  <div className="text-red-500 text-center mt-4">
+    {error}
+  </div>
+)}
+
+```
+##### MainPage
+Die **MainPage** selbst (also nicht der Workspace) kommt mit zwei API Calls aus. Der erste hängt eng mit der `Searchbar` zusammen, welche so in der Page implementiert ist: 
+```JS
+<SearchBar key="searchbar" selectedShip={selectedShip} onSearchSubmit={handleSearchSubmit}/>`
+```
+`OnSearchSubmit` wird in der MainPage dann ausgelöst, sobald aus der `Searchbar` eine Eingabe des Users kommt. Diese Eingabe wird dann in der `useState`-Variable `searchTerm` gespeichert. Weiters ist ein `useEffect` definiert, welches dann triggert, wenn `searchTerm` sich verändert:
+```JS
+useEffect(() => {
+  // Hier passiert die Logik des useEffects
+}, [searchTerm]); // Kennzeichnung, dass bei Änderung der Variable das useEffect ausgeführt werden soll
+
+```
+Hier wird die vom User in die Suchleiste eingegeben Seriennummer dem Server übergeben, welcher daraufhin die dazu passende Id zurückgibt. Mit dieser Id wird dann ein `ContainerChooser`-Dialog aufgemacht, welcher das weiterleiten auf die zur Id passenden DetailPage ermöglicht. 
+
+Innerhalb der MainPage ist noch ein zweites `useEffect` definiert, welches mit Laden der Seite auslöst. Innerhalb von diesem werden alle verfügbaren Schiffe gefetcht. Zusätzlich wird überprüft, ob es sich bei der Antwort tatsächlich um ein Array handelt um dann mit `.length` (sofern es sich um ein Array handelt) zu überprüfen, ob es länger als null ist. Trifft auch dies zu, so wird automatisch das nullte Element als ausgewähltes Schiff (`selectedShip`) gesetzt. Dies ist wichtig, da viele weitere Komponente benötigt wird, um korrekt zu funktionieren. 
+
+So etwa auch **Workspace**, dieses muss nämlich mithilfe der Id des ausgewählten Schiffes alle dazu passenden Container Ids fetchen. Um die Id des Schiffes zu bekommen wird kein eigener Call benötigt, da das `selectedShip` Objekt, welches innerhalb `Workspace` nur als `ship` betitelt wird, folgendermaßen aussieht:
+
+![Aus Backend überliefertes selectedShip Objekt](img/Gekle/ShipVar.png)
+
+Dadurch kann mit `ship.id` ganz einfach die Id herausgefunden werden welche dann innerhalb eines `useEffect` benutzt wird. Dieses `useEffect` (=UE1) wird durch die Änderung folgender 2 Variablen ausgelöst:
+- `ship` (ausgewählte Schiff)
+- `gridSize` (ausgewählte Grid Größe)
+
+Der Grund, warum auch `gridSize` dies auslöst, liegt an Folgendem: Da ein weiteres `useEffect` (=UE2), welches mithilfe des `ContainerDistributor`-Skripts die `Map` erstellt, welche wiederum von der `renderGrid` Methode benötigt wird, als Auslöser die `useState`-Variable hat, die von UE1 befüllt wird:
+- UE1 befüllt Var1
+- Var1 löst UE2 aus
+- UE2 = essenziel für `renderGrid`
+- `renderGrid` verändert dann tatsächlich das Grid
+
+Kurzum: Wäre `gridSize` nicht als Bedingung definiert, dann würde das Grid niemals seine Größe verändern, da die dazu benötigten Funktionen nicht funktionieren.
+
+##### DetailPage
+Innerhalb der DetailPage befinden sich alle REST API Calls in der **Detailspace** Komponente. 
+Zuerst werden alle Daten des Container, welchen man sich gerade ansieht, in das Frontend geholt, wobei vor allem die Notizen essenziell sind. Diese werden benötigt um das Notizfeld innerhalb des `Detailspace` zu füllen. Dieser Call wird dann aufgerufen, wann sich die Variable `ContainerId` verändert. 
+
+Diese wird jedoch nicht von der MainPage übergeben, sondern mithilfe von `useParams` von `react-router-dom`. Dies erfolgt folgendermaßen:
+```JS
+const {shipId, containerId} = useParams();
+```
+[vgl. @Refine-ReactRouter]
+
+...wobei die Route durch des Router in der `App.jsx` so definiert ist:
+`<Route path="detail/:shipId/:containerId" element={<DetailPage/>}></Route>`
+
+Wird also z.B. der auf Schiff 4 sich befindende Container mit ID 2 aufgerufen (`/detail/4/2`), so ändert sich auch die Variable in welcher die ID gespeichert wird, wodurch alle (mit Ausnahme von einem) `useEffect` aufgerufen werden. Diese ID wird dann auch dazu benutzt, um die zum Container gehörende, vollständige Seriennummer zu fetchen, welche als Name des Containers angezeigt wird.
+
+Weiters wird die zentrale Aufgabe des Anzeigen der **Umweltdaten** erfüllt. Auch dieser Call befindet sich innerhalb eines `useEffect` welches auf Änderung der `containerID` aktiviert wird. 
+```JS
+const environmentDataResponse = await axiosInstance.get(`/rest/sensor/${shipId}/${containerId}`);
+// Temperatur
+const temperatureValue=environmentDataResponse.data.sensor_data.temperature[0].value;
+const temperatureSensor=environmentDataResponse.data.sensor_data.temperature[0].sensor;
+updateTableData(temperatureValue, temperatureSensor);
+```
+Der Call liefert die zuletzt vom Prototyp selbst an das Backend gesendeten Daten zurück.
+
+Danach werden für alle 7 Umweltdaten-Typen (Temperatur, Luftdruck, Feuchtigkeit, Vibration, Höhe, Breitengrad und Längengrad) einerseits in `___Value` der tatsächliche Wert (z.B. 20$^\circ$C), andererseits in `___Sensor` der dazugehörige Sensor (z.B. temperature) gespeichert. Die beiden Variablen werden dann mithilfe von `updateTableData` in das `tableData` Array geschrieben, dessen Werte dann auch in einem Table angezeigt werden. Die drei letzten Zeilen von dem oben stehenden Code werden also insgesamt sechs Mal wiederholt, wobei jedes Mal ein anderes Environment geupdatet wird.
+
+Nun sind die Daten für den Container schon fast vollständig, einzig die Anzeige, ob einer der Thresholds ausgelöst wurde fehlt noch (Gelb Markiert):
+
+![Aussehen des Detailspace](img/Gekle/DetailSpace.png)
+
+Um dies ebenfalls, wie im Bild, zu befüllen musste sichergestellt werden, dass alle Threshholds bereits geladen sind, damit sie gesammelt mit den Umweltdaten verglichen werden können. Diese Thresholds werden in Satzform (siehe *Komponenten der Topbar der DetailPage*) zuerst von dem `ThresholdViwer`-Dialog an die DetailPage und von dieser an `Detailspace` weitergegeben. Im Umkehrsinn heißt dies also, dass die Thresholds nur vorhanden sind, sofern sie von dem Dialog geladen werden. Um den gesamten Code, welcher die Thresholds in die Satzform bringt, nicht doppelt schreiben zu müssen, wurde die `useState`-Variable, welche das Öffnen des `Thresholdviewer` in der DetailPage regelt auf TRUE gesetzt. Dies bewirkt dass der Dialog bei Aufruf der DetailPage immer geöffnet wird, wodurch alle Thresholds (sofern diese vorhanden sind) auf jeden Fall geladen und an `Detailspace` weitergereicht werden. Doch warum werden die Thresholds nun in dieser "Satzform" benötigt?
+
+Der Grund ist, dass das `tableData` Array und die dazugehörigen Thresholds (in Satzform) an ein Skript übergeben wird:
+```JS
+// Function to check the sentence and match conditions
+const checkConditions = (tableData, sentences) => {
+  return tableData.map((data) => {
+    // Find the sentence that matches the environment
+    const sentence = sentences.find((sentence) =>
+      sentence.toLowerCase().includes(data.environment.toLowerCase())
+    );
+
+    if (!sentence) {
+      return { ...data, alert: "" }; // No matching sentence found
+    }
+
+    // Extract condition and alert from sentence
+    const [condition, result] = sentence.split(" = ");
+    const conditionParts = condition.split(" ");
+    const parameterValue = parseFloat(data.value);
+    const comparator = conditionParts[1];
+    const conditionValue = parseFloat(conditionParts[2]);
+
+    // Evaluate condition
+    let isValid = false;
+    switch (comparator) {
+      case ">":
+        isValid = parameterValue > conditionValue;
+        break;
+      case "<":
+        isValid = parameterValue < conditionValue;
+        break;
+      case "==":
+        isValid = parameterValue === conditionValue;
+        break;
+      case "!=":
+        isValid = parameterValue !== conditionValue;
+        break;
+      case ">=":
+        isValid = parameterValue >= conditionValue;
+        break;
+      case "<=":
+        isValid = parameterValue <= conditionValue;
+        break;
+      default:
+        isValid = false;
+        break;
+    }
+
+    return { ...data, alert: isValid ? result : "" };
+  });
+};
+export default checkConditions;
+```
+[CHATGPT16]
+
+> Das Script nimmt die Umweltdaten aus dem `tableData`-Array und prüft für jede Zeile, ob es einen passenden Satz aus der `sentences`-Liste gibt, basierend auf dem `environment`-Wert. Wenn ein passender Satz gefunden wird, wird die Bedingung aus dem Satz extrahiert (z. B. Vergleichsoperator und Grenzwert) und mit dem Wert aus `tableData` verglichen. Ist die Bedingung erfüllt, wird das Ergebnis (z. B. "Medium" oder "Low") in das `alert`-Feld der Zeile geschrieben. Wenn die Bedingung nicht erfüllt ist oder kein passender Satz gefunden wird, bleibt das `alert`-Feld leer. [CHATGPT16]
+
+Ist dies einmal abgeschlossen, wird das `useState`-Array `tableData` mit `setTableData` mit dem durch das Skript geupdateten Array aktualisiert, was sich auch auf den Table, welchen der User sieht, auswirkt.
+
+##### Dialoge
+Dialoge sind vielseitig einsetzbar. Die beiden wichtigsten Dialoge der Website sind:
+- `ContainerChooser`
+- `ThresholdViewer`
+
+Der **ContainerChooser** übernimmt ein `values` Array, welches alle für das ausgewählte Schiff verfügbaren Container-Ids beinhält. Als Sicherheitsmaßnahme, dass es sich tatsächlich um ein Array handelt wird zuerst mit:
+```JS
+const validValues = Array.isArray(values) ? values : []
+```
+eine Kopie des Arrays erstellt und mit `isArray` die eben erwähnte Überprüfung durchgeführt. Dieses Array wird nun im Zuge des API Calls auch verwendet: Ziel ist es für alle Ids die passenden Seriennummer für die Container zu fetchen:
+```js
+const fetchedSerialNumbers = [];
+for (let i = 0; i < validValues.length; i++) {
+  const id = validValues[i];
+  const containerSerialNumberResponse = await axiosInstance.get(`/rest/container/${id}/serial-number`);
+  
+  const fetchedSerialNumber = containerSerialNumberResponse.data;
+  fetchedSerialNumbers.push(fetchedSerialNumber);
+}
+setSerialNumbers(fetchedSerialNumbers);
+
+```
+Dies geschieht indem mittels einer `for`-Schleife durch das neue Array iteriert wird und pro ID die passende Seriennummer geholt wird, welche dann in das `fetchedSerialNumbers` Array eingefügt werden. Ist die Schleife zu Ende wird das Seriennummer-Array mit `setSerialNumbers` in die `serialNumber useState` gesetzt. Diese Daten innerhalb des `useState` werden dann in einer unordered List mithilfe der .map Methode aufgelistet. (siehe *Komponenten der Top Bar der MainPage*). 
+
+Der **Thresholdviewer** Dialog benötigt um seine Funktion, das Anzeigen aller für einen Container festgelegten Thresholds, zwei Calls:
+- alle Thresholds fetchen
+- zusätzliche Daten zu den Thresholds fetchen
+
+Der Erstere ist eher unkompliziert, da mithilfe der containerId (aus `useParams()` [vgl. @Refine-ReactRouter]) einfach alle zum Container gehörende Thresholds ins Frontend geholt werden. ABER: Diese kommen in folgender Form:
+
+![Form, in welcher die aus dem Backend gefetchten Thresholds sich befinden](img/Gekle/ThresholdsByBackend.png)
+
+Es werden also nur die Ids der einzelnen Bestandteile (parameter, level, rule) überliefert. Diese müssen im Rahmen eines zweiten `useEffect` einzeln übergeben werden woraufhin der tatsächlich sinnvolle Wert geliefert wird. Sind diese alle gefetcht werden sie mit dem vom ersten Call erhaltenen `value` in folgendes Format (=Satzform) gebracht:
+
+```
+Parameter Rule Value = Level
+zB: Parameter = 1 (Air Pressure), Rule = 1 (>), Level = 3 (Medium) Value = 101,325
+=> Air Pressure > 101,325 = Medium
+```
+
+Dies erfolgt so:
+```JS
+for (let i = 0; i < validThresholds[i].length; i++) {
+  // Parameter
+  const parameterId = validThresholds[i].parameter;
+  const parameterResponse = await axiosInstance.get(`/rest/threshold/parameter/${parameterId}`);
+  const parameterValue = parameterResponse.data.parameter[0].name;
+
+  // Rule
+  const ruleId = validThresholds[i].rule;
+  const ruleResponse = await axiosInstance.get(`/rest/threshold/rule/${ruleId}`);
+  const ruleValue = ruleResponse.data.rule[0].name;
+
+  // Level
+  const levelId = validThresholds[i].level;
+  const levelResponse = await axiosInstance.get(`/rest/threshold/level/${levelId}`);
+  const levelValue = levelResponse.data.level[0].name;
+
+  // Sentence
+  const sentence = `${parameterValue} ${ruleValue} ${validThresholds[i].value} = ${levelValue}`;
+  
+  sentences.push(sentence);
+}
+setThresholdSentences(sentences);
+onSentencesUpdate(sentences);
+```
+Dieser Code läuft in einer `for`-Schleife, da ja mehrere Thresholds für den Container gesetzt sein können. `validThresholds` ist ein mit `isArray` geprüftes Duplikat jenes Arrays, welches im ersten API Call die Thresholds (in Id Form) abspeichert. Zum Schluss werden in der Variable `sentences` die gefetchten Daten zusammen mit `value` in die Satzform gebracht und im `sentences`-`useState`-Array abgespeichert. Es ist dieses Array, welches vom Dialog mit `onSentencesUpdate` an die DetailPage zurück geliefert wird. 
 
 ##### Sidebar
