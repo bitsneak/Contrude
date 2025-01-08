@@ -977,7 +977,7 @@ Den Kern der `Detailspace`-Komponente bildet ein `useState`-Array namens **Table
 
 ```JS
 const [tableData, setTableData] = useState([
-  { environment: "Temperature", value: "-", unit: "°C", alert: "" },
+  { environment: "Temperature", value: "-", unit: "$^/circ$C", alert: "" },
   { environment: "Pressure", value: "-", unit: "Pa", alert: "" },
   { environment: "Humidity", value: "-", unit: "%", alert: "" },
   { environment: "Vibration", value: "-", unit: "m/s2", alert: "" },
