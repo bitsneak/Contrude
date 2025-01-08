@@ -16,19 +16,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Cache packages
-        uses: actions/cache@v4
+      - name: Restore packages
+        id: cache-restore
+        uses: actions/cache/restore@v4
         with:
-          path: /var/cache/apt
-          key: ${{ runner.os }}-apt-${{ hashFiles('**/Diplomarbeit/**') }}
-          restore-keys: |
-            ${{ runner.os }}-apt-
+          path: |
+            /var/cache/apt
+            /var/lib/apt/lists
+          key: ${{ runner.os }}-da-packages
 
       - name: Install dependencies
+        if: steps.cache-restore.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update
           sudo apt-get install -y git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
-          
+
+      - name: Save packages
+        id: cache-save
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            /var/cache/apt
+            /var/lib/apt/lists
+          key: ${{ steps.cache-restore.outputs.cache-da-packages }}
+        
       - name: Build DA-Thesis
         run: |
           make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
