@@ -16,19 +16,48 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Get installed package list
+        id: package-list
+        run: |
+          dpkg-query -W -f='${Package} ${Version}\n' > installed-packages.txt
+          cat installed-packages.txt
+
+      - name: Create cache key
+        id: cache-key
+        run: |
+          # Generate a cache key based on installed packages list
+          PACKAGE_KEY=$(sha256sum installed-packages.txt | cut -d ' ' -f1)
+          echo "CACHE_KEY=apt-${PACKAGE_KEY}" >> $GITHUB_ENV
+
+      - name: Restore dependencies
+        id: cache-restore
+        uses: actions/cache@v4
+        with:
+          path: |
+            /var/cache/apt
+            /var/lib/apt/lists
+          key: ${{ env.CACHE_KEY }}
 
       - name: Install dependencies
+        if: steps.cache-restore.outputs.cache-hit != 'true'
         run: |
           sudo apt-get update
-          sudo apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
+          sudo apt-get install -y git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
 
-          
+      - name: Save dependencies
+        id: cache-save
+        uses: actions/cache@v4
+        with:
+          path: |
+            /var/cache/apt
+            /var/lib/apt/lists
+          key: ${{ env.CACHE_KEY }}
+
       - name: Build DA-Thesis
         run: |
           make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
 
-
-      - name:  Send File via Email
+      - name: Send File via Email
         uses: dawidd6/action-send-mail@v2
         with:
           server_address: smtp.gmail.com
