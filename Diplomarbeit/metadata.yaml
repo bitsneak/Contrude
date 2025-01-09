@@ -49,7 +49,7 @@ da-kiquellen:
 #Kampl
 - ki: ChatGPT-4o
   short-prompt: Grundstruktur einer .ini-Datei
-  pdf-file: Kampl/ki/PlatformIO-INI-FILE-BSP-ChatGPT.pdf
+  pdf-file: Kampl/KI/Theorie/PlatformIO-INI-FILE-BSP-ChatGPT.pdf
 
 # Gekle
 - ki: ChatGPT-4o

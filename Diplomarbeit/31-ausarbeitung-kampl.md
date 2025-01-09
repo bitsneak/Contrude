@@ -20,12 +20,45 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 
 1. ***ESP32***
    - **Grund**: Der ESP32 ist ein leistungsstarker und kostengünstiger Mikrocontroller mit integrierter WLAN- und Bluetooth Funktionalität. Er bietet eine höhere Rechenleistung als ein Arduino und ist im durchschnitt auch kleiner als jener, was für die mobile Nutzung vom Vorteil ist.
-2. ***BME280***
+   - **Spezifikationen**: 
+     - Größe: $39mm  *  28mm  *  6mm$
+     - 34 I/O Pins
+     - SoC: ESP32-WROOM-32
+     - Netzspannung: 5V
+  
+<img src="img/Kampl/ESP-Pins-Legende.png" alt="ArduinoPins" width="297"/> 
+<img src="img/Kampl/ESP-Pins1.png" alt="ArduinoPins" width="500"/>
+<img src="img/Kampl/ESP-Pins2.png" alt="ArduinoPins" width="500"/>
+
+1. ***BME280***
    - **Grund**: Der BME280 ist ein vielseitiger Sensor, welcher sowohl die Temperatur, die Luftfeuchtigkeit als auch den Luftdruck messen kann. Außerdem ist er kompakt und kostengünstig.
-3. ***MPU6050***
+   - **Spezifikationen**: 
+     - Größe: $9mm  *  11mm  *  2mm$
+     - 4 Pins
+     - Schnittstelle I²C
+     - Spannung: 3.3V bis 5V
+
+<img src="img/Kampl/BME280-Pins.png" alt="BMEPins" width="300"/> 
+
+1. ***MPU6050***
    - **Grund**: Der MPU6050 ist eine Kombination aus Beschleungiungssensor und Gyroskop. Damit können Bewegungen auf der X, der Y und der Z-Achse erfasst werden.
-4. ***GY-GPSMV2***
+   - **Spezifikationen**: 
+     - Größe: $25mm  *  20mm  *  7mm$
+     - 8 Pins
+     - Schnittstelle I²C
+     - Spannung: 3.3V bis 5V
+
+<img src="img/Kampl/MPU6050-Pins.png" alt="MPUPins" width="300"/> 
+
+3. ***GY-GPSMV2***
    - **Grund**: Das GY-GPSMV2-Modul ermöglicht die Standortbestimmung über GPS. Es bietet eine hohe Genauigkeit und eine stabile Leistung, wodurch die Postion präzise erfasst werden kann.
+   - **Spezifikationen**: 
+     - Größe: $16mm  *  12.2mm  *  2.4mm$
+     - 3 Pins
+     - Schnittstelle UART
+     - Spannung: 3.3V 
+
+<img src="img/Kampl/BME280-Pins.png" alt="BMEPins" width="300"/> 
 
 #### Kosten
 
@@ -196,7 +229,7 @@ framework = mbed
 
 #### MQTT
 
-#### Miscalanious
+#### Sonstiges
 
 ## Praktische Arbeit
 
