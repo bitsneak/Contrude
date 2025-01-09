@@ -30,7 +30,7 @@ In dem Beispiel A -> B mit V={A, B} und E={A,B}, ist der Knoten A nur erreichbar
 
 Der Containersimulator hat als Endergebnis einen **ungerichteten** Graphen wie im folgenden Bild zu sehen ist:
 
-![GraphExample](img/Gekle/GraphExample.png)
+![Beispiel eines ungerichteten Graphen](img/Gekle/GraphExample.png)
 
 Anhand des beispielhaften Graphs, lässt sich also folgendes herauslesen:
 
@@ -45,7 +45,7 @@ Unter einer Inzidenzmatrix versteht man eine n x m Matrix (n... Anzahl der Knote
 
 Als Beispiel eine Erweiterung des Graphs von oben:
 
-![GraphExampleExtended](img/Gekle/GraphExampleExtended.png)
+![Nummerierung der Kanten des obrigen Graphen](img/Gekle/GraphExampleExtended.png)
 
 Hier wurden die Kanten durchnummeriert um die **Inzidenzmatrix** zu erstellen:
 
@@ -86,7 +86,7 @@ Wenn ein Knote V = Knote W ist, also bei einer Verbindung zu sich selbst wird 0 
 Mithilfe der DOT Sprache, welche Teil von Graphviz ist, lassen sich sehr einfach gerichtete und ungerichtete Graphen darstellen. Dies erfolgt mit sogenannten "edgeloops", wobei "->" für gerichtete und "--" für ungerichtete Graphen steht. Diese können innerhalb eines Graphen benutzt werden, welcher durch `graph{}` für einen ungerichtete oder `diagraph{}` für einen gerichteten gekennzeichnet wird. Fügt man davor ein `strict` hinzu (also z.B. `strict graph{}`) so kann man bestimmen, dass zwischen zwei Knoten immer nur eine Verbindung besteht. [vgl. @GraphViz-Documentation] 
 Basierend auf der Adjazenzmatrix kann man etwa so einen einfachen Graph erstellen:
 
-```txt
+```{captione="Beispiel DOT Code"}
 strict graph G {
     
   cont0 -- cont1;
@@ -105,7 +105,7 @@ strict graph G {
 
 Dieser Code würde folgendem entsprechen:
 
-![DOTGraph](img/Gekle/DotGraph.png)
+![Ungerichteter Graph mit DOT](img/Gekle/DotGraph.png)
 
 ##### Dragable Graph
 
@@ -119,7 +119,7 @@ Bei React handelt es sich anders als bei z.B. Angular nicht tatsächlich um ein 
 
 Auch hier im folgenden Beispiel ist eine funktionelle Komponente der Diplomarbeits-Website zu sehen. Dies lässt sich u.a. an dem für JavaScript typischen Syntax wie das "=>" erkennen, aber auch daran, dass sogenannte Hooks (z.B. useStates) verwendet werden:
 
-```js
+```{caption="Beispiel Funktionelle Komponente" .js}
 const LoginField = ({ placeholder, value, onChange, isPassword = false }) => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {(...)}
@@ -136,7 +136,7 @@ export default LoginField;
 
 Im folgenden Code lässt sich dies auch gut erkennen. Der Code entspringt eine "Page", also einer Seite, welche der User sieht. Der Code wird aber nicht von oben bis unten durch in dieser einen Page (ebenfalls eine funktionelle Komponente) geschrieben, sondern in mehrere Komponenten aufgebrochen. Diese können dann ganz einfach in die Page eingefügt werden. (z.B. `Sidebar`, `Topbar`, `Detailspace` usw.). Betrachtet man die `Topbar` Komponente, so sieht man, dass ihr weitere Komponenten übergeben werden, welche sie dann nutzen kann. Wie eben erwähnt können die Parameter oder Komponenten welche übergeben werden von Anwendungsfall zu Anwendungsfall komplett unterschiedlich sein:
 
-```js
+```{caption="Unterschiedliche Verwendung von Funktionelle Komponente" .js}
 <div className="flex h-screen">
   <Sidebar selectedShip={selectedShip} />
   <div className="flex-grow flex flex-col">
@@ -160,7 +160,7 @@ Im folgenden Code lässt sich dies auch gut erkennen. Der Code entspringt eine "
 
 Die `Topbar`-Komponente übernimmt in einer anderen Page etwa ganz andere Komponenten wie hier zu sehen ist:
 
-```js
+```{caption="Alternative Verwendung der Topbar Komponente" .js}
 // Topbar in der DetailPage
 <Topbar
   leftComponents={[<SearchBar key="searchbar" />]}
@@ -184,7 +184,7 @@ Mit der Verwendung von funktionellen Komponenten geht jedoch folgendes verloren:
 Der `useState`-Hook erlaubt es nun aber, dass State zu den funktionellen Komponenten hinzugefügt wird. [vgl. @GeeksForGeeks-useState]
 Es können auch mehrere State-Variablen in einer Komponente definiert werden. Ein `useState` sieht in der Regel in etwa so aus:
 
-```js
+```{caption="Beispiel useState Variable" .js}
 const [username, setUsername] = useState('User');
 ```
 
@@ -210,7 +210,7 @@ Viele Webanwendungen sind sogenannte "Single-Page-Webanwendungen". Sie bestehen 
 
 Dies erfolgt über das "Route" Element:
 
-```js
+```{caption="Beispiel Route Element" .js}
 <Route path="/main" element={<MainPage />} />
 ```
 
@@ -218,7 +218,7 @@ Hierbei wird über die URL ".../main" auf die MainPage verwiesen. Gibt man in de
 
 Es ist wichtig anzumerken, dass alle Routes logischerweise Teil eines Routers sein müssen. Dies würde in etwa so aussehen:
 
-```js
+```{caption="Beispiel React Router" .js}
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -260,11 +260,11 @@ Tailwind CSS ist ein CSS Framework, welches darauf abzielt das Designen von Weba
 Der Unterschied zwischen Tailwind CSS und traditionellen CSS könnte z.B. so aussehen (in React):
 Ohne Tailwind CSS:
 
-```html
+```{caption="Div in HTML" .html}
 <div class="search-container"> CODE </div>
 ```
 
-```css
+```{caption="Traditionelles CSS für das obrige Div" .css}
 .search-container {
     width: 18rem; /* w-72 */
     padding-left: 0.75rem; /* pl-3 */
@@ -280,7 +280,7 @@ Ohne Tailwind CSS:
 
 Mit Tailwind CSS:
 
-```js
+```{caption="CSS styling eines Div mit Tailwind" .js}
 <div className='w-72 pl-3 h-9 bg-white flex justify-start items-center border-2 border-black rounded-l-full'>
   CODE
 </div>
@@ -290,7 +290,7 @@ Tailwind CSS scannt alle HTML-Dateien, JavaScript-Komponenten und andere Templat
 
 Es ist auch möglich, Tailwind CSS mit bestimmten Ereignissen zu verknüpfen. So ist es z.B. möglich folgendes zu tun:
 
-```js
+```{caption="Hover Funktion von Tailwind CSS" .js}
 <button className='bg-red-400 hover:bg-red-600'>BUTTON</button>
 ```
 
@@ -344,7 +344,7 @@ Es ist durchaus möglich, HTTP Abfragen innerhalb von React ohne externer Librar
 Weiters ist der Code mit Axios um etwas simpler zu lesen:
 Ohne:
 
-```js
+```{caption="Beispiel REST Call mit fetch-api" .js}
 const response = await fetch('localhost:8000/login', { 
   method: 'POST', 
   headers: { 'Content-Type': 'application/json', }, 
@@ -353,13 +353,13 @@ const response = await fetch('localhost:8000/login', {
 
 Mit:
 
-```js
+```{caption="Beispiel REST Call mit Axios" .js}
 const response = await axios.post('localhost:8000/login', loginData, { 
 headers: { 'Content-Type': 'application/json', }, });
 ```
 
 Die BaseURL und der Header sind bei jedem Call über die gesamte Website hinweg die gleichen, daher kann man in einem separaten JavaScript File eine sogenannte Axios Instanz [vgl. @gpt-AxiosVT] erstellen:
-```JS
+```{caption="Axios Instanz" .js}
 import axios from 'axios';
 
 const axiosInstance = axios.create({
@@ -376,7 +376,7 @@ export default axiosInstance;
 Diese wird dann in allen Komponenten eingebunden, in welchen man REST-Abfrage durchführt: `import axiosInstance from '../api/AxiosInstance';`
 
 Ein Call würde dann noch vereinfachter aussehen:
-```JS
+```{caption="Beispiel REST Call mit Axios + Instanz" .js}
 const response = await axiosinstance.post('localhost:8000/login', loginData);
 ```
 
@@ -397,7 +397,7 @@ Diese Klasse ist eine etwas modifizierte POJO (Plain Old Java Object) Klasse mit
 - dounle `signalMinimum`
 
 Die `name`-Variable aller Container ist gleich aufgebaut: "cont#", wobei # für eine beliebige Nummer steht. Dies macht die Namen nicht unnötig kompliziert und hat auch innerhalb der Konsolen-Interaktion mit dem User seinen Vorteil. In `adjacentContainers` werden alle benachbarten Container, also jene, zu welchen der ausgewählte Container eine Verbindung hat bzw. welche in seiner Nähe sind, abgespeichert. Die Variable `signalMinimum` ist eine mithilfe von `ThreadLocalRandom.current()` erstellte zufällige Double-Variable, welche für das generieren der Verbindung zwischen der einzelnen Container noch wichtig wird. `ThreadLocalRandom` wird eigentlich eher für Multithreading-Anwendungen benutzt [vgl. @Baeldung-JavaRandom], jedoch ist der Syntax um eine Zufallszahl mit "von-bis" zu generieren etwas angenehmer zu lesen:
-```Java
+```{caption="Zufällige Nummer mit .math und ThreadLocalRandom" .java}
 // Mit Math.random
 this.signalMinimum = 10 + (25 - 10) * Math.random();
 
@@ -407,7 +407,7 @@ this.signalMinimum = ThreadLocalRandom.current().nextDouble(10, 25);
 Der Grund hierfür ist, da `Math.random` nur eine Zahl zwischen 0 & 1 generiert, während man bei `ThreadLocalRandom` den Minimalen und Maximalen Wert einfach angeben kann.
 
 Bezüglich Methoden hat `Container` für alle Variablen Getter und Setter und einen Konstruktor, mit welchem `name` und `signalMinimum` gesetzt werden. Mithilfe von `void addDestination(Container con)` kann ein benachbarter Container zur Liste hinzugefügt werden (die Liste wird außerhalb des Konstruktors initialisiert . Auch die `toString` wurde etwas angepasst, um die Ausgabe in der Konsole etwas besser aussehen zu lassen:
-```JAVA
+```{caption="Überarbeitung der .toString Methode von Container" .java}
 @Override
 public String toString() {
     StringBuilder adjacent = new StringBuilder();
@@ -423,7 +423,7 @@ public String toString() {
 }
 ```
 Entspricht:
-```
+```{caption="Ausgabe mittels toString von Container" .txt}
 Container{name='cont1', adjacentContainers=cont0, , signalMinimum=10.753991237010691}
 ```
 ##### Ship
@@ -436,7 +436,7 @@ In dem HashSet werden alle in der Main Klasse generierten Container abgespeicher
 Mit `void addContainer (Container con)` können Container in das Set hinzugefügt werden. Weitere Methoden sind diejenigen zum Schreiben in JSON Files oder jene, welche für das Konsolen-Programm benötigt werden (z.B. `printAdjMatrix` zum Schreiben der Adjazenz Matrix). Außerdem erledigt die die Aufgabe der Erstellung der Verbindungen zwischen den einzelnen Container-Objekten.
 ##### Main
 Der Container Simulator ist an und für sich ein Konsolen-Programm. Die Interaktion zwischen dem User und dem Simulator passiert also (fast) rein in der Konsole. Die `Main`-Klasse regelt diese. Sie erstellt die Container, basierend auf der vom User eingegebenen Menge und übergibt diese an die ebenfalls von ihr erstellten `Ship`-Klasse. Die User-Interaktion wird dann innerhalb einer `while`-Schleife fortgesetzt. Hier kann der User mehrere Buchstaben eingeben, welche für verschiedene Aktionen stehen:
-```JAVA
+```{caption="Auswahlmöglichkeiten des Simulators" .java}
 System.out.println("\nChoose an option:\n" +
         "(a) View single Container\n" +
         "(b) View Matrix\n" +
@@ -447,18 +447,18 @@ System.out.println("\nChoose an option:\n" +
 in = sc.nextLine();
 ```
 Über einen `Scanner` wird diese Eingabe dann geprüft. Das Ausführen der passenden Aktionen regelt ein `switch-case`, wobei auf ein `default` gesetzt ist, sollte die User-Eingabe inkorrekt sein. Sobald der User "q" eingibt bricht die `while`-Schleife ab, dies wird durch folgenden Ausdruck ermöglich:
-```
+```{caption="While Schleife in welcher die Main läuft" .java}
 while(!in.equals("q")){}
 ```
 #### Wie die Dummy-Daten + Verbindungen generiert werden
  Startet man das Programm so wird man als erstes zu folgendem aufgefordert:
 
-![SimulatorConsole1](img/Gekle/SimulatorConsole1.png)
+![Anfangs-Konsolenausgabe des Simulators](img/Gekle/SimulatorConsole1.png)
 
 Der User bestimmt also, wie viele Container für die Simulation erstellt werden sollen. ">=2" wurde deshalb als Bedingung eingeführt, da ein Simuliertes Schiff mit nur einem Container keinen Graph mit Knoten und Kanten entsprechen würde. Da es ja das Ziel ist, die Kommunikationsstruktur mit Kanten darzustellen, mach die Auswahl 1 wenig Sinn.
 
 Bestätigt der User seine Eingabe mit Enter, so wird ein `Ship` Objekt erstellt. Dieses hat als Zentrale Variable ein `Container`-Set namens `containers`, worin alle Container gespeichert werden. Das Erstellen und Speichern der Container selbst passiert in der `Main` mit folgendem Code:
-```JAVA
+```{caption="Code zum Erstellen der Container" .java}
 for(int i = 0; i < count; i++){
     String containerName = "cont" + i;
     ship.addContainer(new Container(containerName));
@@ -467,7 +467,7 @@ for(int i = 0; i < count; i++){
 Die `count` Variable ist zu Beginn auf -1 gesetzt. Dies hat den Hintergrund, da die Namen der Container bei 0 anfangen (also mit "cont0"), der User aber die tatsächliche Anzahl eingeben soll (z.B.: Eingabe = 7 --> Container Namen: cont0 bis cont6 = 7 Stk). Wichtig ist auch anzumerken, dass nur der Container Name in `ship` gespeichert wird, da `signalMinimum` einfach dann von den Methoden selbst geholt wird, welche diese brauchen.
 
 Nachdem die Container erstellt sind müssen noch die Verbindungen bzw. Nachbarschaften der Container bestimmt werden. Dies übernimmt folgende Methode:
-```JAVA
+```{caption="Methode welche die Verbindungen zwischen einzelnen Containern erstellt" .java}
 public void sendSetSignals(Container container){
     double signal = 15;
     double randomNum = ThreadLocalRandom.current().nextDouble(0.1, 1.0);
@@ -500,7 +500,7 @@ Was würde es nun bewirken, wenn `randomNum` weiter verstreut wird (z.B, 0.1 bis
 #### Verwendung der Daten (Funktionen des Simulators)
 Ist die Anzahl der Container erst einmal eingegeben, so wird der User mit folgendem konfrontiert:
 
-![SimulatorConsole2](img/Gekle/SimulatorConsole2.png)
+![Funktionen des Simulators](img/Gekle/SimulatorConsole2.png)
 
 Der User hat nun also die Wahl zwischen sechs verschiedenen Funktionalitäten des Containers.
 
@@ -514,7 +514,7 @@ Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \
 [vgl. @gpt-IdExtractor] 
 
 Wählt der User nun "View Matrix" aus so wird sie folgendermaßen ausgegeben:
-```
+```{caption="Ausgabe der Adjazenzmatrix in der Konsole" .txt}
 c  0  1  2  3
 0  0  1  0  0 
 1  0  0  1  0 
@@ -523,11 +523,11 @@ c  0  1  2  3
 ```
 (Beispiel mit 4 Containern)
 
-Für die Ausgabe ist eine weitere Methode von `ship` verantwortlich: `void AdjMatrix()`. Diese gibt zuerst die erste Zeile beginnend mit dem "c" aus, wobei die Länge der `for`-Schleife in welcher dies passiert, auf `containers.size()` beschränkt ist. Danach geht eine verschachtelte `for`-Schleife das 2d-Array der Adjazenzmatrix durch und gibt entwerder 0 (keine Verbindung) oder 1 (Verbindung) aus.
+Für diese Ausgabe ist eine weitere Methode von `ship` verantwortlich: `void printAdjMatrix()`. Diese gibt zuerst die erste Zeile beginnend mit dem "c" aus, wobei die Länge der `for`-Schleife in welcher dies passiert, auf `containers.size()` beschränkt ist. Danach geht eine verschachtelte `for`-Schleife das 2d-Array der Adjazenzmatrix durch und gibt entwerder 0 (keine Verbindung) oder 1 (Verbindung) aus.
 
 ##### Print Connection List
 Möchte der User sich über die "primitivste" Weiße, alle Verbindungen zwischen den Containern haben, so kann er sich die `contConList` von `ship` ausgeben lassen. Dies passiert über die Methode `void printContConList()`, welch die eben erwähnte Variable mit einer `for`-Schleife durchgeht und printet. Dies könnte in etwa so aussehen:
-```
+```{caption="Ausgabe der contConList in der Konsole" .txt}
 cont0;cont1
 cont0;cont3
 cont1;cont2
@@ -543,7 +543,7 @@ Besonders aber in der Entwicklungsphase des Simulators war dies sehr nützlich u
 Beide sind in ihrem Aufbau sehr ähnlich, dienen aber unterschiedlichen Zwecken. 
 
 `graph.json` entspringt folgender Methode:
-```JS
+```{caption="parseAllContainers Methode" .java}
 public JSONObject parseAllContainersToJSON(){
     JSONArray containersJSON = new JSONArray();
   
@@ -569,7 +569,7 @@ Diese Methode geht alle bestehenden Container durch. Es wird jeweils ein neues `
 [vgl. @HowToDoInJava-JSON & @MavenRepository-JSON]
 
 Das zweite File, entstammt einer anderen Funktion namens `parseSpecificToJSON`:
-```JAVA
+```{caption="parseSpecificToJSON Methode" .java}
 public JSONObject parseSpecificToJSON(Container origin, int depth){ 
     JSONObject originJSONObject = new JSONObject();
     originJSONObject.put("contId", origin.getName());
@@ -607,7 +607,7 @@ Ist `sepcifc = false`, dann ruft die Methode `parseAllContainersToJSON` auf, ist
 Das Aufrufen dieser Methode geschieht in der `Main`, wobei der User den Ausgangscontainer und die Tiefe angeben muss, sollte er "specific" wählen.
 
 Unter folgender Annahme:
-```
+```{caption="Beispiel für das JSON Erstellen basierend auf einem Container Geflecht mit Angabe der Tiefe und Origin" .txt}
 Container Anzahl = 4
 Adjazenz Matrix =
 c  0  1  2  3
@@ -622,7 +622,7 @@ Tiefe = 2
 ... würden folgende 2 Files entstehen:
 
 **graph.json**:
-```JSON
+```{caption="Erstelltes graph.json File basierend auf den obrigen Beispiel" .java}
 {"containers": [
     {"contId": "cont2"},
     {
@@ -644,7 +644,7 @@ Tiefe = 2
 ```
 
 **graphSpecific.json**:
-```JSON
+```{caption="Erstelltes graphSpecific.json basierend auf den obrigen Beispiel" .java}
 {
     "contId": "cont1",
     "subs": [{
@@ -687,7 +687,7 @@ Die letzte dient dazu, dass wenn z.B. ein Container zu heiß ist, dies auch symb
 
 Der Erstentwurf der Website sah dann folgendermaßen aus:
 
-![First Version of Website Design](img/Gekle/DesignV1.png)
+![Erste Version des Website Designs](img/Gekle/DesignV1.png)
 
 (1... Login Page, 2... Main Page, 3... Detail Page)
 
@@ -729,7 +729,7 @@ Die `Detailspace` ist sehr "funktionsreich", da sie einerseits die Seriennummer 
 #### Funktionsweise der Komponenten
 ##### LoginField der LoginPage
 Die Login Page verwaltet zwei `useState`-Variablen: `username` und `password`. Für beide dieser Daten muss ein Feld zur Verfügung gestellt werden, in welches der User schreiben kann. Diese beiden Felder sind sogenannte "**LoginFields**". Dieses Komponent verhaltet sich bei den beiden Daten etwas unterschiedlich:
-```JS
+```{caption="Nutzung der LoginField Komponente" .js}
 <LoginField placeholder="User" value={username} onChange={(e) => setUsername(e.target.value)} />
 
 <LoginField placeholder="PW" isPassword={true} value={password} onChange={(e) => setPassword(e.target.value)} />
@@ -739,7 +739,7 @@ Innerhalb des Komponents wird ein HTML `input`-Tag benutzt. Input kann verschied
 ##### Workspace (MainPage)
 Die **Workspace** Komponente selbst übernimmt zwei Variablen aus der MainPage: `gridSize`, welche dem aktuell ausgewählte Grid entspricht und `selectedShip`, also das momentan ausgewählte Schiff. Die zentrale Aufgabe des Workspaces, das anzeigen der Container, wird von der **renderGrid**-Methode:
 
-```JS
+```{caption="renderGrid Methode" .js}
 const renderGrid = () => {
   if (containerDistribution.length === 0) {
     return <div>Loading...</div>;
@@ -795,7 +795,7 @@ const renderGrid = () => {
 [vgl. @gpt-renderGrid]
 
 Unter der Vorrausetzung, dass die `ContainerDistribution useState` (ein Array) nicht 0 lang ist, sprich dass die Aufteilung aller **realen Container** auf die "**Sammel-Container**" (die angezeigten Container welche für mehrere stehen) von dem **ContainerDistributor** Script abgeschlossen ist, wird die Darstellung der Sammel-Container im Grid ermöglicht. Dieses Script errechnet mathematisch wie viele reale Container eines Schiffes je nach GridSize pro Sammel-Container repräsentiert werden sollen und gibt dies in einem (2)d-Array zurück. Um dies zu verdeutlichen:
-```
+```{caption="Beispiel für die Funktionalität des ContainerDistributor" .txt}
 Grid = 2x2
 Anzahl reale Container = 9
 Repräsentierung pro Sammelcontainer (SCON):
@@ -809,7 +809,7 @@ Rückgabe = [[3, 2] [2, 2]]
 ```
 Dies erfolgt so, dass zuerst errechnet wird, wie viele Reale Container jedem Sammel-Container anfänglich zugewiesen werden sollen, indem die Anzahl der realen Container durch die Grid-Anzahl (z.B. 2x2 Grid = 4) dividiert und abgerundet wird. Danach werden die verbleibenden realen Container auf die Sammel-Container verteilt und mithilfe einer doppelten For-Schleife das Array erstellt:
 
-```JS
+```{caption="Code des ContainerDistributor Skripts" .js}
 function distributeValues(gridRows, gridCols, totalValues) {
   // Calculate total number of grid cells
   const totalCells = gridRows * gridCols;
@@ -851,7 +851,7 @@ export default distributeValues;
 Wurde dies nun errechnet beginnt die eigentlich **renderGrid** Methode. Auch diese arbeitet mit einer verschachtelten `for`-Schleife um durch die einzelnen Grid-Spots durch zu iterieren. Hierbei ist auch das Array des ``ContainerDistributer`` wichtig, da es bestimmt wie lange die Schleifen anhalten soll. Pro Spot wird dann ein HTML-`div` zu einem Array hinzugefügt (mit `.push(<div\> <\/div>)`). Jedes dieser Divs hat durch die Rechnung $Row - Column$ (aus den For Schleifen) eine eindeutige ID welche etwa dafür wichtig ist, dass wenn man über das jeweilige Div hovert nur dieses eine hervorgehoben wird. Außerdem wird über `onClick` bestimmt, dass im Falle des klickens auf ein `div` die `handleOpenDialog` aufgerufen wird, mit welcher der Dialog zum aussuchen des richtigen realen Containers geöffnet wird.
 
 Die zweite wichtige Methode ist also die **handleOpenDialog** Methode, welche den eben erwähnte Dialog öffnet. Sie liest mit der eindeutigen Id der Sammel-Container aus einer in einem `useEffect` erstellten Map. Diese ordnet jedem Sammel-Container mithilfe ihrer eindeutigen Id die realen Container Ids (Mehrzahl!!) zu. Die realen Ids waren zuvor in dem `useState` Array `containerIds` in zufälliger Reihenfolge gespeichert und nun werden nur die passenden in die `dialogValues useState` gespeichert. Zusätzlich wird mithilfe der `isDialogOpen useState` der Dialog wird geöffnet. Das `ContainerChooser` Element (der Dialog) ist hier zu sehen:
-```JS
+```{caption="ContainerChooser Komponente Nutzung" .js}
 <ContainerChooser
 	open={isDialogOpen}
 	onClose={handleCloseDialog}
@@ -865,7 +865,7 @@ Der **ContainerChooser** Dialog selbst listet die zu den Ids passenden Seriennum
 2. Klickt der User auf einen der angezeigten Seriennummern, so wird er durch `onSelect(id)` (ebenfalls innerhalb des `ContainerChooser`) so wird durch die MainPage auf die passende DetailPage weitergeleitet.
 Letzteres passiert in der handleSelect Methode, welche die selectedId useState setzt, den Dialog schließt und zur DetailPage navigiert. Das Navigieren selbst wird durch das useNavigate und seiner navigate Funktion ermöglicht: [vgl. @GeeksForGeeks-useNavigate]
 
-```JS
+```{caption="handleSelect Methode" .js}
 const handleSelect = (value) => {
   setSelectedId(value);
   setDialogOpen(false);
@@ -883,7 +883,7 @@ Der Nutzen der MainPage wird durch die `TopBar` sehr stark erweitert. Dies liegt
 
 Die `Topbar` ist konfigurierbar, dass bedeutet man kann ihr je nach Anwendungszweck verschiedene weitere Komponente übergeben. Hierbei kann man zwischen "Left" und "Right" unterscheiden, also ob man die Komponente linksbündig oder rechtsbündig haben möchte. Hier etwa die Erstellung der Topbar für die Main Page:
 
-```JS
+```{caption="Verschiedene Nutzung der Topbar Komponente in der MainPage" .js}
 <Topbar
   leftComponents={[ // Hier werden die linksbündigen Komponenten gesetzt
     <SearchBar 
@@ -912,7 +912,7 @@ Die `Topbar` ist konfigurierbar, dass bedeutet man kann ihr je nach Anwendungszw
 
 Innerhalb der `Topbar` werden die Items dann mittels dem CSS `Justify-Between` und `flex`-Tags nach links bzw. rechts gedrückt. [vgl. @DeveloperMozilla-JustifyContent] Mit Tailwind CSS wurde dies so umgesetzt:
 
-```HTML
+```{caption="Wie die Topbar die Komponente linksbündig und rechtsbündig plartziert werden" .html}
 <div className='h-24 flex items-center justify-between pt-3 pb-3 pl-12 pr-12'>
   {/* Left */}
   <div className='flex items-center space-x-1'>
@@ -926,7 +926,7 @@ Innerhalb der `Topbar` werden die Items dann mittels dem CSS `Justify-Between` u
 
 Im Kontext der MainPage ist die einzige rechts positionierte Komponente das **GridDropDown**, ein Dropdown Menü, über welches das Grid der Sammel-Container geändert werden kann. Es übernimmt die `gridSize` Variable aus der MainPage (=aktuelle Grid Einstellung) und ein `setGridSize` um diese zu ändern. Fünf verschiedene Grid Optionen werden zur Verfügung gestellt: 1x1, 2x2, 2x4, 3x4 und 4x4. Diese werden in einem Array gespeichert, indem ein `label`, `rows` und `cols` definiert wird (z.B.: {label:3x4, rows:3. cols:4}). Das erscheinen des DropDowns regelt wieder eine useState Variable namens `showDropDown`. Diese wird immer auf den gegenteiligen Status des aktuellen `showDropDown` gesetzt, also wenn sie aktuell FALSE ist wird sie auf TRUE gesetzt und vice versa. TRUE bedeutet hierbei, dass das DropDown Menü angezeigt werden soll und FALSE nicht. Dies erfolgt folgendermaßen:
 
-```JS
+```{caption="Aufscheinen des Drop Down Menü basierend auf boolean showDropDown" .js}
 {showDropdown && (
   <div className="absolute bg-white border border-black rounded mt-9 z-5">
     {gridOptions.map((option) => (
@@ -945,7 +945,7 @@ Im Kontext der MainPage ist die einzige rechts positionierte Komponente das **Gr
 Ist `showDropDown` nun TRUE, kommt die `.map` Funktion zum Einsatz. Diese hilft dabei, durch jedes Objekt der `gridOptions` durch zu iterieren und pro Objekt (in diesem Fall `option`) wird ein neues HTML `List`-Item (\<li>) innerhalb einer Unordered List (\<ul>) angelegt. [vgl. @Ionos-JS-map] Jedes dieser List-Items repräsentiert eine Auswahlmöglichkeit des DropDown Menüs. Mithilfe des `labels` wird jedes eindeutig identifiziert und mittels `rows und cols` (aus dem `gridOptions` Array) wird dem User die dazu passende Grid Option angezeigt. Über `onClick` wird noch definiert, dass die `handleSelectGrid`-Methode aufgerufen werden soll, in welcher `showDropDown` wieder auf FALSE gesetzt und die `gridSize` Variable aus der MainPage über setGridSize, je nach User Auswahl neu gesetzt wird. Diese Änderung übernimmt, da es sich bei `gridSize` um eine useState-Variable handelt, dann auch die MainPage und in weiterer Folge der Workspace. Die Folge: das Grid wird neu gerendert. 
 
 Zusätzlich soll direkt neben dem `div`, welches das Zoom-Icon representiert, ein zweites `div` erstellt werden, welches den aktuellen Status von `gridSize.rows` und `gridSize.cols` anzeigt. Der Aufbau des GridDropDowns sieht also simpel dargestellt so aus:
-```HTML
+```{caption="HTML Aufbau GridDropDown" .html}
 <div> Hier wird das ZoomIcon dargestellt </div>
 {showDropDown && (<ul> 
 Hier werden die Optionen des DropDowns angezeigt, aber nur wenn showDropDown positiv ist 
@@ -962,7 +962,7 @@ Bei diesem handelt es sich um die Suchleiste, welche mithilfe der **Searchbar** 
 Hier ist links neben der Suchleiste auch das `ShipSelect`-Icon und die damit verbundene Komponente zu sehen. Die `Searchbar` verändert ihre Länge dynamisch, da der Name eines Schiffes viel länger sein kann, als der eines anderen. Dies wird in Tailwind mithilfe des CSS Attributs `flex-grow` erreicht. [vgl. @TailwindCSS-Docs-FlexGrow]
 
 Der Kern der Suchleiste ist aber das Eingabefeld selbst. Dieses wurde unter der Beachtung erstellt, dass die Eingabe des Users maximal 11 Zeichen haben darf, da auch die Seriennummer in der Regel nur so lang ist. [vgl. @ContainerBasis-Containernummern] Aktiviert wird die Suche durch das Drücken der Enter Taste, was über das `onKeyDown`-Event des `input`-Tags erreicht wird:
-```JS
+```{caption="Inout Tag der Searchbar" .js}
 <input
 	className="border-none outline-none flex-shrink-0 w-[108px]"
 	placeholder="Serial Number"
@@ -978,7 +978,7 @@ Es wird geschaut, ob irgendeine zufällig Taste gedrückt wurde, ist das der Fal
 ##### Detailspace (DetailPage)
 Den Kern der `Detailspace`-Komponente bildet ein `useState`-Array namens **TableData**. Dieses hat folgenden Aufbau:
 
-```JS
+```{caption="tableData Array useState" .js}
 const [tableData, setTableData] = useState([
   { environment: "Temperature", value: "-", unit: "$^/circ$C", alert: "" },
   { environment: "Pressure", value: "-", unit: "Pa", alert: "" },
@@ -992,7 +992,7 @@ const [tableData, setTableData] = useState([
 
 Es besitzt denselben Aufbau wie die Tabelle (`table`), in welcher die Umweltdaten und Alerts der Threshholds angezeigt werden und baut daher auch auf dem Array auf. Nachdem die Umweltdaten von dem Backend gefetcht wurden, wird `value` des Arrays für jedes `environment` überschrieben, was durch die `updateTableData` Methode geschieht. Diese übernimmt den gefetchten Wert und von welchen Sensor dieser kommt (z.B. temperatur):
 
-```JS
+```{caption="updateTableData Methode" .js}
 const updateTableData = (newValue, sensor) => {
   setTableData((prevData) =>
     prevData.map(item => {
@@ -1025,7 +1025,7 @@ Weiters werden die Notizen (ein HTML `TextArea`-Element) von `Detailspace` verwa
 2. `handleNotesChange` --> um die `useState`-Variable `notes`, welche von `handleBlur` benutzt wird mit den neuen Notizen zu überschreiben 
 Das `TextArea`-Feld selbst sieht folgendermaßen aus:
 
-```JS
+```{caption="TextArea Tag des Notiz-Felds" .js}
 <textarea
   className="resize-none overflow-auto text-base w-full border-2 border-dashed border-gray-400 bg-gray-100 text-gray-700 h-[385px] p-2"
   name="notes"
@@ -1041,7 +1041,7 @@ Die **handleBlur**-Methode wird wie der Name vermuten lässt über `onBlur` aufg
 
 Dieser Info-Text bleibt aber nur für zwei Sekunden sichtbar und verschwindet dann wieder. Das ermöglicht `setTimeout`, indem etwa gesagt wird, dass die `useState`-Variable, welche bestimmt, wann der Info-Text angezeigt wird, nach 2000 Millisekunden (=2 Sek) zurück auf FALSE gesetzt werden soll, was im Umkehrschluss bedeutet, dass der Text nach dieser Zeit verschwindet:
 
-```JS
+```{caption="Verwendung von setTimeout" .js}
 if (updateResponse.status === 204) {
   setSaved(true);
   setTimeout(() => { setSaved(false); }, 2000);
@@ -1070,7 +1070,7 @@ Die Retour Funktion nutzt wieder `useNavigate` von `react-router-dom`, indem dur
 
 Innerhalb von `DetailControl` versteckt sich hinter dem Alarm-Icon, welches den **Threshhold-Button** kennzeichnet, auch ein `div` in welchen `onClick={onGoAlertClick}`definiert ist. `onGoAlertClick` wird `DetailControl` von der DetailPage übergeben:
 
-```JS
+```{caption="Implementierung von DetailControl in der Topbar der DetailPage" .js}
 <DetailControl
   onGoAlertClick={handleThresholdViewerToggle}
 />
@@ -1090,7 +1090,7 @@ So wird z.B. angegeben, dass folgender Threshold existiert: Wenn die Latitude (B
 
 ##### Axios Instanz
 Mit Ausnahme der LoginPage wird für das Abfragen von Daten immer ein "Access Token" benötigt und muss daher in die Abfrage eingefügt werden. Mit einer normalen Axios Instanz wie dieser:
-```JS
+```{caption="Grundbaustein der Axios Instanz" .js}
 const axiosInstance = axios.create({
   baseURL: 'https://api.contrude.eu',
   headers: {
@@ -1100,7 +1100,7 @@ const axiosInstance = axios.create({
 
 ```
 ...würde eine Abfrage etwa so aussehen:
-```JS
+```{caption="REST Call mit der obrigen Axios Instanz" .js}
 const accessToken = localStorage.getItem('accessToken');
 const containerResponse = await axiosInstance.get(
   `/rest/container/${containerId}`,
@@ -1114,7 +1114,7 @@ const containerResponse = await axiosInstance.get(
 
 ```
 In den Header wird also immer der Access Token eingefügt. Allerdings lässt sich dies vermeiden indem in die Axios Instanz ein `interceptor` eingefügt wird, welcher bei jedem Aufruf der Instanz ausgeführt wird:
-```JS
+```{caption="Erweiterung der Axios Instanz mit einem request-Interceptor" .js}
 // Add request interceptor to attach access token to headers
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -1130,12 +1130,12 @@ axiosInstance.interceptors.request.use(
 [vgl. @gpt-AxiosInterceptors]
 
 Hierbei handelt es sich um einen einen `request interceptor`. Dieser überprüft ob ein Access Token vorhanden ist. Ist dies der Fall wird der Authorization Header in die Abfrage eingefügt. Der Call von oben würde dann so aussehen:
-```JS
+```{caption="Rest Call mit der Axios Instanz + Interceptor" .js}
 const containerResponse = await axiosInstance.get(`/rest/container/${containerId}`);
 ```
 
 Weiters kümmert sich die Instanz um die Refresh Token, damit im Falle das der Access Token ausläuft ein neuer angefordert und mit dem Abgelaufen ersetzt wird. Auch hierfür wurde ein `interceptor` eingefügt:
-```JS
+```{caption="Erweiterung der Axios Instanz mit response-Interceptor" .js}
 // Add response interceptor to handle token refresh
 axiosInstance.interceptors.response.use(
   (response) => response,
@@ -1171,7 +1171,7 @@ Dieser reagiert auf `responses` also Antworten: Kommt ein Status-Code vom Server
 
 ##### LoginPage
 Die LoginPage ist einzigartig darin, dass die API-Calls hier nicht innerhalb eines `useEffect` , also  nicht nebenbei sondern ganz bewusst ausgeführt werden. Dies wird ausgelöst, wenn der User auf den Login Button klickt, woraufhin die vom User eingegebenen Daten benutzt werden um den Login durchzuführen. Zuerst muss der eingegeben Username in eine ID umgewandelt werden, da der eigentliche Login Call eine ID und das Passwort benötigt. Diese werden in eine Variable geschrieben. Ist der tatsächliche Call einmal ausgeführt, so wird der User mit `useNavigate()` [vgl. @GeeksForGeeks-useNavigate] an die MainPage weitergeleitet. Ist dies nicht der Fall wird fängt das `try/catch` den Fehler und der Login schlägt fehle:
-```JS
+```{caption="Error-Handling in der LoginPage" .js}
 } catch (error) {
   console.log('Error', error);
   if (error.response) {
@@ -1183,7 +1183,7 @@ Die LoginPage ist einzigartig darin, dass die API-Calls hier nicht innerhalb ein
 
 ```
 Ist das Passwort falsch eingegeben, so übernimmt die Website die Antwort vom Server (falls nicht vorhanden einen vordefinierten Text) und zeigt diesen an. Handelt es sich um ein anderes Problem, so wird ein anderer Error-Text verwendet. Dieses Anzeigen erfolgt über eine `useState` Variable namens `error`, welche standardmäßig auf NULL gesetzt ist und nur durch den `catch` Block upgedatet und in weiterer Folge dieser Code ausgeführt wird, welcher die Fehlermessage anzeigt:
-```JS
+```{caption="Aufscheinen des Error Textes basierend auf boolean Variable error" .js}
 {error && (
   <div className="text-red-500 text-center mt-4">
     {error}
@@ -1193,11 +1193,11 @@ Ist das Passwort falsch eingegeben, so übernimmt die Website die Antwort vom Se
 ```
 ##### MainPage
 Die **MainPage** selbst (also nicht der Workspace) kommt mit zwei API Calls aus. Der erste hängt eng mit der `Searchbar` zusammen, welche so in der Page implementiert ist: 
-```JS
+```{caption="Searchbar Implementierung in der MainPAge" .js}
 <SearchBar key="searchbar" selectedShip={selectedShip} onSearchSubmit={handleSearchSubmit}/>`
 ```
 `OnSearchSubmit` wird in der MainPage dann ausgelöst, sobald aus der `Searchbar` eine Eingabe des Users kommt. Diese Eingabe wird dann in der `useState`-Variable `searchTerm` gespeichert. Weiters ist ein `useEffect` definiert, welches dann triggert, wenn `searchTerm` sich verändert:
-```JS
+```{caption="Kennzeichnung eines Trigger eines useEffect" .js}
 useEffect(() => {
   // Hier passiert die Logik des useEffects
 }, [searchTerm]); // Kennzeichnung, dass bei Änderung der Variable das useEffect ausgeführt werden soll
@@ -1228,7 +1228,7 @@ Innerhalb der DetailPage befinden sich alle REST API Calls in der **Detailspace*
 Zuerst werden alle Daten des Container, welchen man sich gerade ansieht, in das Frontend geholt, wobei vor allem die Notizen essenziell sind. Diese werden benötigt um das Notizfeld innerhalb des `Detailspace` zu füllen. Dieser Call wird dann aufgerufen, wann sich die Variable `ContainerId` verändert. 
 
 Diese wird jedoch nicht von der MainPage übergeben, sondern mithilfe von `useParams` von `react-router-dom`. Dies erfolgt folgendermaßen:
-```JS
+```{caption="Verwendung von useParams()" .js}
 const {shipId, containerId} = useParams();
 ```
 [vgl. @Refine-ReactRouter]
@@ -1239,7 +1239,7 @@ const {shipId, containerId} = useParams();
 Wird also z.B. der auf Schiff 4 sich befindende Container mit ID 2 aufgerufen (`/detail/4/2`), so ändert sich auch die Variable in welcher die ID gespeichert wird, wodurch alle (mit Ausnahme von einem) `useEffect` aufgerufen werden. Diese ID wird dann auch dazu benutzt, um die zum Container gehörende, vollständige Seriennummer zu fetchen, welche als Name des Containers angezeigt wird.
 
 Weiters wird die zentrale Aufgabe des Anzeigen der **Umweltdaten** erfüllt. Auch dieser Call befindet sich innerhalb eines `useEffect` welches auf Änderung der `containerID` aktiviert wird. 
-```JS
+```{caption="Fetchen und speichern einer der sieben Umweltdaten" .js}
 const environmentDataResponse = await axiosInstance.get(`/rest/sensor/${shipId}/${containerId}`);
 // Temperatur
 const temperatureValue=environmentDataResponse.data.sensor_data.temperature[0].value;
@@ -1248,7 +1248,7 @@ updateTableData(temperatureValue, temperatureSensor);
 ```
 Der Call liefert die zuletzt vom Prototyp selbst an das Backend gesendeten Daten zurück.
 
-Danach werden für alle 7 Umweltdaten-Typen (Temperatur, Luftdruck, Feuchtigkeit, Vibration, Höhe, Breitengrad und Längengrad) einerseits in `___Value` der tatsächliche Wert (z.B. 20$^\circ$C), andererseits in `___Sensor` der dazugehörige Sensor (z.B. temperature) gespeichert. Die beiden Variablen werden dann mithilfe von `updateTableData` in das `tableData` Array geschrieben, dessen Werte dann auch in einem Table angezeigt werden. Die drei letzten Zeilen von dem oben stehenden Code werden also insgesamt sechs Mal wiederholt, wobei jedes Mal ein anderes Environment geupdatet wird.
+Danach werden für alle sieben Umweltdaten-Typen (Temperatur, Luftdruck, Feuchtigkeit, Vibration, Höhe, Breitengrad und Längengrad) einerseits in `___Value` der tatsächliche Wert (z.B. 20$^\circ$C), andererseits in `___Sensor` der dazugehörige Sensor (z.B. temperature) gespeichert. Die beiden Variablen werden dann mithilfe von `updateTableData` in das `tableData` Array geschrieben, dessen Werte dann auch in einem Table angezeigt werden. Die drei letzten Zeilen von dem oben stehenden Code werden also insgesamt sechs Mal wiederholt, wobei jedes Mal ein anderes Environment geupdatet wird.
 
 Nun sind die Daten für den Container schon fast vollständig, einzig die Anzeige, ob einer der Thresholds ausgelöst wurde fehlt noch (Gelb Markiert):
 
@@ -1257,7 +1257,7 @@ Nun sind die Daten für den Container schon fast vollständig, einzig die Anzeig
 Um dies ebenfalls, wie im Bild, zu befüllen musste sichergestellt werden, dass alle Threshholds bereits geladen sind, damit sie gesammelt mit den Umweltdaten verglichen werden können. Diese Thresholds werden in Satzform (siehe *Komponenten der Topbar der DetailPage*) zuerst von dem `ThresholdViwer`-Dialog an die DetailPage und von dieser an `Detailspace` weitergegeben. Im Umkehrsinn heißt dies also, dass die Thresholds nur vorhanden sind, sofern sie von dem Dialog geladen werden. Um den gesamten Code, welcher die Thresholds in die Satzform bringt, nicht doppelt schreiben zu müssen, wurde die `useState`-Variable, welche das Öffnen des `Thresholdviewer` in der DetailPage regelt auf TRUE gesetzt. Dies bewirkt dass der Dialog bei Aufruf der DetailPage immer geöffnet wird, wodurch alle Thresholds (sofern diese vorhanden sind) auf jeden Fall geladen und an `Detailspace` weitergereicht werden. Doch warum werden die Thresholds nun in dieser "Satzform" benötigt?
 
 Der Grund ist, dass das `tableData` Array und die dazugehörigen Thresholds (in Satzform) an ein Skript übergeben wird:
-```JS
+```{caption="checkConditions des ConditionChecker Skripts" .js}
 // Function to check the sentence and match conditions
 const checkConditions = (tableData, sentences) => {
   return tableData.map((data) => {
@@ -1321,11 +1321,11 @@ Dialoge sind vielseitig einsetzbar. Die beiden wichtigsten Dialoge der Website s
 - `ThresholdViewer`
 
 Der **ContainerChooser** übernimmt ein `values` Array, welches alle für das ausgewählte Schiff verfügbaren Container-Ids beinhält. Als Sicherheitsmaßnahme, dass es sich tatsächlich um ein Array handelt wird zuerst mit:
-```JS
+```{caption="Überprüfung ob eine Variable tatsächlich ein Array ist" .js}
 const validValues = Array.isArray(values) ? values : []
 ```
 eine Kopie des Arrays erstellt und mit `isArray` die eben erwähnte Überprüfung durchgeführt. Dieses Array wird nun im Zuge des API Calls auch verwendet: Ziel ist es für alle Ids die passenden Seriennummer für die Container zu fetchen:
-```js
+```{caption="Fetchen und speichern der Serien Nummern der Container" .js}
 const fetchedSerialNumbers = [];
 for (let i = 0; i < validValues.length; i++) {
   const id = validValues[i];
@@ -1349,14 +1349,14 @@ Der Erstere ist eher unkompliziert, da mithilfe der containerId (aus `useParams(
 
 Es werden also nur die Ids der einzelnen Bestandteile (parameter, level, rule) überliefert. Diese müssen im Rahmen eines zweiten `useEffect` einzeln übergeben werden woraufhin der tatsächlich sinnvolle Wert geliefert wird. Sind diese alle gefetcht werden sie mit dem vom ersten Call erhaltenen `value` in folgendes Format (=Satzform) gebracht:
 
-```
+```{caption="Verwandlung der Threshold Daten aus dem Backend in die Satzform" .js}
 Parameter Rule Value = Level
 zB: Parameter = 1 (Air Pressure), Rule = 1 (>), Level = 3 (Medium) Value = 101,325
 => Air Pressure > 101,325 = Medium
 ```
 
 Dies erfolgt so:
-```JS
+```{caption="Fetchen von Namen der Threshold-Bestandteile mit ihrer Id" .js}
 for (let i = 0; i < validThresholds[i].length; i++) {
   // Parameter
   const parameterId = validThresholds[i].parameter;
