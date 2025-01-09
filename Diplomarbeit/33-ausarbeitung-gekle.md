@@ -86,7 +86,7 @@ Wenn ein Knote V = Knote W ist, also bei einer Verbindung zu sich selbst wird 0 
 Mithilfe der DOT Sprache, welche Teil von Graphviz ist, lassen sich sehr einfach gerichtete und ungerichtete Graphen darstellen. Dies erfolgt mit sogenannten "edgeloops", wobei "->" für gerichtete und "--" für ungerichtete Graphen steht. Diese können innerhalb eines Graphen benutzt werden, welcher durch `graph{}` für einen ungerichtete oder `diagraph{}` für einen gerichteten gekennzeichnet wird. Fügt man davor ein `strict` hinzu (also z.B. `strict graph{}`) so kann man bestimmen, dass zwischen zwei Knoten immer nur eine Verbindung besteht. [vgl. @GraphViz-Documentation] 
 Basierend auf der Adjazenzmatrix kann man etwa so einen einfachen Graph erstellen:
 
-```{captione="Beispiel DOT Code"}
+```{caption="Beispiel DOT Code"}
 strict graph G {
     
   cont0 -- cont1;
