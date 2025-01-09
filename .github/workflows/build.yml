@@ -1,4 +1,4 @@
-name: Build and Send Thesis
+name: Build and send diploma thesis
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
+          sudo apt-get install -y --no-install-recommends git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at hunspell-en-us
           
       - name: Build diploma thesis
         run: |
@@ -28,12 +28,12 @@ jobs:
       - name:  Send diploma thesis
         uses: dawidd6/action-send-mail@v4
         with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.GMAIL_MAIL }}
-          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.MAIL }}
+          password: ${{ secrets.MAIL_PASSWORD }}
           subject: "Diploma thesis"
           body: " "
           to: ${{ secrets.TEAMS_MAIL }}
-          from: ${{ secrets.GMAIL_MAIL }}
+          from: ${{ secrets.MAIL }}
           attachments: Diplomarbeit/diplomarbeit.pdf
