@@ -46,6 +46,7 @@ da-kurzfassung-de: Die Platzierung der Container auf einem Frachtschiff ist in d
 da-kurzfassung-en: The placement of containers on a cargo ship is predefined in the loading list. However, the designations of the containers by the loading crane operator are not always clearly identifiable. This lack of clarity often leads to incorrect placement of the cargo on the ship. Consequently, the specified container may not be found at its assigned location but rather at a different one. Additionally, it is not possible to retrieve information about the current condition of the container's contents. This could be particularly disadvantageous for sensitive cargo, such as fragile goods. It also frequently happens that containers go missing during overseas transport by the cargo ship, but this is only recorded upon arrival at the port of entry.
 
 da-kiquellen:
+#Kampl
 - ki: ChatGPT-4o
   short-prompt: Grundstruktur einer .ini-Datei
   pdf-file: Kampl/ki/PlatformIO-INI-FILE-BSP-ChatGPT.pdf
@@ -63,11 +64,19 @@ da-kiquellen:
   short-prompt: Warum async bei REST-Call Funktionen
   pdf-file: Gekle/KI/Theorie/WarumAsync-ChatGPT.pdf
 
+#Schrempf
 
 da-appendix:
+#Kampl
 - abschnitt: Embedded Systems
   pdf-file: Kampl/NTVS-5IT-SJ24-25-Embedded-Systems.pdf
   seiten: 1-78
+
+#Gekle
+
+
+
+#Schrempf
 
 # Diplomarbeitsvereinbarungen müssen zum Schluss sein 
 

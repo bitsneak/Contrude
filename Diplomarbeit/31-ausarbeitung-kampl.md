@@ -56,6 +56,60 @@ Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Soft
 
 #### Komponenten
 
+Die Hauptkomponenten eines Embedded Systems sind ein Mikroprozessor oder ein Mikrocontroller. Während ein Mikroprozessor lediglich eine CPU enthält, umfasst ein Mikrocontroller zusätzlich Speicher, Peripheriegeräte, GPIOs, Flash-Speicher und viele weitere Komponenten.
+
+##### CPU
+
+Die CPU (Central Processing Unit) ist die primäre Steuereinheit eines Systems. Sie besteht aus der ALU und der CU. Die ALU (Arithmetic Logic Unit) ist der Teil der CPU, der arithmetisch-logische Operationen mit binären Daten ausführt. Die CU (Control Unit) steuert mithilfe des internen Oszillators die Abläufe im System. Nachdem ein Befehl decodiert wurde, gibt die CU selbst weitere Befehle aus, um die korrekten Aktionen zu starten. Diese Befehle werden dann über den Bus aus dem Arbeitsspeicher abgerufen.
+
+##### Bus
+
+Der Bus verbindet die CPU mit den anderen Komponenten. Es gibt daher verschiedene Arten von Bussen, wie z. B. den Datenbus, den Adressbus und den Steuerbus. Je nach Prozessor können unterschiedlich viele Bits gleichzeitig übertragen werden. 
+- **SPI (Serial Peripheral Interface):** Synchrone serielle Schnittstelle, ideal für die Verbindung von Peripheriegeräten. Verwendet MOSI, MISO und SCK Leitungen. 
+- **I²C (Inter-Integrated Circuit):** Zweidraht-Bus mit Master-Slave-Kommunikation.
+- **UART (Universal Asynchronous Receiver Transmitter):** Asynchrone serielle Verbindung, die ohne externen Taktgeber arbeitet.
+
+##### RAM
+
+Der Arbeitsspeicher wird RAM genannt, was für Random Access Memory steht. Der RAM speichert die auszuführenden Programmbefehle. Es gibt verschiedene Arten von RAM:
+- **SRAM (Static RAM):** Schneller, benötigt keinen Refresh, verbraucht jedoch mehr Energie.
+- **DRAM (Dynamic RAM):** Benötigt Refresh, ist langsamer und günstiger.
+
+##### ROM
+
+- **PROM:** Nur einmal programmierbar.
+- **EPROM:** Kann mit UV-Licht gelöscht werden.
+- **OTP-EPROM:** Einmal programmierbar und nicht löschbar.
+- **Flash:** Elektronisch lösch- und beschreibbar, mit selektiven Löschmöglichkeiten.
+- **EEPROM:** Elektrisch löschbar und neu beschreibbar, häufig zur Speicherung kleiner Datenmengen wie Seriennummern genutzt.
+
+##### Register
+
+Register sind temporäre Speicher, die teils festgelegte Verwendungszwecke (z. B. Befehls- oder Statusregister) haben und teils für allgemeine Aufgaben genutzt werden.
+
+##### Peripherie
+
+- **GPIO (General Purpose Input/Output):** Konfigurierbar als digitale Ein- oder Ausgänge.
+- **Timer:** Überwachung und Steuerung zeitkritischer Prozesse.
+- **Watchdog:** Sicherheit durch Neustart bei Fehlfunktionen.
+- **DMA (Direct Memory Access):** Direkter Datentransfer zwischen Speicher und Peripherie ohne CPU-Beteiligung.
+
+##### Firmware
+
+Die Firmware ist eine softwarebasierte Komponente, die fest in einem elektronischen Gerät implementiert ist und auf einem nicht-flüchtigen Speicher abgelegt wird (z. B. Flash oder EEPROM). Sie verbindet Hardware mit der Anwendungssoftware.
+
+##### Recheneinheit
+
+- **General-Purpose-Prozessoren:** Vielseitig einsetzbar, aber weniger spezialisiert.
+- **Mikrocontroller:** Integrieren CPU, Speicher und Peripherie in einem Chip.
+- **Digitale Signalprozessoren (DSPs):** Für Echtzeit-Signalverarbeitung optimiert.
+- **ASICs:** Für spezifische Anwendungen entwickelte Chips, mit hoher Effizienz und begrenzter Flexibilität.
+- **FPGAs:** Programmierbare Hardware, flexibel und rekonfigurierbar, besonders in der Entwicklung von ASICs nützlich.
+
+#### Zusätzliche Module
+
+- **A/D- und D/A-Wandler:** Ermöglichen die Umwandlung zwischen analogen und digitalen Signalen. Wichtig für Sensoranwendungen.
+- **PWM (Pulsweitenmodulation):** Steuerung von LEDs, Motoren oder anderen Aktoren durch variable Einschaltdauer eines Signals.
 
 
 ### Aufbau des Prototypen
