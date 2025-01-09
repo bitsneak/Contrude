@@ -42,29 +42,19 @@ void publishSensorData();
 void printBMEData();
 void printMPUData();
 void printGPSData();
+void initBME();
+void initMPU();
+void initGPS();
 
 void setup() {
-  Serial.begin(9600);
-// Initialize BME280 with Address 0x76
+Serial.begin(115200);
 
-if (!bme.begin(0x76) && !bme.begin(0x77)) {
-  Serial.println("Failed to initialize BME280 sensor. Check connections!");
-} else {
-  Serial.println("BME280 sensor initialized successfully!");
-}
+Serial.println("In Setup");
 
-
-// Initialize MPU6050 with Address 0x68
-if (!mpu.begin(0x68) && !mpu.begin(0x69)) {
-  Serial.println("Failed to initialize MPU6050 sensor. Check connections!");
-} else {
-  Serial.println("MPU6050 sensor initialized successfully!");
-   mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
-   mpu.setGyroRange(MPU6050_RANGE_500_DEG);
-}
-
-gpsSerial.begin(GPS_BAUD, SERIAL_8N1, RXD2, TXD2);
-Serial.println("Serial 2 started at 9600 baud rate");
+// Setup Sensors
+initBME();
+initMPU();
+//initGPS();
 
   // Setup WiFi and MQTT
   //setup_wifi();
@@ -83,10 +73,11 @@ void loop() {
 
   currentTime = millis();
   if (currentTime - lastTime >= interval) {
+    delay(5000);
     //publishSensorData();
-    //printBMEData();
-    //printMPUData();
-    printGPSData();;
+    printBMEData();
+    printMPUData();
+    //printGPSData();;
     lastTime = currentTime;
   }
 }
@@ -165,24 +156,42 @@ void printMPUData() {
 }
 
 void printGPSData() {
- while (gpsSerial.available() > 0) {
-      gps.encode(gpsSerial.read());
-    }
-    if (gps.location.isUpdated()) {
-      Serial.print("LAT: ");
-      Serial.println(gps.location.lat(), 6);
-      Serial.print("LONG: "); 
-      Serial.println(gps.location.lng(), 6);
-      Serial.print("SPEED (km/h) = "); 
-      Serial.println(gps.speed.kmph()); 
-      Serial.print("ALT (min)= "); 
-      Serial.println(gps.altitude.meters());
-      Serial.print("HDOP = "); 
-      Serial.println(gps.hdop.value() / 100.0); 
-      Serial.print("Satellites = "); 
-      Serial.println(gps.satellites.value()); 
-      Serial.print("Time in UTC: ");
-      Serial.println(String(gps.date.year()) + "/" + String(gps.date.month()) + "/" + String(gps.date.day()) + "," + String(gps.time.hour()) + ":" + String(gps.time.minute()) + ":" + String(gps.time.second()));
-      Serial.println("");
-    }
+   while (gpsSerial.available() > 0){
+    // get the byte data from the GPS
+    char gpsData = gpsSerial.read();
+    Serial.print(gpsData);
   }
+  delay(1000);
+  Serial.println("-------------------------------");
+}
+
+void initBME(){
+  
+    if (!bme.begin(0x76) && !bme.begin(0x77)) {
+    Serial.println("Failed to initialize BME280 sensor!");
+  } else {
+    Serial.println("BME280 sensor initialized successfully!");
+  }
+
+}
+
+void initMPU(){
+
+// Initialize MPU6050
+if (!mpu.begin()) {
+  Serial.println("Failed to initialize MPU6050 sensor!");
+} else {
+  Serial.println("MPU6050 sensor initialized successfully!");
+   mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
+   mpu.setGyroRange(MPU6050_RANGE_500_DEG);
+   mpu.setFilterBandwidth(MPU6050_BAND_5_HZ);
+}
+
+}
+
+void initGPS(){
+
+gpsSerial.begin(GPS_BAUD, SERIAL_8N1, RXD2, TXD2);
+Serial.println("Serial 2 started at 9600 baud rate");
+
+}
