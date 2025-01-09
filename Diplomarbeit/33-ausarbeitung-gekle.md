@@ -510,7 +510,8 @@ Möchte man zu einem Container die Details einsehen, wie etwa welche Nachbar-Con
 Teil des `ship` ist ebenfalls eine Adjazenzmatrix, welche nach dem Erstellen der Container und deren Vernetzungen in der `void fillAdjMatrix()` von `ship` angelegt wird. Dies geschieht durch zwei `for-each`-Schleifen:
 - Die Erste geht alle Container der `containers`-Set durch (=`origin`)
 - Die Zweite geht alle benachbarten Container von `origin` durch, welche mittels dem Getter von `adjacentContainers` hergeholt werden (=`destination`)
-Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \[ID-origin]\[ID-destination]gespeichert. Was ist die ID? Die ID ist jene Zahl, welche nach dem "cont" des Namens steht (z.B: name="cont2"; ID = 2). Dies wird über eine separate Methode namens `extractID` gemacht. [CHATGPT] 
+Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \[ID-origin]\[ID-destination]gespeichert. Was ist die ID? Die ID ist jene Zahl, welche nach dem "cont" des Namens steht (z.B: name="cont2"; ID = 2). Dies wird über eine separate Methode namens `extractID` gemacht. 
+[vgl. @gpt-IdExtractor] 
 
 Wählt der User nun "View Matrix" aus so wird sie folgendermaßen ausgegeben:
 ```
@@ -591,12 +592,13 @@ public JSONObject parseSpecificToJSON(Container origin, int depth){
  return originJSONObject;
 }
 ```
-[CHATGPT21]
+[vgl. @gpt-SpecificJson]
+
 Diese Methode übernimmt einen Ausgangscontainer `origin` und eine Tiefe `depth`. Zeil dieser Methode ist es, bis zu einer gewissen Tiefe die Sub-Container eines Ausgangscontainers in ein JSON-Objekt zu schreiben. Angenommen der Ausgangscontainer ist "cont0" und die Tiefe ist 3, dann wird der Ausgangscontainer (Tiefe 0), seine Verbindungs-Container (Tiefe 1) und deren Verbindungs-Container (Tiefe 2) in ein JSON-File geschrieben. Es ist diese Methode, welches die Grundlage für das JSON File liefert, welches später im Dragable Graph ebenfalls verwendet wird.
 
-Zur  Erklärung dieser Methode: Sollte eine passende Tiefe (>0) übergeben worden sein und besitzt der Ausgangs-Container Verbindungen zu Anderen, so wird eine `For`-Schleife ausgelöst, welche alle Sub-Container des `origin` durchgeht. Jedes dieser "sub Objects" wird dann in ein `JSOBObject` gecastet und daraufhin mit einer Hilfsmethode (=`convertJSONToContainer` [CHATGPT21]) in ein `Container`-Objekt umgewandelt. Nun beginnt das rekursive Aufrufen der Methode, wobei `depth` immer um eins verringert wird. Durch dieses rekursive Aufrufen wird immer einer der `subs` von dem ursprünglichen `origin`, das neue `origin` bis eben die Tiefe 0 erreicht hat und die Methode zu Ende ist. 
+Zur  Erklärung dieser Methode: Sollte eine passende Tiefe (>0) übergeben worden sein und besitzt der Ausgangs-Container Verbindungen zu Anderen, so wird eine `For`-Schleife ausgelöst, welche alle Sub-Container des `origin` durchgeht. Jedes dieser "sub Objects" wird dann in ein `JSOBObject` gecastet und daraufhin mit einer Hilfsmethode (=`convertJSONToContainer` [vgl. @gpt-SpecificJson]) in ein `Container`-Objekt umgewandelt. Nun beginnt das rekursive Aufrufen der Methode, wobei `depth` immer um eins verringert wird. Durch dieses rekursive Aufrufen wird immer einer der `subs` von dem ursprünglichen `origin`, das neue `origin` bis eben die Tiefe 0 erreicht hat und die Methode zu Ende ist. 
 
-Das eigentliche Schreiben in die jeweiligen JSON Files übernimmt die Methode `exportToJsonFile` ([CHATGPT21]), welche folgende drei Variablen übernimmt:
+Das eigentliche Schreiben in die jeweiligen JSON Files übernimmt die Methode `exportToJsonFile` ([vgl. @gpt-SpecificJson]), welche folgende drei Variablen übernimmt:
 - boolean `sepcific`
 - int `depth`
 - Container `spc`
@@ -790,7 +792,7 @@ const renderGrid = () => {
   return divs;
 };
 ```
-[CHATGPT-2]
+[vgl. @gpt-renderGrid]
 
 Unter der Vorrausetzung, dass die `ContainerDistribution useState` (ein Array) nicht 0 lang ist, sprich dass die Aufteilung aller **realen Container** auf die "**Sammel-Container**" (die angezeigten Container welche für mehrere stehen) von dem **ContainerDistributor** Script abgeschlossen ist, wird die Darstellung der Sammel-Container im Grid ermöglicht. Dieses Script errechnet mathematisch wie viele reale Container eines Schiffes je nach GridSize pro Sammel-Container repräsentiert werden sollen und gibt dies in einem (2)d-Array zurück. Um dies zu verdeutlichen:
 ```
@@ -844,7 +846,7 @@ function distributeValues(gridRows, gridCols, totalValues) {
 
 export default distributeValues;
 ```
-[CHATGPT3]
+[vgl. @gpt-ContainerDistributorScript]
 
 Wurde dies nun errechnet beginnt die eigentlich **renderGrid** Methode. Auch diese arbeitet mit einer verschachtelten `for`-Schleife um durch die einzelnen Grid-Spots durch zu iterieren. Hierbei ist auch das Array des ``ContainerDistributer`` wichtig, da es bestimmt wie lange die Schleifen anhalten soll. Pro Spot wird dann ein HTML-`div` zu einem Array hinzugefügt (mit `.push(<div\> <\/div>)`). Jedes dieser Divs hat durch die Rechnung $Row - Column$ (aus den For Schleifen) eine eindeutige ID welche etwa dafür wichtig ist, dass wenn man über das jeweilige Div hovert nur dieses eine hervorgehoben wird. Außerdem wird über `onClick` bestimmt, dass im Falle des klickens auf ein `div` die `handleOpenDialog` aufgerufen wird, mit welcher der Dialog zum aussuchen des richtigen realen Containers geöffnet wird.
 
@@ -1012,11 +1014,11 @@ const updateTableData = (newValue, sensor) => {
 };
 
 ```
-[CHATGPT9]
+[vgl. @gpt-updateTableData]
 
 Es wird wieder mithilfe der `.map`-Funktion durch das Array iteriert und mittels eines `Switch/Case` geschaut, um welchen Sensor es sich handelt. Einmal das richtige Case gefunden wird eine Kopie von `item` erstellt und der richtige Wert verändert. Der Grund wieso eine Kopie erstellt werden muss ist folgender:
 
-> Eine **Shallow Copy** muss returned werden, da React nur Änderungen erkennt, wenn der Verweis auf das Objekt oder Array geändert wird, was bei direkter Mutation des ursprünglichen Objekts/Arrays nicht der Fall ist. [CHATGPT9]
+> Eine **Shallow Copy** muss returned werden, da React nur Änderungen erkennt, wenn der Verweis auf das Objekt oder Array geändert wird, was bei direkter Mutation des ursprünglichen Objekts/Arrays nicht der Fall ist. [vgl. @gpt-updateTableData]
 
 Weiters werden die Notizen (ein HTML `TextArea`-Element) von `Detailspace` verwaltet. Hierzu kommen zwei Methoden ins Spiel:
 1. `handleBlur` --> um das Geschriebene zu speichern, sobald der User aus der `TextArea` rausklickt
@@ -1125,7 +1127,8 @@ axiosInstance.interceptors.request.use(
   (error) => Promise.reject(error)
 );
 ```
-[CHATGPT14]
+[vgl. @gpt-AxiosInterceptors]
+
 Hierbei handelt es sich um einen einen `request interceptor`. Dieser überprüft ob ein Access Token vorhanden ist. Ist dies der Fall wird der Authorization Header in die Abfrage eingefügt. Der Call von oben würde dann so aussehen:
 ```JS
 const containerResponse = await axiosInstance.get(`/rest/container/${containerId}`);
@@ -1162,7 +1165,8 @@ axiosInstance.interceptors.response.use(
 );
 
 ```
-[CHATGPT14]
+[vgl. @gpt-AxiosInterceptors]
+
 Dieser reagiert auf `responses` also Antworten: Kommt ein Status-Code vom Server zurück, so versucht er den Access Token mithilfe des Refresh Tokens zu aktualisieren. Dies funktioniert nur dann, wenn ein valider Refresh Token vorhanden ist. Sollte dies nicht der Fall sein, dann bedeutet dass, dass der User ausgeloggt wurde.
 
 ##### LoginPage
@@ -1304,9 +1308,10 @@ const checkConditions = (tableData, sentences) => {
 };
 export default checkConditions;
 ```
-[CHATGPT16]
+[vgl. @gpt-ConditionsCheckerScript]
 
-> Das Script nimmt die Umweltdaten aus dem `tableData`-Array und prüft für jede Zeile, ob es einen passenden Satz aus der `sentences`-Liste gibt, basierend auf dem `environment`-Wert. Wenn ein passender Satz gefunden wird, wird die Bedingung aus dem Satz extrahiert (z. B. Vergleichsoperator und Grenzwert) und mit dem Wert aus `tableData` verglichen. Ist die Bedingung erfüllt, wird das Ergebnis (z. B. "Medium" oder "Low") in das `alert`-Feld der Zeile geschrieben. Wenn die Bedingung nicht erfüllt ist oder kein passender Satz gefunden wird, bleibt das `alert`-Feld leer. [CHATGPT16]
+> Das Script nimmt die Umweltdaten aus dem `tableData`-Array und prüft für jede Zeile, ob es einen passenden Satz aus der `sentences`-Liste gibt, basierend auf dem `environment`-Wert. Wenn ein passender Satz gefunden wird, wird die Bedingung aus dem Satz extrahiert (z. B. Vergleichsoperator und Grenzwert) und mit dem Wert aus `tableData` verglichen. Ist die Bedingung erfüllt, wird das Ergebnis (z. B. "Medium" oder "Low") in das `alert`-Feld der Zeile geschrieben. Wenn die Bedingung nicht erfüllt ist oder kein passender Satz gefunden wird, bleibt das `alert`-Feld leer. 
+[vgl. @gpt-ConditionsCheckerScript]
 
 Ist dies einmal abgeschlossen, wird das `useState`-Array `tableData` mit `setTableData` mit dem durch das Skript geupdateten Array aktualisiert, was sich auch auf den Table, welchen der User sieht, auswirkt.
 

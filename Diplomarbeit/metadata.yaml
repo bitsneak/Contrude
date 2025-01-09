@@ -63,6 +63,34 @@ da-kiquellen:
   short-prompt: Warum async bei REST-Call Funktionen
   pdf-file: Gekle/KI/Theorie/WarumAsync-ChatGPT.pdf
 
+- ki: ChatGPT-4o
+  short-prompt: ID Extractor Methode
+  pdf-file: Gekle/KI/Praxis/IDExtractor-ChatGPT.pdf
+
+- ki: ChatGPT-4o
+  short-prompt: Methode für spezielle JSON Objekt Erstellung
+  pdf-file: Gekle/KI/Praxis/SpecificJson-ChatGPT.pdf
+
+- ki: ChatGPT-4o
+  short-prompt: Methode um das Grid der Website zu rendern
+  pdf-file: Gekle/KI/Praxis/RenderGrid-ChatGPT.pdf
+
+- ki: ChatGPT-4o
+  short-prompt: Skript für ContainerDistibutor
+  pdf-file: Gekle/KI/Praxis/ContainerDistributor-Script-ChatGPT.pdf
+
+- ki: ChatGPT-4o
+  short-prompt: Update Table Data 
+  pdf-file: Gekle/KI/Praxis/UpdateTableData-ChatGPT.pdf
+
+- ki: ChatGPT-4o
+  short-prompt: Axios Interceptors für die Axios Instanz
+  pdf-file: Gekle/KI/Praxis/AxiosInterceptor-ChatGPT.pdf
+
+- ki: ChatGPT-4o
+  short-prompt: Skript für ConditionChecker
+  pdf-file: Gekle/KI/Praxis/ConditionChecker-Script-ChatGPT.pdf
+
 
 da-appendix:
 - abschnitt: Embedded Systems
