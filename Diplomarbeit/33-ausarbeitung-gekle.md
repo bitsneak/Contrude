@@ -250,8 +250,7 @@ Selbst aber mit dem sogenannten HMR (Hot Module Replacement --> Änderungen im C
 > Wenn Sie ein Modul importieren, behandelt Vite es als virtuelles Modul. Während der Entwicklung bündelt es nicht Ihren gesamten Code in eine einzelne Datei. Stattdessen erstellt es bei Bedarf Builds für jedes Modul und stellt sie in separaten Dateien bereit. Dieser Ansatz eliminiert die Notwendigkeit eines vollständigen Bündelungsprozesses bei jeder Änderung, führt zu schnelleren Reloads und – natürlich – zu einem zufriedenen Entwickler. [vgl. @Telerik-BuildTools]
 
 ##### Erstellen eines React-Projekt mit Vite
-
-Text
+TBA
 
 #### Tailwind CSS
 
@@ -658,8 +657,66 @@ Tiefe = 2
 }
 ```
 
-#### Zustandekommen des Directed Dragable Graphs
+#### Zustandekommen des Dragable Graphs
+Die Erstellung des Graphen erfolgt über die JavaScript Bibliothek D3.js, welche für ihre dynamischen Visualisierungen von Graphen berühmt ist. Das Skript übernimmt die `graphSpecific.json` und teilt den Inhalt in zwei Arrays `nodes` (=Knoten) und `links` (=Kanten) auf, wobei mit einem Hilfsobjekt gesichert wird, dass kein Container doppelt vor kommt. [vgl. @gpt-D3jsDGScript]
 
+> D3s Kraft-gestützte Simulation (forceSimulation) berechnet die Positionen der Knoten basierend auf folgenden Kräften:
+> - forceLink: Verbindet Knoten basierend auf den Links.
+> - forceManyBody: Erzeugt eine Abstoßung zwischen Knoten, damit sie nicht zu dicht beieinander liegen.
+> - forceCenter: Zentriert das gesamte Diagramm im SVG-Bereich.
+[vgl. @gpt-D3jsDGScript]
+
+```{caption="Verwendung eines svg-Elements um den Graphen zu renden" .js}
+const svg = d3.select('svg');
+const width = window.innerWidth;
+const height = window.innerHeight;
+
+const simulation = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d => d.id).distance(100))
+    .force('charge', d3.forceManyBody().strength(-300))
+    .force('center', d3.forceCenter(width / 2, height / 2));
+```
+[vgl. @gpt-D3jsDGScript]
+
+Wie bereits erwähnt entstammen die Kanten aus dem `links`-Array. Die Container selbst, erscheinen in Form eines Kreises (mit ihrem Namen) als Knoten. Das Hin- und Her- ziehen dieser Knoten wird über die D3s Dragging-API umgesetzt. Zieht der User den Knoten von A nach B, so wird die Simulation neu gestartet, um die Position dynamisch anzupassen. Ist die Drag-Geste vollendet, so wird die Simulation wieder gestoppt und der Knoten verbleibt an seiner Position. Zusätzlich wird durch das Einfärben der Komponente des Graphen, der Knoten (blau) mit seinen Verbindungen (orange) zu anderen Containern (grün) hervorgehoben. Dies wird über die Klassen `highlight`, `connected` und `highlight-link` gesteuert:
+
+```{caption="Farbsteuerung des Graphen" .js}
+function highlightNode(event, selectedNode) {
+    node.selectAll('circle').classed('highlight', false).classed('connected', false);
+    link.classed('highlight-link', false);
+
+    // Knoten hervorheben
+    d3.select(event.currentTarget).select('circle').classed('highlight', true);
+
+    // Verbindungen hervorheben
+    link.filter(d => d.source.id === selectedNode.id || d.target.id === selectedNode.id)
+        .classed('highlight-link', true);
+
+    // Verbundene Knoten hervorheben
+    node.filter(d =>
+        links.some(link =>
+            (link.source.id === selectedNode.id && link.target.id === d.id) ||
+            (link.target.id === selectedNode.id && link.source.id === d.id)
+        ))
+        .select('circle')
+        .classed('connected', true);
+}
+
+```
+[vgl. @gpt-D3jsDGScript]
+
+Basierend auf dem `graphSpecific.json` aus dem Kapitel *Exportieren in JSON Files* würde als Ergebnis des Dragable-Graph-Skripts folgender Graph entstehen:
+
+![Dragable Graph basierend auf graphSpecific aus vorhergehenden Kapitel](img/Gekle/DG-Example.png)
+
+Ein umfangreicherer Graph, welcher aus einer Simulation mit 16 Containern entstammt und folgende Daten hat:
+- Ausgangscontainer: cont2
+- Tiefe der `graphSpecific` = 2
+... würde folgendermaßen aussehen:
+
+![Umfangreicherer Dragable Graph in zwei Positionen](img/Gekle/DG-Extended.png)
+
+(link... Position 1; recht... Position 2 nach Drag-and-Drpü)
 ### Website
 
 #### Design der Seiten
@@ -1085,6 +1142,7 @@ Klickt der User also auf das Alarm-Icon, dann wird in der DetailPage die `handle
 So wird z.B. angegeben, dass folgender Threshold existiert: Wenn die Latitude (Breitengrad) < als 90 Grad ist, dann befindet sich Latitude im kritischen Zustand. Wie auch der `ContainerChooser` besitzt dieser Dialog folgenden Code innerhalb eines Close `Button` : `onClick={onClose}`.
 
 ##### Sidebar
+TBA
 
 #### REST Calls mit Axios
 
@@ -1384,3 +1442,4 @@ onSentencesUpdate(sentences);
 Dieser Code läuft in einer `for`-Schleife, da ja mehrere Thresholds für den Container gesetzt sein können. `validThresholds` ist ein mit `isArray` geprüftes Duplikat jenes Arrays, welches im ersten API Call die Thresholds (in Id Form) abspeichert. Zum Schluss werden in der Variable `sentences` die gefetchten Daten zusammen mit `value` in die Satzform gebracht und im `sentences`-`useState`-Array abgespeichert. Es ist dieses Array, welches vom Dialog mit `onSentencesUpdate` an die DetailPage zurück geliefert wird. 
 
 ##### Sidebar
+TBA
