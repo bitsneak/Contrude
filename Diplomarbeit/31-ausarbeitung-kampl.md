@@ -20,45 +20,47 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 
 1. ***ESP32***
    - **Grund**: Der ESP32 ist ein leistungsstarker und kostengünstiger Mikrocontroller mit integrierter WLAN- und Bluetooth Funktionalität. Er bietet eine höhere Rechenleistung als ein Arduino und ist im durchschnitt auch kleiner als jener, was für die mobile Nutzung vom Vorteil ist.
-   - **Spezifikationen**: 
+   - **Spezifikationen**:
      - Größe: $39mm  *  28mm  *  6mm$
      - 34 I/O Pins
      - SoC: ESP32-WROOM-32
      - Netzspannung: 5V
-  
-<img src="img/Kampl/ESP-Pins-Legende.png" alt="ArduinoPins" width="297"/> 
-<img src="img/Kampl/ESP-Pins1.png" alt="ArduinoPins" width="500"/>
-<img src="img/Kampl/ESP-Pins2.png" alt="ArduinoPins" width="500"/>
+
+![ArduinoPins [@ESP32-Datenblatt]](img/Kampl/ESP-Pins-Legende.png){width=297px}
+
+![ArduinoPins [@ESP32-Datenblatt]](img/Kampl/ESP-Pins1.png){width=500px}
+
+![ArduinoPins [@ESP32-Datenblatt]](img/Kampl/ESP-Pins2.png){width=500px}
 
 1. ***BME280***
    - **Grund**: Der BME280 ist ein vielseitiger Sensor, welcher sowohl die Temperatur, die Luftfeuchtigkeit als auch den Luftdruck messen kann. Außerdem ist er kompakt und kostengünstig.
-   - **Spezifikationen**: 
+   - **Spezifikationen**:
      - Größe: $9mm  *  11mm  *  2mm$
      - 4 Pins
      - Schnittstelle I²C
      - Spannung: 3.3V bis 5V
 
-<img src="img/Kampl/BME280-Pins.png" alt="BMEPins" width="300"/> 
+![BMEPins [@BME280-Datenblatt]](img/Kampl/BME280-Pins.png){width=300px}
 
 1. ***MPU6050***
    - **Grund**: Der MPU6050 ist eine Kombination aus Beschleungiungssensor und Gyroskop. Damit können Bewegungen auf der X, der Y und der Z-Achse erfasst werden.
-   - **Spezifikationen**: 
+   - **Spezifikationen**:
      - Größe: $25mm  *  20mm  *  7mm$
      - 8 Pins
      - Schnittstelle I²C
      - Spannung: 3.3V bis 5V
 
-<img src="img/Kampl/MPU6050-Pins.png" alt="MPUPins" width="300"/> 
+![MPUPins [@MPU6050-Datenblatt]](img/Kampl/MPU6050-Pins.png){width=500px}
 
 3. ***GY-GPSMV2***
    - **Grund**: Das GY-GPSMV2-Modul ermöglicht die Standortbestimmung über GPS. Es bietet eine hohe Genauigkeit und eine stabile Leistung, wodurch die Postion präzise erfasst werden kann.
-   - **Spezifikationen**: 
+   - **Spezifikationen**:
      - Größe: $16mm  *  12.2mm  *  2.4mm$
      - 3 Pins
      - Schnittstelle UART
-     - Spannung: 3.3V 
+     - Spannung: 3.3V
 
-<img src="img/Kampl/BME280-Pins.png" alt="BMEPins" width="300"/> 
+![GYPINS](img/Kampl/BME280-Pins.png){width=300px}
 
 #### Kosten
 
@@ -78,11 +80,9 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 
 Um zu verstehen wie die Hardware nun funktioniert muss man ersteinmal wissen was ein Embedded System ist. Ein Eingebettetes System ist Teil eines viel größeren Systems wie z.B.: Handys, Autos, Waschmaschinen, usw..
 
-
 Solche Systeme gibt es bereits seit den 1960. Damals baute der amerikanische Ingenieur Charles Stark Draper während des Apollo Raumprogrammes die erste integrierte Schaltung. Diese wurde dann auf dem Apollo Guidance Computer installiert um Flugdaten in Echtzeit sammeln zu können.
 Später wurden dann solche Mikroprozessoren in der 1600 Serie von Volkswagen verwendet um das Kraftstoffeinspritzsystem zu steuern.
 In den 70ern konnte Intel den ersten Prozessor entwickeln, welcher der Öffentlichkeit zugänglich war: den Intel 4004. Ein 4-Bit-Mikroprozessor, wlecher in Taschenrechnern und anderen kleineren elektronischen Geräte verwendet wurde.
-
 
 Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Software und Hardware ist für einen speziell programmierte Aufgabe. Obwohl man ein ES mit einem Computer gleichstellen kann, haben sie des öfteren keine Graphische Oberfläche für Benutzer.
 [@EmbeddedSystems]
@@ -97,8 +97,8 @@ Die CPU (Central Processing Unit) ist die primäre Steuereinheit eines Systems. 
 
 ##### Bus
 
-Der Bus verbindet die CPU mit den anderen Komponenten. Es gibt daher verschiedene Arten von Bussen, wie z. B. den Datenbus, den Adressbus und den Steuerbus. Je nach Prozessor können unterschiedlich viele Bits gleichzeitig übertragen werden. 
-- **SPI (Serial Peripheral Interface):** Synchrone serielle Schnittstelle, ideal für die Verbindung von Peripheriegeräten. Verwendet MOSI, MISO und SCK Leitungen. 
+Der Bus verbindet die CPU mit den anderen Komponenten. Es gibt daher verschiedene Arten von Bussen, wie z. B. den Datenbus, den Adressbus und den Steuerbus. Je nach Prozessor können unterschiedlich viele Bits gleichzeitig übertragen werden.
+- **SPI (Serial Peripheral Interface):** Synchrone serielle Schnittstelle, ideal für die Verbindung von Peripheriegeräten. Verwendet MOSI, MISO und SCK Leitungen.
 - **I²C (Inter-Integrated Circuit):** Zweidraht-Bus mit Master-Slave-Kommunikation.
 - **UART (Universal Asynchronous Receiver Transmitter):** Asynchrone serielle Verbindung, die ohne externen Taktgeber arbeitet.
 
@@ -144,18 +144,18 @@ Die Firmware ist eine softwarebasierte Komponente, die fest in einem elektronisc
 - **A/D- und D/A-Wandler:** Ermöglichen die Umwandlung zwischen analogen und digitalen Signalen. Wichtig für Sensoranwendungen.
 - **PWM (Pulsweitenmodulation):** Steuerung von LEDs, Motoren oder anderen Aktoren durch variable Einschaltdauer eines Signals.
 
-
 ### Aufbau des Prototypen
 
 #### PlatformIO
 
 Um ein Programm erfolgreich auf dem ESP32 ausführen zu können, benötigt man eine geeignete IDE (Integrated Development Environment). Eine der bekanntesten und am weitesten verbreiteten Entwicklungsumgebungen für Mikrocontroller ist die Arduino IDE. Allerdings stießen wir bei unserem Projekt auf Anforderungen, die mehr Kontrolle über den Entwicklungs- und Upload-Prozess erforderten. Daher entschieden wir uns für eine professionellere und flexiblere Lösung: PlatformIO.
 
-<img src="img/Kampl/ArduinoIDE.png" alt="ArduinoIDE" width="500"/>
+![ArduinoIDE](img/Kampl/ArduinoIDE.png){width=500px}
 
 ---
 
-<img src="img/Kampl/PlatformIO.png" alt="PlatformIO" width="700"/>
+![PlatformIO](img/Kampl/PlatformIO.png){width=700px}
+
 
 PlatformIO ist eine Entwicklungsumgebung, die als Erweiterung für den Texteditor Visual Studio Code genutzt wird. Sie bietet eine bessere Projektstruktur, eine fortschrittlichere Konfigurationsverwaltung und umfangreiche Unterstützung für verschiedene Mikrocontroller. Zwei zentrale Elemente sorgen dabei für einen reibungslosen Ablauf: die Hauptdatei (Main-File) und die Plattform-Konfigurationsdatei (.ini-File). Besonders die .ini-Datei spielt eine entscheidende Rolle, da sie die Projektkonfiguration festlegt und sicherstellt, dass der Upload-Prozess auf den Mikrocontroller zuverlässig und ohne Komplikationen funktioniert.
 
@@ -194,9 +194,7 @@ Um nun ein erstes Projekt zu erstellen muss mann einfach nur auf den PlatformIO 
 
 ##### Tools
 
-<img src="img/Kampl/platformio-ide-vscode-toolbar.png" alt="Toolbar" width="500"/>
-
-<br>
+![Toolbar [@PlatformIO-firststeps]](img/Kampl/platformio-ide-vscode-toolbar.png){width=500px}
 
 1. **Home**: sorgt dafür, dass das Home Menü von PlatformIO. In diesem kann man seine Projekte verwalten sowie Bibiliothekten für das aktuelle hinzufügen.
 2. **Build**: Kompiliert den Code des Projekts und erstellt eine Datei welche auf den Mikrocontroller hochgeladen werden kann.
@@ -229,7 +227,9 @@ framework = mbed
 
 #### MQTT
 
-#### Sonstiges
+### Sonstiges
+
+
 
 ## Praktische Arbeit
 
