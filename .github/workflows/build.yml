@@ -25,6 +25,11 @@ jobs:
         run: |
           make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
 
+      - name: Extract commit message
+        id: get_commit_message
+        run: |
+          echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_ENV   
+
       - name:  Send diploma thesis
         uses: dawidd6/action-send-mail@v4
         with:
@@ -33,7 +38,7 @@ jobs:
           username: ${{ secrets.MAIL }}
           password: ${{ secrets.MAIL_PASSWORD }}
           subject: "Diploma thesis"
-          body: " "
+          body: "${{ env.commit_message }}"
           to: ${{ secrets.TEAMS_MAIL }}
           from: ${{ secrets.MAIL }}
           attachments: Diplomarbeit/diplomarbeit.pdf

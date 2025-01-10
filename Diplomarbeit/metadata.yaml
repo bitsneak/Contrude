@@ -93,6 +93,9 @@ da-kiquellen:
   short-prompt: Skript für ConditionChecker
   pdf-file: Gekle/KI/Praxis/ConditionChecker-Script-ChatGPT.pdf
 
+- ki: ChatGPT-4o
+  short-prompt: D3js Dragable Graph Skript
+  pdf-file: Gekle/KI/Praxis/D3jsDragableGraph-ChatGPT.pdf
 
 da-appendix:
 #Kampl

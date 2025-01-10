@@ -301,6 +301,73 @@ wird die Applikation gestarted und kann auf ```http://localhost:80/hello``` aufg
 
 MySQL ist ein Open-Source RDBMS, welches von Oracle verwaltet wird. Diese DB wird stetig weiterentwickelt und ist sogar optimal in der Cloud hostbar. [@talend-mysql]
 
+MySQL verwendet zwar keine Schemas wie andere DBMS, trotzdem kann man mehrere Datenbanken innerhalb einer MySQL Instanz erstellen und somit dieses Verhalten simulieren. Irreführend ist hierbei, dass man trotzdem eine **DATABASE** und **SCHEMA** erstellen kann, obwohl sie gleich behandelt werden. Um möglichst lange Support-Updates mittels LTS Versionen zu erhalten, wurde hier die MySQL 8 Version verwendet, obwohl sie offiziell noch nicht fertig ausprogrammiert ist.
+
+Um die in diesem Projekt verwendeten Datenbanken zu erstellen wurden SQL init scripts geschrieben welche die MySQL Instanz mit den notwendigen Tabellen initialisieren, User anlegen und Dummy Daten einfügen. Hierbei ist der Aufbau immer der gleiche:
+
+- scripts/
+  - CreateDB.sql
+  - CreateUser.sql
+  - GrantPrivileges.sql
+  - InsertDummyData.sql
+
+In `CreateDB.sql` ist die gesamte Struktur mitsamt  **DATABASE** und **SCHEMA** Erstellung geregelt. Anzumerken ist hier, dass **CHECK** Constraints schon in vorherigen Versionen semantisch akzeptiert, jedoch erst ab Version 8.0.16 tatsächlich umgesetzt wurden. [@mysql-8.0.16] Aufgrund dessen, und des später erklärten Microservice-Ansatzes, wurde für das gesamte Projekt die Verison 8.0.29 verwendet. Da eine Datenbank ohne Daten nur halb so viel wert ist und bei jeder einzelnen DB-Erstellung die Daten neu einzugeben sehr mühsälig werden kann, gibt es die `InsertDummyData.sql` Datei, in der die Probedaten in die DB eingfügt werden.
+
+In `CreateUser.sql` werden die Benutzer samt ihrer Benutzergruppen und Berechtigungen erstellt. Diese Datei wurde für jede DB verwendet, da sich kein Sinn für eine Änderung der Benutzer ergab. Um den code sicher pushn zu können, wurde ein Einmapasswort für jeden festgelegt und die Beschränkung eingeführt, dass das geänderte Passwort nicht gleich den letzten 5 sein darf. Außedem darf jeder Benutzer, außer die API, nur maximal 4 aktive Datenbankconnections gleichzeitig haben. Eine SSL Zertifizierung ist, um die Sicherheit zu gewährleisten, von jeden beim Anmelden anzugeben. Das ein user wird mit 'name'@'bereich' erstellt. Wobei der Bereich der Gültigkeitsbereich des Users ist, somit kann man User auch nur für z.B. den localhost erstellen.
+
+```{caption="Erstellen von Benutzergruppen und Benutzern in MySQL" .sql}
+CREATE ROLE IF NOT EXISTS 'admin', 'developer', 'api';
+
+CREATE USER IF NOT EXISTS 'BitSneak'@'%'
+    IDENTIFIED WITH caching_sha2_password BY '123'
+    DEFAULT ROLE admin
+    REQUIRE SSL
+    WITH MAX_USER_CONNECTIONS 4
+    PASSWORD EXPIRE
+    PASSWORD HISTORY 5;
+
+CREATE USER IF NOT EXISTS 'Luca'@'%'
+    IDENTIFIED WITH caching_sha2_password BY '123'
+    DEFAULT ROLE developer
+    REQUIRE SSL
+    WITH MAX_USER_CONNECTIONS 4
+    PASSWORD EXPIRE
+    PASSWORD HISTORY 5;
+
+CREATE USER IF NOT EXISTS 'Max'@'%'
+    IDENTIFIED WITH caching_sha2_password BY '123'
+    DEFAULT ROLE developer
+    REQUIRE SSL
+    WITH MAX_USER_CONNECTIONS 4
+    PASSWORD EXPIRE
+    PASSWORD HISTORY 5;
+
+CREATE USER IF NOT EXISTS 'rest'@'%'
+    IDENTIFIED WITH caching_sha2_password BY '123'
+    DEFAULT ROLE api
+    REQUIRE SSL
+    PASSWORD EXPIRE
+    PASSWORD HISTORY 5;
+```
+
+Um diesen Usern auch noch Rechte auf dem DBMS zu geben, gibt es die `GrantPriveleges.sql` Datei. Diese variiert pro Datenbank, da sie jeder Benutzergruppe ihre Rechte auf verschiedene Tabellen gibt. Doch der Anfangsteil ist immer der gleiche. Admins sollten vollen Zugriff erhalten und andere User erstellen und Rechte verteilen können, *ALL PRIVILEGES*, ebenso wie die Developer. Der einzige Unterschied ist jedoch, den Developern wird der Zugriff auf die Systeminterne DB, *sys*, verweigert. Der API sollen minimale Rechte für spezifische DBs gegeben werden.
+
+```{caption="Zuweisen von Rollen zu Benutzergruppen in MySQL" .sql}
+GRANT ALL PRIVILEGES ON *.* TO 'admin' WITH GRANT OPTION;
+
+GRANT ALL PRIVILEGES ON database.* TO 'developer';
+
+FLUSH PRIVILEGES;
+```
+
+##### Schiff
+
+##### Container
+
+##### Grenznwerte
+
+##### User
+
 #### InfluxDB
 
 #### Grafana
