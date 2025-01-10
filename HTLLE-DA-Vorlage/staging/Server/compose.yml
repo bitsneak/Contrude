@@ -1,0 +1,219 @@
+services:
+  traefik:
+    image: traefik:v3.1.5
+    env_file: .env
+    restart: unless-stopped
+    command:
+      - "--api.dashboard=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=websecure"
+      - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=${CERT_EMAIL}"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "443:443" # only HTTPS traffic
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+      - "./letsencrypt:/letsencrypt:rw" # storage for Let's Encrypt certificates
+    labels:
+      traefik.enable: true
+      traefik.http.routers.api.rule: Host(`${TRAEFIK_DOMAIN}`) # hostname
+      traefik.http.routers.api.service: api@internal
+      traefik.http.routers.api.entrypoints: websecure # reroute to https
+      traefik.http.routers.api.tls.certresolver: myresolver
+      traefik.http.routers.api.middlewares: traefik-auth
+      traefik.http.middlewares.traefik-auth.digestauth.users: ${DASHBOARD_AUTH}
+      traefik.http.middlewares.traefik-auth.digestauth.removeheader: true
+      traefik.http.middlewares.strip-prefixes.stripPrefix.prefixes: ${AUTH_PREFIX}, ${REST_PREFIX}
+    deploy:
+      mode: global
+
+  mqtt:
+    image: eclipse-mosquitto:openssl
+    restart: unless-stopped
+    volumes:
+      - ./mqtt/config:/mosquitto/config:ro
+      - ./mqtt/data:/mosquitto/data:rw
+      - ./mqtt/log:/mosquitto/log:rw
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    deploy:
+      mode: global
+
+  telegraf:
+    image: telegraf:1.32-alpine
+    env_file: ./telegraf/.env
+    restart: unless-stopped
+    depends_on:
+      - mqtt
+      - db_sensor
+    volumes:
+      - ./telegraf/telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - ./telegraf/telegraf.log:/var/log/telegraf/telegraf.log:rw
+    deploy:
+      mode: global
+
+  db_ship:
+    image: mysql:8.0.29
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_ONETIME_PASSWORD: "yes"
+    restart: unless-stopped
+    volumes:
+      - ./databases/ship/mysql:/var/lib/mysql:rw
+      - ./databases/ship/scripts:/docker-entrypoint-initdb.d/:ro
+    ports:
+      - "3307:3306"
+    deploy:
+      mode: global
+
+  db_container:
+    image: mysql:8.0.29
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_ONETIME_PASSWORD: "yes"
+    restart: unless-stopped
+    volumes:
+      - ./databases/container/mysql:/var/lib/mysql:rw
+      - ./databases/container/scripts:/docker-entrypoint-initdb.d/:ro
+    ports:
+      - "3308:3306"
+    deploy:
+      mode: global
+
+  db_threshold:
+    image: mysql:8.0.29
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_ONETIME_PASSWORD: "yes"
+    restart: unless-stopped
+    volumes:
+      - ./databases/threshold/mysql:/var/lib/mysql:rw
+      - ./databases/threshold/scripts:/docker-entrypoint-initdb.d/:ro
+    ports:
+      - "3309:3306"
+    deploy:
+      mode: global
+
+  db_sensor:
+    image: influxdb:2.7-alpine
+    restart: unless-stopped
+    volumes:
+      - ./databases/sensor/data:/var/lib/influxdb2:rw
+    ports:
+      - "8086:8086"
+    deploy:
+      mode: global
+
+  db_user:
+    image: mysql:8.0.29
+    environment:
+      MYSQL_ROOT_PASSWORD: 123
+      MYSQL_ONETIME_PASSWORD: "yes"
+    restart: unless-stopped
+    volumes:
+      - ./databases/user/mysql:/var/lib/mysql:rw
+      - ./databases/user/scripts:/docker-entrypoint-initdb.d/:ro
+    ports:
+      - "3310:3306"
+    deploy:
+      mode: global
+
+  grafana:
+    image: grafana/grafana:main
+    environment:
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+    restart: unless-stopped
+    depends_on:
+      - db_sensor
+    volumes:
+      - ./grafana:/var/lib/grafana:rw
+    ports:
+      - "3000:3000"
+    deploy:
+      mode: global
+
+  auth:
+    image: node:22-alpine3.18
+    env_file: ./auth/.env
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - db_user
+    working_dir: /app
+    command: "sh -c 'npm install && node app.js'"
+    volumes:
+      - ./auth/:/app:rw
+      # ssl certificates
+      - ./databases/user/mysql/ca.pem:/app/ssl/db/user/ca.pem:ro
+      - ./databases/user/mysql/client-cert.pem:/app/ssl/db/user/cert.pem:ro
+      - ./databases/user/mysql/client-key.pem:/app/ssl/db/user/key.pem:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.auth.rule: Host(`${API_DOMAIN}`) && PathPrefix(`${AUTH_PREFIX}`) # hostname
+      traefik.http.services.auth.loadbalancer.server.port: ${AUTH_PORT} # port
+      traefik.http.routers.auth.entrypoints: websecure # reroute to https
+      traefik.http.routers.auth.tls.certresolver: myresolver
+      traefik.http.routers.auth.middlewares: strip-prefixes
+    deploy:
+      mode: global
+
+  rest:
+    image: node:22-alpine3.18
+    env_file: ./rest/.env
+    restart: unless-stopped
+    depends_on:
+      - traefik
+      - auth
+      - db_ship
+      - db_container
+      - db_sensor
+      - db_threshold
+    working_dir: /app
+    command: "sh -c 'npm install && node app.js'"
+    volumes:
+      - ./rest/:/app:rw
+      # ssl certificates db_container
+      - ./databases/container/mysql/ca.pem:/app/ssl/db/container/ca.pem:ro
+      - ./databases/container/mysql/client-cert.pem:/app/ssl/db/container/cert.pem:ro
+      - ./databases/container/mysql/client-key.pem:/app/ssl/db/container/key.pem:ro
+      # ssl certificates db_threshold
+      - ./databases/threshold/mysql/ca.pem:/app/ssl/db/threshold/ca.pem:ro
+      - ./databases/threshold/mysql/client-cert.pem:/app/ssl/db/threshold/cert.pem:ro
+      - ./databases/threshold/mysql/client-key.pem:/app/ssl/db/threshold/key.pem:ro
+      # ssl certificates db_ship
+      - ./databases/ship/mysql/ca.pem:/app/ssl/db/ship/ca.pem:ro
+      - ./databases/ship/mysql/client-cert.pem:/app/ssl/db/ship/cert.pem:ro
+      - ./databases/ship/mysql/client-key.pem:/app/ssl/db/ship/key.pem:ro
+    labels:
+      traefik.enable: true
+      traefik.http.routers.rest.rule: Host(`${API_DOMAIN}`) && PathPrefix(`${REST_PREFIX}`) # hostname
+      traefik.http.services.rest.loadbalancer.server.port: ${REST_PORT} # port
+      traefik.http.routers.rest.entrypoints: websecure # reroute to https
+      traefik.http.routers.rest.tls.certresolver: myresolver
+      traefik.http.routers.rest.middlewares: strip-prefixes
+    deploy:
+      mode: global
+
+  web:
+    image: node:22-alpine3.18
+    restart: unless-stopped
+    depends_on:
+      - auth
+      - rest
+    working_dir: /app
+    command: "sh -c 'npm install && npm run build && npm run dev -- --host'"
+    volumes:
+      - ../Website:/app:rw
+    labels:
+      traefik.enable: true
+      traefik.http.routers.web.rule: Host(`${WEB_DOMAIN}`) # hostname
+      traefik.http.services.web.loadbalancer.server.port: ${WEB_PORT} # port
+      traefik.http.routers.web.entrypoints: websecure # reroute to https
+      traefik.http.routers.web.tls.certresolver: myresolver
+    deploy:
+      mode: global

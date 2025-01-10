@@ -1,0 +1,32 @@
+Für Windows mit Chrome Browser
+
+1) CMD öffnen
+2) Folgenden Befehl ausführen:
+"C:\Program Files\Google\Chrome\Application\chrome.exe" --disable-web-security --ignore-certificate-errors --user-data-dir="C:\chrome_dev"
+3) https://localhost
+
+Für macOS mit Chrome Browser
+1) Terminal öffnen
+2) Folgenden Befehl ausführen:
+open -na "Google Chrome" --args --disable-web-security --ignore-certificate-errors --user-data-dir="/tmp/chrome_dev"
+3) https://localhost
+
+Für MacOS mit Zertifikat (nicht empfohlen):
+
+1) Zertifikat herunterladen (.pem)
+2) File doppelklicken
+3) In Schlüsselbundverwaltung einfügen
+4) Speichern
+5) Safari (!) öffnen
+6) https://localhost
+
+Wichtig für MacOS mit Zertifikat:
+Bei Neustart der Docker Container kann es sein, dass das Zertifikat erneut heruntergeladen werden muss. Dieses sollte dann einfach das Alte im
+in der Schlüsselbundverwaltung ersetzten!
+
+Wie lade ich das Zertifikat herunter?
+Der leichteste Weg ist dies über einen anderen Browser als Safari zu tun. Beispielhaft für Chrome:
+1) Neben der URL auf "Nicht Sicher" klicken
+2) Zertifikatdetails --> Details
+3) Exportieren
+4) File abspeichern

@@ -1,0 +1,39 @@
+name: Build and Send Thesis
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - Diplomarbeit/**
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at
+          
+      - name: Build diploma thesis
+        run: |
+          make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
+
+      - name:  Send diploma thesis
+        uses: dawidd6/action-send-mail@v4
+        with:
+          server_address: smtp.gmail.com
+          server_port: 587
+          username: ${{ secrets.GMAIL_MAIL }}
+          password: ${{ secrets.GMAIL_APP_PASSWORD }}
+          subject: "Diploma thesis"
+          body: " "
+          to: ${{ secrets.TEAMS_MAIL }}
+          from: ${{ secrets.GMAIL_MAIL }}
+          attachments: Diplomarbeit/diplomarbeit.pdf

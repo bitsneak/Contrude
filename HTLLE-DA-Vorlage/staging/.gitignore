@@ -1,0 +1,43 @@
+# JetBrains IDE specific
+**.idea/
+**target/
+
+# VisualStudio Code specific
+**.vscode/
+
+# MacOS specific
+*.DS_Store
+
+# Simulator
+ContainerSimulator/graph.json
+ContainerSimulator/graphSpecific.json
+
+# Contrude Website
+Website/src/pages/TestingPage.jsx
+
+# Logs
+*.log
+
+# Databases
+**mysql/
+Server/databases/sensor/
+*.mwb.bak
+*.db
+
+# Data visualization
+Server/grafana/
+
+# SSL certificates
+*.pem
+*.key
+*.csr
+Server/letsencrypt/
+
+# Passwords
+Server/mqtt/config/password.txt
+
+# Environments
+*.env
+**node_modules/
+**package-lock.json
+**dist/

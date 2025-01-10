@@ -1,0 +1,12 @@
+GRANT ALL PRIVILEGES ON *.* TO 'admin' WITH GRANT OPTION;
+
+GRANT ALL PRIVILEGES ON user.* TO 'developer';
+GRANT ALL PRIVILEGES ON corporation.* TO 'developer';
+
+GRANT SELECT, INSERT, UPDATE ON user.user TO 'api';
+GRANT SELECT, INSERT, UPDATE, DELETE ON user.token TO 'api';
+GRANT SELECT, INSERT, UPDATE, DELETE ON user.favorites TO 'api';
+GRANT SELECT, INSERT ON corporation.* TO 'api';
+GRANT SELECT ON privilege.* TO 'api';
+
+FLUSH PRIVILEGES;

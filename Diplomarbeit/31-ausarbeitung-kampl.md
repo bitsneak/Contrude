@@ -280,7 +280,7 @@ void setup() {
     Serial.println(F("BME280 test"));
 
     
-    if (!bme.begin()) {
+    if (!bme.begin(0x76)) {
         Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
         Serial.print("SensorID was: 0x"); Serial.println(bme.sensorID(),16);
         Serial.print("        ID of 0xFF probably means a bad address, a BMP 180 or BMP 085\n");
@@ -329,6 +329,110 @@ void printValues() {
 
 ##### Erklärung
 
+Dieses Programm liest die Daten welche der BME280 Sensor bekommt aus der I²C Schnittstelle aus und bereit sie über Print-Statements schnön leserlich auf.
+
+***Bibliotheken***
+
+```cpp
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
+```
+[@BME280-Test]
+
+Dieser Teil zeigt die bereits vorhin Beschriebenen Bibliotheken mit einer zusätzlichen der **Wire-Library**. Dies ist eine Standardmäßige enthaltene Bibliothek und ermöglicht erst die I²C Kommunikation.
+
+***Definitionen und Variablen***
+
+```cpp
+#define SEALEVELPRESSURE_HPA (1013.25)
+
+Adafruit_BME280 bme; 
+
+unsigned long delayTime;
+
+void printValues();
+```
+[@BME280-Test]
+
+1. **SEALEVELPRESSURE_HPA**: Ist eine Konstante welche den Standardluftdruck auf Meereshöhe annimmt.
+2. **bme**: ist ein Instanz des Objektes Adafruit_BME280 und stellt den Sensor dar.
+3. **delayTime**: Ist eine Varible welche für einen delay verwendet wird.
+4. **void printValues()**: Ist eine Vorwärtsdeklarierte Funktion. 
+
+***Setup***
+
+```cpp
+void setup() {
+    Serial.begin(115200);
+    Serial.println(F("BME280 test"));
+
+    
+    if (!bme.begin(0x76)) {
+        Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
+        Serial.print("SensorID was: 0x"); Serial.println(bme.sensorID(),16);
+        Serial.print("        ID of 0xFF probably means a bad address, a BMP 180 or BMP 085\n");
+        Serial.print("   ID of 0x56-0x58 represents a BMP 280,\n");
+        Serial.print("        ID of 0x60 represents a BME 280.\n");
+        Serial.print("        ID of 0x61 represents a BME 680.\n");
+        while (1) delay(10);
+    }
+    
+    Serial.println("-- Default Test --");
+    delayTime = 1000;
+
+    Serial.println();
+}
+```
+[@BME280-Test]
+
+Das Setup ist im Grunde der wichtigste Teil, da ohne es nichts weiter Funktionieren kann. Es selbst ist hier in drei Teile eingeteilt:
+
+1. **Serial.beginn(115200)**: Hier wird die auf 115200 gestellt damit der serielle Monitor und der Sensor kommunizieren können.
+2. **if(!bme.begin(0x76))**: Hier wird der Sensor mit der Adresse 0x76 initialisiert.
+3. **Fehlerbehandlung**: Falls der BME280 nicht gefunden wird oder nicht initialisiert werden kann kommt es zur Fehlerbehandlung und wenn nicht dann geht es weiter in den
+
+***Loop***
+
+```cpp
+void loop() { 
+    printValues();
+    delay(delayTime);
+}
+```
+[@BME280-Test]
+
+Wie der Name schon verrät wird der Loop immer wieder ausgeführt. In diesem Fall hat der Loop die Funktionen printValues() welche nach jedem Durchlauf aufgerufen wird und delay(), mit der vorher erwähnten delayTime, welche nach jedem Loop eine Pause von 1er Sekunde einlegt.
+
+***Ausgabe***
+
+```cpp
+void printValues() {
+    Serial.print("Temperature = ");
+    Serial.print(bme.readTemperature());
+    Serial.println(" °C");
+
+    Serial.print("Pressure = ");
+    Serial.print(bme.readPressure() / 100.0F);
+    Serial.println(" hPa");
+
+    Serial.print("Approx. Altitude = ");
+    Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
+    Serial.println(" m");
+
+    Serial.print("Humidity = ");
+    Serial.print(bme.readHumidity());
+    Serial.println(" %");
+
+    Serial.println();
+}
+```
+[@BME280-Test]
+
+Dieser Teil des Codes gibt die Messwerter auf dem Serial Monitor, in einer aufpolierten Version aus. Der Grund für die Ausgabe is meist Debugging.
+
+//Todo falls es so passt
+
 #### MPU6050
 
 ##### Erklärung
@@ -336,6 +440,8 @@ void printValues() {
 #### GY-GPSMV2
 
 ##### Erklärung
+
+
 
 ### Datenübertragung
 
