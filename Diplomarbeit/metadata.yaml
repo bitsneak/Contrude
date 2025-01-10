@@ -22,7 +22,7 @@ da-author:
   thema: Hardware, Sensorik, Datenübertragung
   ki-tools:
   - name: ChatGPT-4o
-    zweck: Informationsbeschaffung
+    zweck: Informationsbeschaffung / Coderzeugung / Refactoring / Rechtschreibüberprüfung
 
 - vorname: Marko Daniel
   nachname: Schrempf

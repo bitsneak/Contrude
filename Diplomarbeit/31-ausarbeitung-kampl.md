@@ -99,8 +99,8 @@ Die CPU (Central Processing Unit) ist die primäre Steuereinheit eines Systems. 
 
 Der Bus verbindet die CPU mit den anderen Komponenten. Es gibt daher verschiedene Arten von Bussen, wie z. B. den Datenbus, den Adressbus und den Steuerbus. Je nach Prozessor können unterschiedlich viele Bits gleichzeitig übertragen werden.
 - **SPI (Serial Peripheral Interface):** Synchrone serielle Schnittstelle, ideal für die Verbindung von Peripheriegeräten. Verwendet MOSI, MISO und SCK Leitungen.
-- **I²C (Inter-Integrated Circuit):** Zweidraht-Bus mit Master-Slave-Kommunikation.
 - **UART (Universal Asynchronous Receiver Transmitter):** Asynchrone serielle Verbindung, die ohne externen Taktgeber arbeitet.
+- **I²C (Inter-Integrated Circuit):** Zweidraht-Bus mit Master-Slave-Kommunikation.
 
 ##### RAM
 
@@ -144,7 +144,7 @@ Die Firmware ist eine softwarebasierte Komponente, die fest in einem elektronisc
 - **A/D- und D/A-Wandler:** Ermöglichen die Umwandlung zwischen analogen und digitalen Signalen. Wichtig für Sensoranwendungen.
 - **PWM (Pulsweitenmodulation):** Steuerung von LEDs, Motoren oder anderen Aktoren durch variable Einschaltdauer eines Signals.
 
-### Aufbau des Prototypen
+### Der Prototypen
 
 #### PlatformIO
 
@@ -221,14 +221,127 @@ framework = mbed
 
 [@PlatformIO-firststeps]
 
-### C++
+### Programmieren
+
+Da wir nun eine vollständig funktionsfähige Entwicklungsumgebung besitzen und auch wissen, wie man diese einsetzt, können wir mit der tatsächlichen Programmierung starten. Wir verbinden den ESP32 mit unserem Computer oder Laptop über ein USB-Kabel und schreiben unsere ersten Code-Snippets, um zu testen, ob der Mikrocontroller ordnungsgemäß funktioniert.
+
+```cpp{caption="BME_TestProgramm" .cpp}
+// TestProgramm
+void setup() {
+  // Seriellen Monitor mit Baudrate 115200 starten
+  Serial.begin(115200);
+  Serial.println("ESP32 LED-Blinktest gestartet!");
+
+  // LED-Setup (Standardmäßig GPIO 2 für die Onboard-LED)
+  pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop() {
+  // LED ein
+  Serial.println("LED AN");
+  digitalWrite(LED_BUILTIN, HIGH);
+  delay(500);
+
+  // LED aus
+  Serial.println("LED AUS");
+  digitalWrite(LED_BUILTIN, LOW);
+  delay(500);
+}
+
+```
+
+Jetzt, da wir wissen, dass unser Gerät funktioniert, können wir mit der weiteren Entwicklung beginnen. Zuerst sollten wir jeden einzelnen Sensor separat ansprechen, um auch hier zu testen, ob die Sensoren funktionieren. Ein Schritt nach dem anderen.
+
+#### BME280
+
+Zuvor müssen wir jedoch einige Bibliotheken hinzufügen damit wir den BME280 einfacher ansprechen können. Die verbreitetste Bibliothek ist die **Adafruit BME280 Library**. Man fügt sie dem Projekt hinzu indem man etweder man die folgende Zeile ```adafruit/Adafruit BME280 Library@^2.2.4``` unter dem Punkt **lib_deps** in der .ini-Datei hinzufügt, oder indem man PlatformIO verwendet, um die Library automatisch hinzuzufügen. 
+
+![BME-Library](img/Kampl/BME-Library.png){width=300px}
+
+Außerdem benötigt man noch die ```adafruit/Adafruit BME280 Library@^2.2.4```, welche als Schnittstelle für die Sensoren dient.
+
+Am Ende verwenden wir folgenden Code für unseren Sensor:
+
+```cpp{caption="BME_TestProgramm" .cpp}
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_BME280.h>
+
+#define SEALEVELPRESSURE_HPA (1013.25)
+
+Adafruit_BME280 bme; 
+
+unsigned long delayTime;
+
+void printValues();
+
+void setup() {
+    Serial.begin(115200);
+    Serial.println(F("BME280 test"));
+
+    
+    if (!bme.begin()) {
+        Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
+        Serial.print("SensorID was: 0x"); Serial.println(bme.sensorID(),16);
+        Serial.print("        ID of 0xFF probably means a bad address, a BMP 180 or BMP 085\n");
+        Serial.print("   ID of 0x56-0x58 represents a BMP 280,\n");
+        Serial.print("        ID of 0x60 represents a BME 280.\n");
+        Serial.print("        ID of 0x61 represents a BME 680.\n");
+        while (1) delay(10);
+    }
+    
+    Serial.println("-- Default Test --");
+    delayTime = 1000;
+
+    Serial.println();
+}
+
+
+void loop() { 
+    printValues();
+    delay(delayTime);
+}
+
+
+void printValues() {
+    Serial.print("Temperature = ");
+    Serial.print(bme.readTemperature());
+    Serial.println(" °C");
+
+    Serial.print("Pressure = ");
+
+    Serial.print(bme.readPressure() / 100.0F);
+    Serial.println(" hPa");
+
+    Serial.print("Approx. Altitude = ");
+    Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
+    Serial.println(" m");
+
+    Serial.print("Humidity = ");
+    Serial.print(bme.readHumidity());
+    Serial.println(" %");
+
+    Serial.println();
+}
+
+```
+[@BME280-Test]
+
+##### Erklärung
+
+#### MPU6050
+
+##### Erklärung
+
+#### GY-GPSMV2
+
+##### Erklärung
 
 ### Datenübertragung
 
 #### MQTT
 
 ### Sonstiges
-
 
 
 ## Praktische Arbeit
@@ -240,3 +353,4 @@ framework = mbed
 ### Durchführung der Tests (kontinuirlich)
 
 ### Erzeugen von Java Quellcode
+
