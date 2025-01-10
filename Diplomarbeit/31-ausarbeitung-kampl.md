@@ -306,7 +306,7 @@ void loop() {
 void printValues() {
     Serial.print("Temperature = ");
     Serial.print(bme.readTemperature());
-    Serial.println(" °C");
+    Serial.println(" grad Celsius");
 
     Serial.print("Pressure = ");
 
@@ -410,7 +410,7 @@ Wie der Name schon verrät wird der Loop immer wieder ausgeführt. In diesem Fal
 void printValues() {
     Serial.print("Temperature = ");
     Serial.print(bme.readTemperature());
-    Serial.println(" °C");
+    Serial.println(" grad Celsius");
 
     Serial.print("Pressure = ");
     Serial.print(bme.readPressure() / 100.0F);

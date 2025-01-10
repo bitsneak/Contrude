@@ -1,5 +1,0 @@
-# Aufgabenstellung
-
-## Auftraggeber
-
-## Ausgangssituation
