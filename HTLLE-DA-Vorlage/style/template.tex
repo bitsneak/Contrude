@@ -307,6 +307,15 @@ $if(tables)$
 \makesavenoteenv{longtable}
 $endif$
 
+% Gives the opportunity to create a hierarchical directory tree
+\usepackage{dirtree} 
+% Creates a space before the dirtree
+\let\originaldirtree\dirtree
+\renewcommand{\dirtree}[1]{
+  \vspace{1.5em}
+  \originaldirtree{#1}
+}
+
 %% Bilder sind oft an merkwürdigen Stellen. Hier regeln wir das indem
 %% wir LaTex mitteilen das wir die Bilder GENAU HIER gerne hätten
 % Overwrite \begin{figure}[htbp] with \begin{figure}[H]

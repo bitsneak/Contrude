@@ -262,7 +262,7 @@ Außerdem benötigt man noch die ```adafruit/Adafruit BME280 Library@^2.2.4```, 
 
 Am Ende verwenden wir folgenden Code für unseren Sensor:
 
-```cpp{caption="BME_TestProgramm" .cpp}
+```{caption="BME_TestProgramm" .cpp}
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
@@ -306,7 +306,7 @@ void loop() {
 void printValues() {
     Serial.print("Temperature = ");
     Serial.print(bme.readTemperature());
-    Serial.println(" grad Celsius");
+    Serial.println(" C");
 
     Serial.print("Pressure = ");
 
@@ -333,18 +333,19 @@ Dieses Programm liest die Daten welche der BME280 Sensor bekommt aus der I²C Sc
 
 ***Bibliotheken***
 
-```cpp
+```{caption="Dependencies BME" .cpp}
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
 ```
+
 [@BME280-Test]
 
 Dieser Teil zeigt die bereits vorhin Beschriebenen Bibliotheken mit einer zusätzlichen der **Wire-Library**. Dies ist eine Standardmäßige enthaltene Bibliothek und ermöglicht erst die I²C Kommunikation.
 
 ***Definitionen und Variablen***
 
-```cpp
+```{caption="Definition und Variablen BME" .cpp}
 #define SEALEVELPRESSURE_HPA (1013.25)
 
 Adafruit_BME280 bme; 
@@ -353,6 +354,7 @@ unsigned long delayTime;
 
 void printValues();
 ```
+
 [@BME280-Test]
 
 1. **SEALEVELPRESSURE_HPA**: Ist eine Konstante welche den Standardluftdruck auf Meereshöhe annimmt.
@@ -362,7 +364,7 @@ void printValues();
 
 ***Setup***
 
-```cpp
+```{caption="Setup BME" .cpp}
 void setup() {
     Serial.begin(115200);
     Serial.println(F("BME280 test"));
@@ -384,6 +386,7 @@ void setup() {
     Serial.println();
 }
 ```
+
 [@BME280-Test]
 
 Das Setup ist im Grunde der wichtigste Teil, da ohne es nichts weiter Funktionieren kann. Es selbst ist hier in drei Teile eingeteilt:
@@ -394,23 +397,24 @@ Das Setup ist im Grunde der wichtigste Teil, da ohne es nichts weiter Funktionie
 
 ***Loop***
 
-```cpp
+```{caption="Loop BME" .cpp}
 void loop() { 
     printValues();
     delay(delayTime);
 }
 ```
+
 [@BME280-Test]
 
 Wie der Name schon verrät wird der Loop immer wieder ausgeführt. In diesem Fall hat der Loop die Funktionen printValues() welche nach jedem Durchlauf aufgerufen wird und delay(), mit der vorher erwähnten delayTime, welche nach jedem Loop eine Pause von 1er Sekunde einlegt.
 
 ***Ausgabe***
 
-```cpp
+```{caption="Ausgabe BME" .cpp}
 void printValues() {
     Serial.print("Temperature = ");
     Serial.print(bme.readTemperature());
-    Serial.println(" grad Celsius");
+    Serial.println(" C");
 
     Serial.print("Pressure = ");
     Serial.print(bme.readPressure() / 100.0F);
@@ -427,6 +431,7 @@ void printValues() {
     Serial.println();
 }
 ```
+
 [@BME280-Test]
 
 Dieser Teil des Codes gibt die Messwerter auf dem Serial Monitor, in einer aufpolierten Version aus. Der Grund für die Ausgabe is meist Debugging.

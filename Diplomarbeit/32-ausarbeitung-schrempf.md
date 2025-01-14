@@ -305,11 +305,13 @@ MySQL verwendet zwar keine Schemas wie andere DBMS, trotzdem kann man mehrere Da
 
 Um die in diesem Projekt verwendeten Datenbanken zu erstellen wurden SQL init scripts geschrieben welche die MySQL Instanz mit den notwendigen Tabellen initialisieren, User anlegen und Dummy Daten einfügen. Hierbei ist der Aufbau immer der gleiche:
 
-- scripts/
-  - CreateDB.sql
-  - CreateUser.sql
-  - GrantPrivileges.sql
-  - InsertDummyData.sql
+\dirtree{%
+.1 scripts.
+.2 CreateDB.sql.
+.2 CreateUser.sql.
+.2 GrantPriveleges.sql.
+.2 InsertDummyData.sql.
+}
 
 In `CreateDB.sql` ist die gesamte Struktur mitsamt  **DATABASE** und **SCHEMA** Erstellung geregelt. Anzumerken ist hier, dass **CHECK** Constraints schon in vorherigen Versionen semantisch akzeptiert, jedoch erst ab Version 8.0.16 tatsächlich umgesetzt wurden. [@mysql-8.0.16] Aufgrund dessen, und des später erklärten Microservice-Ansatzes, wurde für das gesamte Projekt die Verison 8.0.29 verwendet. Da eine Datenbank ohne Daten nur halb so viel wert ist und bei jeder einzelnen DB-Erstellung die Daten neu einzugeben sehr mühsälig werden kann, gibt es die `InsertDummyData.sql` Datei, in der die Probedaten in die DB eingfügt werden.
 
