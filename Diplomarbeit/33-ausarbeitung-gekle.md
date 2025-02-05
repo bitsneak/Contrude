@@ -26,7 +26,7 @@ Zusätzlich muss man innerhalb der Graphentheorie zwischen Ungerichteten und Ger
 Bei einem gerichteten Graph ist daher die Richtung der Kante/ Beziehung zu beachten. Gilt z.B. A -> B -> C mit V={A, B, C} und E={{A,B}, {B,C}}, dann ist es nicht erlaubt, etwa von C zu B zu gehen, sondern nur von B nach C. Bei einem ungerichteten Graph gilt diese Regel nicht. Selbiges Beispiel nur ungerichtet: A - B - C; hier darf man sowohl von B nach C als auch umgekehrt von C nach B gehe.
 
 Abschließend muss man noch auf den Zusammenhang der einzelnen Knoten schauen. Ein ungerichteter Graph ist dann zusammenhängend, wenn alle Knoten erreichbar, also es zu jedem Knoten einen Weg gibt. Ist dies nicht der Fall, gibt es sogenannte isolierte Knoten und der Graph ist nicht zusammenhängend. Bei gerichteten Graphen unterscheidet man zusätzlich zwischen schwach und stark zusammenhängenden Graphen. [vgl. @Studyflix-Graphentheorie] 
-In dem Beispiel A -> B mit V={A, B} und E={A,B}, ist der Knoten A nur erreichbar, wenn man die Richtung außer Acht lässt, man spricht von einem schwach zusammenhängenden Graph. Für einen stark zusammenhängenden Graph müsste zusätzlich noch ein Knoten {B, A} bestehen.
+In dem Beispiel A -> B mit V={A, B} und E={A,B}, ist der Knoten A nur erreichbar, wenn man die Richtung außer Acht lässt, man spricht von einem schwach zusammenhängenden Graph. Für einen stark zusammenhängenden Graph müsste zusätzlich noch eine Kante {B, A} bestehen.
 
 Der Containersimulator hat als Endergebnis einen **ungerichteten** Graphen wie im folgenden Bild zu sehen ist:
 
@@ -37,7 +37,7 @@ Anhand des beispielhaften Graphs, lässt sich also folgendes herauslesen:
 - Es gibt insgesamt 4 Knoten: V = {con0, con1, con2, con3}
 - Es gibt insgesamt 4 Kanten: E = {{cont0, cont1}, {cont0, cont2}, {cont1, cont2}, {cont2, cont3}}
 
-Die Beziehungen der Knoten im ungerichteten Graphen zueinander werden mittels Adjazenzen und Inzidenzen beschrieben werden. Man spricht von inzident, wenn bei einem Knoten V und einer Kante E folgendes gilt: V ELEMENT E. In anderen Worten: Eine Kante E verbindet den Knoten V mit einem anderen Knoten im Graph. Zwei Knoten V und W sind miteinander adjazent bzw. benachbart, falls mit einer Kante E ELEMENT {V, W} eine direkte Verbindung zwischen den beiden Knoten existiert. Auch Kanten können inzident sein, wenn sie beide zu einem gemeinsamen (benachbarten) Knoten gehören. [vgl. @Uni-Bremen-Graphentheorie]
+Die Beziehungen der Knoten im ungerichteten Graphen zueinander werden mittels Adjazenzen und Inzidenzen beschrieben werden. Man spricht von inzident, wenn bei einem Knoten V und einer Kante E folgendes gilt: $V \in E$. In anderen Worten: Eine Kante E verbindet den Knoten V mit einem anderen Knoten im Graph. Zwei Knoten V und W sind miteinander adjazent bzw. benachbart, falls mit einer Kante $E \in {V, W}$ eine direkte Verbindung zwischen den beiden Knoten existiert. Auch Kanten können inzident sein, wenn sie beide zu einem gemeinsamen (benachbarten) Knoten gehören. [vgl. @Uni-Bremen-Graphentheorie]
 
 ##### Inzidenzmatrix
 
@@ -81,7 +81,7 @@ Wenn ein Knote V = Knote W ist, also bei einer Verbindung zu sich selbst wird 0 
 
 #### Visualisierung von Graphen
 
-##### DOT Sprache
+##### DOT
 
 Mithilfe der DOT Sprache, welche Teil von Graphviz ist, lassen sich sehr einfach gerichtete und ungerichtete Graphen darstellen. Dies erfolgt mit sogenannten "edgeloops", wobei "->" für gerichtete und "--" für ungerichtete Graphen steht. Diese können innerhalb eines Graphen benutzt werden, welcher durch `graph{}` für einen ungerichtete oder `diagraph{}` für einen gerichteten gekennzeichnet wird. Fügt man davor ein `strict` hinzu (also z.B. `strict graph{}`) so kann man bestimmen, dass zwischen zwei Knoten immer nur eine Verbindung besteht. [vgl. @GraphViz-Documentation] 
 Basierend auf der Adjazenzmatrix kann man etwa so einen einfachen Graph erstellen:
@@ -134,9 +134,9 @@ export default LoginField;
 
 `LoginField` kann rein theoretisch überall eingesetzt werden, da diese Komponente an und für sich nur eine spezielle Funktion übernimmt, jedoch kann man Komponenten aber auch so gestalten, dass sie sich je nach Einsatzgebiet sich unterschiedlich verhalten (z.B. anders aussehen, verschiedene andere Komponente übernehmen etc.).
 
-Im folgenden Code lässt sich dies auch gut erkennen. Der Code entspringt eine "Page", also einer Seite, welche der User sieht. Der Code wird aber nicht von oben bis unten durch in dieser einen Page (ebenfalls eine funktionelle Komponente) geschrieben, sondern in mehrere Komponenten aufgebrochen. Diese können dann ganz einfach in die Page eingefügt werden. (z.B. `Sidebar`, `Topbar`, `Detailspace` usw.). Betrachtet man die `Topbar` Komponente, so sieht man, dass ihr weitere Komponenten übergeben werden, welche sie dann nutzen kann. Wie eben erwähnt können die Parameter oder Komponenten welche übergeben werden von Anwendungsfall zu Anwendungsfall komplett unterschiedlich sein:
+Im folgenden Code lässt sich dies auch gut erkennen. Der Code entspringt einer "Page", also einer Seite, welche der User sieht. Der Code wird aber nicht von oben bis unten durch in dieser einen Page (ebenfalls eine funktionelle Komponente) geschrieben, sondern in mehrere Komponenten aufgebrochen. Diese können dann ganz einfach in die Page eingefügt werden. (z.B. `Sidebar`, `Topbar`, `Detailspace` usw.). Betrachtet man die `Topbar` Komponente, so sieht man, dass ihr weitere Komponenten übergeben werden, welche sie dann nutzen kann. Wie eben erwähnt können die Parameter oder Komponenten welche übergeben werden von Anwendungsfall zu Anwendungsfall komplett unterschiedlich sein:
 
-```{caption="Unterschiedliche Verwendung von Funktionelle Komponente" .js}
+```{caption="Unterschiedliche Verwendung von funktionelle Komponenten" .js}
 <div className="flex h-screen">
   <Sidebar selectedShip={selectedShip} />
   <div className="flex-grow flex flex-col">
@@ -265,7 +265,7 @@ Ohne Tailwind CSS:
 <div class="search-container"> CODE </div>
 ```
 
-```{caption="Traditionelles CSS für das obrige Div" .css}
+```{caption="Traditionelles CSS für das obige Div" .css}
 .search-container {
     width: 18rem; /* w-72 */
     padding-left: 0.75rem; /* pl-3 */
@@ -287,7 +287,7 @@ Mit Tailwind CSS:
 </div>
 ```
 
-Tailwind CSS scannt alle HTML-Dateien, JavaScript-Komponenten und andere Templates nach Klassenbezeichnern. Diese Bezeichner, die du in deinem Code verwendest (z. B. `w-72`, `bg-white`, `flex`), repräsentieren bestimmte Stileigenschaften. Nachdem Tailwind alle genutzten Klassen gefunden hat, generiert es die entsprechenden CSS-Regeln und schreibt sie in eine statische CSS-Datei. [vgl. @TailwindCSS-Docs-GettingStarted]
+Tailwind CSS scannt alle HTML-Dateien, JavaScript-Komponenten und andere Templates nach Klassenbezeichnern. Diese Bezeichner, die im Code verwendet werden (z. B. `w-72`, `bg-white`, `flex`), repräsentieren bestimmte Stileigenschaften. Nachdem Tailwind alle genutzten Klassen gefunden hat, generiert es die entsprechenden CSS-Regeln und schreibt sie in eine statische CSS-Datei. [vgl. @TailwindCSS-Docs-GettingStarted]
 
 Es ist auch möglich, Tailwind CSS mit bestimmten Ereignissen zu verknüpfen. So ist es z.B. möglich folgendes zu tun:
 
@@ -339,7 +339,7 @@ Damit eine REST API gültig ist, müssen 6 Kriterien erfüllt sein:
 
 ##### REST in REACT - Axios
 
-Es ist durchaus möglich, HTTP Abfragen innerhalb von React ohne externer Library zu benutzen. Allerdings hat eine benutzerfreundliche externe API wie Axios durchaus seine Vorteile. Axios verwendet Promises (JavaScript Objekte welche den zukünftigen Wert einer asynchronen Funktion repräsentiert), wodurch es einfacher ist mit "asnyc functions" zu arbeiten. Auch die Tatsache, dass Axios automatisch JSON Objekte in JavaScript Objekte überführt spricht für die Verwendung davon. Zusätzliche Vorteile von Axios sind:
+Es ist durchaus möglich, HTTP Abfragen innerhalb von React ohne externer Library zu benutzen. Allerdings hat eine benutzerfreundliche externe API wie Axios durchaus seine Vorteile. Axios verwendet Promises (JavaScript Objekte welche den zukünftigen Wert einer asynchronen Funktion repräsentiert), wodurch es einfacher ist mit "asnyc functions" zu arbeiten. Auch die Tatsache, dass Axios automatisch JSON Objekte in JavaScript Objekte überführt, sprich man ersparrt sich die `.json`-Anweisung, spricht für die Verwendung davon. Zusätzliche Vorteile von Axios sind:
 
 - eingebaute Funktionen zum Abbrechen von Abfragen
 - interzeptieren (vor Senden einer Abfrage/ nach Erhalten einer Antwort logische Operationen durchführen)
@@ -352,7 +352,7 @@ Weiters ist der Code mit Axios um etwas simpler zu lesen:
 Ohne:
 
 ```{caption="Beispiel REST Call mit fetch-api" .js}
-const response = await fetch('localhost:8000/login', { 
+const response = await fetch('https://api.contrude.eu/login', { 
   method: 'POST', 
   headers: { 'Content-Type': 'application/json', }, 
   body: JSON.stringify(loginData), });
@@ -361,7 +361,7 @@ const response = await fetch('localhost:8000/login', {
 Mit:
 
 ```{caption="Beispiel REST Call mit Axios" .js}
-const response = await axios.post('localhost:8000/login', loginData, { 
+const response = await axios.post('https://api.contrude.eu/login', loginData, { 
 headers: { 'Content-Type': 'application/json', }, });
 ```
 
@@ -384,7 +384,7 @@ Diese wird dann in allen Komponenten eingebunden, in welchen man REST-Abfrage du
 
 Ein Call würde dann noch vereinfachter aussehen:
 ```{caption="Beispiel REST Call mit Axios + Instanz" .js}
-const response = await axiosinstance.post('localhost:8000/login', loginData);
+const response = await axiosinstance.post('https://api.contrude.eu/login', loginData);
 ```
 
 Die Fehlerbehandlung ist durch Axios ebenfalls verbessert. So sieht fetch das Promise bei z.B. HTTP Fehlercodes wie 404 oder 500 trotzdem als erfüllt. Sprich: Der Status Code muss explizit überprüft werden. Ein Fehler wird also nur ausgelöst, wenn es sich um ein Netzwerkproblem handelt (z.B. Server nicht erreichbar). Axios sieht HTTP-Fehler aber automatisch als das, was sie sind, Fehler, und lehnt das Promise ab wodurch die Fehlerbehandlung vereinfacht wird. [vgl. @gpt-AxiosVT]
@@ -543,7 +543,7 @@ Möchte der User sich über die "primitivste" Weiße, alle Verbindungen zwischen
 cont0;cont1
 cont0;cont3
 cont1;cont2
-cont2:cont0
+cont2;cont0
 ```
 (Beispiel mit 4 Containern)
 
@@ -731,6 +731,7 @@ Ein umfangreicherer Graph, welcher aus einer Simulation mit 16 Containern entsta
 ![Umfangreicherer Dragable Graph in zwei Positionen](img/Gekle/DG-Extended.png)
 
 (link... Position 1; recht... Position 2 nach Drag-and-Drpü)
+
 ### Website
 
 #### Design der Seiten
@@ -1331,7 +1332,7 @@ Nun sind die Daten für den Container schon fast vollständig, einzig die Anzeig
 Um dies ebenfalls, wie im Bild, zu befüllen musste sichergestellt werden, dass alle Threshholds bereits geladen sind, damit sie gesammelt mit den Umweltdaten verglichen werden können. Diese Thresholds werden in Satzform (siehe *Komponenten der Topbar der DetailPage*) zuerst von dem `ThresholdViwer`-Dialog an die DetailPage und von dieser an `Detailspace` weitergegeben. Im Umkehrsinn heißt dies also, dass die Thresholds nur vorhanden sind, sofern sie von dem Dialog geladen werden. Um den gesamten Code, welcher die Thresholds in die Satzform bringt, nicht doppelt schreiben zu müssen, wurde die `useState`-Variable, welche das Öffnen des `Thresholdviewer` in der DetailPage regelt auf TRUE gesetzt. Dies bewirkt dass der Dialog bei Aufruf der DetailPage immer geöffnet wird, wodurch alle Thresholds (sofern diese vorhanden sind) auf jeden Fall geladen und an `Detailspace` weitergereicht werden. Doch warum werden die Thresholds nun in dieser "Satzform" benötigt?
 
 Der Grund ist, dass das `tableData` Array und die dazugehörigen Thresholds (in Satzform) an ein Skript übergeben wird:
-```{caption="checkConditions des ConditionChecker Skripts" .js}
+```{caption="checkConditions des ConditionChecker Skripts [vgl. @gpt-ConditionsCheckerScript]" .js}
 // Function to check the sentence and match conditions
 const checkConditions = (tableData, sentences) => {
   return tableData.map((data) => {
@@ -1382,7 +1383,6 @@ const checkConditions = (tableData, sentences) => {
 };
 export default checkConditions;
 ```
-[vgl. @gpt-ConditionsCheckerScript]
 
 > Das Script nimmt die Umweltdaten aus dem `tableData`-Array und prüft für jede Zeile, ob es einen passenden Satz aus der `sentences`-Liste gibt, basierend auf dem `environment`-Wert. Wenn ein passender Satz gefunden wird, wird die Bedingung aus dem Satz extrahiert (z. B. Vergleichsoperator und Grenzwert) und mit dem Wert aus `tableData` verglichen. Ist die Bedingung erfüllt, wird das Ergebnis (z. B. "Medium" oder "Low") in das `alert`-Feld der Zeile geschrieben. Wenn die Bedingung nicht erfüllt ist oder kein passender Satz gefunden wird, bleibt das `alert`-Feld leer. 
 [vgl. @gpt-ConditionsCheckerScript]
