@@ -8,7 +8,7 @@
 
 Um ein Projekt zu realisieren, bei dem Umweltdaten ausgelesen werden, benötigt man geeignete Komponenten, auf denen die Software zuverlässig läuft. Bei der Auswahl dieser Komponenten spielten mehrere Faktoren eine Rolle, darunter die Kosten, die Größe sowie die Anzahl der verfügbaren Funktionen.
 
-Unser finaler Prototyp sollte folgende Messungen ermöglichen:
+Unser finaler Prototyp sollte folgende physikalischen Messwerte erfassen können.
 
 - Temperatur
 - Luftfeuchtigkeit
@@ -78,10 +78,10 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 
 ### Eingebettete Systeme
 
-Um zu verstehen wie die Hardware nun funktioniert muss man ersteinmal wissen was ein Embedded System ist. Ein Eingebettetes System ist Teil eines viel größeren Systems wie z.B.: Handys, Autos, Waschmaschinen, usw..
+Ein Eingebettetes System ist Teil eines viel größeren Systems wie z.B.: Handys, Autos, Waschmaschinen, usw..
 
 Solche Systeme gibt es bereits seit den 1960. Damals baute der amerikanische Ingenieur Charles Stark Draper während des Apollo Raumprogrammes die erste integrierte Schaltung. Diese wurde dann auf dem Apollo Guidance Computer installiert um Flugdaten in Echtzeit sammeln zu können.
-Später wurden dann solche Mikroprozessoren in der 1600 Serie von Volkswagen verwendet um das Kraftstoffeinspritzsystem zu steuern.
+Später wurden Mikroprozessoren in der 1600 Serie von Volkswagen verwendet um das Kraftstoffeinspritzsystem zu steuern.
 In den 70ern konnte Intel den ersten Prozessor entwickeln, welcher der Öffentlichkeit zugänglich war: den Intel 4004. Ein 4-Bit-Mikroprozessor, wlecher in Taschenrechnern und anderen kleineren elektronischen Geräte verwendet wurde.
 
 Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Software und Hardware ist für einen speziell programmierte Aufgabe. Obwohl man ein ES mit einem Computer gleichstellen kann, haben sie des öfteren keine Graphische Oberfläche für Benutzer.
@@ -98,6 +98,15 @@ Die CPU (Central Processing Unit) ist die primäre Steuereinheit eines Systems. 
 ##### Bus
 
 Der Bus verbindet die CPU mit den anderen Komponenten. Es gibt daher verschiedene Arten von Bussen, wie z. B. den Datenbus, den Adressbus und den Steuerbus. Je nach Prozessor können unterschiedlich viele Bits gleichzeitig übertragen werden.
+
+	
+Des weiteren kann mann Busse noch in 2 Typen nach der Breite aufteilen:
+
+1. Parallel: Beim parallelen System gibt es mehrere Leitungen welche gleichzeitig Daten verschicken wodurch die Breite viel höher ist.
+2. Seriell: Serielle Systeme verschicken über eine Leitung Bitweise also nacheinander ihre Daten. Das bedeutet auch wenn ein Datenfluss stopt, stoppen alle. Aus diesem Grund ist ein serieller Bus meist langsamer und günstiger als ein paralleler.
+
+##### Schnittstellen
+
 - **SPI (Serial Peripheral Interface):** Synchrone serielle Schnittstelle, ideal für die Verbindung von Peripheriegeräten. Verwendet MOSI, MISO und SCK Leitungen.
 - **UART (Universal Asynchronous Receiver Transmitter):** Asynchrone serielle Verbindung, die ohne externen Taktgeber arbeitet.
 - **I²C (Inter-Integrated Circuit):** Zweidraht-Bus mit Master-Slave-Kommunikation.
@@ -105,6 +114,7 @@ Der Bus verbindet die CPU mit den anderen Komponenten. Es gibt daher verschieden
 ##### RAM
 
 Der Arbeitsspeicher wird RAM genannt, was für Random Access Memory steht. Der RAM speichert die auszuführenden Programmbefehle. Es gibt verschiedene Arten von RAM:
+
 - **SRAM (Static RAM):** Schneller, benötigt keinen Refresh, verbraucht jedoch mehr Energie.
 - **DRAM (Dynamic RAM):** Benötigt Refresh, ist langsamer und günstiger.
 
@@ -144,17 +154,21 @@ Die Firmware ist eine softwarebasierte Komponente, die fest in einem elektronisc
 - **A/D- und D/A-Wandler:** Ermöglichen die Umwandlung zwischen analogen und digitalen Signalen. Wichtig für Sensoranwendungen.
 - **PWM (Pulsweitenmodulation):** Steuerung von LEDs, Motoren oder anderen Aktoren durch variable Einschaltdauer eines Signals.
 
-### Der Prototypen
+### Der Prototyp
+	
+#### IDE
+
+Um ein Programm erfolgreich auf dem ESP32 ausführen zu können, benötigt man eine geeignete IDE (Integrated Development Environment).
 
 #### PlatformIO
 
-Um ein Programm erfolgreich auf dem ESP32 ausführen zu können, benötigt man eine geeignete IDE (Integrated Development Environment). Eine der bekanntesten und am weitesten verbreiteten Entwicklungsumgebungen für Mikrocontroller ist die Arduino IDE. Allerdings stießen wir bei unserem Projekt auf Anforderungen, die mehr Kontrolle über den Entwicklungs- und Upload-Prozess erforderten. Daher entschieden wir uns für eine professionellere und flexiblere Lösung: PlatformIO.
+Eine der bekanntesten und am weitesten verbreiteten Entwicklungsumgebungen für Mikrocontroller ist die Arduino IDE. Allerdings stießen wir bei unserem Projekt auf Anforderungen, die mehr Kontrolle über den Entwicklungs- und Upload-Prozess erforderten. Daher entschieden wir uns für eine professionellere und flexiblere Lösung: PlatformIO.
 
-![ArduinoIDE](img/Kampl/ArduinoIDE.png){width=500px}
+![ArduinoIDE](img/Kampl/ArduinoIDE.png){width=400px}
 
 ---
 
-![PlatformIO](img/Kampl/PlatformIO.png){width=700px}
+![PlatformIO](img/Kampl/PlatformIO.png){width=400px}
 
 
 PlatformIO ist eine Entwicklungsumgebung, die als Erweiterung für den Texteditor Visual Studio Code genutzt wird. Sie bietet eine bessere Projektstruktur, eine fortschrittlichere Konfigurationsverwaltung und umfangreiche Unterstützung für verschiedene Mikrocontroller. Zwei zentrale Elemente sorgen dabei für einen reibungslosen Ablauf: die Hauptdatei (Main-File) und die Plattform-Konfigurationsdatei (.ini-File). Besonders die .ini-Datei spielt eine entscheidende Rolle, da sie die Projektkonfiguration festlegt und sicherstellt, dass der Upload-Prozess auf den Mikrocontroller zuverlässig und ohne Komplikationen funktioniert.
@@ -188,9 +202,9 @@ PlatformIO ist eine Entwicklungsumgebung, die als Erweiterung für den Textedito
 
 ##### Aufsetzen
 
-Um PlatformIO benutzen zu können muss man ganz einfach die PlatformIO IDE in Visual Studio installieren. Nach der Installation und einem schnellen Neustart kann man ein erstes Projekt erstellen.
+Um PlatformIO benutzen zu können muss man die *PlatformIO IDE* in Visual Studio installieren. Nach der Installation und einem Neustart kann man ein erstes Projekt erstellen.
 
-Um nun ein erstes Projekt zu erstellen muss mann einfach nur auf den PlatformIO Home Knopf drücken. Danach drückt man auf "New Project" und wähl das passende Board aus. [@PlatformIO-firststeps]
+Um nun ein erstes Projekt zu erstellen muss mann einfach nur auf den PlatformIO Home Knopf drücken. Danach drückt man auf *New Project* und wähl das passende Board aus. [@PlatformIO-firststeps]
 
 ##### Tools
 
@@ -207,7 +221,7 @@ Um nun ein erstes Projekt zu erstellen muss mann einfach nur auf den PlatformIO 
 6. **Core (CLI)**: Ist eine Kommandozeilen-Toolbox, welche die vorher genannten Funktionen anbietet.
 7. **Project Environment Switcher**: Erlaubt es zwischen verschiedenen Umgebungen innerhalb eines Projektes zu wechseln, falls sie vorhanden sind. Diese Umgebungen werden in der platformio.ini Datei angelegt. Das könnte ungefähr so aussehen:
 
-```{caption="BeispielVonMehrerenUmgebungen" .ini}
+```{caption="Beispiel Von Mehreren Umgebungen" .ini}
 [env:esp32]
 platform = espressif32
 board = esp32dev
@@ -218,12 +232,12 @@ platform = ststm32
 board = nucleo_f401re
 framework = mbed
 ```
-
 [@PlatformIO-firststeps]
 
 ### Programmieren
 
 Da wir nun eine vollständig funktionsfähige Entwicklungsumgebung besitzen und auch wissen, wie man diese einsetzt, können wir mit der tatsächlichen Programmierung starten. Wir verbinden den ESP32 mit unserem Computer oder Laptop über ein USB-Kabel und schreiben unsere ersten Code-Snippets, um zu testen, ob der Mikrocontroller ordnungsgemäß funktioniert.
+
 
 ```cpp{caption="BME_TestProgramm" .cpp}
 // TestProgramm
@@ -247,8 +261,8 @@ void loop() {
   digitalWrite(LED_BUILTIN, LOW);
   delay(500);
 }
-
 ```
+
 
 Jetzt, da wir wissen, dass unser Gerät funktioniert, können wir mit der weiteren Entwicklung beginnen. Zuerst sollten wir jeden einzelnen Sensor separat ansprechen, um auch hier zu testen, ob die Sensoren funktionieren. Ein Schritt nach dem anderen.
 
@@ -389,10 +403,10 @@ void setup() {
 
 [@BME280-Test]
 
-Das Setup ist im Grunde der wichtigste Teil, da ohne es nichts weiter Funktionieren kann. Es selbst ist hier in drei Teile eingeteilt:
+Das Setup ist im Grunde der wichtigste Teil, da es alle wichtigen Variablen, Modi usw. intialisiert. Es selbst ist hier in drei Teile eingeteilt:
 
 1. **Serial.beginn(115200)**: Hier wird die auf 115200 gestellt damit der serielle Monitor und der Sensor kommunizieren können.
-2. **if(!bme.begin(0x76))**: Hier wird der Sensor mit der Adresse 0x76 initialisiert.
+2. **if(!bme.begin(0x76))**: Hier wird der Sensor mit der Adresse 0x76 , wie im Datenblatt beschrieben, initialisiert.
 3. **Fehlerbehandlung**: Falls der BME280 nicht gefunden wird oder nicht initialisiert werden kann kommt es zur Fehlerbehandlung und wenn nicht dann geht es weiter in den
 
 ***Loop***
@@ -406,7 +420,7 @@ void loop() {
 
 [@BME280-Test]
 
-Wie der Name schon verrät wird der Loop immer wieder ausgeführt. In diesem Fall hat der Loop die Funktionen printValues() welche nach jedem Durchlauf aufgerufen wird und delay(), mit der vorher erwähnten delayTime, welche nach jedem Loop eine Pause von 1er Sekunde einlegt.
+Wie der Name schon verrät wird der Loop immer wieder ausgeführt. In diesem Fall hat der Loop die Funktionen `printValues()` welche nach jedem Durchlauf aufgerufen wird und `delay()`, mit der vorher erwähnten `delayTime`, welche nach jedem Loop eine Pause von einer Sekunde einlegt.
 
 ***Ausgabe***
 
@@ -436,8 +450,6 @@ void printValues() {
 
 Dieser Teil des Codes gibt die Messwerter auf dem Serial Monitor, in einer aufpolierten Version aus. Der Grund für die Ausgabe is meist Debugging.
 
-//Todo falls es so passt
-
 #### MPU6050
 
 ##### Erklärung
@@ -446,22 +458,32 @@ Dieser Teil des Codes gibt die Messwerter auf dem Serial Monitor, in einer aufpo
 
 ##### Erklärung
 
-
-
 ### Datenübertragung
 
 #### MQTT
 
-### Sonstiges
+### Mesh
 
+### Sonstiges
 
 ## Praktische Arbeit
 
-### Zusammensetzen und Löten des Prototypen
+### Bau des Prototypen
 
-### Schreiben eines MQTT Programmes
+#### Grundaufbau
 
-### Durchführung der Tests (kontinuirlich)
+#### Endprodukt
 
-### Erzeugen von Java Quellcode
+### Programmierung des Prototypen
 
+#### Sensoren
+
+#### WLAN
+
+##### Mesh
+
+#### Datenübertragung
+
+#### MQTT
+
+#### Deployment
