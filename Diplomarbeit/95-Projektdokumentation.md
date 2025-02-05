@@ -83,7 +83,7 @@
 
 1. Server erkennt Grenzwertüberschreitung  
 2. System löst Alarm aus  
-3. Alarm wird an Benutzer gesendet  
+3. Alarm wird den Benutzer in einer Übersicht und in bei den Container Details angezeigt
 
 **Alternative:** Fehler bei der Alarmübertragung  
 **Ergebnis:** Alarmbenachrichtigung wird gesendet  
@@ -126,10 +126,10 @@
 1. GPS-Sensor sendet Daten  
 2. Position wird angezeigt  
 
-**Alternative:** GPS-Signal nicht verfügbar  --> Container verlust
+**Alternative:** GPS-Signal nicht verfügbar -> Containerverlust
 **Ergebnis:** Containerortung erfolgreich  
 
-#### Container-Verlust melden
+#### Containerverlust melden
 
 **Beschreibung:** Verlust eines Containers wird gemeldet und dokumentiert.  
 **Trigger:** Container wird als verloren markiert  
@@ -137,7 +137,7 @@
 **Ablauf:**
 
 1. Benutzer markiert Container als verloren  
-2. System dokumentiert Verlust  
+2. System dokumentiert Verlust
 
 **Alternative:** Fehlende Dokumentation  
 **Ergebnis:** Verlustmeldung erstellt  
@@ -155,7 +155,19 @@
 **Alternative:** Daten nicht verfügbar  
 **Ergebnis:** Umweltdaten werden von Grafana visualisiert
 
-### Projektfortschritt 01. Juni bis 05. August 2020
+### Projektfortschritt 02. Februar 2024 bis 19. September 2024
+
+**TODO**
+
+#### Gesamtstatus
+
+#### Notwendige Entscheidungen
+
+#### Nächste Schritte
+
+### Projektfortschritt 19. September 2024 bis 01. Februar 2025
+
+**TODO**
 
 #### Gesamtstatus
 

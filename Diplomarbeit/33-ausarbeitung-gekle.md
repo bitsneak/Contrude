@@ -240,9 +240,11 @@ Die zentralen Aufgaben eines Build Tools sind:
 [vgl. @CodeParrot-BuildTools]
 
 Eines dieser Build Tools ist Vite, welches sich besonders durch seine Geschwindigkeit auszeichnet (vite = französisch für schnell). Zu den Gründen warum Vite mittlerweile so beliebt ist zählen u.a.:
+
 - Geschwindigkeit --> benutzt ES, um Quellcode direkt im Browser bereitzustellen
 - out-of-the-box Support für React/TypeScript/...
 - optimierter Build durch die Verwendung von Rollup als Bundler 
+
 [vgl @CodeParrot-BuildTools]
 
 Selbst aber mit dem sogenannten HMR (Hot Module Replacement --> Änderungen im Code werden sofort im Browser angezeigt) tendieren Build Tools dazu, mit wachsendem JavaScript langsamer zu werden. Hierbei ist Vite jedoch besonders. Es nutzt eine Kombination aus ES Modulen und einem virtuellen Modulsystem: [vgl. @Telerik-BuildTools]
@@ -312,10 +314,12 @@ Die Webanwendung benötigt, damit sie ordentlich und sinnvoll funktioniert Daten
 ##### REST
 
 Die API, welche aufgrund ihrer Flexibilität, Schnelligkeit und Einfachheit berühmt wurde benutzt in der Regel das HTTP-Protokoll und überträgt die Daten mithilfe von JSON. Im Kontext einer Website wird mit dem Eingeben/Aufrufen einer URL, eine HTTP Anfrage gesendet. Die wichtigsten HTTP Befehle hierbei sind:
+
 - GET (Abrufen)
 - POST (Erstellen)
 - PUT (Aktualisieren)
 - DELETE (Löschen)
+
 [vgl. @Talend-REST]
 
 Die Anfrage geht dann beim Server ein und die REST API kümmert sich darum, dass eine Antwort gesucht und sofort zurückgeliefert wird. Die Antworten sind in der Regel im JSON (JavaScript Object Notation) Format. [vgl. @Talend-REST]
@@ -323,21 +327,25 @@ Die Anfrage geht dann beim Server ein und die REST API kümmert sich darum, dass
 ##### Kriterien für REST
 
 Damit eine REST API gültig ist, müssen 6 Kriterien erfüllt sein:
+
 1. Architektur --> Clients, Servern und Ressourcen bei welcher Anfragen über HTTP laufen
 2. "Statelessness" --> es werden keine Client-Informationen zwischen Anfragen gespeichert
 3. Cachefähige Daten --> optimiert Interaktion zwischen Client und Server
 4. einheitliche Schnittstelle zwischen Komponenten --> von überall kann auf Ressourcen gleich zugegriffen werden
 5. mehrschichtiges System --> organisiert einzelne Servertypen und macht Struktur für Client unsichtbar
 6. Code-On-Dmand --> auf Anforderungen ausführbaren Code von Server an Client senden (optional)
+
 [vgl. @RedHat-REST]
 
 ##### REST in REACT - Axios
 
 Es ist durchaus möglich, HTTP Abfragen innerhalb von React ohne externer Library zu benutzen. Allerdings hat eine benutzerfreundliche externe API wie Axios durchaus seine Vorteile. Axios verwendet Promises (JavaScript Objekte welche den zukünftigen Wert einer asynchronen Funktion repräsentiert), wodurch es einfacher ist mit "asnyc functions" zu arbeiten. Auch die Tatsache, dass Axios automatisch JSON Objekte in JavaScript Objekte überführt spricht für die Verwendung davon. Zusätzliche Vorteile von Axios sind:
+
 - eingebaute Funktionen zum Abbrechen von Abfragen
 - interzeptieren (vor Senden einer Abfrage/ nach Erhalten einer Antwort logische Operationen durchführen)
 - hat CSRF (Cross Site Request Forgery) Schutz
 - breite Community + Support
+
 [vgl. @GeeksForGeeks-Axios]
 
 Weiters ist der Code mit Axios um etwas simpler zu lesen:
@@ -391,6 +399,7 @@ Alle Abfragen werden innerhalb von asynchronen Funktionen durchgeführt. Dies ha
 
 ##### Container
 Diese Klasse ist eine etwas modifizierte POJO (Plain Old Java Object) Klasse mit folgenden Variablen:
+
 - String `name`
 - List\<Container> `adjacentContainers`(ArrayList)
 - dounle `signalMinimum`
@@ -427,12 +436,15 @@ Container{name='cont1', adjacentContainers=cont0, , signalMinimum=10.75399123701
 ```
 ##### Ship
 Dies ist die zweite Klasse, in welcher alle für den Simulator notwendigen Funktionen implementiert sind. Die Klasse selbst verwaltet drei Variablen:
+
 - Set\<Container> `containers` (HashSet)
 - ArrayList\<String> `contConList`
 - int[][] `adjMatrix`
+
 In dem HashSet werden alle in der Main Klasse generierten Container abgespeichert. In der `contConList` werden alle Verbindungen zeischen Containern im Format "A;B" abgespeichert, wobei A für Container (= Knoten im Graphen) und das Semicolon für die Verbindung (=Kante im Graphen) stehen. Das 2d-Array repräsentiert eine Adjazenzmatrix, welche u.a für das schreiben in JSON Files benötigt wird.
 
 Mit `void addContainer (Container con)` können Container in das Set hinzugefügt werden. Weitere Methoden sind diejenigen zum Schreiben in JSON Files oder jene, welche für das Konsolen-Programm benötigt werden (z.B. `printAdjMatrix` zum Schreiben der Adjazenz Matrix). Außerdem erledigt die die Aufgabe der Erstellung der Verbindungen zwischen den einzelnen Container-Objekten.
+
 ##### Main
 Der Container Simulator ist an und für sich ein Konsolen-Programm. Die Interaktion zwischen dem User und dem Simulator passiert also (fast) rein in der Konsole. Die `Main`-Klasse regelt diese. Sie erstellt die Container, basierend auf der vom User eingegebenen Menge und übergibt diese an die ebenfalls von ihr erstellten `Ship`-Klasse. Die User-Interaktion wird dann innerhalb einer `while`-Schleife fortgesetzt. Hier kann der User mehrere Buchstaben eingeben, welche für verschiedene Aktionen stehen:
 ```{caption="Auswahlmöglichkeiten des Simulators" .java}
@@ -505,6 +517,7 @@ Der User hat nun also die Wahl zwischen sechs verschiedenen Funktionalitäten de
 
 ##### View single Container
 Möchte man zu einem Container die Details einsehen, wie etwa welche Nachbar-Container dieser besitzt kann mit (a) dies gemacht werden. Der User wird gefragt, welchen Container er einsehen möchte, hierbei wird auch deutlich gemacht, dass die Eingabe des Users `cont#` sein sollte wobei der Hashtag für eine Zahl steht. Der Eingelesene Name wird dann mit der `checkIfContainerWithNameExists`-Methode des `ship` überprüft, gibt diese NULL zurück, so wird dem User mitgeteilt, dass für den eingegebenen Namen kein Container existiert, ansonsten wird wird über die `getSingleContainer` (ebenfalls von `ship`) das gesamte Container Objekt zurückgegeben und mithilfe der Veränderten `.toString` ausgegeben.
+
 ##### View Matrix
 Teil des `ship` ist ebenfalls eine Adjazenzmatrix, welche nach dem Erstellen der Container und deren Vernetzungen in der `void fillAdjMatrix()` von `ship` angelegt wird. Dies geschieht durch zwei `for-each`-Schleifen:
 - Die Erste geht alle Container der `containers`-Set durch (=`origin`)
@@ -535,6 +548,7 @@ cont2:cont0
 (Beispiel mit 4 Containern)
 
 Besonders aber in der Entwicklungsphase des Simulators war dies sehr nützlich um schnell zu sehen welcher Container von sich aus die meisten Verbindungen hatte. Dies war besonders später beim Erstellen der Dragable Graphs sehr nützlich, da dieser immer einen Container als Ausgangspunkt nimmt. Die Liste ist auch bis zu einem gewissen Grad sortiert, da beim Muster "A;B" A sich erste ändert, wenn alle Bs durch sind.
+
 #### Exportieren in JSON files
  Es gibt zwei mögliche JSON Files, welche erstellt werden können:
 - `graph.json`
@@ -722,6 +736,7 @@ Ein umfangreicherer Graph, welcher aus einer Simulation mit 16 Containern entsta
 #### Design der Seiten
 Bevor die Website überhaupt mithilfe von React umgesetzt werden konnte, musste ein Design entworfen werden, mit welchem sich alle Beteiligten der Diplomarbeit ein Bild machen konnten, wie die Webanwendung letztendlich aussehen sollte. Die Umsetzung erfolgte über das Vektorgraphikprogramm Adobe Illustrator. 
 Die Website wurde primär auf 3 Seiten aufgeteilt:
+
 - Login Page
 - Main Page
 - Detail Page
@@ -1032,6 +1047,7 @@ Der Kern der Suchleiste ist aber das Eingabefeld selbst. Dieses wurde unter der 
 [vgl. @Pluralsight-KeyboardEvents]
 
 Es wird geschaut, ob irgendeine zufällig Taste gedrückt wurde, ist das der Fall wird die `handleEventEnter`-Methode aufgerufen und ein Event-Objekt (`event`) übergeben. Dieses wird auf `event.key === Enter` überprüft, also ob die Taste Enter gedrückt wurde. Falls das so sein sollte, wird die `onSearchSubmit`-Methode aufgerufen, die die Eingabe des Users an das übergeordnete Element, also der MainPage übergibt, welche diese dann weiter diese dann weiter verarbeitet.
+
 ##### Detailspace (DetailPage)
 Den Kern der `Detailspace`-Komponente bildet ein `useState`-Array namens **TableData**. Dieses hat folgenden Aufbau:
 
