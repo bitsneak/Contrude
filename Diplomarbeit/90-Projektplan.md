@@ -1,6 +1,6 @@
 # Projekthandbuch
 
-\textauthor{Schueler XY}
+\textauthor{Marko Daniel Schrempf}
 
 ## Entwicklungsplan
 
@@ -18,7 +18,7 @@ Es kommt auch des öfteren vor, dass Container während des Überseetransports v
 
 ##### Hauptziele
 
-- Verminderung der Falschplatzierung von Containern wegen Kranverschiebung auf nahezu 5%
+- Verminderung der Falschplatzierung von Containern wegen Kranverschiebung auf 5%
 - Ermöglichung der Verfolgung von Container während des Überseetransports mittels GPS-Tracking
 - Lesen der Umweltdaten vor und während des Transportprozesses rund um den Container
   - Temperatur
@@ -26,20 +26,17 @@ Es kommt auch des öfteren vor, dass Container während des Überseetransports v
   - Erschütterung
   - Luftdruck
 - Entwicklung von Prototypen mit folgenden Funktionen
-  - Datenübertragung mittels MQTT
+  - Datenübertragung mittels ?
     - Auslesen der Daten
     - Ortung mittels GPS
-- Erstellung eines Algorithmus zur Bestimmung der Postion eines Containers auf dem Frachtschiff
+- Erstellung eines Algorithmus zur ungefähren Bestimmung der Postion eines Containers auf dem Frachtschiff
   - Dijkstra
-
-##### Zusatzziele
-
-- Erstellen einer Webanwendung mit Benutzeröberfläche zur Darstellung und Abfrage der ausgelesenen Daten
+- Erstellen einer Webanwendung mit Benutzeroberfläche zur Darstellung und Abfrage der ausgelesenen Daten
 
 #### Nicht-Ziele bzw. nicht Inhalte
 
-- Mobile Anwendung zu erstellen
-- Mehr als 3 Prototypen zu erstellen
+- Mobile Anwendung
+- Mehr als 3 Prototypen
 - Statische Server- und Kommunikationsarchitektur
 
 #### Projektnutzen
@@ -56,16 +53,42 @@ Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft u
 
 | Termin     | Inhalt                          |
 |-----------:|:--------------------------------|
-| 2023-11-23 | Abgabe DA-Vorschschläge         |
-| 2024-02-15 | Informationsveranstaltung       |
-| 2024-02-23 | Projektstart                    |
-| 2024-06-12 | Erstpräsentation der Themenstellung              |
+| 2023-11-23 | Abgabe der DA-Vorschläge |
+| 2024-02-15 | Informationsveranstaltung |
+| 2024-02-23 | Projektstart |
+| 2024-06-12 | Erstpräsentation der Themenstellung |
+| 2024-10-24 | Zweitpräsentation der Themenstellung |
+| 2025-01-10 | Erstabgabe der DA |
+| 2025-02-07 | Zweitabgabe der DA |
+| 2025-?-? | Drittpräsentation der Themenstellung |
+| 2025-03-07 | Endabgabe der DA |
+| 2025-04-22 | Endpräsentation der DA |
 
 : Projektterminübersicht
 
 #### Projektkosten
 
+| Meilenstein  | Kostenart | Menge  | Preis   | Gesamtkosten | Deckung durch |
+|:-------------|:---------:|:------:|--------:|-------------:|---------------|
+| Prototyp funktionell     | Hardware  |  3     |  27.06 € | 81.19 €      | Schüler        |
+| Finale Abgabe der DA             | Druck     |  3     |   26.00 € |  53.00 €      | Schüler        |
+| Finale Abgabe der DA              | Druck     |  1     |   26.00 € |  26 €      | Schulischen Betreuer           |
+
+: Geplante Projektkosten
+
+| Meilenstein  | Kostenart | Menge  | Preis   | Gesamtkosten | Deckung durch |
+|:-------------|:---------:|:------:|--------:|-------------:|---------------|
+| Prototyp funktionell     | Hardware  |  3     |  27.06 € | 81.19 €      | Schüler        |
+| Finale Abgabe der DA             | Druck     |  3     |   26.00 € |  53.00 €      | Schüler        |
+| Finale Abgabe der DA              | Druck     |  1     |   26.00 € |  26 €      | Schulischen Betreuer           |
+
+: Tatsächliche Projektkosten
+
+**Das Projekt kostet in Summe: 160.19 €**
+
 #### Projektrisiken
+
+**TODO**
 
 ### Projektorganisation
 
@@ -73,11 +96,11 @@ Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft u
 
 | Vorname     | Nachname | Organisation | Kontaktinfos                |
 |:------------|:---------|:-----------  |:----------------------------|
-| Luca Alexander       | Gekle    | HTL Leoben   | 201wita04@o365.htl-leoben.at |
-| Maximilian Silvester  | Kampl    | HTL Leoben   | 201wita27@o365.htl-leoben.at |
-| Marko Daniel       | Schrempf | HTL Leoben   | 201wita20@o365.htl-leoben.at |
-| Günther  | Hutter    | HTL Leoben   | hg@o365.htl-leoben.at |
-| Georg  | Judmaier    | HTL Leoben   | jg@o365.htl-leoben.at |
+| Luca Alexander       | Gekle    | HTL Leoben   | [201wita04@o365.htl-leoben.at](201wita04@o365.htl-leoben.at) |
+| Maximilian Silvester  | Kampl    | HTL Leoben   | [201wita27@o365.htl-leoben.at](201wita27@o365.htl-leoben.at) |
+| Marko Daniel       | Schrempf | HTL Leoben   | [201wita20@o365.htl-leoben.at](201wita20@o365.htl-leoben.at) |
+| Günther  | Hutter    | HTL Leoben   | [hg@o365.htl-leoben.at](hg@o365.htl-leoben.at) |
+| Georg  | Judmaier    | HTL Leoben   | [jg@o365.htl-leoben.at](jg@o365.htl-leoben.at) |
 
 : Projektbeteiligte
 
@@ -94,7 +117,7 @@ Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft u
 
 ![Projektorganisationsdiagramm](img/Gekle/PO-Diagram.png){width=50%}
 
-### Vorgehen bei Änderungen:
+### Vorgehen bei Änderungen
 
 - Wer wird informiert
   - Alle Projektbeteiligten
@@ -166,7 +189,9 @@ Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft u
 
 ### 2025-01-31: Webanwendung funktionell
 
-- Datenabfrage möglich
+Die Webapplikation ist dann funktionell, wenn folgendes gegeben ist:
+
+- Datenabfrage der Container Status
 - Einlogen / Ausloggen möglich
 - Ansprechende GUI
 
@@ -319,7 +344,7 @@ Der Benutzer kann die ermittelten Daten abrufen
 
 #### Trigger
 
-Benutzer lädt die Seite
+Benutzer lädt die Detail-Seite des Containers
 
 #### Vorbedingung
 
