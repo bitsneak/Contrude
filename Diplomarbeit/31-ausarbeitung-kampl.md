@@ -66,15 +66,15 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 
 | Anzahl | Ort        | Produkt             | Einzelpreis | Lieferkosten | Preis gesamt |
 |--------|-----------|----------------------|------------:|------------:|-------------:|
-| 3      | Ali-Express | GY-NEO6MV2         | 3,19 €      | 2,46 €      | 12,03 €      |
-| 3      | AZ         | BME280              | 3,47 €      | 5,98 €      | 16,39 €      |
-| 32     | Reichelt   | Lochrasterplatinen  | 13,21 €     | 6,65 €      | 19,86 €      |
-| 3      | AZ         | GY-521              | 2,50 €      | 5,30 €      | 12,79 €      |
-| 1      | Amazon     | ET-Starterkit       | 16,13 €     | 3,99 €      | 20,12 €      |
+| 3      | Ali-Express | GY-NEO6MV2         | 3.19 €      | 2.46 €      | 12.03 €      |
+| 3      | AZ         | BME280              | 3.47 €      | 5.98 €      | 16.39 €      |
+| 32     | Reichelt   | Lochrasterplatinen  | 13.21 €     | 6.65 €      | 19.86 €      |
+| 3      | AZ         | GY-521              | 2.50 €      | 5.30 €      | 12.79 €      |
+| 1      | Amazon     | ET-Starterkit       | 16.13 €     | 3.99 €      | 20.12 €      |
 
 | Preis Hardware insgesamt |
 |--------|
-|  81,19 € |
+|  81.19 € |
 
 ### Eingebettete Systeme
 
