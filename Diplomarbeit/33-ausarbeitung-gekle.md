@@ -818,6 +818,9 @@ Die Login Page verwaltet zwei `useState`-Variablen: `username` und `password`. F
 
 <LoginField placeholder="PW" isPassword={true} value={password} onChange={(e) => setPassword(e.target.value)} />
 ```
+
+![LoginFields (Gelb markiert)](img/Gekle/Loginfields.png)
+
 Innerhalb des Komponents wird ein HTML `input`-Tag benutzt. Input kann verschiedene Typen annehmen wie hier etwa "text" und "password". Dem `LoginField` werden auch alle weiteren wichtigen Daten für das Input übergeben wie etwa den Placeholder und den Wert (Value) den der User eingibt. Die Variable `isPassword` bestimmt ob "text" oder "password" als Passwort angenommen wird und in Folge dessen, ob der Text im `LoginField` als Plaintext oder ob der Text maskiert wird. [vgl. @GeeksForGeeks-HTMLInputTag]. Wird `onChange` innerhalb verändert, sprich der User gibt etwas neues ein oder editiert bereits eingegebenes, dann gibt das `LoginField` den neuen Wert an die Login Page zurück, wo sie dann mit `setPassword/ setUsername` des `useState` auch wieder verändert werden.
 
 ##### Workspace (MainPage)
@@ -891,6 +894,9 @@ SCON (rechts unten) = 2
 ------------------------
 Rückgabe = [[3, 2] [2, 2]]
 ```
+
+![Wie das 2x2 Grid laut obigen Angaben auf der Website aussieht](img/Gekle/GridExample.PNG)
+
 Dies erfolgt so, dass zuerst errechnet wird, wie viele Reale Container jedem Sammel-Container anfänglich zugewiesen werden sollen, indem die Anzahl der realen Container durch die Grid-Anzahl (z.B. 2x2 Grid = 4) dividiert und abgerundet wird. Danach werden die verbleibenden realen Container auf die Sammel-Container verteilt und mithilfe einer doppelten For-Schleife das Array erstellt:
 
 ```{caption="Code des ContainerDistributor Skripts" .js}
@@ -956,6 +962,8 @@ const handleSelect = (value) => {
   navigate(`/detail/${value}`);
 };
 ```
+
+![ContainerChooser Dialog mit 9 Containern](img/Gekle/ContainerChooserExample.png)
 
 Wichtig: auch wenn ein Sammel-Container (das `div`) nur einen oder gar keinen realen Container repräsentiert wird trotzdem der Dialog geöffnet. Sollte keiner vorhanden sein, so ist nur der Close-Button zu sehen.
 
@@ -1137,19 +1145,21 @@ if (updateResponse.status === 204) {
 ```
 [vgl. @FreeCodeCamp-setTimeOut]
 
+![Notizen mit erfolgreicher Update-Benachrichtigung](img/Gekle/UpdatedNotes.png)
+
 ##### Komponenten der Topbar der DetailPage
 Die Topbar innerhalb der Detailpage ist nicht dieselbe, wie in der MainPage. Die Unterschiede sind folgende:
 
 |                                                 | MainPage                                    | DetailPage      |
 | -------------------------------- | ----------------------------------- | --------------- |
-| Linksbündige Komponenten   | `Searchbar` & `Shipselect` | `Searchbar`     |
+| Linksbündige Komponenten   | `Searchbar` & `Shipselect` | -     |
 | Rechtsbündige Komponenten | `GridDropDown`                  | `DetailControl` |
 
 **Detailcontrol** besteht aus folgenden 2 wichtigen Buttons:
 1. Button um festgelegte Threshholds des Containers sich ausgeben zu lassen
 2. Button um zur MainPage zurück zu gelangen
 
-==!!! Bild der Topbar der Detailpage !!==
+![Topbar der DetalPage](img/Gekle/SearchbarDetail.png)
 
 Die Retour Funktion nutzt wieder `useNavigate` von `react-router-dom`, indem durch das Klicken auf das `div`, welches hinter dem Retour-Icon liegt `navigate('/main')` ausgeführt wird. Dadurch gelangt der User zurück auf die MainPage.
 
