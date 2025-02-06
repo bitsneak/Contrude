@@ -6,11 +6,11 @@
 
 ### Java Container Simulator
 
-#### Warum wird er benötigt
-
 Ein zentraler Aspekt der Diplomarbeit ist das ungefähre Identifizieren der Position eines bestimmten Containers auf einem Containerschiff.
 
 Die Kapazität eines Schiffes wird in der Regel mit TEUs (Twenty Foot Equivalent Units) angegeben. Jeder Container ist also 20 Fuß (6,1 m) oder ca. 6 Meter lang. Containerschiffe können von weniger als tausend TEUs bis hin zu 24000 TEUs haben. [vgl. @Pfeiffer-Containerschiffe] + [vgl. @IngenieurDE-Containershiffe]
+
+![Entwicklung von Container Schiffen [@IncoDocs-TEU]](img/Gekle/Evolution-Container-Schiffe.jpg){width=75%}
 
 Im Rahmen der Diplomarbeit werden aber nur 3 Prototypen angefertigt, welche einerseits die benötigten Umweltdaten liefern, andererseits aber auch miteinander kommunizieren. Die Komplexität eines "Containergeflechts" bestehend aus nur 3 Containern hält sich daher in Grenzen und um den vollen Umfang unserer Diplomarbeit zu veranschaulichen ist ein anderer Weg vonnöten. Dies ist, wo der Simulator ins Spiel kommt: Er übernimmt die Aufgabe, ein System an Containern ohne hunderten oder gar tausenden Prototypen darzustellen.
 
@@ -83,7 +83,7 @@ Wenn ein Knote V = Knote W ist, also bei einer Verbindung zu sich selbst wird 0 
 
 ##### DOT
 
-Mithilfe der DOT Sprache, welche Teil von Graphviz ist, lassen sich sehr einfach gerichtete und ungerichtete Graphen darstellen. Dies erfolgt mit sogenannten "edgeloops", wobei "->" für gerichtete und "--" für ungerichtete Graphen steht. Diese können innerhalb eines Graphen benutzt werden, welcher durch `graph{}` für einen ungerichtete oder `diagraph{}` für einen gerichteten gekennzeichnet wird. Fügt man davor ein `strict` hinzu (also z.B. `strict graph{}`) so kann man bestimmen, dass zwischen zwei Knoten immer nur eine Verbindung besteht. [vgl. @GraphViz-Documentation] 
+Mithilfe der DOT Sprache, welche Teil von Graphviz [vgl. @Graphviz-Homepage] ist, lassen sich sehr einfach gerichtete und ungerichtete Graphen darstellen. Dies erfolgt mit sogenannten "edgeloops", wobei "->" für gerichtete und "--" für ungerichtete Graphen steht. Diese können innerhalb eines Graphen benutzt werden, welcher durch `graph{}` für einen ungerichtete oder `diagraph{}` für einen gerichteten gekennzeichnet wird. Fügt man davor ein `strict` hinzu (also z.B. `strict graph{}`) so kann man bestimmen, dass zwischen zwei Knoten immer nur eine Verbindung besteht. [vgl. @GraphViz-Documentation] 
 Basierend auf der Adjazenzmatrix kann man etwa so einen einfachen Graph erstellen:
 
 ```{caption="Beispiel DOT Code"}
@@ -109,7 +109,7 @@ Dieser Code würde folgendem entsprechen:
 
 ##### Dragable Graph
 
-Der große Vorteil des Dragable Graphs besteht darin, dass er interaktiv ist. Ein User kann also mit dem Mauszeiger die einzelnen Knoten hin und her bewegen, wobei auch die Kanten sich mit bewegen. Dies hilft besonders bei der Benutzerfreundlichkeit, da sich der User den Graphen so richten kann, wie es ihm gefällt, wodurch sie sich sehr gut für Datenvisualisierung eignen. Eine JavaScript Bibliothek um so einem Graph zu ermöglichen ist z.B. D3.js., welcher auch in der Diplomarbeit verwendet wurde. [vgl. @gpt-DragableGraph]
+Der große Vorteil des Dragable Graphs besteht darin, dass er interaktiv ist. Ein User kann also mit dem Mauszeiger die einzelnen Knoten hin und her bewegen, wobei auch die Kanten sich mit bewegen. Dies hilft besonders bei der Benutzerfreundlichkeit, da sich der User den Graphen so richten kann, wie es ihm gefällt, wodurch sie sich sehr gut für Datenvisualisierung eignen. Eine JavaScript Bibliothek um so einem Graph zu ermöglichen ist z.B. D3.js. [vgl. @D3js-Homepage], welcher auch in der Diplomarbeit verwendet wurde. [vgl. @gpt-DragableGraph]
 
 ### Website
 
@@ -177,8 +177,10 @@ Anders als im ersten Code, wo eine `Searchbar`-, `ShipSelect`- und `GridDropDown
 ##### Use-State & Hooks
 
 Mit der Verwendung von funktionellen Komponenten geht jedoch folgendes verloren:
+
 - ein dedizierter Zustand (State), welcher durch die Render-Aufrufe bestehen bleibt
 - die Verwendung von Lifecycle-Funktionen, welche das Verhalten des Komponents je nach Phase des Lifecycle steuern 
+
 [vgl. @GeeksForGeeks-useState]
 
 Der `useState`-Hook erlaubt es nun aber, dass State zu den funktionellen Komponenten hinzugefügt wird. [vgl. @GeeksForGeeks-useState]
@@ -195,13 +197,16 @@ const [username, setUsername] = useState('User');
 Mit "Hooks" kann man sich also in die jeweilige Variable "einklinken".
 
 Es gibt in React neben der useState auch noch andere Hooks. React selbst unterteilt diese in ihrer Dokumentation wiefolgt:
+
 - Basic Hooks
 - Additional Hooks
 - Library Hooks
 
 Die 3 "Basic Hooks" sind hierbei allerdings die wichtigsten. Neben dem bereits erwähnten `useState()` gibt es auch noch:
+
 - `useEffect()` --> für Ausführung von Side-Effects wie das Laden von Daten via API, Event-Handler oder die Konsolen Ausgabe
 - `useContext()` --> ermöglicht es Daten aus einem Context-Provider zu konsumieren
+
 [vgl. @DoubleSlash-ReactHooks]
 
 ##### React Router
@@ -233,10 +238,12 @@ const router = createBrowserRouter(
 Bei der Verwendung von React ist es empfehlenswert ein sogenanntes Build Tool zu verwenden. Dieses übernimmt die Aufgabe des "Building", worunter man den Prozess versteht, in welchem der eigene Source Code so transformiert und gebündelt wird, dass er von Browsern interpretiert werden kann. [vgl. @CodeParrot-BuildTools]
 
 Die zentralen Aufgaben eines Build Tools sind:
+
 - konvertieren des JavaScript/ TypeScript Codes in eine für Browser kompatible Version
 - bündeln von Komponenten und Files um die Anzahl an HTTP Requests für das Laden der App zu verringern
 - unnütze Zeichen (z.B. Whitespaces) löschen um Ladezeiten zu verbessern
 - allgemein die Performance des Codes verbessern (z.B. mit "Tree Shaking", welches unbenutzten Code eliminiert)
+
 [vgl. @CodeParrot-BuildTools]
 
 Eines dieser Build Tools ist Vite, welches sich besonders durch seine Geschwindigkeit auszeichnet (vite = französisch für schnell). Zu den Gründen warum Vite mittlerweile so beliebt ist zählen u.a.:
@@ -246,6 +253,8 @@ Eines dieser Build Tools ist Vite, welches sich besonders durch seine Geschwindi
 - optimierter Build durch die Verwendung von Rollup als Bundler 
 
 [vgl @CodeParrot-BuildTools]
+
+![Funktionen von Vite @eluminoustechnologies-vite](img/Gekle/Vite-Features.png){width=100%}
 
 Selbst aber mit dem sogenannten HMR (Hot Module Replacement --> Änderungen im Code werden sofort im Browser angezeigt) tendieren Build Tools dazu, mit wachsendem JavaScript langsamer zu werden. Hierbei ist Vite jedoch besonders. Es nutzt eine Kombination aus ES Modulen und einem virtuellen Modulsystem: [vgl. @Telerik-BuildTools]
 
@@ -295,7 +304,9 @@ Es ist auch möglich, Tailwind CSS mit bestimmten Ereignissen zu verknüpfen. So
 <button className='bg-red-400 hover:bg-red-600'>BUTTON</button>
 ```
 
-Dies sagt aus, dass im Zustand "hover", also wenn der User mit dem Mauszeiger über den Knopf hovert, der Farbton von `red-400` auf den dunkleren Rotton `red-600` geändert werden soll.
+Dies sagt aus, dass im Zustand "hover", also wenn der User mit dem Mauszeiger über den Knopf hovert, der Farbton von `red-400` auf den dunkleren Rotton `red-600` geändert werden soll. Bezüglich den Farben bietet TailwindCSS allgemein eine sehr große Palette an vordefinierten Farben, welche mit Texten, Border-Liniern oder auch dem eben erwähnten `hover` kombiniert werden können. Dies lässt sich auch im Bild sehr gut erkennen:
+
+![Vordefinierte Farben von TailwindCSS](img/Gekle/TailwindCSS-Colors-Example.PNG)
 
 Tailwind nennt dies Pseudo Klassen. Die 3 wichtigsten sind folgende:
 - Hover --> aktiviert, wenn der User über das Element hovert
