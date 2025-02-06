@@ -19,7 +19,7 @@ Der entscheidende Vorteil von RDBs ist, dass sie eine gemeinsame standardisierte
 
 #### Zeitreihen Datenbanken
 
-In einem zeitreihen basierten Datenbanksystem werden Daten mit einem korrespondierenden Zeitstempel versehen. In anderen Datenbanken ist das Speichern einer Zeitmarke per Wert zwar auch möglich, jedoch weist eine Time Series Database (TSDB) jedem einzelnen Wert automatisch einen eindeutigen Timestamp zu und vermerkt den daraus resultierenden Datensatz in einer Historie. In dieser ist der gesamte zeitliche Verlauf des Attributs festgehalten.
+In einem zeitreihen basierten Datenbanksystem werden Daten mit einem korrespondierenden Zeitstempel versehen. In anderen Datenbanken ist das Speichern einer Zeitmarke per Wert zwar auch möglich, jedoch weist eine TSDB^[Time Series Database] jedem einzelnen Wert automatisch einen eindeutigen Timestamp zu und vermerkt den daraus resultierenden Datensatz in einer Historie. In dieser ist der gesamte zeitliche Verlauf des Attributs festgehalten.
 
 Zeitreihen DBs sind optimiert auf viele schreib und lese Operationen und sind nicht auf das verändern bzw. löschen der Datensätze ausgelegt. Je nach Datenbankmanagementsystem (DBMS) können verschiedene Erfassungszeiträume und somit auch die Granularitiät des Timestamps definiert werden. Dies kann von Millisekunden bis hin zu Tagen gehen. Außerdem gibt es keine einheitliche Query-Sprache. In TSDBs werden Metriken, Sensordaten und generell Werte mit hoher Änderungsrate persistiert. [@Computerweekly]
 
@@ -306,7 +306,7 @@ MySQL ist ein Open-Source RDBMS, welches von Oracle verwaltet wird. Diese DB wir
 
 MySQL verwendet zwar keine Schemas wie andere DBMS, trotzdem kann man mehrere Datenbanken innerhalb einer MySQL Instanz erstellen und somit dieses Verhalten simulieren. Irreführend ist hierbei, dass man trotzdem eine **DATABASE** und **SCHEMA** erstellen kann, obwohl sie gleich behandelt werden. [@mysql-glosar] Um möglichst lange Support-Updates mittels LTS Versionen zu erhalten, wurde hier die MySQL 8 Version verwendet, obwohl sie offiziell noch nicht fertig ausprogrammiert ist. [@mysql-lts]
 
-Um die in diesem Projekt verwendeten Datenbanken zu erstellen wurden SQL init scripts geschrieben welche die MySQL Instanz mit den notwendigen Tabellen initialisieren, User anlegen und Dummy Daten einfügen. Hierbei ist der Aufbau immer der gleiche:
+Um die in diesem Projekt verwendeten Datenbanken zu erstellen, wurden SQL-init-scripts geschrieben, welche die MySQL Instanz mit den notwendigen Tabellen initialisieren, User anlegen und Dummy Daten einfügen. Hierbei ist der Aufbau immer der gleiche:
 
 \dirtree{%
 .1 scripts.
@@ -365,13 +365,71 @@ GRANT ALL PRIVILEGES ON database.* TO 'developer';
 FLUSH PRIVILEGES;
 ```
 
+Es gibt verschiedene Sprachen auf der Welt. Jeder Sprache beinhaltet verschiedene Zeichen, die nicht immer mit jeden Character-Set kompatibel sind. Um auch diese Daten ordnungsgemäß zu persistieren, kann man die Character-Sets einer jeden Datenbank und sogar jeder Tabelle anpassen. Außerdem gibt es die Möglichkeit, dass man die Art und Weise, wie das System Daten miteinander vergleicht, beeinflusst. Dies wird Collation genannt. Hierbei beeinflusst man z.B. das Verhalten einer WHERE Klausel, in dem man sagt, er soll den zu vergleichenden Text case sensitive vergleichen. [@DB-character-set] Da Schiffe, die darauf gelagerten Container und deren Firmen aus verschiedenen Ländern kommen, wurde hier entschieden, das utf8mb4 (eine Erweiterung von UTF-8) Character Set und die dazugehörige Collation utf8mb4_0900_bin (0900 = Unicode Collation Algorithmus, bin =  Bitweises vergleichen) zu verwenden. [@mysql-character-set] Dies sieht dann wie folgt aus:
+
+```{caption="Erstellen einer MySQL Datenbank mit abgeänderten Character Set und Collation" .sql}
+CREATE DATABASE IF NOT EXISTS database DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+CREATE SCHEMA IF NOT EXISTS schema DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+```
+
 ##### Schiff
+
+Jeder Container wird auf einem Schiff transportiert. Da ein Container im laufe seines Transports auf verschiedenen Schiffen sein kann und dementsprechend auch bewegt wird und auf verschiedenen Stellplätzen landet, ist es wichtig, nachzuvervolfgen, auf welchen Schiffen der Container war. In der hier gestalteten Datenbank wurden Schema für allgemeine Schiffdaten (`ship`), Zertifikate die das Schiff haben muss (`certificate`) und für die Herkunft des Transportmittels (`corporation`), angefertigt.
+
+```{caption="Schiff-Datenbankaufbau" .sql}
+CREATE DATABASE IF NOT EXISTS ship DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+CREATE SCHEMA IF NOT EXISTS certificate DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+CREATE SCHEMA IF NOT EXISTS corporation DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+```
+
+**TODO**
+
+- Was für Zertifikate hat ein Schiff vs. welche wurden hier implementiert (warum nicht alle die es gibt hier vertreten?)
+  - Quellen sind gefunden, nur noch nicht eingefügt
+- ERD
 
 ##### Container
 
+Jeder Container besitzt verschieden Parameter, welche ihn ausmachen. Nicht nur seine Größe ist ausschalggebend, sondern auch seine Materialbeschaffenheiten, Tragfähigkeiten und Zulassungen. In der hier gestalteten Datenbank wurden Schema für allgemeine Containerdaten (`container`), Größenklassifikationen des Containers (`dimension`), Zertifikate die der Container haben muss (`certificate`) und für die Herkunft des Containers (`corporation`), angefertigt.
+
+```{caption="Container-Datenbankaufbau" .sql}
+CREATE DATABASE IF NOT EXISTS container DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+CREATE SCHEMA IF NOT EXISTS certificate DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+CREATE SCHEMA IF NOT EXISTS corporation DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+CREATE SCHEMA IF NOT EXISTS dimension DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+```
+
+**TODO**
+
+- Was für Zertifikate hat ein Container und warum wurden sie hier implementiert
+  - Quellen sind gefunden, nur noch nicht eingefügt
+- ERD
+
 ##### Grenznwerte
 
+In dieser Ausarbeitung geht es um die Überwachung eines Containers. Diese Datenbank dient dem Zweck, um nicht nur dessen Messwerte auszulesen, sondern auch um zu definieren, wann ein kritischer Wert erreicht worden ist. In der hier gestalteten DB wurde ein Schema für die Grenzwerte (`threshold`) angefertigt. Ein Grenzwert wird mit seinem Bereich in dem er gültig ist, seinem Erwartungswert, in welchen Bereich um den Erwartungswert der gelieferte Wert sein soll und die Priorität des angegebenen Limits definiert.
+
+```{caption="Grenzwert-Datenbankaufbau" .sql}
+CREATE DATABASE IF NOT EXISTS threshold DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+```
+
+**TODO**
+
+- ERD
+
 ##### User
+
+Um ein praktikable UI bieten zu können, muss diese eine Login-Funktion beinhalten. Userdetails müssen persistiert werden und die Datenbank dazu hat Schema für allgemeine Userdaten und dessen Tokens (`user`), Organisationsdaten des Benutzers (`corporation`) und die Rechte die der Anwender in der Applikation hat (`privilege`).
+
+```{caption="Benutzer-Datenbankaufbau" .sql}
+CREATE DATABASE IF NOT EXISTS user DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+CREATE SCHEMA IF NOT EXISTS corporation DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+CREATE SCHEMA IF NOT EXISTS privilege DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
+```
+
+**TODO**
+
+- ERD
 
 #### InfluxDB
 
