@@ -1,6 +1,6 @@
 # Projekthandbuch
 
-\textauthor{Marko Daniel Schrempf}
+\textauthor{Gekle, Kampl, Schrempf}
 
 ## Entwicklungsplan
 

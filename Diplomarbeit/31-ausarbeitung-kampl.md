@@ -239,7 +239,7 @@ framework = mbed
 Da wir nun eine vollständig funktionsfähige Entwicklungsumgebung besitzen und auch wissen, wie man diese einsetzt, können wir mit der tatsächlichen Programmierung starten. Wir verbinden den ESP32 mit unserem Computer oder Laptop über ein USB-Kabel und schreiben unsere ersten Code-Snippets, um zu testen, ob der Mikrocontroller ordnungsgemäß funktioniert.
 
 
-```cpp{caption="BME_TestProgramm" .cpp}
+```{caption="BME Testprogramm" .cpp}
 // TestProgramm
 void setup() {
   // Seriellen Monitor mit Baudrate 115200 starten
@@ -276,7 +276,7 @@ Außerdem benötigt man noch die ```adafruit/Adafruit BME280 Library@^2.2.4```, 
 
 Am Ende verwenden wir folgenden Code für unseren Sensor:
 
-```{caption="BME_TestProgramm" .cpp}
+```{caption="BME Testprogramm" .cpp}
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_BME280.h>
