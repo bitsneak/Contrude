@@ -88,7 +88,6 @@ Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft u
 
 #### Projektrisiken
 
-
 | Risiko         | EW  | Auswirkungen     | Maßnahmen     |
 |:--------------:|:---:| :----------------|:--------------|
 | Überziehen der Kosten | 15% | Erhöhte Kosten für Schüler | Budgetierung & Ausleihung |
@@ -97,7 +96,7 @@ Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft u
 | ISP Probleme bei DDNS | 10% | Server kann nicht ins Internet freigeschaltet werden | Austellen des Servers bei DA-Betreuer |
 | Selbstgenerierte SSL-Zertifikate werden nicht anerkannt | 100% | Umständliche Implementierung | Zertifikate kaufen |
 
-: Projektrisiken 
+: Projektrisiken
 
 ### Projektorganisation
 
