@@ -192,7 +192,7 @@ Die möglichen Anfragearten des Clients nennt man HTTP-Methodes und diese sind: 
 
 #### Design
 
-Es gibt zwar verschiedene Ansätze so eine API umzusetzen, jedoch gibt es Richtlinien und Best-Practices. Die Antwort des Servers and den Client sollte in JSON verfasst sein. Um die Skalierbarkeit der Anwendungen zu garantieren, ist eine Server nicht dazu verpflichtet, den Status einer Ressource sich zu merken. Diese Aufgabe obligt rein dem Client.
+Es gibt zwar verschiedene Ansätze so eine API umzusetzen, jedoch gibt es Richtlinien und Best-Practices. Die Antwort des Servers and den Client sollte in JSON^[JavaScript Object Notation] verfasst sein. Um die Skalierbarkeit der Anwendungen zu garantieren, ist eine Server nicht dazu verpflichtet, den Status einer Ressource sich zu merken. Diese Aufgabe obligt rein dem Client.
 [vgl. @REST-API-Design-Rulebook, S. 3 f.]
 
 Eine URI soll klar verständlich und strukturell aufklärend designed sein. Wenn man die URI begutachtet, soll genau ersichtlich sein, welche Ressource man bei Aufruf erhält. Der Aufbau ist in der RFC 3986 beschrieben unter dem Format:
@@ -431,6 +431,12 @@ CREATE SCHEMA IF NOT EXISTS privilege DEFAULT CHARACTER SET utf8mb4 COLLATE utf8
 - ERD
 
 #### InfluxDB
+
+Das von uns entworfene Gerät sendet seine Messwerte an einen MQTT^[Message Queuing Telemetry Transport] Broker. Dieser basiert auf der Publisher-Subscriber Architektur. Der Publisher sendet seine Daten and den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein # als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic kann nun ein oder mehrere Werte im JSON-Format abgelegt werden.[@mqtt-hivemq]
+
+![Beispiel MQTT Topic Structure [@mqtt-hivemq]](img/Schrempf/MQTT_Topic_Structure.png){width=50%}
+
+In unserem Fall ist der Publisher der Hardware-Prototyp und der Subsciber ist Telegraf.
 
 #### Grafana
 
