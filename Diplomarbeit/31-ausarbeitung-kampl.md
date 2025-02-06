@@ -4,78 +4,6 @@
 
 ## Theorie
 
-### Benötigte Hardwarekomponenten
-
-Um ein Projekt zu realisieren, bei dem Umweltdaten ausgelesen werden, benötigt man geeignete Komponenten, auf denen die Software zuverlässig läuft. Bei der Auswahl dieser Komponenten spielten mehrere Faktoren eine Rolle, darunter die Kosten, die Größe sowie die Anzahl der verfügbaren Funktionen.
-
-Unser finaler Prototyp sollte folgende physikalischen Messwerte erfassen können.
-
-- Temperatur
-- Luftfeuchtigkeit
-- Luftdruck
-- Beschleunigung und Geschwindigkeit
-- Standortbestimmung mittels GPS
-
-Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Komponenten entschieden:
-
-1. ***ESP32***
-   - **Grund**: Der ESP32 ist ein leistungsstarker und kostengünstiger Mikrocontroller mit integrierter WLAN- und Bluetooth Funktionalität. Er bietet eine höhere Rechenleistung als ein Arduino und ist im durchschnitt auch kleiner als jener, was für die mobile Nutzung vom Vorteil ist.
-   - **Spezifikationen**:
-     - Größe: $39mm  *  28mm  *  6mm$
-     - 34 I/O Pins
-     - SoC: ESP32-WROOM-32
-     - Netzspannung: 5V
-
-![ArduinoPins [@ESP32-Datenblatt]](img/Kampl/ESP-Pins-Legende.png){width=297px}
-
-![ArduinoPins [@ESP32-Datenblatt]](img/Kampl/ESP-Pins1.png){width=500px}
-
-![ArduinoPins [@ESP32-Datenblatt]](img/Kampl/ESP-Pins2.png){width=500px}
-
-1. ***BME280***
-   - **Grund**: Der BME280 ist ein vielseitiger Sensor, welcher sowohl die Temperatur, die Luftfeuchtigkeit als auch den Luftdruck messen kann. Außerdem ist er kompakt und kostengünstig.
-   - **Spezifikationen**:
-     - Größe: $9mm  *  11mm  *  2mm$
-     - 4 Pins
-     - Schnittstelle I²C
-     - Spannung: 3.3V bis 5V
-
-![BMEPins [@BME280-Datenblatt]](img/Kampl/BME280-Pins.png){width=300px}
-
-1. ***MPU6050***
-   - **Grund**: Der MPU6050 ist eine Kombination aus Beschleungiungssensor und Gyroskop. Damit können Bewegungen auf der X, der Y und der Z-Achse erfasst werden.
-   - **Spezifikationen**:
-     - Größe: $25mm  *  20mm  *  7mm$
-     - 8 Pins
-     - Schnittstelle I²C
-     - Spannung: 3.3V bis 5V
-
-![MPUPins [@MPU6050-Datenblatt]](img/Kampl/MPU6050-Pins.png){width=500px}
-
-3. ***GY-GPSMV2***
-   - **Grund**: Das GY-GPSMV2-Modul ermöglicht die Standortbestimmung über GPS. Es bietet eine hohe Genauigkeit und eine stabile Leistung, wodurch die Postion präzise erfasst werden kann.
-   - **Spezifikationen**:
-     - Größe: $16mm  *  12.2mm  *  2.4mm$
-     - 3 Pins
-     - Schnittstelle UART
-     - Spannung: 3.3V
-
-![GYPINS](img/Kampl/BME280-Pins.png){width=300px}
-
-#### Kosten
-
-| Anzahl | Ort        | Produkt             | Einzelpreis | Lieferkosten | Preis gesamt |
-|--------|-----------|----------------------|------------:|------------:|-------------:|
-| 3      | Ali-Express | GY-NEO6MV2         | 3.19 €      | 2.46 €      | 12.03 €      |
-| 3      | AZ         | BME280              | 3.47 €      | 5.98 €      | 16.39 €      |
-| 32     | Reichelt   | Lochrasterplatinen  | 13.21 €     | 6.65 €      | 19.86 €      |
-| 3      | AZ         | GY-521              | 2.50 €      | 5.30 €      | 12.79 €      |
-| 1      | Amazon     | ET-Starterkit       | 16.13 €     | 3.99 €      | 20.12 €      |
-
-| Preis Hardware insgesamt |
-|--------|
-|  81.19 € |
-
 ### Eingebettete Systeme
 
 Ein Eingebettetes System ist Teil eines viel größeren Systems wie z.B.: Handys, Autos, Waschmaschinen, usw..
@@ -85,11 +13,13 @@ Später wurden Mikroprozessoren in der 1600 Serie von Volkswagen verwendet um da
 In den 70ern konnte Intel den ersten Prozessor entwickeln, welcher der Öffentlichkeit zugänglich war: den Intel 4004. Ein 4-Bit-Mikroprozessor, wlecher in Taschenrechnern und anderen kleineren elektronischen Geräte verwendet wurde.
 
 Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Software und Hardware ist für einen speziell programmierte Aufgabe. Obwohl man ein ES mit einem Computer gleichstellen kann, haben sie des öfteren keine Graphische Oberfläche für Benutzer.
-[@EmbeddedSystems]
+[vgl. @EmbeddedSystems]
 
 #### Komponenten
 
 Die Hauptkomponenten eines Embedded Systems sind ein Mikroprozessor oder ein Mikrocontroller. Während ein Mikroprozessor lediglich eine CPU enthält, umfasst ein Mikrocontroller zusätzlich Speicher, Peripheriegeräte, GPIOs, Flash-Speicher und viele weitere Komponenten.
+
+![Aufbau](img/Kampl/AufbauES.jpg){width=300px}
 
 ##### CPU
 
@@ -100,42 +30,69 @@ Die CPU (Central Processing Unit) ist die primäre Steuereinheit eines Systems. 
 Der Bus verbindet die CPU mit den anderen Komponenten. Es gibt daher verschiedene Arten von Bussen, wie z. B. den Datenbus, den Adressbus und den Steuerbus. Je nach Prozessor können unterschiedlich viele Bits gleichzeitig übertragen werden.
 
 	
-Des weiteren kann mann Busse noch in 2 Typen nach der Breite aufteilen:
+Des weiteren kann mann Busse noch in 
+
+2 Typen nach der Breite aufteilen:
 
 1. Parallel: Beim parallelen System gibt es mehrere Leitungen welche gleichzeitig Daten verschicken wodurch die Breite viel höher ist.
-2. Seriell: Serielle Systeme verschicken über eine Leitung Bitweise also nacheinander ihre Daten. Das bedeutet auch wenn ein Datenfluss stopt, stoppen alle. Aus diesem Grund ist ein serieller Bus meist langsamer und günstiger als ein paralleler.
+2. Seriell: Serielle Systeme verschicken über eine Leitung Bitweise also nacheinander ihre Daten. Das bedeutet auch wenn ein Datenfluss stopt, stoppen alle. Aus diesem Grund ist ein serieller Bus meist langsamer und günstiger als ein paralleler. Außerdem kann man Serielle Busse noch in synchron, also taktbasiert mit einer Clock damit Sender und Empfänger *synchron* arbeiten und asynchron, also durch Steurerleitungen und Protokolle koordiniert, einteilen.
+ 
 
 ##### Schnittstellen
 
-- **SPI (Serial Peripheral Interface):** Synchrone serielle Schnittstelle, ideal für die Verbindung von Peripheriegeräten. Verwendet MOSI, MISO und SCK Leitungen.
-- **UART (Universal Asynchronous Receiver Transmitter):** Asynchrone serielle Verbindung, die ohne externen Taktgeber arbeitet.
-- **I²C (Inter-Integrated Circuit):** Zweidraht-Bus mit Master-Slave-Kommunikation.
+- **SPI:**^[Serial Peripheral Interface] Eine synchrone serielle Schnittstelle, ideal für die Verbindung von Peripherigeräten.
+
+    Es besteht aus den drei Leitungen POCI^[Peripheral Out/Controller In] oder auch MISO^[Master In/Slave Out], PICO/MOSI^[Peripheral In/Controller Out | Master Out/Slave In] und der Serial Clock. Außerdem dem gibt es noch den Slave-Select, aber da dies ein äußert problematischer Außdruck ist wurde es zu Chip-Select umbenannt. Die Chip-Select Leitung sorgt dafür, dass der Controller ein Peripherigerät zur Kommuniaktion auswählt.
+
+    Bei der SPI-Kommunikation gibt es keinen klaren Sender oder Empfänger, sondern einen kontinuierlichen Austausch, da sowohl die Peripherie als auch der Controller gleichzeitig ein Bit übertragen. Die Peripherie steuert die Kommunikation, indem sie die SCK-Impulse generiert, während der Controller das Signal annimmt und verarbeitet. Selbst wenn noch kein Ergebnis vorliegt, misst die Peripherie die Polarität der PICO/MOSI-Leitung und bestimmt daraus das nächste Bit.
+
+- **UART:**^[Universal Asynchronous Receiver Transmitter] Asynchrone serielle Verbindung, die ohne externen Taktgeber arbeitet.
+
+    UART ist eine serielle  Schnittstelle, die asynchron arbeitet. Sie wurde entwickelt,  um die Kommunikation zwischen digitalen Geräten zu ermöglichen, und wird häufig in  Mikrocontrollern, Computern und anderen elektronischen Geräten verwendet. Im Gegensatz zu synchronen Schnittstellen wie SPI oder I2C benötigt UART keine zusätzliche Taktleitung, sondern synchronisiert sich durch Start- und Stop-Bits. Der Datenaustausch erfolgt über zwei Leitungen, wobei ein Gerät als Sender und das andere als Empfänger fungiert.
+
+    UART verwendet in der Regel zwei Hauptleitungen: TX^[Transmit] zum Senden und RX^[Receive] zum Empfangen von Daten. Zusätzlich können für die Hardware-Flow-Control weitere Leitungen genutzt werden, wie RTS^[Request to Send], mit dem der Sender signalisiert, dass er bereit ist, Daten zu übertragen, und CTS^[Clear to Send], das dem Sender anzeigt, dass der Empfänger bereit ist. 
+
+- **I2C:**^[Inter-Integrated Circuit] Serieller Zweidraht-Bus mit Master-Slave-Kommunikation.
+        
+    In einem I2C-Bus gibt es mindestens einen Master und bis zu 127 Slaves. Ein Bus mit mehreren Mastern wird als Multi-Master-Bus bezeichnet. Jeder Slave benötigt eine eigene 7- oder 10-Bit-Adresse, um individuell mit einem Master kommunizieren zu können. Zusätzlich gibt es eine Broadcast-Adresse, über die alle Slaves gleichzeitig angesprochen werden können. Wie bei SPI beginnt die Kommunikation erst, wenn der Master einen Slave adressiert. Anders als bei SPI wird jedoch festgelegt, ob gesendet oder empfangen wird. Die Übertragung erfolgt durch Start- und Stopp-Bedingungen, die der Master über die Zustände der Takt- und Datenleitung steuert. Nach einer erfolgreichen Kommunikation senden die Slaves ihre Adresse und im Schreibfall ein Acknowledge.
 
 ##### RAM
 
-Der Arbeitsspeicher wird RAM genannt, was für Random Access Memory steht. Der RAM speichert die auszuführenden Programmbefehle. Es gibt verschiedene Arten von RAM:
+RAM ist eine Art Speichertyp, in welchem die Speicherzellen direkt angesprochen werden. In
+diesem Zusammenhang spricht man dann von *Speicher mit wahlfreiem Zugriff*. Das heißt RAM
+erlaubt den Zugriff jede Speicherzelle.
+RAM wird in Computer als Arbeitsspeicher verwendet, weil es eine schnelle Verarbeitung vom
+Prozessor garantiert. Im Grunde unterscheidet man zwischen zwei Arten von RAMs:
 
-- **SRAM (Static RAM):** Schneller, benötigt keinen Refresh, verbraucht jedoch mehr Energie.
-- **DRAM (Dynamic RAM):** Benötigt Refresh, ist langsamer und günstiger.
+- **SRAM:**^[Static RAM] Der schnellere der zwei Ram-Typen. Er speichert seine Inahlte mittels Flip-Flops und benötigt deshalb auch keine Refreshes. Jedoch ist der Einsatz von Flip-Flops äußerst Stromaufwendig und zu dem auch noch teuer. Trotzdem wird aufgrund eben dieser Kippglieder der SRAM häufig als Cache oder Puffer eingesetzt, da der Inhalt nach dem Abruf immer noch erhalten bleibt.
+- **DRAM:**^[Dynamic RAM] Die einfache und billigere Variante. Der DRAM benutzt Kondensatoren als Speicherelement. Dabei muss über sogenannte Refreshes immer wieder die Spannung neugeladen werden wodurch der komplette Prozess langsamer wird. Jedoch hat er ingegensatz zum SRAM einen geringeren Stromverbrauch.
 
 ##### ROM
 
-- **PROM:** Nur einmal programmierbar.
-- **EPROM:** Kann mit UV-Licht gelöscht werden.
-- **OTP-EPROM:** Einmal programmierbar und nicht löschbar.
-- **Flash:** Elektronisch lösch- und beschreibbar, mit selektiven Löschmöglichkeiten.
-- **EEPROM:** Elektrisch löschbar und neu beschreibbar, häufig zur Speicherung kleiner Datenmengen wie Seriennummern genutzt.
+- **PROM** ^[Programmable Read-Only Memory]: Dieser Speichertyp kann nur einmal beschrieben werden. Beim Programmieren werden selektiv Sicherungen durchgebrannt, sodass die gespeicherten Daten nicht mehr verändert werden können.  
+
+- **EPROM** ^[Erasable Programmable Read-Only Memory]: Dieser Speicher kann mit UV-Licht gelöscht werden. Dazu ist ein spezielles Quarzfenster erforderlich, durch das das UV-Licht die Speicherzellen erreicht und löscht, sodass der Speicher erneut beschrieben werden kann.  
+
+- **OTP-EPROM** ^[One-Time Programmable EPROM]: Eine spezielle Variante des EPROM, die nicht mit UV-Licht gelöscht werden kann. Das liegt daran, dass der Speicher in ein lichtundurchlässiges Gehäuse eingeschweißt ist, wodurch ein erneutes Löschen verhindert wird.  
+
+- **Flash**: Elektronisch lösch- und beschreibbarer Speicher, der in Blöcken oder einzelnen Sektoren selektiv gelöscht werden kann. Während das Schreiben und Löschen relativ langsam ist, erfolgt das Lesen sehr schnell. Flash-Speicher ersetzt zunehmend traditionelle ROM-Typen.  
+
+- **EEPROM** ^[Electrically Erasable Programmable Read-Only Memory]: Dieser Speicher kann elektrisch gelöscht und erneut beschrieben werden. Er wird oft für kleine, nichtflüchtige Datenspeicher wie Seriennummern oder MAC-Adressen in elektrischen Geräten verwendet. EEPROMs benötigen im Vergleich zu Flash-Speichern weniger Pins und werden meist seriell beschrieben.  
+[vgl. @EmbeddedSystems]
 
 ##### Register
 
 Register sind temporäre Speicher, die teils festgelegte Verwendungszwecke (z. B. Befehls- oder Statusregister) haben und teils für allgemeine Aufgaben genutzt werden.
 
 ##### Peripherie
+- **GPIO** ^[General Purpose Input/Output]: GPIO-Pins sind flexibel nutzbare Ein- und Ausgänge eines Mikrocontrollers. Sie können als digitale Eingänge zur Erfassung von Tasterzuständen oder Sensordaten sowie als digitale Ausgänge zur Steuerung von LEDs, Motoren oder anderen Komponenten genutzt werden. Manche GPIOs verfügen über zusätzliche Funktionen, wie ADC-Eingänge oder Timer-Steuerung.  
 
-- **GPIO (General Purpose Input/Output):** Konfigurierbar als digitale Ein- oder Ausgänge.
-- **Timer:** Überwachung und Steuerung zeitkritischer Prozesse.
-- **Watchdog:** Sicherheit durch Neustart bei Fehlfunktionen.
-- **DMA (Direct Memory Access):** Direkter Datentransfer zwischen Speicher und Peripherie ohne CPU-Beteiligung.
+- **Timer:** Das Timer-Modul dient zur Überwachung und Steuerung zeitkritischer Prozesse. Es kann als einfacher Zähler, zur Erzeugung von PWM-Signalen oder zur Zeitmessung verwendet werden. Timer-Interrupts ermöglichen präzise Steuerungen in Echtzeitanwendungen.  
+
+- **Watchdog:** Der Watchdog-Timer erhöht die Sicherheit eines Systems, indem er einen automatischen Neustart auslöst, wenn das System nicht in regelmäßigen Abständen auf ihn reagiert. Dies verhindert ein Hängenbleiben oder Blockieren der Software und sorgt für eine höhere Zuverlässigkeit in Embedded-Systemen. Umgangssprachlich wird er als Todmansschalter bezeichnet.
+
+- **DMA** ^[Direct Memory Access]: Der Direct Memory Access ermöglicht es Peripheriegeräten, Daten direkt mit dem Speicher auszutauschen, ohne die CPU zu belasten. Dies beschleunigt den Datentransfer erheblich, insbesondere bei großen Datenmengen wie Audio- oder Videodaten, und verbessert die Gesamtleistung des Systems.  
+[vgl. @EmbeddedSystems]
 
 ##### Firmware
 
@@ -143,22 +100,45 @@ Die Firmware ist eine softwarebasierte Komponente, die fest in einem elektronisc
 
 ##### Recheneinheit
 
-- **General-Purpose-Prozessoren:** Vielseitig einsetzbar, aber weniger spezialisiert.
-- **Mikrocontroller:** Integrieren CPU, Speicher und Peripherie in einem Chip.
-- **Digitale Signalprozessoren (DSPs):** Für Echtzeit-Signalverarbeitung optimiert.
-- **ASICs:** Für spezifische Anwendungen entwickelte Chips, mit hoher Effizienz und begrenzter Flexibilität.
-- **FPGAs:** Programmierbare Hardware, flexibel und rekonfigurierbar, besonders in der Entwicklung von ASICs nützlich.
+- **General-Purpose-Prozessoren:** Vielseitig einsetzbar und mit hoher Rechengeschwindigkeit ausgestattet. Sie verfügen über mehrschichtige Caches und sind für allgemeine Anwendungen optimiert, weisen jedoch keine integrierte Peripherie (wie Timer oder umfangreichen Speicher) auf, was sie weniger spezialisiert macht.
+
+- **Mikrocontroller:** In einem einzigen Chip vereint ein Mikrocontroller CPU, Speicher und Peripherieelemente (wie Bus-Treiber, PWM-Units, A/D- und D/A-Wandler). Diese enge Integration ermöglicht eine optimale Anpassung an spezifische Aufgaben in Embedded Systems, oft sogar ohne die Notwendigkeit eines externen Taktgebers, da interne Taktgeneratoren zur Verfügung stehen.
+
+- **Digitale Signalprozessoren (DSPs)** ^[Digitale Signalprozessoren]: Optimiert für die Echtzeit-Signalverarbeitung, bieten DSPs einen erweiterten Befehlssatz und spezielle Hardwareeinheiten – etwa Multiply-Accumulate-Einheiten (MAC) – zur effizienten Durchführung rechenintensiver Operationen, was sie ideal für Audio-, Video- und Kommunikationsanwendungen macht.
+
+- **ASICs** ^[Application Specific Integrated Circuits]: Diese speziell für bestimmte Anwendungen entwickelten Chips sind hinsichtlich Geschwindigkeit, Energieeffizienz, Baugröße und Zuverlässigkeit hoch optimiert. Ihre unflexible Natur und die hohen Kosten bei Entwicklung und Fertigung in kleinen Stückzahlen machen sie vor allem für Massenfertigung wirtschaftlich.
+
+- **FPGAs** ^[Field-Programmable Gate Arrays]: Programmierbare Hardwarebausteine, die vor der Verwendung nicht auf ein konkretes Verhalten festgelegt sind. FPGAs lassen sich mehrfach rekonfigurieren, was sie besonders in der Entwicklung (z. B. als Testumgebung für ASICs) attraktiv macht – wenngleich sie im Vergleich zu spezialisierten Mikrocontrollern oft teurer sind und bei gleicher Technologie eine etwas geringere Performance bieten.
+[vgl. @EmbeddedSystems]
 
 #### Zusätzliche Module
 
-- **A/D- und D/A-Wandler:** Ermöglichen die Umwandlung zwischen analogen und digitalen Signalen. Wichtig für Sensoranwendungen.
-- **PWM (Pulsweitenmodulation):** Steuerung von LEDs, Motoren oder anderen Aktoren durch variable Einschaltdauer eines Signals.
+- **A/D- und D/A-Wandler:**^[Analog/Digital & Digital/Analog Wandler] Ermöglichen die Umwandlung zwischen analogen und digitalen Signalen. Wichtig für Sensoranwendungen.
+- **PWM:**^[Pulsweitenmodulation] Steuerung von LEDs, Motoren oder anderen Aktoren durch variable Einschaltdauer eines Signals.
 
 ### Der Prototyp
 	
 #### IDE
 
-Um ein Programm erfolgreich auf dem ESP32 ausführen zu können, benötigt man eine geeignete IDE (Integrated Development Environment).
+Um ein Programm erfolgreich auf dem ESP32 ausführen zu können, benötigt man eine geeignete IDE^[Integrated Development Environment]. Aber was genau ist eine IDE?
+
+>Eine integrierte Entwicklungsumgebung (IDE) ist Software für eine optimierte Anwendungsentwicklung, die gängige Entwicklertools in einer zentralen grafischen Oberfläche vereint.
+[@RedHatIDE]
+
+Jede IDE enthält in der Regel ähnliche Standardkomponenten, darunter einen integrierten Code-Editor – also einen Texteditor mit Syntax-Highlighting und gegebenenfalls Autovervollständigung –, ein Programm zum Bauen und Kompilieren des Codes sowie einen Debugge. [vgl. @RedHatIDE]
+
+##### Vorteile
+
+**IDEs bieten viele Vorteile, die beim Schreiben von Code unterstützen.**
+
+Während intelligente Code-Vervollständigung und -Generierung eher als *Nice-to-have*-Features gelten, gibt es echte Zeitersparnisse. Besonders das **Echtzeit-Parsen von Code** spart erheblich Zeit bei der Fehlersuche. Zudem beinhalten IDEs häufig Funktionen, die speziell auf eine Programmiersprache zugeschnitten sind.
+
+Ein Beispiel dafür ist **IntelliJ**, eine von der Firma JetBrains entwickelte IDE, die speziell für Java konzipiert wurde. Sie bietet unter anderem folgende Funktionen:
+
+- **Generierung ganzer POJO-Klassen** per Knopfdruck
+- **Herunterladen von JDKs**^[Java Development Kit]
+- **Darstellung von Dokumentationen** als Kommentaren im Fließtext
+
 
 #### PlatformIO
 
@@ -343,7 +323,7 @@ void printValues() {
 
 ##### Erklärung
 
-Dieses Programm liest die Daten welche der BME280 Sensor bekommt aus der I²C Schnittstelle aus und bereit sie über Print-Statements schnön leserlich auf.
+Dieses Programm liest die Daten welche der BME280 Sensor bekommt aus der I2C Schnittstelle aus und bereit sie über Print-Statements schnön leserlich auf.
 
 ***Bibliotheken***
 
@@ -355,7 +335,7 @@ Dieses Programm liest die Daten welche der BME280 Sensor bekommt aus der I²C Sc
 
 [@BME280-Test]
 
-Dieser Teil zeigt die bereits vorhin Beschriebenen Bibliotheken mit einer zusätzlichen der **Wire-Library**. Dies ist eine Standardmäßige enthaltene Bibliothek und ermöglicht erst die I²C Kommunikation.
+Dieser Teil zeigt die bereits vorhin Beschriebenen Bibliotheken mit einer zusätzlichen der **Wire-Library**. Dies ist eine Standardmäßige enthaltene Bibliothek und ermöglicht erst die I2C Kommunikation.
 
 ***Definitionen und Variablen***
 
@@ -406,7 +386,7 @@ void setup() {
 Das Setup ist im Grunde der wichtigste Teil, da es alle wichtigen Variablen, Modi usw. intialisiert. Es selbst ist hier in drei Teile eingeteilt:
 
 1. **Serial.beginn(115200)**: Hier wird die auf 115200 gestellt damit der serielle Monitor und der Sensor kommunizieren können.
-2. **if(!bme.begin(0x76))**: Hier wird der Sensor mit der Adresse 0x76 , wie im Datenblatt beschrieben, initialisiert.
+2. **if(!bme.begin(0x76))**: Hier wird der Sensor mit der Adresse 0x76 , wie im Datenblatt beschrieben, initialisiert. [@BME280-Datasheet]
 3. **Fehlerbehandlung**: Falls der BME280 nicht gefunden wird oder nicht initialisiert werden kann kommt es zur Fehlerbehandlung und wenn nicht dann geht es weiter in den
 
 ***Loop***
@@ -469,6 +449,78 @@ Dieser Teil des Codes gibt die Messwerter auf dem Serial Monitor, in einer aufpo
 ## Praktische Arbeit
 
 ### Bau des Prototypen
+
+#### Benötigte Hardwarekomponenten
+
+Um ein Projekt zu realisieren, bei dem Umweltdaten ausgelesen werden, benötigt man geeignete Komponenten, auf denen die Software zuverlässig läuft. Bei der Auswahl dieser Komponenten spielten mehrere Faktoren eine Rolle, darunter die Kosten, die Größe sowie die Anzahl der verfügbaren Funktionen.
+
+Unser finaler Prototyp sollte folgende physikalischen Messwerte erfassen können.
+
+- Temperatur
+- Luftfeuchtigkeit
+- Luftdruck
+- Beschleunigung und Geschwindigkeit
+- Standortbestimmung mittels GPS
+
+Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Komponenten entschieden:
+
+##### ESP32***
+  **Grund**: Der ESP32 ist ein leistungsstarker und kostengünstiger Mikrocontroller mit integrierter WLAN- und Bluetooth Funktionalität. Er bietet eine höhere Rechenleistung als ein Arduino und ist im durchschnitt auch kleiner als jener, was für die mobile Nutzung vom Vorteil ist.
+  **Spezifikationen**:
+  
+     - Größe: $39mm  *  28mm  *  6mm$
+     - 34 I/O Pins
+     - SoC: ESP32-WROOM-32
+     - Netzspannung: 5V
+
+![ArduinoPins [@ESP32-Datenblatt]](img/Kampl/ESP32-Pins.png){width=500px}
+
+##### BME280
+  **Grund**: Der BME280 ist ein vielseitiger Sensor, welcher sowohl die Temperatur, die Luftfeuchtigkeit als auch den Luftdruck messen kann. Außerdem ist er kompakt und kostengünstig.
+  **Spezifikationen**:
+  
+     - Größe: $9mm  *  11mm  *  2mm$
+     - 4 Pins
+     - Schnittstelle I2C
+     - Spannung: 3.3V bis 5V
+
+![BMEPins [@BME280-Datenblatt]](img/Kampl/BME280-Pins.png){width=300px}
+
+##### MPU6050
+  **Grund**: Der MPU6050 ist eine Kombination aus Beschleungiungssensor und Gyroskop. Damit können Bewegungen auf der X, der Y und der Z-Achse erfasst werden.
+  **Spezifikationen**:
+     - Größe: $25mm  *  20mm  *  7mm$
+     - 8 Pins
+     - Schnittstelle I2C
+     - Spannung: 3.3V bis 5V
+
+![MPUPins [@MPU6050-Datenblatt]](img/Kampl/MPU6050-Pins.png){width=500px}
+
+##### GY-GPSMV2
+  **Grund**: Das GY-GPSMV2-Modul ermöglicht die Standortbestimmung über GPS. Es bietet eine hohe Genauigkeit und eine stabile Leistung, wodurch die Postion präzise erfasst werden kann.
+  **Spezifikationen**:
+  
+     - Größe: $16mm  *  12.2mm  *  2.4mm$
+     - 3 Pins
+     - Schnittstelle UART
+     - Spannung: 3.3V
+
+![GYPINS](img/Kampl/GPS-Module-Pins.png){width=300px}
+
+#### Kosten
+
+| Anzahl | Ort        | Produkt             | Einzelpreis | Lieferkosten | Preis gesamt |
+|--------|-----------|----------------------|------------:|------------:|-------------:|
+| 3      | Ali-Express | GY-NEO6MV2         | 3.19 €      | 2.46 €      | 12.03 €      |
+| 3      | AZ         | BME280              | 3.47 €      | 5.98 €      | 16.39 €      |
+| 32     | Reichelt   | Lochrasterplatinen  | 13.21 €     | 6.65 €      | 19.86 €      |
+| 3      | AZ         | GY-521              | 2.50 €      | 5.30 €      | 12.79 €      |
+| 1      | Amazon     | ET-Starterkit       | 16.13 €     | 3.99 €      | 20.12 €      |
+
+| Preis Hardware insgesamt |
+|--------|
+|  81.19 € |
+
 
 #### Grundaufbau
 
