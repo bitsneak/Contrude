@@ -1,3 +1,9 @@
+[![Release](https://img.shields.io/github/release/bitsneak/HTLLE-DA-Vorlage.svg)](https://github.com/BitSneak/HTLLE-DA-Vorlage/releases/latest)
+[![Build Docker](https://img.shields.io/github/actions/workflow/status/bitsneak/HTLLE-DA-Vorlage/image-build.yml?branch=main&label=docker-build)](https://github.com/bitsneak/HTLLE-DA-Vorlage/actions/workflows/image-build.yml)
+[![Push Docker](https://img.shields.io/github/actions/workflow/status/bitsneak/HTLLE-DA-Vorlage/image-push.yml?branch=main&label=docker-push)](https://github.com/bitsneak/HTLLE-DA-Vorlage/actions/workflows/image-push.yml)
+[![Test Template](https://img.shields.io/github/actions/workflow/status/bitsneak/HTLLE-DA-Vorlage/template-test.yml?branch=main&label=test-template)](https://github.com/bitsneak/HTLLE-DA-Vorlage/actions/workflows/template-test.yml)
+[![Test Action](https://img.shields.io/github/actions/workflow/status/bitsneak/HTLLE-DA-Vorlage/action-test.yml?branch=main&label=test-action)](https://github.com/bitsneak/HTLLE-DA-Vorlage/actions/workflows/action-test.yml)
+
 # HTLLE-DA-Vorlage
 
 Diese Vorlage ist zur Erstellung der Diplomarbeiten an der HTL Leoben gedacht. 
@@ -56,6 +62,11 @@ $ sudo apt-get install git build-essential make-guile texlive-full pandoc pandoc
 ```
 
 Bei einer englischen Diplomarbeit muss außerdem entweder das Paket `hunspell-en-gb` oder `hunspell-en-us` installiert werden.
+
+
+## Alternative platformen
+
+Sie können die Diplomarbeit auch mit Hilfe von Docker oder Github WOrkflow bauen. Nähere Details dazu finden Sie im Verzeichnis `tools`.
 
 # Grundlegende Schritte
 

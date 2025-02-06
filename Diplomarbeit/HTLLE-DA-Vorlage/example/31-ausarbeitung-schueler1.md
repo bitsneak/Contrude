@@ -27,6 +27,22 @@ Making all those little fluffies that live in the clouds. If there's two big tre
 
 Do an almighty painting with us. Learn when to stop. Absolutely no pressure. You are just a whisper floating across a mountain. As trees get older they lose their chlorophyll. Clouds are free. They just float around the sky all day and have fun.
 
+Now a hierarchical tree from this repo:
+
+\dirtree{%
+.1 ./.
+.2 example.
+.3 ....
+.2 style.
+.3 ....
+.2 tools.
+.3 docker.
+.3 github.
+.2 Jenkinsfile.
+.2 Makefile.
+.2 REAMDE.md.
+}
+
 A fan brush can be your best friend. Sometimes you learn more from your mistakes than you do from your masterpieces. You can bend rivers. But when I get home, the only thing I have power over is the garbage. Don't kill all your dark areas - you need them to show the light. There's nothing wrong with having a tree as a friend.
 
 God gave you this gift of imagination. Use it. Use your imagination, let it go. Put your feelings into it, your heart, it's your world. There's not a thing in the world wrong with washing your brush. Happy painting, God bless. All those little son of a guns.
