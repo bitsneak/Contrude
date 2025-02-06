@@ -34,7 +34,7 @@ const DetailPage = () => {
       
       <div className='flex-grow flex flex-col'>
         <Topbar
-          leftComponents={[<SearchBar key="searchbar" />]}
+          leftComponents={[]}
           rightComponents={[
             <DetailControl
               onGoAlertClick={handleThresholdViewerToggle}
