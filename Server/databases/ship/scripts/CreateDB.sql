@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS ship.ship
     CHECK (year_built > '1900'),
 
     FOREIGN KEY (registration_country) REFERENCES corporation.country (id) ON DELETE RESTRICT,
-    FOREIGN KEY (type) REFERENCES corporation.country (id) ON DELETE RESTRICT,
+    FOREIGN KEY (type) REFERENCES ship.type (id) ON DELETE RESTRICT,
     FOREIGN KEY (owner) REFERENCES corporation.company (id) ON DELETE RESTRICT,
     FOREIGN KEY (operator) REFERENCES corporation.company (id) ON DELETE RESTRICT
 );
