@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram version="1" name="contrude_threshold.erd">
+	<entities>
+		<data-source id="mysql8-194e1694306-2b6152314f4d408d">
+			<entity id="1" name="level" fq-name="threshold.`level`" order="0" x="348" y="40">
+				<path name="threshold"/>
+			</entity>
+			<entity id="2" name="parameter" fq-name="threshold.`parameter`" order="1" x="348" y="240">
+				<path name="threshold"/>
+			</entity>
+			<entity id="3" name="rule" fq-name="threshold.rule" order="2" x="348" y="440">
+				<path name="threshold"/>
+			</entity>
+			<entity id="4" name="threshold" fq-name="threshold.threshold" order="3" x="40" y="197">
+				<path name="threshold"/>
+			</entity>
+		</data-source>
+	</entities>
+	<relations>
+		<relation name="threshold_ibfk_3" fq-name="threshold.threshold.threshold_ibfk_3" type="fk" pk-ref="1" fk-ref="4"/>
+		<relation name="threshold_ibfk_1" fq-name="threshold.threshold.threshold_ibfk_1" type="fk" pk-ref="2" fk-ref="4"/>
+		<relation name="threshold_ibfk_2" fq-name="threshold.threshold.threshold_ibfk_2" type="fk" pk-ref="3" fk-ref="4"/>
+	</relations>
+</diagram>

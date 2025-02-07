@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram version="1" name="contrude_container.erd">
+	<entities>
+		<data-source id="mysql8-194e1671d5b-1649d93c5551a27c">
+			<entity id="1" name="ccc" fq-name="certificate.ccc" order="0" x="925" y="647">
+				<path name="certificate"/>
+			</entity>
+			<entity id="2" name="csc" fq-name="certificate.csc" order="1" x="534" y="603">
+				<path name="certificate"/>
+			</entity>
+			<entity id="3" name="ic" fq-name="certificate.ic" order="2" x="1446" y="730">
+				<path name="certificate"/>
+			</entity>
+			<entity id="4" name="tct" fq-name="certificate.tct" order="3" x="925" y="476">
+				<path name="certificate"/>
+			</entity>
+			<entity id="5" name="container" fq-name="container.container" order="4" color-bg="204,192,184" x="40" y="437">
+				<path name="container"/>
+			</entity>
+			<entity id="6" name="company" fq-name="corporation.company" order="5" color-bg="228,255,181" x="1909" y="798">
+				<path name="corporation"/>
+			</entity>
+			<entity id="7" name="continent" fq-name="corporation.continent" order="6" color-bg="228,255,181" x="2539" y="1208">
+				<path name="corporation"/>
+			</entity>
+			<entity id="8" name="country" fq-name="corporation.country" order="7" color-bg="228,255,181" x="2227" y="1179">
+				<path name="corporation"/>
+			</entity>
+			<entity id="9" name="endorsement" fq-name="dimension.endorsement" order="8" color-bg="255,255,255" x="1446" y="40">
+				<path name="dimension"/>
+			</entity>
+			<entity id="10" name="equipment_identifier" fq-name="dimension.equipment_identifier" order="9" color-bg="255,255,255" x="534" y="403">
+				<path name="dimension"/>
+			</entity>
+			<entity id="11" name="size" fq-name="dimension.`size`" order="10" color-bg="255,255,255" x="1446" y="530">
+				<path name="dimension"/>
+			</entity>
+			<entity id="12" name="type_code" fq-name="dimension.type_code" order="11" color-bg="255,255,255" x="1446" y="972">
+				<path name="dimension"/>
+			</entity>
+		</data-source>
+	</entities>
+	<relations>
+		<relation name="csc_ibfk_1" fq-name="certificate.csc.csc_ibfk_1" type="fk" pk-ref="1" fk-ref="2"/>
+		<relation name="container_ibfk_1" fq-name="container.container.container_ibfk_1" type="fk" pk-ref="2" fk-ref="5"/>
+		<relation name="ccc_ibfk_2" fq-name="certificate.ccc.ccc_ibfk_2" type="fk" pk-ref="3" fk-ref="1"/>
+		<relation name="csc_ibfk_2" fq-name="certificate.csc.csc_ibfk_2" type="fk" pk-ref="4" fk-ref="2"/>
+		<relation name="ccc_ibfk_5" fq-name="certificate.ccc.ccc_ibfk_5" type="fk" pk-ref="6" fk-ref="1"/>
+		<relation name="ccc_ibfk_6" fq-name="certificate.ccc.ccc_ibfk_6" type="fk" pk-ref="6" fk-ref="1"/>
+		<relation name="ic_ibfk_1" fq-name="certificate.ic.ic_ibfk_1" type="fk" pk-ref="6" fk-ref="3"/>
+		<relation name="country_ibfk_1" fq-name="corporation.country.country_ibfk_1" type="fk" pk-ref="7" fk-ref="8"/>
+		<relation name="ccc_ibfk_1" fq-name="certificate.ccc.ccc_ibfk_1" type="fk" pk-ref="8" fk-ref="1">
+			<bend type="abs" x="1446" y="1258"/>
+			<bend type="abs" x="1909" y="1258"/>
+		</relation>
+		<relation name="company_ibfk_1" fq-name="corporation.company.company_ibfk_1" type="fk" pk-ref="8" fk-ref="6"/>
+		<relation name="ccc_ibfk_7" fq-name="certificate.ccc.ccc_ibfk_7" type="fk" pk-ref="9" fk-ref="1"/>
+		<relation name="container_ibfk_2" fq-name="container.container.container_ibfk_2" type="fk" pk-ref="10" fk-ref="5"/>
+		<relation name="ccc_ibfk_3" fq-name="certificate.ccc.ccc_ibfk_3" type="fk" pk-ref="11" fk-ref="1"/>
+		<relation name="ccc_ibfk_4" fq-name="certificate.ccc.ccc_ibfk_4" type="fk" pk-ref="12" fk-ref="1"/>
+	</relations>
+</diagram>

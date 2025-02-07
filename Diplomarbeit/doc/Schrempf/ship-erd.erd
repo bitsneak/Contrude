@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram version="1" name="contrude_ship.erd">
+	<entities>
+		<data-source id="mysql8-194e17b3d3b-60fb4e5921680488">
+			<entity id="1" name="bwmc" fq-name="certificate.bwmc" order="0" x="40" y="384">
+				<path name="certificate"/>
+			</entity>
+			<entity id="2" name="disposal_method" fq-name="certificate.disposal_method" order="1" x="446" y="40">
+				<path name="certificate"/>
+			</entity>
+			<entity id="3" name="equipment_type" fq-name="certificate.equipment_type" order="2" x="446" y="211">
+				<path name="certificate"/>
+			</entity>
+			<entity id="4" name="general_certificate" fq-name="certificate.general_certificate" order="3" x="446" y="553">
+				<path name="certificate"/>
+			</entity>
+			<entity id="5" name="iapp" fq-name="certificate.iapp" order="4" x="40" y="584">
+				<path name="certificate"/>
+			</entity>
+			<entity id="6" name="illc" fq-name="certificate.illc" order="5" x="40" y="1013">
+				<path name="certificate"/>
+			</entity>
+			<entity id="7" name="iopp" fq-name="certificate.iopp" order="6" x="40" y="155">
+				<path name="certificate"/>
+			</entity>
+			<entity id="8" name="load_line_zone" fq-name="certificate.load_line_zone" order="7" x="446" y="1042">
+				<path name="certificate"/>
+			</entity>
+			<entity id="9" name="smc" fq-name="certificate.smc" order="8" x="40" y="813">
+				<path name="certificate"/>
+			</entity>
+			<entity id="10" name="status" fq-name="certificate.status" order="9" x="792" y="640">
+				<path name="certificate"/>
+			</entity>
+			<entity id="11" name="treatment_system" fq-name="certificate.treatment_system" order="10" x="446" y="382">
+				<path name="certificate"/>
+			</entity>
+			<entity id="12" name="type" fq-name="certificate.`type`" order="11" x="792" y="811">
+				<path name="certificate"/>
+			</entity>
+			<entity id="13" name="company" fq-name="corporation.company" order="12" color-bg="204,192,184" x="1169" y="88">
+				<path name="corporation"/>
+			</entity>
+			<entity id="14" name="continent" fq-name="corporation.continent" order="13" color-bg="204,192,184" x="1793" y="295">
+				<path name="corporation"/>
+			</entity>
+			<entity id="15" name="country" fq-name="corporation.country" order="14" color-bg="204,192,184" x="1481" y="266">
+				<path name="corporation"/>
+			</entity>
+			<entity id="16" name="ship" fq-name="ship.ship" order="15" color-bg="228,255,181" x="792" y="121">
+				<path name="ship"/>
+			</entity>
+			<entity id="17" name="type" fq-name="ship.`type`" order="16" color-bg="228,255,181" x="1169" y="396">
+				<path name="ship"/>
+			</entity>
+		</data-source>
+	</entities>
+	<relations>
+		<relation name="iopp_ibfk_3" fq-name="certificate.iopp.iopp_ibfk_3" type="fk" pk-ref="2" fk-ref="7"/>
+		<relation name="iopp_ibfk_2" fq-name="certificate.iopp.iopp_ibfk_2" type="fk" pk-ref="3" fk-ref="7"/>
+		<relation name="bwmc_ibfk_1" fq-name="certificate.bwmc.bwmc_ibfk_1" type="fk" pk-ref="4" fk-ref="1"/>
+		<relation name="iapp_ibfk_1" fq-name="certificate.iapp.iapp_ibfk_1" type="fk" pk-ref="4" fk-ref="5"/>
+		<relation name="illc_ibfk_1" fq-name="certificate.illc.illc_ibfk_1" type="fk" pk-ref="4" fk-ref="6"/>
+		<relation name="iopp_ibfk_1" fq-name="certificate.iopp.iopp_ibfk_1" type="fk" pk-ref="4" fk-ref="7"/>
+		<relation name="smc_ibfk_1" fq-name="certificate.smc.smc_ibfk_1" type="fk" pk-ref="4" fk-ref="9"/>
+		<relation name="illc_ibfk_2" fq-name="certificate.illc.illc_ibfk_2" type="fk" pk-ref="8" fk-ref="6"/>
+		<relation name="general_certificate_ibfk_3" fq-name="certificate.general_certificate.general_certificate_ibfk_3" type="fk" pk-ref="10" fk-ref="4"/>
+		<relation name="bwmc_ibfk_2" fq-name="certificate.bwmc.bwmc_ibfk_2" type="fk" pk-ref="11" fk-ref="1"/>
+		<relation name="general_certificate_ibfk_2" fq-name="certificate.general_certificate.general_certificate_ibfk_2" type="fk" pk-ref="12" fk-ref="4"/>
+		<relation name="ship_ibfk_3" fq-name="ship.ship.ship_ibfk_3" type="fk" pk-ref="13" fk-ref="16"/>
+		<relation name="ship_ibfk_4" fq-name="ship.ship.ship_ibfk_4" type="fk" pk-ref="13" fk-ref="16"/>
+		<relation name="country_ibfk_1" fq-name="corporation.country.country_ibfk_1" type="fk" pk-ref="14" fk-ref="15"/>
+		<relation name="company_ibfk_1" fq-name="corporation.company.company_ibfk_1" type="fk" pk-ref="15" fk-ref="13"/>
+		<relation name="ship_ibfk_1" fq-name="ship.ship.ship_ibfk_1" type="fk" pk-ref="15" fk-ref="16"/>
+		<relation name="general_certificate_ibfk_1" fq-name="certificate.general_certificate.general_certificate_ibfk_1" type="fk" pk-ref="16" fk-ref="4"/>
+		<relation name="ship_ibfk_2" fq-name="ship.ship.ship_ibfk_2" type="fk" pk-ref="17" fk-ref="16"/>
+	</relations>
+</diagram>

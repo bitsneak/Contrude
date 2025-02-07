@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<diagram version="1" name="contrude_user">
+	<entities>
+		<data-source id="mysql8-194e16af5e9-7707be2aadc1b510">
+			<entity id="1" name="company" fq-name="corporation.company">
+				<path name="corporation"/>
+			</entity>
+			<entity id="2" name="country" fq-name="corporation.country">
+				<path name="corporation"/>
+			</entity>
+			<entity id="3" name="permission" fq-name="privilege.permission">
+				<path name="privilege"/>
+			</entity>
+			<entity id="4" name="role" fq-name="privilege.`role`">
+				<path name="privilege"/>
+			</entity>
+			<entity id="5" name="role_permission" fq-name="privilege.role_permission">
+				<path name="privilege"/>
+			</entity>
+			<entity id="6" name="favorites" fq-name="`user`.favorites">
+				<path name="user"/>
+			</entity>
+			<entity id="7" name="token" fq-name="`user`.token">
+				<path name="user"/>
+			</entity>
+			<entity id="8" name="user" fq-name="`user`.`user`">
+				<path name="user"/>
+			</entity>
+		</data-source>
+	</entities>
+	<relations>
+		<relation name="user_ibfk_1" fq-name="`user`.`user`.user_ibfk_1" type="fk" pk-ref="1" fk-ref="8"/>
+		<relation name="company_ibfk_1" fq-name="corporation.company.company_ibfk_1" type="fk" pk-ref="2" fk-ref="1"/>
+		<relation name="role_permission_ibfk_2" fq-name="privilege.role_permission.role_permission_ibfk_2" type="fk" pk-ref="3" fk-ref="5"/>
+		<relation name="role_permission_ibfk_1" fq-name="privilege.role_permission.role_permission_ibfk_1" type="fk" pk-ref="4" fk-ref="5"/>
+		<relation name="user_ibfk_2" fq-name="`user`.`user`.user_ibfk_2" type="fk" pk-ref="4" fk-ref="8"/>
+		<relation name="favorites_ibfk_1" fq-name="`user`.favorites.favorites_ibfk_1" type="fk" pk-ref="8" fk-ref="6"/>
+	</relations>
+</diagram>
