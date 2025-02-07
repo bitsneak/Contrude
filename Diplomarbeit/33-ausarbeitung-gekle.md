@@ -756,7 +756,7 @@ Die Website wurde primär auf 3 Seiten aufgeteilt:
 ##### Login Page
 Die Login Page ist selbstverständlich für die Anmeldung des Users verantwortlich. Im Rahmen der Diplomarbeit beschränkt sich diese aber wirklich nur auf das Anmelden und bietet daher keine Funktion zum anlegen/ registrieren eines neuen Users. Des weiteren sollte die "vollumfangende" Version des Logos, welches ebenfalls in Adobe Illustrator erstellt wurde zu sehen sein.
 
-![Alle Versionen des Logos; 1:Nur-Text 2:Symbole 3:Normal 4:Vollumfassend](img/Gekle/Contrude_All-Logos.png)
+![Alle Versionen des Logos; 1:Nur-Text 2:Symbole 3:Normal 4:Vollumfassend](img/Gekle/Contrude-All-Logos.png)
 
 ##### Main Page
 Hat der User sich erfolgreich eingeloggt so kommt er auf die Hauptseite oder Main Page. Hier liegt der Fokus voll und ganz auf der Visualisierung und Bereitstellung des zentralen Elements der Diplomarbeit, den Containern. Die Idee war, dass man über ein Dropdown Menu ein Grid einstellen kann. Je nachdem welches Grid ausgewählt wurde (z.B. 2x2) werden so viele Container angezeigt (im Beispiel: 4 Container, 2 oben 2 unten). Diese Container können aber mehrere Container repräsentieren. 
