@@ -21,20 +21,20 @@
 #### Container-Status überwachen
 
 **Beschreibung:** Das System überwacht die Umweltdaten im Container  
-**Trigger:** In einem regelmäßigen Zeitinterval
+**Trigger:** In einem regelmäßigen Zeitinterval  
 **Bedingungen:** Sensoren sind Aktiv  
 **Ablauf:**
 
 1. Sensoren erfassen Daten  
 2. Daten werden an den Server gesendet  
 3. Status wird angezeigt
- 
+
 **Alternative:** Sensorfehler  
-**Ergebnis:** Daten werden aktualisiert und auf der Webseite angezeigt  
+**Ergebnis:** Daten werden aktualisiert und auf der Webseite angezeigt
 
 #### Temperatur abfrage
 
-**Beschreibung:** Der Benutzer will die aktuelle Temperatur eines Containers sehen  
+**Beschreibung:** Der Benutzer will die aktuelle Temperatur eines Containers sehen.  
 **Trigger:** Benutzeranfrage  
 **Bedingungen:** Webandwendung ist aktiv  
 **Ablauf:**
@@ -44,11 +44,11 @@
 3. Temperaturdaten werden angezeigt  
 
 **Alternative:** Datenbank nicht erreichbar  
-**Ergebnis:** Temperatur wird mithilfe eines Grafen angezigt  
+**Ergebnis:** Temperatur wird mithilfe eines Grafen angezigt
 
 #### Sensordaten speichern
 
-**Beschreibung:** Das System speichert die Sensordaten in der Datenbank  
+**Beschreibung:** Das System speichert die Sensordaten in der Datenbank.  
 **Trigger:** Neue Sensordaten werden an den Server gesendet  
 **Bedingungen:** Datenbank und Server sind aktiv  
 **Ablauf:**
@@ -58,11 +58,11 @@
 3. Sensordaten werden gespeichert  
 
 **Alternative:** Speicherfehler tritt auf  
-**Ergebnis:** Sensordaten sind in der Datenbank gespeichert  
+**Ergebnis:** Sensordaten sind in der Datenbank gespeichert
 
 #### Benutzer authentifizieren
 
-**Beschreibung:** Der Benutzer meldet sich in der Webanwendung an  
+**Beschreibung:** Der Benutzer meldet sich in der Webanwendung an.  
 **Trigger:** Benutzer gibt Anmeldedaten ein  
 **Bedingungen:** Benutzerkonto existiert  
 **Ablauf:**
@@ -72,13 +72,13 @@
 3. Benutzer wird angemeldet  
 
 **Alternative:** Zugangsdaten sind falsch  
-**Ergebnis:** Benutzer ist erfolgreich angemeldet  
+**Ergebnis:** Benutzer ist erfolgreich angemeldet
 
 #### Alarm bei Grenzwertüberschreitung auslösen
 
 **Beschreibung:** Das System löst einen Alarm aus, wenn ein definierter Grenzwert überschritten wird.  
 **Trigger:** Grenzwertüberschreitung erkannt  
-**Bedingungen:** Server ist aktiv
+**Bedingungen:** Server ist aktiv  
 **Ablauf:**
 
 1. Server erkennt Grenzwertüberschreitung  
@@ -86,20 +86,20 @@
 3. Alarm wird den Benutzer in einer Übersicht und in bei den Container Details angezeigt
 
 **Alternative:** Fehler bei der Alarmübertragung  
-**Ergebnis:** Alarmbenachrichtigung wird gesendet  
+**Ergebnis:** Alarmbenachrichtigung wird gesendet
 
 #### GPS-Signal wird gesendet
 
 **Beschreibung:** Das System aktualisiert regelmäßig die GPS-Position des Containers.  
 **Trigger:** Zeitintervall erreicht  
-**Bedingungen:** Server ist aktiv
+**Bedingungen:** Server ist aktiv  
 **Ablauf:**
 
 1. System fordert GPS-Daten an  
 2. GPS-Daten werden aktualisiert  
 
 **Alternative:** Kein GPS-Signal verfügbar  
-**Ergebnis:** Position des Containers ist aktualisiert  
+**Ergebnis:** Position des Containers ist aktualisiert
 
 #### Benutzerrolle zuweisen
 
@@ -113,7 +113,7 @@
 3. Administrator weist dem Benutzer eine Rolle zu  
 4. System erstellt Benutzerkonto (falls nicht vorhanden) und aktualisiert die Benutzerrolle  
 
-**Alternative:** Rollenzuweisung schlägt fehl oder Benutzererstellung schlägt fehl  
+**Alternative:** Rollenzuweisung oder Benutzererstellung schlägt fehl  
 **Ergebnis:** Benutzerkonto wird erstellt (falls notwendig) und die Benutzerrolle ist aktualisiert
 
 #### Container-Ortung starten
@@ -126,8 +126,8 @@
 1. GPS-Sensor sendet Daten  
 2. Position wird angezeigt  
 
-**Alternative:** GPS-Signal nicht verfügbar -> Containerverlust
-**Ergebnis:** Containerortung erfolgreich  
+**Alternative:** GPS-Signal nicht verfügbar -> Containerverlust  
+**Ergebnis:** Containerortung erfolgreich
 
 #### Containerverlust melden
 
@@ -149,11 +149,11 @@
 **Bedingungen:** Datenbank und Server sind aktiv  
 **Ablauf:**
 
-1. Daten werden abgerufen
+1. Daten werden abgerufen  
 2. Daten werden grafisch dargestellt  
 
 **Alternative:** Daten nicht verfügbar  
-**Ergebnis:** Umweltdaten werden von Grafana visualisiert
+**Ergebnis:** Umweltdaten werden von Grafana visualisiert  
 
 ### Projektfortschritt 02. Februar 2024 bis 19. September 2024
 

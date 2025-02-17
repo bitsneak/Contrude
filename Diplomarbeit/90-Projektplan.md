@@ -6,13 +6,7 @@
 
 ### Projektauftrag
 
-Die Platzierung der Container auf einem Frachtschiff ist in der Ladeliste vordefiniert.
-Jedoch sind die Bezeichnungen der Container vom verladenden Kranführer nicht immer eindeutig identifizierbar.
-Diese Unklarheit führt häufig zu einer falschen Platzierung der Fracht auf dem Schiff.
-Folglich kann der angegebene Container nicht an seinem zugewiesenen Stellplatz, sondern an einem anderen Ort gefunden werden.
-Zudem ist es nicht möglich, Informationen über den aktuellen Zustand des Inhalts des Containers abzurufen.
-Dies könnte insbesondere bei sensiblen Frachtgütern von Nachteil sein, beispielsweise bei zerbrechlichen Gütern.
-Es kommt auch des öfteren vor, dass Container während des Überseetransports vom Frachtschiff abhandenkommen, jedoch wird dies erst im Eingangshafen erfasst.
+Die Platzierung von Containern auf einem Frachtschiff ist in der Ladeliste vordefiniert. Jedoch sind die Bezeichnungen der Container vom verladenden Kranführer ohne Benutzung eines speziellen Trackingsystems nicht immer eindeutig identifizierbar. [@identecsolutions] Diese Unklarheit führt häufig zu einer falschen Platzierung der Fracht auf dem Schiff. Folglich kann der angegebene Container nicht an seinem zugewiesenen Stellplatz, sondern an einem anderen Ort gefunden werden. Es kommt auch des Öfteren vor, dass Container während des Überseetransports vom Frachtschiff abhandenkommen, jedoch wird dies erst im Eingangshafen erfasst. Das eigentliche Problem ist es jedoch, dass es nicht einfach ist, Informationen über den aktuellen Zustand des Inhalts des Containers abzurufen. Dies könnte insbesondere bei sensiblen Frachtgütern von Nachteil sein, beispielsweise bei zerbrechlichen oder temperaturempfindlichen Gütern. Der Lösungsweg für dieses Problem ist, dass in Containern installierte Mikrokontroller über ein Mesh-Netzwerk miteinander kommunizieren, deren Umweltdaten aufzeichnen und diese dann an einen Server senden. Die Daten können dann über eine Website präsentabel zur Verfügung gestellt werden.
 
 #### Projektziele
 
@@ -33,7 +27,7 @@ Es kommt auch des öfteren vor, dass Container während des Überseetransports v
   - Dijkstra
 - Erstellen einer Webanwendung mit Benutzeroberfläche zur Darstellung und Abfrage der ausgelesenen Daten
 
-#### Nicht-Ziele bzw. nicht Inhalte
+#### Nicht-Ziele
 
 - Mobile Anwendung
 - Mehr als 3 Prototypen
@@ -47,7 +41,7 @@ Für den Hafen kann dies vom Vorteil sein, wenn ein Container während des Trans
 
 #### Projektauftraggeber/in
 
-Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft uns bei der Eerstellung des Projektes. Sie stellt uns Lehrkräfte zur Verfügung, welche uns fast jederzeit als Berater zur seite stehen.
+Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft uns bei der Erstellung des Projektes. Sie stellt uns Lehrkräfte zur Verfügung, welche uns fast jederzeit als Berater zur seite stehen.
 
 #### Projekttermine
 
