@@ -13,6 +13,6 @@ Derzeit existiert keine effiziente Lösung, um die korrekte Platzierung von Cont
 
 ### Lösungsansatz
 
-Um diese Probleme zu lösen, wird ein System entwickelt, welches mit Hilfe von Mikrokontrollern in den Containern ein Mesh-Netzwerk aufbaut. Die erfassten Umweltdaten werden an einen Server übertragen und können über eine Webanwendung abgerufen werden. Ergänzt wird dies durch eine GPS-Funktion, um den Standort der Container jederzeit nachvollziehen zu können. 
+Um diese Probleme zu lösen, wird ein System entwickelt, welches mit Hilfe von Mikrokontrollern in den Containern ein Mesh-Netzwerk aufbaut. Die erfassten Umweltdaten werden an einen Server übertragen und können über eine Webanwendung abgerufen werden. Ergänzt wird dies durch eine GPS-Funktion, um den Standort der Container jederzeit nachvollziehen zu können.
 
 Dadurch sollen Fehlplatzierungen reduziert, Transportverluste minimiert und die Nachverfolgbarkeit der Container verbessert werden. Die entwickelten Prototypen und Algorithmen ermöglichen eine effizientere Logistik und eine erhöhte Transparenz.

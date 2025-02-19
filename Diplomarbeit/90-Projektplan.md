@@ -20,7 +20,7 @@ Die Platzierung von Containern auf einem Frachtschiff ist in der Ladeliste vorde
   - Erschütterung
   - Luftdruck
 - Entwicklung von Prototypen mit folgenden Funktionen
-  - Datenübertragung mittels ?
+  - Datenübertragung
     - Auslesen der Daten
     - Ortung mittels GPS
 - Erstellung eines Algorithmus zur ungefähren Bestimmung der Postion eines Containers auf dem Frachtschiff

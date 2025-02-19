@@ -59,4 +59,3 @@ Das Projekt trägt insbesondere zu den folgenden SDGs^[Sustainable Development G
 - **Ziel 13: Maßnahmen zum Klimaschutz** – Die Implementierung digitaler Lösungen führte zu einer Reduzierung des Papierverbrauchs und ermöglichte eine effizientere Nutzung von Energieressourcen.
 
 Negative Auswirkungen auf Nachhaltigkeitsziele wurden nicht festgestellt. Dennoch sollten zukünftige Projekte noch stärker auf umweltfreundliche Technologien und nachhaltige Lieferketten achten.
-
