@@ -155,22 +155,92 @@
 **Alternative:** Daten nicht verfügbar  
 **Ergebnis:** Umweltdaten werden von Grafana visualisiert  
 
-### Projektfortschritt 02. Februar 2024 bis 19. September 2024
-
-**TODO**
+### Projektfortschritt 23. Februar 2024 bis 19. September 2024
 
 #### Gesamtstatus
 
+
+* Das Projekt befindet sich derzeit im Plan. 
+* Es wurden alle Teile bestellt und die Hardware dimensioniert.
+* Bei den Lieferungen gibt es schwere Verspätungungen.
+* Es wurden erste Versionen der Container, Sensoren und Benutzer Datenbank in MySQL erstellt.
+* Der Server besitz REST-Schnittpunkte und eine Authentifizierungsmöglichkeit.
+  * Des weiteren wird Treafik benutzt um den DNS zuzuweisen.
+  * Es wird eine containerbasierte Architektur verwendet.
+* Passwörter werden Docker mittels Secrets übergeben.
+* Das Layout & Design für die Webseite wurden fertigestellt.
+  * Eine erste rudimentäre Version wurde mittels CSS & HTML erstellt.
+
+
+| Dimension           | Status            |  Maßnahmen             |
+|:--------------------|:------------------|:-----------------------|
+| Leistungsziele      | In Verzug        | Betreuer um Hilfe bitten                  |
+| Terminziele         | Verzug durch Lieferprobleme | restliche Komponenten über Betreuer besorgen|
+| Kostenziele | Unter Budget | - |
+| Teamarbeit | optimal | - |
+
+:Projektstatus am 2024-09-19
+
+
 #### Notwendige Entscheidungen
 
+- Durch den Lieferverzug der Komponenten muss die Programmierung und die Montage
+des Prototypen nach hinten verschoben werden.
+- Durch Einschränkungen von der verwendeten MySQL-Version musste auf eine neuere
+gewechselt werden.
+
 #### Nächste Schritte
+
+- Prototypen bauen und Programmieren.
+- Inplementieren der Zeitreihen-Datenbank InfluxDB und Grafana zur Darstellung der Sensor Daten.
+- Erstellen einen MQTT Brokers für die Übertragung der Daten.
+- Datenbanken für ... erstellen.
+  - Grenzwerte (Sensoren)
+  - Schiffe
+- Funktionalität für die Webseite schreiben
+  - Verwenden der React-Bibliothek
 
 ### Projektfortschritt 19. September 2024 bis 01. Februar 2025
 
-**TODO**
-
 #### Gesamtstatus
+
+
+* Das Projekt befindet sich derzeit in der Endphase.
+* Es wurden zwei Korrekturversionen der Diplomarbeit abgeben.
+* Der Prototyp ist voll funktionsfähig.
+  * Lesen der Umweltdaten
+  * Sender der Daten 
+  * Aufbau des Mesh-Netzwerkes
+* Es wurden ... Datenbanken implementiert.
+  * Schiff
+  * Grenzwerte
+  * Sensor (von relational auf zeitbasiert)
+* Die Webseite wurde in React neugeschrieben und ... Funktionen wurden eingefügt.
+  * Login
+  * Wechsel des Schiffes
+  * Einzelne Container einsehen
+    * Umweltdaten sehen
+  * Notizen machen 
+
+
+| Dimension           | Status            |  Maßnahmen             |
+|:--------------------|:------------------|:-----------------------|
+| Leistungsziele      | In Verzug        | Betreuer um Hilfe bitte |
+| Terminziele         | erreicht | - |
+| Kostenziele | Unter Budget | - |
+| Teamarbeit | optimal | - |
+
+:Projektstatus am 2025-02-01
+
 
 #### Notwendige Entscheidungen
 
+- Die Formulierungen in der Diplomarbeit müssen geändert werden. 
+  - Dazu gehören auch Rechtschreib- und Grammatikkontrollen.
+
 #### Nächste Schritte
+
+- Vollständige Verschriftlichung der Diplomarbeit.
+- Prototypen auf Lochrasterplatine löten.
+- Sidebars der Webseite anpassen.
+
