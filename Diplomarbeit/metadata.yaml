@@ -109,5 +109,11 @@ da-appendix:
 #Schrempf
 
 # Diplomarbeitsvereinbarungen müssen zum Schluss sein 
-  
+
+- abschnitt: Diplomatbeitsvereinbarung Englisch
+  pdf-file: HTL-DA-Doku-EN.pdf
+
+- abschnitt: Diplomatbeitsvereinbarung Deutsch
+  pdf-file: HTL-DA-Doku-DE.pdf
+
 ---
