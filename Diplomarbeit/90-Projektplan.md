@@ -65,20 +65,20 @@ Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft u
 | Meilenstein  | Kostenart | Menge  | Preis   | Gesamtkosten | Deckung durch |
 |:-------------|:---------:|:------:|--------:|-------------:|---------------|
 | Prototyp funktionell     | Hardware  |  3     |  27.06 € | 81.19 €      | Schüler        |
-| Finale Abgabe der DA             | Druck     |  3     |   26.00 € |  53.00 €      | Schüler        |
-| Finale Abgabe der DA              | Druck     |  1     |   26.00 € |  26 €      | Schulischen Betreuer           |
+| Finale Abgabe der DA             | Druck     |  3     |   25.00 € |  75.00 €      | Schüler        |
+| Finale Abgabe der DA              | Druck     |  1     |   25.00 € |  25 €      | Schulischen Betreuer           |
 
 : Geplante Projektkosten
 
 | Meilenstein  | Kostenart | Menge  | Preis   | Gesamtkosten | Deckung durch |
 |:-------------|:---------:|:------:|--------:|-------------:|---------------|
 | Prototyp funktionell     | Hardware  |  3     |  27.06 € | 81.19 €      | Schüler        |
-| Finale Abgabe der DA             | Druck     |  3     |   26.00 € |  53.00 €      | Schüler        |
-| Finale Abgabe der DA              | Druck     |  1     |   26.00 € |  26 €      | Schulischen Betreuer           |
+| Finale Abgabe der DA             | Druck     |  3     |   25.00 € |  75.00 €      | Schüler        |
+| Finale Abgabe der DA              | Druck     |  1     |   25.00 € |  25 €      | Schulischen Betreuer           |
 
 : Tatsächliche Projektkosten
 
-**Das Projekt kostet in Summe: 160.19 €**
+**Das Projekt kostet in Summe: 181.19 €**
 
 #### Projektrisiken
 
