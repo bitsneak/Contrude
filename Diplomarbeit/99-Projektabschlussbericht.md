@@ -42,7 +42,7 @@ das wir günstigere Sensoren für den Bau des Prototypen gefunden haben.
 #### Teamarbeit
 
 Die Teamarbeit funktionierte insgesamt gut, insbesondere die Kommunikation innerhalb der Gruppe und mit den Betreuern über Online-Kommunikationswege
-wie z.B.: Microsoft Teams, war effizient. 
+wie z.B.: Microsoft Teams, war effizient.
 
 #### Projektmanagement
 
@@ -52,10 +52,24 @@ eindeutig überlegen ist und wir durch die Anbindung des in GitHub integrierten 
 
 ### Nachhaltigkeit
 
-Das Projekt trägt insbesondere zu den folgenden SDGs^[Sustainable Development Goals]  bei:
+Auf folgende SDGs^[Sustainable Development Goals] wird in dieser Diplomarbeit besonders eingegangen:
 
-- **Ziel 9: Industrie, Innovation und Infrastruktur** – Das Projekt führte zur Entwicklung einer innovativen Lösung, die digitale Prozesse effizienter gestaltet.
-- **Ziel 12: Nachhaltige/r Konsum und Produktion** – Durch die Optimierung von Arbeitsprozessen konnte der Ressourcenverbrauch reduziert werden.
-- **Ziel 13: Maßnahmen zum Klimaschutz** – Die Implementierung digitaler Lösungen führte zu einer Reduzierung des Papierverbrauchs und ermöglichte eine effizientere Nutzung von Energieressourcen.
+- **Ziel 3:** Gesundheit und Wohlergehen
 
-Negative Auswirkungen auf Nachhaltigkeitsziele wurden nicht festgestellt. Dennoch sollten zukünftige Projekte noch stärker auf umweltfreundliche Technologien und nachhaltige Lieferketten achten.
+> Bis 2030 die Zahl der Todesfälle und Erkrankungen aufgrund gefährlicher Chemikalien und der Verschmutzung und Verunreinigung von Luft, Wasser und Boden erheblich verringern. [@sdg3]
+
+- **Ziel 8:** Menschenwürdige Arbeit und Wirtschafts­wachstum
+
+> Bis 2030 die weltweite Ressourceneffizienz in Konsum und Produktion Schritt für Schritt verbessern und die Entkopplung von Wirtschaftswachstum und Umweltzerstörung anstreben, im Einklang mit dem Zehnjahres-Programmrahmen für nachhaltige Konsum- und Produktionsmuster, wobei die entwickelten Länder die Führung übernehmen. [@sdg8]
+
+- **Ziel 9:** Industrie, Innovation und Infrastruktur
+
+> Bis 2030 die Infrastruktur modernisieren und die Industrien nachrüsten, um sie nachhaltig zu machen, mit effizienterem Ressourceneinsatz und unter vermehrter Nutzung sauberer und umweltverträglicher Technologien und Industrieprozesse, wobei alle Länder Maßnahmen entsprechend ihren jeweiligen Kapazitäten ergreifen. [@sdg9]
+
+- **Ziel 12:** Nachhaltige/r Konsum und Produktion
+
+> Die Unternehmen, insbesondere große und transnationale Unternehmen, dazu ermutigen, nachhaltige Verfahren einzuführen und in ihre Berichterstattung Nachhaltigkeitsinformationen aufzunehmen. In der öffentlichen Beschaffung nachhaltige Verfahren fördern, im Einklang mit den nationalen Politiken und Prioritäten. [@sdg12]
+
+- **Ziel 14:** Leben unter Wasser
+
+> Bis 2025 alle Arten der Meeresverschmutzung, insbesondere durch vom Lande ausgehende Tätigkeiten und namentlich Meeresmüll und Nährstoffbelastung, verhüten und erheblich verringern. Die Versauerung der Ozeane auf ein Mindestmaß reduzieren und ihre Auswirkungen bekämpfen, unter anderem durch eine verstärkte wissenschaftliche Zusammenarbeit auf allen Ebenen. [@sdg14]
