@@ -31,11 +31,11 @@ Ein Sonderfall der TSDB ist die RRD^[Round Robin Database]. Diese löscht alte D
 
 Um Rohdaten verständlich zu machen, im Kontext betrachten zu können und etwaige Korrelationen zwischen verschiedenen Datensets sichtbar zu machen, ist es notwendig, die oben genannten Methoden anzuwenden. Hierbei ist eine unkomplizierte Grafik als Endprodukt das Ziel.
 
-![Beispiel Datenvisualisierung [@kaggle-weather-data]](img/Schrempf/Weather-Data-Set.png){width=100%}
+![Beispiel einer Datenvisualisierung von Mittelwerten einer Temperaturaufzeichnung  [@kaggle-weather-data]](img/Schrempf/Weather-Data-Set.png){width=100%}
 
 Um solch ein Ergebnis zu erreichen, müssen vorhandene Daten bereinigt, gefiltert und ausgewählt werden. Beim Erstellen der Visualisierungen muss eine Verzerrung der Daten hinsichtlich Trivialisierung, Überspitzung und menschlichen Vorurteilen vermeiden werden. [@aws-datenvisualisierung]
 
-### CI/CD
+### Continuous Integration und Continuous Deployment
 
 ![CI / CD Ablauf [@bestarion]](img/Schrempf/CI-CD.png){width=100%}
 
@@ -59,7 +59,7 @@ Um dieses sehr mächtige Konzept voll auszuschöpfen werden Pipelines angelegt. 
 
 Um solch ein großes Konzept überhaupt realisieren zu können, muss man sich ein Stück weit von der bisherigen Softwareentwicklung lossagen. Hier kommen Microservices und die Containerization ins Spiel.
 
-Microservices sind Teile eines Produkts. Früher gab es nur eine einzige große Software die mit ihren Teilen als ein Ganzes funktionierte. Heutzutage werden Teile identifiziert und jeder Baustein wird für sich issoliert programmiert. Dies bietet mehrere Vorteile. Bei einer konzeptionellen oder technischen Umstellung kann die einzelne Komponente leicht ausgetauscht und durch eine neue ersetzt werden. Außerdem ist die gesamte Software als auch einzelne Teile leicht Skallierbar. Jedes einzelne Element läuft in seiner dezidierten Umgebung, welche nur den Kernel mit dem OS^[Operating System = Betriebssystem] teilt und deswegen auch unabhängig auf verschiedenen Systemen einsatzbereit ist. Solch ein dezidierte Umgebung besteht aus Systembibliotheken, Abhängikeiten, Umgebungsvariablen und eventuellen eigenproduzierten Code der zu hostenden Anwendung. Dies ist ein Container. Es gilt: Funktioniert der Container, und somit auch der in ihm definierte Microservice auf einem System, so tut er es auch überall anders. Außerdem können Container auch leicht in Clouds deployd und gehosted werden. Solch ein Aspekt ist vorallem in Zeiten immer stärker werdenden Cloud-Computings immer wichtiger. [@ibm-docker]
+Microservices sind Teile eines Produkts. Früher gab es nur einen einzigen großen Softwaremonolithen, welcher mit seinen Teilen als ein großes Ganzes funktionierte. Heutzutage werden Teile identifiziert und jeder Baustein wird für sich issoliert programmiert. Dies bietet mehrere Vorteile. Bei einer konzeptionellen oder technischen Umstellung kann die einzelne Komponente leicht ausgetauscht und durch eine neue ersetzt werden. Außerdem ist die gesamte Software als auch einzelne Teile leicht Skallierbar. Jedes einzelne Element läuft in seiner dezidierten Umgebung, welche nur den Kernel mit dem OS^[Operating System = Betriebssystem] teilt und deswegen auch unabhängig auf verschiedenen Systemen einsatzbereit ist. Solch ein dezidierte Umgebung besteht aus Systembibliotheken, Abhängikeiten, Umgebungsvariablen und eventuellen eigenproduzierten Code der zu hostenden Anwendung. Dies ist ein Container. Es gilt: Funktioniert der Container, und somit auch der in ihm definierte Microservice auf einem System, so tut er es auch überall anders. Außerdem können Container auch leicht in Clouds deployd und gehosted werden. Solch ein Aspekt ist vorallem in Zeiten immer stärker werdenden Cloud-Computings immer wichtiger. [@ibm-docker]
 
 Ein Container benutzt die Virtualisierungstools des Linuxkernels um Ressourcen zu teilen und verwalten. Für nicht Unix-Betriebsysteme gibt es Software die den Linuxkernel simmulieren kann. Zum Beispiel WSL^[Windows-Subsystem für Linux] oder Hyper-V bei Windows. Durch die gemeinsame Nutzung des Kernels muss auch keine dezidierte Definition der benötigten Ressourcen stattfinden, da diese automatisch vom System alloziert werden. Das Konzept eines Containers ähnelt dem, einer VM^[Virtuelle Maschine]. Nur mit dem wesentlichen Vorteil, dass kein komplett eigenes OS verwendet wird, sondern nur die Schritte zum produzieren eines gewissen Outputs angegeben werden. Container haben eine Abstraktionsebene zum Kernel, aber da eben kein eigenes Betriebsystem wie bei einer VM verwendet wird, gibt es auch ein marginales Sicherheitsrisiko. Malware könnte durch die gemeinsame Nutzung des Kernels eben auf diesen zugreifen und erheblichen Schaden anrichten. Um dem Vorzubeugen, gibt es etliche Third-Party Tools mit denene die Sicherheit über das schon gegebene Maß erhöht werden kann. [@ibm-docker]
 
@@ -69,9 +69,9 @@ Soweit zum Allgemeinen der Virtualisierung. Doch was hat Docker damit zu tun? Do
 
 Jedes Image wird in einem `Dockerfile` definiert. Hierbei spricht man nur von einer Datei, in welcher die Anweisungen zum Aufbau der Schichten gespeichert sind. Beim Starten des Containers interagiert die Docker CLI^[command line interface] mit dem `Dockerfile` und führt die Anweisungen aus. Eine beliebte Variante ist es, ein schon bestehendes Image zu verwenden und seine eigene Applikation mit Schichten on top zu bauen. [@ibm-docker]
 
-Ein `Dockerfile` ist sehr vielseitig und bietet verschiedene Funktionen. Eine sehr wichtige sind Secrets. Diese stehen für Platzhalter, in die der Anwender Werte eingibt, welche im weiteren Programmablauf benötigt werden. Oftmals werden sie als Umgebungsvariablen benutzt. Eine wichtige Eigenschaft solch einer Einheit ist, dass es ein eigenes System ist, welches unabhängig vom Host existiert. Dementsprechend gehen im Container gespeicherte Daten und Änderungen verloren, wenn dieser heruntergefahren wird. Um dieses Problem zu beheben, gibt es Volumes. Sie dienen dazu, Daten in den Container, z.B. Code, und aus ihm heraus, z.B. Datenbanken, zu bekommen. Um aus dem Container heraus kommunizieren zu können, muss ein Portforwarding zwischen Host und Cotnainer eingestellt werden.
+Ein `Dockerfile` ist sehr vielseitig und bietet verschiedene Funktionen. Eine sehr wichtige sind Secrets. Diese stehen für Platzhalter, in die der Anwender Werte eingibt, welche im weiteren Programmablauf benötigt werden. Oftmals werden sie als Umgebungsvariablen realisiert. Eine wichtige Eigenschaft solch einer Einheit ist, dass es ein eigenes System ist, welches unabhängig vom Host existiert. Dementsprechend gehen im Container gespeicherte Daten und Änderungen verloren, wenn dieser heruntergefahren wird. Um dieses Problem zu beheben, gibt es Volumes. Sie dienen dazu, Daten in den Container, z.B. Code, und aus ihm heraus, z.B. Datenbanken, zu bekommen. Um aus dem Container heraus kommunizieren zu können, muss ein Portforwarding zwischen Host und Cotnainer eingestellt werden.
 
-![Übersicht vom Container Aufbau [@container-overview]](img/Schrempf/Container-Infrastructure-Overview.png){width=100%}
+![Übersicht vom Containeraufbau [@container-overview]](img/Schrempf/Container-Infrastructure-Overview.png){width=100%}
 
 Ein Beispiel solch eines Dockerfiles ist hier zu sehen. Es baut auf das schon bestehenden Ubuntu-Image auf, installiert Python, fügt eine Datei hinzu, schaltet die benötigten Ports frei und führt das Python-Script aus. [@docker-dockerfile]
 
@@ -151,8 +151,8 @@ Eine GitHub Action besteht aus folgenden Komponenten:
    - Trigger für Workflow
 2. Runner
    - Runtime Environment z.B. Ubuntu
-3. Job
-   - Der durch das Event getriggerte Workflow
+3. Job(s)
+   - Die durch das Event getriggerten Workflows
 4. Steps
    - Ein Workflow hat mehrere Steps
 5. Action
@@ -189,6 +189,14 @@ jobs:
       - name: Run Tests
         run: mvn clean test
 ```
+
+Weitere mögliche automatisierte Anwengungsfälle sind:
+
+- Einen Release bei Softwareänderungen erstellen
+  - Eine App auf dem Google / Apple Store hochladen
+- Den geänderten Code auf dem Produktivsystem updaten
+  - Docker Images updaten und hochladen
+  - Pullen der neuen Images auf dem Server
 
 ### REST API
 
@@ -262,7 +270,7 @@ Eine URI soll klar verständlich und strukturell aufklärend designed sein. Wenn
 **URI Optionals**:
 
 - Queries dienen dazu, Daten anzugeben, die nicht strikt aneinander gekoppelt sind, jedoch miteinander korrelieren.
-  - Der Inhalt der Base-URI darf sich nicht verändern durch das Weglassen eines Query-Parameters.
+  - Der Inhalt der Base-URI darf sich nicht durch das Weglassen eines Query-Parameters verändern.
   - Sie werden auf Collections und Stores angewandt.
   - Sie dienen meistens zum Suchen / Filtern der Daten aus einer Ressource.
 [vgl. @REST-API-Design-Rulebook, S. 19 f.]
@@ -280,7 +288,7 @@ Mit Frameworks wie Node.js kann auch eine frontendorientierte Sprache wie JavaSc
 Um eine Node.js REST-Appp zu erstellen, muss man als erstes einen Ordner seiner Wahl als ein Node.js project initialisieren. Als Package-Manager wird hier NPM verwendet.
 
 ```{caption="Initialisieren eines Node.js Projekts" .cmd}
-npm init
+  npm init
 ```
 
 Danach können benötigte Packages installiert werden. In unserem fall Express.
@@ -318,7 +326,15 @@ Mit dem letzten Befehl
 node app.js
 ```
 
-wird die Applikation gestarted und kann auf `http://localhost:80/hello` aufgerufen werden. [@medium-rest-node-js]
+wird die Applikation gestarted und kann auf `http://localhost:80/hello` oder mittels cURL und `curl localhost/hello` aufgerufen werden. [@medium-rest-node-js]
+
+Das JSON, welches beim aufrufen des Endpoints ausgegeben wird, sieht so aus:
+
+```{caption="Ausgabe eines Beispiel-REST-Endpoints" .json}
+{
+  "message": "Hello Express"
+}
+```
 
 ## Praktische Arbeit
 
@@ -400,7 +416,7 @@ CREATE SCHEMA IF NOT EXISTS schema DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4
 
 Jeder Container wird auf einem Schiff transportiert. Da ein Container im laufe seines Transports auf verschiedenen Schiffen sein kann und dementsprechend auch bewegt wird und auf verschiedenen Stellplätzen landet, ist es wichtig, nachzuvervolfgen, auf welchen Schiffen der Container war. In der hier gestalteten Datenbank wurden Schema für allgemeine Schiffdaten (`ship`), Zertifikate die das Schiff haben muss (`certificate`) und für die Herkunft des Transportmittels (`corporation`), angefertigt.
 
-![ERD von der Schiffdatenbank](img/Schrempf/ship-erd.png){width=100%}
+![ERD der Schiffdatenbank](img/Schrempf/ship-erd.png){width=100%}
 
 **TODO**
 
@@ -409,26 +425,26 @@ Jeder Container wird auf einem Schiff transportiert. Da ein Container im laufe s
 
 ##### Container
 
-Jeder Container besitzt verschieden Parameter, welche ihn ausmachen. Nicht nur seine Größe ist ausschalggebend, sondern auch seine Materialbeschaffenheiten, Tragfähigkeiten und Zulassungen. In der hier gestalteten Datenbank wurden Schema für allgemeine Containerdaten (`container`), Größenklassifikationen des Containers (`dimension`), Zertifikate die der Container haben muss (`certificate`) und für die Herkunft des Containers (`corporation`), angefertigt.
+Jeder Container besitzt verschieden Parameter, welche ihn ausmachen. Nicht nur seine Größe, sondern auch seine Materialbeschaffenheiten, Tragfähigkeiten und Zulassungen sind ausschalggebend. In der hier gestalteten Datenbank wurden Schema für allgemeine Containerdaten (`container`), Größenklassifikationen des Containers (`dimension`), Zertifikate die der Container haben muss (`certificate`) und für die Herkunft des Containers (`corporation`), angefertigt.
 
-![ERD von der Containerdatenbank](img/Schrempf/ship-erd.png){width=100%}
+![ERD der Containerdatenbank](img/Schrempf/container-erd.png){width=100%}
 
 **TODO**
 
 - Was für Zertifikate hat ein Container und warum wurden sie hier implementiert
   - Quellen sind gefunden, nur noch nicht eingefügt
 
-##### Grenznwerte
+##### Grenzwerte
 
 In dieser Ausarbeitung geht es um die Überwachung eines Containers. Diese Datenbank dient dem Zweck, um nicht nur dessen Messwerte auszulesen, sondern auch um zu definieren, wann ein kritischer Wert erreicht worden ist. In der hier gestalteten DB wurde ein Schema für die Grenzwerte (`threshold`) angefertigt. Ein Grenzwert wird mit seinem Bereich in dem er gültig ist, seinem Erwartungswert, in welchen Bereich um den Erwartungswert der gelieferte Wert sein soll und die Priorität des angegebenen Limits definiert.
 
-![ERD von der Grenzwertdatenbank](img/Schrempf/threshold-erd.png){width=50%}
+![ERD der Grenzwertdatenbank](img/Schrempf/threshold-erd.png){width=50%}
 
 ##### User
 
-Um ein praktikable UI bieten zu können, muss diese eine Login-Funktion beinhalten. Userdetails müssen persistiert werden und die Datenbank dazu hat Schema für allgemeine Userdaten und dessen Tokens (`user`), Organisationsdaten des Benutzers (`corporation`) und die Rechte die der Anwender in der Applikation hat (`privilege`).
+Um ein praktikable UI^[user interface = Benutzeroberfläche] bieten zu können, muss diese eine Login-Funktion beinhalten. Userdetails müssen persistiert werden und die Datenbank dazu hat Schema für allgemeine Userdaten und dessen Tokens (`user`), Organisationsdaten des Benutzers (`corporation`) und die Rechte die der Anwender in der Applikation hat (`privilege`). Wenn ein Benutzer sich erfolgreich angemeldet hat, wernde zwei Tokens, Access und Refresh, vom Server erstellt. Wie dies geschieht wird später weiter erläutert. Im nachstehenden ERD^[Entity-Relationship-Modell] ist zu bemerken, dass die Tabelle der User-Tokens keine Verbindung zu anderen Tabellen hat und somit auch mit keinen anderen Daten verknüpft ist, zumindest scheint es so. Im Token selbst wird die Information, welchen Benutzer dieser Token gehört, welche Rechte damit verbunden sind und wie lange er gültig ist, eingebettet.
 
-![ERD von der Benutzerdatenbank](img/Schrempf/user-erd.png){width=100%}
+![ERD der Benutzerdatenbank](img/Schrempf/user-erd.png){width=100%}
 
 #### InfluxDB
 
@@ -440,7 +456,7 @@ In unserem Fall ist der Publisher der Hardware-Prototyp und der Subsciber ist Te
 
 #### Grafana
 
-### CI/CD
+### Continuous Integration und Continuous Deployment
 
 #### Server
 
