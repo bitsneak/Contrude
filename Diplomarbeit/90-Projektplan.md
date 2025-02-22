@@ -117,7 +117,7 @@ Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft u
 
 : Projektrollen
 
-![Projektorganisationsdiagramm](img/Gekle/PO-Diagram.png){width=50%}
+![Projektorganisationsdiagramm](img/PO-Diagram.png){width=50%}
 
 ### Vorgehen bei Änderungen
 
