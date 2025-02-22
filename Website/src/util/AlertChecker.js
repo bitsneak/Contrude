@@ -43,7 +43,6 @@ const checkForAlerts = (sentences, serialNumber) => {
           break;
       }
   
-      // Apply comparator to check validity of the condition
       switch (comparator) {
         case ">":
           isValid = parameterValue > conditionValue;
@@ -70,11 +69,15 @@ const checkForAlerts = (sentences, serialNumber) => {
   
       // If the condition is valid, push the result into the alerts array
       if (isValid) {
-        alerts.push(`${conditionParameter} = ${result}`);
+        // Maybe change later
+        if (result === 'Critical' || result === 'High' || result === 'Low'){
+          alerts.push(`${conditionParameter} of ${serialNumber} = ${result}`);
+        }
+      
       }
     });
   
-    return alerts;  // Return the alerts array after processing all sentences
+    return alerts;
   };
   
   export default checkForAlerts;

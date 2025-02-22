@@ -144,19 +144,27 @@ const Sidebar = ({selectedShip}) => {
         <p className='font-bold'>Favorites</p>
       </div>
       
-      <div className="h-[47%] border-b-2 border-black border-dashed flex flex-col justify-center items-center overflow-y-auto">
+      <div className="h-[32%] border-b-2 border-black border-dashed flex flex-col justify-center items-center overflow-y-auto">
         <ul>
           {favoritesSerialNumbers.map((favoriteSN) => (<li key = {favoriteSN}>{favoriteSN}</li>))}
         </ul>
       </div>
       
-      <div className="h-[3%] border-b-2 pl-2 border-black border-dashed flex items-center">
+      <div className="h-[3%] border-b-2 pl-2 pt-2 pb-2 border-black border-dashed flex items-center">
         <img className="size-7 mr-2" src="/src/icons/Alarm.svg" alt="AL" />
         <p className='font-bold'>Alarm</p>
       </div>
       
-      <div className="h-[32%] border-b-2 border-black border-dashed flex flex-col justify-center items-center">
-        <p>Text</p>
+      <div className="h-[47%] border-b-2 pl-1 pr-1 pt-2 pb-2 border-black border-dashed flex flex-col justify-center items-center overflow-y-auto">
+        <ul className="space-y-2 max-h-full text-sm">
+        {alerts.length > 0 ? (
+          alerts.flat().map((alert, index) => (
+          <li key={`${alert}-${index}`}>{alert}</li>
+        ))
+      ) : (
+        <li>No alerts</li>
+      )}
+        </ul>
       </div>
       
       <div className="h-[5%] flex justify-between items-center pl-3 pr-3 space-x-3">
