@@ -804,7 +804,7 @@ Alle wichtigen Folder & Files befinden sich innerhalb des `src`-Folders:
 
 ![Erste Version des Website Designs](img/Gekle/Website-Structure.png){{width=50%}
 
-`App.jsx` und `index.css` bilden die beiden "Grundpfeiler" des React-Projekts. `App.js` ist etwa dafür verantwortlich die Routes der Website zu definieren und `ìndex.css` wird von TailwindCSS durch folgende 3 Zeilen verwendet:
+`App.jsx` und `index.css` bilden die beiden "Grundpfeiler" des React-Projekts. `App.js` ist etwa dafür verantwortlich die Routes der Website zu definieren und `index.css` wird von TailwindCSS durch folgende 3 Zeilen verwendet:
 
 ```{caption="Nutzung von index.css mithilfe von TailwindCSS" .js}
 @tailwind base;
