@@ -8,7 +8,7 @@
 
 Ein zentraler Aspekt der Diplomarbeit ist das ungefähre Identifizieren der Position eines bestimmten Containers auf einem Containerschiff.
 
-Die Kapazität eines Schiffes wird in der Regel mit TEUs (Twenty Foot Equivalent Units) angegeben. Jeder Container ist also 20 Fuß (6,1 m) oder ca. 6 Meter lang. Containerschiffe können von weniger als tausend TEUs bis hin zu 24000 TEUs haben. [vgl. @Pfeiffer-Containerschiffe] + [vgl. @IngenieurDE-Containershiffe]
+Die Kapazität eines Schiffes wird in der Regel mit TEUs (Twenty Foot Equivalent Units) angegeben. Jeder Container ist also 20 Fuß (6,1 m) oder ca. 6 Meter lang. Containerschiffe können von weniger als tausend TEUs bis hin zu 24000 TEUs haben. [vgl. @Pfeiffer-Containerschiffe] [vgl. @IngenieurDE-Containershiffe]
 
 ![Entwicklung von Container Schiffen [@IncoDocs-TEU]](img/Gekle/Evolution-Container-Schiffe.jpg){width=75%}
 
@@ -16,14 +16,14 @@ Im Rahmen der Diplomarbeit werden aber nur 3 Prototypen angefertigt, welche eine
 
 #### Graphentheorie
 
-Das Endergebnis des Simulators sollt ein Graph sein, welcher dabei hilft, die Verbindungen zwischen den einzelnen Containern zu visualisieren. Die Graphentheorie, ein Teilgebiet der Mathematik, spielt hierbei eine essenzielle Rolle.
+Das Endergebnis des Simulators sollt ein Graph sein, welcher dabei hilft, die Verbindungen zwischen den einzelnen Containern zu skizzieren. Die Graphentheorie, ein Teilgebiet der Mathematik, spielt hierbei eine essenzielle Rolle.
 
 Allgemein gilt folgendes:
 
 >Ein **Graph** G besteht aus einer Menge V von **Knoten** und einer Menge E von Knotenpaaren, welche als **Kanten** bezeichnet werden. Die Notation für einen Graphen lautet G=(V,E)G=(V,E). E und V stehen dabei für _edges_ und _vertices_, also die englischen Begriffe für Kanten und Knoten. Eine Kante {u, v} ELEMENT E verbindet die Knoten u und v. [vgl. @Uni-Bremen-Graphentheorie]
 
 Zusätzlich muss man innerhalb der Graphentheorie zwischen Ungerichteten und Gerichteten Graphen unterscheiden. Der primäre Unterschied liegt darin, ob die Kanten als einfache Striche (ungerichtet) oder Pfeile (gerichtet) dargestellt werden. [vgl. @Studyflix-Graphentheorie] 
-Bei einem gerichteten Graph ist daher die Richtung der Kante/ Beziehung zu beachten. Gilt z.B. A -> B -> C mit V={A, B, C} und E={{A,B}, {B,C}}, dann ist es nicht erlaubt, etwa von C zu B zu gehen, sondern nur von B nach C. Bei einem ungerichteten Graph gilt diese Regel nicht. Selbiges Beispiel nur ungerichtet: A - B - C; hier darf man sowohl von B nach C als auch umgekehrt von C nach B gehe.
+Bei einem gerichteten Graph ist daher die Richtung der Kante/ Beziehung zu beachten. Gilt z.B. A -> B -> C mit V={A, B, C} und E={{A,B}, {B,C}}, dann ist es nicht erlaubt, etwa von C zu B zu gehen, sondern nur von B nach C. Bei einem ungerichteten Graph gilt diese Regel nicht. Selbiges Beispiel nur ungerichtet: A - B - C; hier darf man sowohl von B nach C als auch umgekehrt von C nach B gehen.
 
 Abschließend muss man noch auf den Zusammenhang der einzelnen Knoten schauen. Ein ungerichteter Graph ist dann zusammenhängend, wenn alle Knoten erreichbar, also es zu jedem Knoten einen Weg gibt. Ist dies nicht der Fall, gibt es sogenannte isolierte Knoten und der Graph ist nicht zusammenhängend. Bei gerichteten Graphen unterscheidet man zusätzlich zwischen schwach und stark zusammenhängenden Graphen. [vgl. @Studyflix-Graphentheorie] 
 In dem Beispiel A -> B mit V={A, B} und E={A,B}, ist der Knoten A nur erreichbar, wenn man die Richtung außer Acht lässt, man spricht von einem schwach zusammenhängenden Graph. Für einen stark zusammenhängenden Graph müsste zusätzlich noch eine Kante {B, A} bestehen.
@@ -61,9 +61,11 @@ Hier wurden die Kanten durchnummeriert um die **Inzidenzmatrix** zu erstellen:
 ##### Adjazenzmatrix
 
 Wie für Inzidenzen gibt es auch für Adjazenzen eine Matrix, hierbei werden also die Nachbarschaften der einzelnen Knoten V abgebildet. Die Matrix ist bei einer Anzahl N an Knoten V also n x m groß. Ein Vorteil der Adjazenzmatrix ist, dass die Anzahl der Kanten E keine Rolle spielt und sie sich somit sehr gut als Rechenbasis für rechnerische Verarbeitungen des dazugehörigen Graphen eignet. Auch für die Durchführung von Analysen eignet sie sich sehr gut, so kann die Matrix etwa für folgendes hergezogen werden:
+
 - Ermittlung erreichbarer Knoten
 - Errechnen von Pfadlängen
 - Analyse von Schleifenfreiheit
+
 [vgl. @BigDataInsider]
 
 Auch hier wird wieder das Beispiel aus dem Kapitel Indizenzmatrix verwendet und so folgende Adjazenzmatrix erstellt:
@@ -107,9 +109,9 @@ Dieser Code würde folgendem entsprechen:
 
 ![Ungerichteter Graph mit DOT](img/Gekle/DotGraph.png)
 
-##### Dragable Graph
+##### Dragable Graph (DG)
 
-Der große Vorteil des Dragable Graphs besteht darin, dass er interaktiv ist. Ein User kann also mit dem Mauszeiger die einzelnen Knoten hin und her bewegen, wobei auch die Kanten sich mit bewegen. Dies hilft besonders bei der Benutzerfreundlichkeit, da sich der User den Graphen so richten kann, wie es ihm gefällt, wodurch sie sich sehr gut für Datenvisualisierung eignen. Eine JavaScript Bibliothek um so einem Graph zu ermöglichen ist z.B. D3.js. [vgl. @D3js-Homepage], welcher auch in der Diplomarbeit verwendet wurde. [vgl. @gpt-DragableGraph]
+Der große Vorteil des dragable Graphs besteht darin, dass er interaktiv ist. Ein User kann also mit dem Mauszeiger die einzelnen Knoten hin und her bewegen, wobei auch die Kanten sich mit bewegen. Dies hilft besonders bei der Benutzerfreundlichkeit, da sich der User den Graphen so richten kann, wie es ihm gefällt, wodurch sie sich sehr gut für Datenvisualisierung eignen. Eine JavaScript Bibliothek um so einem Graph zu ermöglichen ist z.B. D3.js. [vgl. @D3js-Homepage], welcher auch in der Diplomarbeit verwendet wurde. [vgl. @gpt-DragableGraph] Des weiteren ist es eine weitere Eigenschaft des DG, dass sich Knoten nicht übereinander lagern können, da sie sich von einander abstoßen. Durch diese Mechanik spannt sich der Graph automatisch auf und sorgt für eine übersichtliche Visualisierung der Contaiener (Knoten), ohne dass sie sich gegenseitig verdecken.
 
 ### Website
 
@@ -119,7 +121,7 @@ Bei React handelt es sich anders als bei z.B. Angular nicht tatsächlich um ein 
 
 Auch hier im folgenden Beispiel ist eine funktionelle Komponente der Diplomarbeits-Website zu sehen. Dies lässt sich u.a. an dem für JavaScript typischen Syntax wie das "=>" erkennen, aber auch daran, dass sogenannte Hooks (z.B. useStates) verwendet werden:
 
-```{caption="Beispiel Funktionelle Komponente" .js}
+```{caption="Beispiel funktionelle Komponente LoginField" .js}
 const LoginField = ({ placeholder, value, onChange, isPassword = false }) => {
   const [showPassword, setShowPassword] = useState(false);
   const togglePasswordVisibility = () => {(...)}
@@ -309,9 +311,11 @@ Dies sagt aus, dass im Zustand "hover", also wenn der User mit dem Mauszeiger ü
 ![Vordefinierte Farben von TailwindCSS](img/Gekle/TailwindCSS-Colors-Example.PNG)
 
 Tailwind nennt dies Pseudo Klassen. Die 3 wichtigsten sind folgende:
+
 - Hover --> aktiviert, wenn der User über das Element hovert
 - Focus --> aktiviert, wenn der User das Element z.B. durch einen Klick in Fokus nimmt
 - Active --> aktiviert, wenn der User das Element durch User aktiviert wird
+
 [vgl. @TailwindCSS-DocsV1]
 
 All diese Pseudo Klassen können auch mit "group-" verbunden werden, um mehrere Code-Teile gleichzeitig zu manipulieren. [vgl. @TailwindCSS-DocsV1]
@@ -359,7 +363,7 @@ Es ist durchaus möglich, HTTP Abfragen innerhalb von React ohne externer Librar
 
 [vgl. @GeeksForGeeks-Axios]
 
-Weiters ist der Code mit Axios um etwas simpler zu lesen:
+Weiters ist der Code mit Axios etwas einfacher zu lesen:
 Ohne:
 
 ```{caption="Beispiel REST Call mit fetch-api" .js}
@@ -413,7 +417,7 @@ Diese Klasse ist eine etwas modifizierte POJO (Plain Old Java Object) Klasse mit
 
 - String `name`
 - List\<Container> `adjacentContainers`(ArrayList)
-- dounle `signalMinimum`
+- double `signalMinimum`
 
 Die `name`-Variable aller Container ist gleich aufgebaut: "cont#", wobei # für eine beliebige Nummer steht. Dies macht die Namen nicht unnötig kompliziert und hat auch innerhalb der Konsolen-Interaktion mit dem User seinen Vorteil. In `adjacentContainers` werden alle benachbarten Container, also jene, zu welchen der ausgewählte Container eine Verbindung hat bzw. welche in seiner Nähe sind, abgespeichert. Die Variable `signalMinimum` ist eine mithilfe von `ThreadLocalRandom.current()` erstellte zufällige Double-Variable, welche für das generieren der Verbindung zwischen der einzelnen Container noch wichtig wird. `ThreadLocalRandom` wird eigentlich eher für Multithreading-Anwendungen benutzt [vgl. @Baeldung-JavaRandom], jedoch ist der Syntax um eine Zufallszahl mit "von-bis" zu generieren etwas angenehmer zu lesen:
 ```{caption="Zufällige Nummer mit .math und ThreadLocalRandom" .java}
@@ -531,8 +535,10 @@ Möchte man zu einem Container die Details einsehen, wie etwa welche Nachbar-Con
 
 ##### View Matrix
 Teil des `ship` ist ebenfalls eine Adjazenzmatrix, welche nach dem Erstellen der Container und deren Vernetzungen in der `void fillAdjMatrix()` von `ship` angelegt wird. Dies geschieht durch zwei `for-each`-Schleifen:
+
 - Die Erste geht alle Container der `containers`-Set durch (=`origin`)
 - Die Zweite geht alle benachbarten Container von `origin` durch, welche mittels dem Getter von `adjacentContainers` hergeholt werden (=`destination`)
+
 Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \[ID-origin]\[ID-destination]gespeichert. Was ist die ID? Die ID ist jene Zahl, welche nach dem "cont" des Namens steht (z.B: name="cont2"; ID = 2). Dies wird über eine separate Methode namens `extractID` gemacht. 
 [vgl. @gpt-IdExtractor] 
 
@@ -562,8 +568,10 @@ Besonders aber in der Entwicklungsphase des Simulators war dies sehr nützlich u
 
 #### Exportieren in JSON files
  Es gibt zwei mögliche JSON Files, welche erstellt werden können:
+
 - `graph.json`
 - `graphSpecific.json`
+
 Beide sind in ihrem Aufbau sehr ähnlich, dienen aber unterschiedlichen Zwecken. 
 
 `graph.json` entspringt folgender Methode:
@@ -589,7 +597,7 @@ public JSONObject parseAllContainersToJSON(){
 }
 ```
 
-Diese Methode geht alle bestehenden Container durch. Es wird jeweils ein neues `JSONObject` erstellt und mit `.put` der Name des momentanen Containers zusammen mit "contId" in das neu erstellte JSON-Objekt hinzugefügt. Nun kommt die `getAllSubs`-Methode in das Spiel: Dieser wird der aktuelle Container übergeben und sie checkt dann anhand der **Adjazenz-Matrix**, ob es "1", also Verbindungen zu anderen Container gibt. Ist dies der Fall, gibt sie ein `JSONArray` zurück, ist dies nicht der Fall, NULL. Im Fall, ein `JSON`-Array vorhanden ist, fügt die `parseAllContainersToJSON`-Methode dieses mit dem Key "subs" (Sub-Container = benachbarte Container) ebenfalls zum JSON-Objekt hinzu , bevor dieses dann selbst in das `containersJSON`-Array hinzugefügt wird. Da die Methode ein `JSONObject` zurückgeben soll (Grund: da die Export-Methode dies verlangt), wird ein abschließendes `JSONObject` erstellt, welches das Array mit dem key "containers" abspeicher.
+Diese Methode iteriert über alle bereits bestehenden Container. Es wird jeweils ein neues `JSONObject` erstellt und mit `.put` der Name des momentanen Containers zusammen mit "contId" in das neu erstellte JSON-Objekt hinzugefügt. Nun kommt die `getAllSubs`-Methode in das Spiel: Dieser wird der aktuelle Container übergeben und sie checkt dann anhand der **Adjazenz-Matrix**, ob es "1", also Verbindungen zu anderen Container gibt. Ist dies der Fall, gibt sie ein `JSONArray` zurück, ist dies nicht der Fall, NULL. Im Fall, ein `JSON`-Array vorhanden ist, fügt die `parseAllContainersToJSON`-Methode dieses mit dem Key "subs" (Sub-Container = benachbarte Container) ebenfalls zum JSON-Objekt hinzu , bevor dieses dann selbst in das `containersJSON`-Array hinzugefügt wird. Da die Methode ein `JSONObject` zurückgeben soll (Grund: da die Export-Methode dies verlangt), wird ein abschließendes `JSONObject` erstellt, welches das Array mit dem key "containers" abspeicher.
 [vgl. @HowToDoInJava-JSON & @MavenRepository-JSON]
 
 Das zweite File, entstammt einer anderen Funktion namens `parseSpecificToJSON`:
@@ -623,9 +631,11 @@ Diese Methode übernimmt einen Ausgangscontainer `origin` und eine Tiefe `depth`
 Zur  Erklärung dieser Methode: Sollte eine passende Tiefe (>0) übergeben worden sein und besitzt der Ausgangs-Container Verbindungen zu Anderen, so wird eine `For`-Schleife ausgelöst, welche alle Sub-Container des `origin` durchgeht. Jedes dieser "sub Objects" wird dann in ein `JSOBObject` gecastet und daraufhin mit einer Hilfsmethode (=`convertJSONToContainer` [vgl. @gpt-SpecificJson]) in ein `Container`-Objekt umgewandelt. Nun beginnt das rekursive Aufrufen der Methode, wobei `depth` immer um eins verringert wird. Durch dieses rekursive Aufrufen wird immer einer der `subs` von dem ursprünglichen `origin`, das neue `origin` bis eben die Tiefe 0 erreicht hat und die Methode zu Ende ist. 
 
 Das eigentliche Schreiben in die jeweiligen JSON Files übernimmt die Methode `exportToJsonFile` ([vgl. @gpt-SpecificJson]), welche folgende drei Variablen übernimmt:
+
 - boolean `sepcific`
 - int `depth`
 - Container `spc`
+
 Ist `sepcifc = false`, dann ruft die Methode `parseAllContainersToJSON` auf, ist sie TRUE `parseSpecificToJSON(spc, depth)`. Mithilfe eines `FileWriters` wird dann entweder in `graph.json` (bei `sepcifc = false`) oder in `graphSpecific.json` (bei `sepcifc = true`) geschrieben.
 
 Das Aufrufen dieser Methode geschieht in der `Main`, wobei der User den Ausgangscontainer und die Tiefe angeben muss, sollte er "specific" wählen.
@@ -689,9 +699,10 @@ Die Erstellung des Graphen erfolgt über die JavaScript Bibliothek D3.js, welche
 > - forceLink: Verbindet Knoten basierend auf den Links.
 > - forceManyBody: Erzeugt eine Abstoßung zwischen Knoten, damit sie nicht zu dicht beieinander liegen.
 > - forceCenter: Zentriert das gesamte Diagramm im SVG-Bereich.
+
 [vgl. @gpt-D3jsDGScript]
 
-```{caption="Verwendung eines svg-Elements um den Graphen zu renden" .js}
+```{caption="Verwendung eines svg-Elements um den Graphen zu rendern" .js}
 const svg = d3.select('svg');
 const width = window.innerWidth;
 const height = window.innerHeight;
@@ -735,8 +746,10 @@ Basierend auf dem `graphSpecific.json` aus dem Kapitel *Exportieren in JSON File
 ![Dragable Graph basierend auf graphSpecific aus vorhergehenden Kapitel](img/Gekle/DG-Example.png)
 
 Ein umfangreicherer Graph, welcher aus einer Simulation mit 16 Containern entstammt und folgende Daten hat:
+
 - Ausgangscontainer: cont2
 - Tiefe der `graphSpecific` = 2
+
 ... würde folgendermaßen aussehen:
 
 ![Umfangreicherer Dragable Graph in zwei Positionen](img/Gekle/DG-Extended.png)
@@ -763,10 +776,12 @@ Hat der User sich erfolgreich eingeloggt so kommt er auf die Hauptseite oder Mai
 
 ##### Detail Page
 Klickt der User auf einen dieser auf einen Container so wird er auf die Detail Page weitergeleitet. Diese beinhält das zweite Zentrale Komponente der Diplomarbeit, die Umweltdaten. Tabellarisch werden passend zu dem ausgewählten Container die Daten angezeigt (inkl. Seriennummer). Die Tabelle selbst besteht aus folgenden Spalten: 
+
 - Umweltdaten
 - Wert
 - Einheit
 - ausgelöste Threshholds
+
 Die letzte dient dazu, dass wenn z.B. ein Container zu heiß ist, dies auch symbolisiert und beschrieben wird. 
 
 Der Erstentwurf der Website sah dann folgendermaßen aus:
@@ -792,6 +807,7 @@ Ein völlig neues Komponente war der ShipChooser-Dialog. Dieser wird aufgerufen,
 
 ##### Aufbau MainPage
 Die MainPage selbst besteht aus 3 großen "Parent-Komponenten", welche wiederum viele andere "Child-Komponenten" benutzen. Dies bewirkt, dass die MainPage in 3 wichtige Teile geteilt wird:
+
 - Workspace (weiß)
 - Sidebar (blau)
 - Topbar (gelb)
@@ -802,6 +818,7 @@ Zu den Funktionen, welche von der MainPage als ganzes übernommen werden zählen
 
 ##### Aufbau DetailPage
 Wie auch die MainPage unterteilt sich die Detail Page in 3 große Komponente:
+
 - Detailspace (vgl. mit Workspace der MainPage)
 - Topbar
 - Sidebar
@@ -819,7 +836,7 @@ Die Login Page verwaltet zwei `useState`-Variablen: `username` und `password`. F
 <LoginField placeholder="PW" isPassword={true} value={password} onChange={(e) => setPassword(e.target.value)} />
 ```
 
-![LoginFields (Gelb markiert)](img/Gekle/Loginfields.png)
+![LoginFields (Gelb markiert)](img/Gekle/Loginfields.png){width=33%}
 
 Innerhalb des Komponents wird ein HTML `input`-Tag benutzt. Input kann verschiedene Typen annehmen wie hier etwa "text" und "password". Dem `LoginField` werden auch alle weiteren wichtigen Daten für das Input übergeben wie etwa den Placeholder und den Wert (Value) den der User eingibt. Die Variable `isPassword` bestimmt ob "text" oder "password" als Passwort angenommen wird und in Folge dessen, ob der Text im `LoginField` als Plaintext oder ob der Text maskiert wird. [vgl. @GeeksForGeeks-HTMLInputTag]. Wird `onChange` innerhalb verändert, sprich der User gibt etwas neues ein oder editiert bereits eingegebenes, dann gibt das `LoginField` den neuen Wert an die Login Page zurück, wo sie dann mit `setPassword/ setUsername` des `useState` auch wieder verändert werden.
 
@@ -951,8 +968,10 @@ Die zweite wichtige Methode ist also die **handleOpenDialog** Methode, welche de
 ```
 
 Der **ContainerChooser** Dialog selbst listet die zu den Ids passenden Seriennummern der realen Container auf. Klickt man auf eine dieser Nummern wird man auf die korrekte DetailPage weitergeleitet. Die Funktionsweise des Dialogs sieht genauer wie folgt aus:
+
 1. Klickt der User auf den Close Button so wird durch `onClick={onClose}` (innerhalb des `ContainerChooser`) im Workspace `handleCloseDialog` ausgeführt, welches den Dialog schließt
 2. Klickt der User auf einen der angezeigten Seriennummern, so wird er durch `onSelect(id)` (ebenfalls innerhalb des `ContainerChooser`) so wird durch die MainPage auf die passende DetailPage weitergeleitet.
+
 Letzteres passiert in der handleSelect Methode, welche die selectedId useState setzt, den Dialog schließt und zur DetailPage navigiert. Das Navigieren selbst wird durch das useNavigate und seiner navigate Funktion ermöglicht: [vgl. @GeeksForGeeks-useNavigate]
 
 ```{caption="handleSelect Methode" .js}
@@ -969,6 +988,7 @@ Wichtig: auch wenn ein Sammel-Container (das `div`) nur einen oder gar keinen re
 
 ##### Komponenten der Topbar der MainPage
 Der Nutzen der MainPage wird durch die `TopBar` sehr stark erweitert. Dies liegt vor allem an drei Dingen:
+
 1. Sie ermöglicht das Ändern des Grids (z.B. von 2x2 auf 1x1)
 2. Sie bietet eine Suchleiste, mit welcher man über die SerienNummer direkt den ContainerChooser Dialog geöffnet werden kann.
 3. Sie ermöglicht es das Schiff zu wechseln.
@@ -1114,8 +1134,10 @@ Es wird wieder mithilfe der `.map`-Funktion durch das Array iteriert und mittels
 > Eine **Shallow Copy** muss returned werden, da React nur Änderungen erkennt, wenn der Verweis auf das Objekt oder Array geändert wird, was bei direkter Mutation des ursprünglichen Objekts/Arrays nicht der Fall ist. [vgl. @gpt-updateTableData]
 
 Weiters werden die Notizen (ein HTML `TextArea`-Element) von `Detailspace` verwaltet. Hierzu kommen zwei Methoden ins Spiel:
+
 1. `handleBlur` --> um das Geschriebene zu speichern, sobald der User aus der `TextArea` rausklickt
 2. `handleNotesChange` --> um die `useState`-Variable `notes`, welche von `handleBlur` benutzt wird mit den neuen Notizen zu überschreiben 
+
 Das `TextArea`-Feld selbst sieht folgendermaßen aus:
 
 ```{caption="TextArea Tag des Notiz-Felds" .js}
@@ -1156,10 +1178,11 @@ Die Topbar innerhalb der Detailpage ist nicht dieselbe, wie in der MainPage. Die
 | Rechtsbündige Komponenten | `GridDropDown`                  | `DetailControl` |
 
 **Detailcontrol** besteht aus folgenden 2 wichtigen Buttons:
+
 1. Button um festgelegte Threshholds des Containers sich ausgeben zu lassen
 2. Button um zur MainPage zurück zu gelangen
 
-![Topbar der DetalPage](img/Gekle/SearchbarDetail.png)
+![Topbar der DetailPage](img/Gekle/SearchbarDetail.png)
 
 Die Retour Funktion nutzt wieder `useNavigate` von `react-router-dom`, indem durch das Klicken auf das `div`, welches hinter dem Retour-Icon liegt `navigate('/main')` ausgeführt wird. Dadurch gelangt der User zurück auf die MainPage.
 
@@ -1175,7 +1198,7 @@ Klickt der User also auf das Alarm-Icon, dann wird in der DetailPage die `handle
 
 **ThreshholdViewer** fragt für den aktuell ausgewählten Container alle Thresholds aus dem Backend ab und wandelt diese in einen gut lesbaren Zustand ("Satzform") um (=**Satzform**):
 
-![Threshhold Viwer Dialog](img/Gekle/ThreshholdViewer.png)
+![Threshhold Viewer Dialog](img/Gekle/ThreshholdViewer.png)
 
 So wird z.B. angegeben, dass folgender Threshold existiert: Wenn die Latitude (Breitengrad) < als 90 Grad ist, dann befindet sich Latitude im kritischen Zustand. Wie auch der `ContainerChooser` besitzt dieser Dialog folgenden Code innerhalb eines Close `Button` : `onClick={onClose}`.
 
@@ -1308,10 +1331,12 @@ So etwa auch **Workspace**, dieses muss nämlich mithilfe der Id des ausgewählt
 ![Aus Backend überliefertes selectedShip Objekt](img/Gekle/ShipVar.png)
 
 Dadurch kann mit `ship.id` ganz einfach die Id herausgefunden werden welche dann innerhalb eines `useEffect` benutzt wird. Dieses `useEffect` (=UE1) wird durch die Änderung folgender 2 Variablen ausgelöst:
+
 - `ship` (ausgewählte Schiff)
 - `gridSize` (ausgewählte Grid Größe)
 
 Der Grund, warum auch `gridSize` dies auslöst, liegt an Folgendem: Da ein weiteres `useEffect` (=UE2), welches mithilfe des `ContainerDistributor`-Skripts die `Map` erstellt, welche wiederum von der `renderGrid` Methode benötigt wird, als Auslöser die `useState`-Variable hat, die von UE1 befüllt wird:
+
 - UE1 befüllt Var1
 - Var1 löst UE2 aus
 - UE2 = essenziel für `renderGrid`
@@ -1413,6 +1438,7 @@ Ist dies einmal abgeschlossen, wird das `useState`-Array `tableData` mit `setTab
 
 ##### Dialoge
 Dialoge sind vielseitig einsetzbar. Die beiden wichtigsten Dialoge der Website sind:
+
 - `ContainerChooser`
 - `ThresholdViewer`
 
@@ -1436,6 +1462,7 @@ setSerialNumbers(fetchedSerialNumbers);
 Dies geschieht indem mittels einer `for`-Schleife durch das neue Array iteriert wird und pro ID die passende Seriennummer geholt wird, welche dann in das `fetchedSerialNumbers` Array eingefügt werden. Ist die Schleife zu Ende wird das Seriennummer-Array mit `setSerialNumbers` in die `serialNumber useState` gesetzt. Diese Daten innerhalb des `useState` werden dann in einer unordered List mithilfe der .map Methode aufgelistet. (siehe *Komponenten der Top Bar der MainPage*). 
 
 Der **Thresholdviewer** Dialog benötigt um seine Funktion, das Anzeigen aller für einen Container festgelegten Thresholds, zwei Calls:
+
 - alle Thresholds fetchen
 - zusätzliche Daten zu den Thresholds fetchen
 
