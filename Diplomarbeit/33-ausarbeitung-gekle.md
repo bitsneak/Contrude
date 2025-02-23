@@ -797,11 +797,30 @@ In der Login Page wurde mittels eines Hyperlinks die Möglichkeit bereitgestellt
 
 Die Main Page wurde mit großem Abstand am stärksten verändert. Bei der Containerzoom-Funktion wurde der Button von links nach rechts verschoben, wo sie die Vor- und Zurückfunktion ersetzten. Daneben eine Anzeige des aktuellen Zooms hinzugefügt. Anstelle des Zoom Button wurde auf der linken Seite ein "ShipSelect" Button eingeführt, welcher das Wechseln des Schiffs ermöglicht. Auch wurde das Design allgemein verbessert.
 
-Ein völlig neues Komponente war der ShipChooser-Dialog. Dieser wird aufgerufen, wenn auf einen durch das Grid angezeigten Containers geklickt wird. Angenommen ein Container repräsentiert zehn Container, dann kann über den Dialog noch ausgewählt werden, welchen Container man genau haben möchte und man wird dann zu der passenden Detail Page weitergeleitet.
+Ein völlig neues Komponente war der ShipChooser-Dialog. Dieser wird aufgerufen, wenn auf einen durch das Grid angezeigten Containers geklickt wird. Angenommen ein Container repräsentiert zehn Container, dann kann über den Dialog noch ausgewählt werden, welchen Container man genau haben möchte und man wird dann zu der passenden Detail Page weitergeleitet. Das Design dieses Dialogs, wurde auch für weitere spätere Dialoge verwendet. 
 
-**TBC**
+#### Allgemeine Struktur des React Projekts
+Alle wichtigen Folder & Files befinden sich innerhalb des `src`-Folders:
 
-#### Allgemeine Struktur des React Projekts TBC
+![Erste Version des Website Designs](img/Gekle/Website-Structure.png){{width=50%}
+
+`App.jsx` und `index.css` bilden die beiden "Grundpfeiler" des React-Projekts. `App.js` ist etwa dafür verantwortlich die Routes der Website zu definieren und `ìndex.css` wird von TailwindCSS durch folgende 3 Zeilen verwendet:
+
+```{caption="Nutzung von index.css mithilfe von TailwindCSS" .js}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+Alle weiteren Files, welche die Website umfasst sind in Folder untergeordnet und werden via Imports mit dem korrekten Pfad dort importiert, wo sie benötigt werden. Diese Folder inkludieren:
+
+- api --> enthält die Axios-Instanz
+- components --> enthält alle funktionellen Komponente, welchne nicht "Pages" oder "Dialoge" sind (z.B. `LoginField`)
+- dialogs --> enthält alle Dialog-Komponenten (z.B. `ContainerChooser`)
+- icons --> entält die SVG-Dateien der Icons (z.B. `ShipIcon`)
+- img --> enthält die Bild-Dateien (png/jpg/svg) welche nicht Icons sind (z.B. Logo)
+- pages --> enthält die 3 Page-Komponenten (`LoginPage`, `MainPage`, `DetailPage`)
+- util --> enthält die Scripts, welche erweiterte Funktionen übernehmen (z.B. `ContainerDistributor`)
 
 #### Aufbau der Pages
 
