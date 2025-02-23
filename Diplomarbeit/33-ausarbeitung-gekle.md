@@ -640,7 +640,7 @@ Ist `sepcifc = false`, dann ruft die Methode `parseAllContainersToJSON` auf, ist
 
 Das Aufrufen dieser Methode geschieht in der `Main`, wobei der User den Ausgangscontainer und die Tiefe angeben muss, sollte er "specific" wählen.
 
-Unter folgender Annahme:
+Unter folgender Annahme..:
 ```{caption="Beispiel für das JSON Erstellen basierend auf einem Container Geflecht mit Angabe der Tiefe und Origin" .txt}
 Container Anzahl = 4
 Adjazenz Matrix =
@@ -653,7 +653,7 @@ c  0  1  2  3
 Origin = cont1
 Tiefe = 2
 ```
-... würden folgende 2 Files entstehen:
+..würden folgende 2 Files entstehen:
 
 **graph.json**:
 ```{caption="Erstelltes graph.json File basierend auf den obrigen Beispiel" .java}
