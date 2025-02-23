@@ -98,15 +98,25 @@ da-kiquellen:
 
 # Schrempf
 
+- ki: ChatGPT-4o
+  short-prompt: Cargo Ship Database
+  pdf-file: Schrempf/KI/schiff-db-creation-ChatGPT.pdf
+
+- ki: ChatGPT-4o
+  short-prompt: Telegraf Split Data into different DBs
+  pdf-file: Schrempf/KI/telegraf-regex-ChatGPT.pdf
+# hg fragen wegen file größe
+#- ki: Microsoft Copilot
+#  short-prompt: Configuring Telegraf for MQTT to InfluxDB2 Data Collection
+#  pdf-file: Schrempf/KI/grafana-telegraf-MS-Copilot.pdf
+
 da-appendix:
+
 #Kampl
+
 - abschnitt: Embedded Systems
   pdf-file: Kampl/NTVS-5IT-SJ24-25-Embedded-Systems.pdf
   seiten: 1-32
-
-#Gekle
-
-#Schrempf
 
 # Diplomarbeitsvereinbarungen müssen zum Schluss sein 
 

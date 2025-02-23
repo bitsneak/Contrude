@@ -59,7 +59,7 @@ Um dieses sehr mächtige Konzept voll auszuschöpfen werden Pipelines angelegt. 
 
 Um solch ein großes Konzept überhaupt realisieren zu können, muss man sich ein Stück weit von der bisherigen Softwareentwicklung lossagen. Hier kommen Microservices und die Containerization ins Spiel.
 
-Microservices sind Teile eines Produkts. Früher gab es nur einen einzigen großen Softwaremonolithen, welcher mit seinen Teilen als ein großes Ganzes funktionierte. Heutzutage werden Teile identifiziert und jeder Baustein wird für sich issoliert programmiert. Dies bietet mehrere Vorteile. Bei einer konzeptionellen oder technischen Umstellung kann die einzelne Komponente leicht ausgetauscht und durch eine neue ersetzt werden. Außerdem ist die gesamte Software als auch einzelne Teile leicht Skallierbar. Jedes einzelne Element läuft in seiner dezidierten Umgebung, welche nur den Kernel mit dem OS^[Operating System = Betriebssystem] teilt und deswegen auch unabhängig auf verschiedenen Systemen einsatzbereit ist. Solch ein dezidierte Umgebung besteht aus Systembibliotheken, Abhängikeiten, Umgebungsvariablen und eventuellen eigenproduzierten Code der zu hostenden Anwendung. Dies ist ein Container. Es gilt: Funktioniert der Container, und somit auch der in ihm definierte Microservice auf einem System, so tut er es auch überall anders. Außerdem können Container auch leicht in Clouds deployd und gehosted werden. Solch ein Aspekt ist vorallem in Zeiten immer stärker werdenden Cloud-Computings immer wichtiger. [@ibm-docker]
+Microservices sind Teile eines Produkts. Früher gab es nur einen einzigen großen Softwaremonolithen, welcher mit seinen Teilen als ein großes Ganzes funktionierte. Heutzutage werden Teile identifiziert und jeder Baustein wird für sich issoliert programmiert. Dies bietet mehrere Vorteile. Bei einer konzeptionellen oder technischen Umstellung kann die einzelne Komponente leicht ausgetauscht und durch eine neue ersetzt werden. Außerdem ist die gesamte Software als auch einzelne Teile leicht Skallierbar. Jedes einzelne Element läuft in seiner dezidierten Umgebung, welche nur den Kernel mit dem OS^[Operating System] teilt und deswegen auch unabhängig auf verschiedenen Systemen einsatzbereit ist. Solch ein dezidierte Umgebung besteht aus Systembibliotheken, Abhängikeiten, Umgebungsvariablen und eventuellen eigenproduzierten Code der zu hostenden Anwendung. Dies ist ein Container. Es gilt: Funktioniert der Container, und somit auch der in ihm definierte Microservice auf einem System, so tut er es auch überall anders. Außerdem können Container auch leicht in Clouds deployd und gehosted werden. Solch ein Aspekt ist vorallem in Zeiten immer stärker werdenden Cloud-Computings immer wichtiger. [@ibm-docker]
 
 Ein Container benutzt die Virtualisierungstools des Linuxkernels um Ressourcen zu teilen und verwalten. Für nicht Unix-Betriebsysteme gibt es Software die den Linuxkernel simmulieren kann. Zum Beispiel WSL^[Windows-Subsystem für Linux] oder Hyper-V bei Windows. Durch die gemeinsame Nutzung des Kernels muss auch keine dezidierte Definition der benötigten Ressourcen stattfinden, da diese automatisch vom System alloziert werden. Das Konzept eines Containers ähnelt dem, einer VM^[Virtuelle Maschine]. Nur mit dem wesentlichen Vorteil, dass kein komplett eigenes OS verwendet wird, sondern nur die Schritte zum produzieren eines gewissen Outputs angegeben werden. Container haben eine Abstraktionsebene zum Kernel, aber da eben kein eigenes Betriebsystem wie bei einer VM verwendet wird, gibt es auch ein marginales Sicherheitsrisiko. Malware könnte durch die gemeinsame Nutzung des Kernels eben auf diesen zugreifen und erheblichen Schaden anrichten. Um dem Vorzubeugen, gibt es etliche Third-Party Tools mit denene die Sicherheit über das schon gegebene Maß erhöht werden kann. [@ibm-docker]
 
@@ -344,7 +344,7 @@ Das JSON, welches beim aufrufen des Endpoints ausgegeben wird, sieht so aus:
 
 MySQL ist ein Open-Source RDBMS, welches von Oracle verwaltet wird. Diese DB wird stetig weiterentwickelt und ist sogar optimal in der Cloud hostbar. [@talend-mysql]
 
-MySQL verwendet zwar keine Schemas wie andere DBMS, trotzdem kann man mehrere Datenbanken innerhalb einer MySQL Instanz erstellen und somit dieses Verhalten simulieren. Irreführend ist hierbei, dass man trotzdem eine **DATABASE** und **SCHEMA** erstellen kann, obwohl sie gleich behandelt werden. [@mysql-glosar] Um möglichst lange Support-Updates mittels LTS Versionen zu erhalten, wurde hier die MySQL 8 Version verwendet, obwohl sie offiziell noch nicht fertig ausprogrammiert ist. [@mysql-lts]
+MySQL verwendet zwar keine Schemas wie andere DBMS, trotzdem kann man mehrere Datenbanken innerhalb einer MySQL Instanz erstellen und somit dieses Verhalten simulieren. Irreführend ist hierbei, dass man trotzdem eine **DATABASE** und **SCHEMA** erstellen kann, obwohl sie gleich behandelt werden. [@mysql-glosar] Um möglichst lange Support-Updates mittels LTS^[Long Term Support] Versionen zu erhalten, wurde hier die MySQL 8 Version verwendet, obwohl sie offiziell noch nicht fertig ausprogrammiert ist. [@mysql-lts]
 
 Um die in diesem Projekt verwendeten Datenbanken zu erstellen, wurden SQL-init-scripts geschrieben, welche die MySQL Instanz mit den notwendigen Tabellen initialisieren, User anlegen und Dummy Daten einfügen. Hierbei ist der Aufbau immer der gleiche:
 
@@ -405,7 +405,7 @@ GRANT ALL PRIVILEGES ON database.* TO 'developer';
 FLUSH PRIVILEGES;
 ```
 
-Es gibt verschiedene Sprachen auf der Welt. Jeder Sprache beinhaltet verschiedene Zeichen, die nicht immer mit jeden Character-Set kompatibel sind. Um auch diese Daten ordnungsgemäß zu persistieren, kann man die Character-Sets einer jeden Datenbank und sogar jeder Tabelle anpassen. Außerdem gibt es die Möglichkeit, dass man die Art und Weise, wie das System Daten miteinander vergleicht, beeinflusst. Dies wird Collation genannt. Hierbei beeinflusst man z.B. das Verhalten einer WHERE Klausel, in dem man sagt, er soll den zu vergleichenden Text case sensitive vergleichen. [@DB-character-set] Da Schiffe, die darauf gelagerten Container und deren Firmen aus verschiedenen Ländern kommen, wurde hier entschieden, das utf8mb4 (eine Erweiterung von UTF-8) Character Set und die dazugehörige Collation utf8mb4_0900_bin (0900 = Unicode Collation Algorithmus, bin =  Bitweises vergleichen) zu verwenden. [@mysql-character-set] Dies sieht dann wie folgt aus:
+Es gibt verschiedene Sprachen auf der Welt. Jeder Sprache beinhaltet verschiedene Zeichen, die nicht immer mit jeden Character-Set kompatibel sind. Um auch diese Daten ordnungsgemäß zu persistieren, kann man die Character-Sets einer jeden Datenbank und sogar jeder Tabelle anpassen. Außerdem gibt es die Möglichkeit, dass man die Art und Weise, wie das System Daten miteinander vergleicht, beeinflusst. Dies wird Collation genannt. Hierbei beeinflusst man z.B. das Verhalten einer WHERE Klausel, in dem man sagt, er soll den zu vergleichenden Text case sensitive vergleichen. [@DB-character-set] Da Schiffe, die darauf gelagerten Container und deren Firmen aus verschiedenen Ländern kommen, wurde hier entschieden, das utf8mb4 (eine Erweiterung von UTF-8) Character Set und die dazugehörige Collation utf8mb4_0900_bin (0900 = Unicode Collation Algorithmus, bin = Bitweises vergleichen) zu verwenden. [@mysql-character-set] Dies sieht dann wie folgt aus:
 
 ```{caption="Erstellen einer MySQL Datenbank mit abgeänderten Character Set und Collation" .sql}
 CREATE DATABASE IF NOT EXISTS database DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
@@ -418,21 +418,32 @@ Jeder Container wird auf einem Schiff transportiert. Da ein Container im laufe s
 
 ![ERD der Schiffdatenbank](img/Schrempf/ship-erd.png){width=100%}
 
-**TODO**
+Ein Schiff hat sehr viele Attribute wie seine Länge, Breite und Gewicht, aber auch rechtlich verbindliche Angaben wie sein Typ oder verschiedene Zertifikate die auf ihn zutreffen. In dieser Ausarbeitung ist die Schiffsdatenbank nur ein unweigerliches Nebenprodukt der Gesamtarbeit. Aufgrund dessen wurden nicht alle Zertifizierungen die ein Schiff haben kann und manch andere Eigenschaften umgesetzt, sondern es wurde nur auf das Nötigste begrenzt. Die hier implementierten Urkunden beschränken sich auf:
 
-- Was für Zertifikate hat ein Schiff vs. welche wurden hier implementiert (warum nicht alle die es gibt hier vertreten?)
-  - Quellen sind gefunden, nur noch nicht eingefügt
+- ILLC^[International Load Line Certificate] [@imo]
+- IOPP^[International Oil Pollution Prevention Certificate]
+- BWMC^[Ballast Water Management Certificate]
+- IAPP^[International Air Pollution Prevention Certificate] [@iapp]
+- SMC^[Safety Management Certificate]
+
+[@gpt-schiff-db]
 
 ##### Container
 
-Jeder Container besitzt verschieden Parameter, welche ihn ausmachen. Nicht nur seine Größe, sondern auch seine Materialbeschaffenheiten, Tragfähigkeiten und Zulassungen sind ausschalggebend. In der hier gestalteten Datenbank wurden Schema für allgemeine Containerdaten (`container`), Größenklassifikationen des Containers (`dimension`), Zertifikate die der Container haben muss (`certificate`) und für die Herkunft des Containers (`corporation`), angefertigt.
+Jeder Container besitzt verschieden Parameter, welche ihn ausmachen. Nicht nur seine Größe, sondern auch seine Materialbeschaffenheiten, Tragfähigkeiten und Zulassungen sind ausschalggebend. In der hier gestalteten Datenbank wurden Schema für allgemeine Containerdaten (`container`), Größenklassifikationen des Containers (`dimension`), Zertifikate die der Container haben muss (`certificate`) und für die Herkunft des Behälters (`corporation`), angefertigt.
 
 ![ERD der Containerdatenbank](img/Schrempf/container-erd.png){width=100%}
 
-**TODO**
+Der Hauptfokus dieser Ausarbeitung liegt auf den Schiffcontainern. Diese haben simple Attribute wie deren Abmessungen, Seriennummern und die Firmen die sie hergestellt haben und besitzen. [@bic-code] [@icecargo] Doch wie bei den Schiffen gibt es Zertifikate, die solch eine Transporteinheit standardisieren. Dazu zählen:
 
-- Was für Zertifikate hat ein Container und warum wurden sie hier implementiert
-  - Quellen sind gefunden, nur noch nicht eingefügt
+- CSC^[International Convention for Save Containers]
+  - Vertrag der Vereinigten Nationen und der Internationalen Seefahrtsorganisation um standardisierte Regulationen bei Containern einzuführen. [@bic-code-csc]
+- CCC^[Container Construction Certificate]
+  - Ist eine Zollplakette, in welcher die für diese Transporteinheit geltende Zollbestimmungen festgehalten sind. [@bic-code-csc]
+- TCT^[Timber Component Treatment]
+  - Gemacht von der australischen Regierung um die konforme Beschichtung und Materialbeschaffenheit der Containerböden und Vermeidung eines möglichen Schädlingsbefalls durch in dem Holzboden übergebliebenen Parasiten sicherzustellen. [@tct]
+- IC^[InterContainer Codes]
+  - Diese Zertifizierung bescheinigt einen Container zum Transport auf der Schiene. [@ic-codes]
 
 ##### Grenzwerte
 
@@ -448,13 +459,86 @@ Um ein praktikable UI^[user interface = Benutzeroberfläche] bieten zu können, 
 
 #### InfluxDB
 
-Das von uns entworfene Gerät sendet seine Messwerte an einen MQTT^[Message Queuing Telemetry Transport] Broker. Dieser basiert auf der Publisher-Subscriber Architektur. Der Publisher sendet seine Daten and den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein # als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic kann nun ein oder mehrere Werte im JSON-Format abgelegt werden.[@mqtt-hivemq]
+Das von uns entworfene Gerät sendet seine Messwerte an einen MQTT^[Message Queuing Telemetry Transport] Broker. Dieser basiert auf der Publisher-Subscriber Architektur. Der Publisher sendet seine Daten and den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein # als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic kann nun ein oder mehrere Werte im JSON-Format abgelegt werden. Beim Broker liegen dann die Werte auf. Ein Topic kann auch einen oder mehrere Tags haben. Diese sind Flags, welche zur weiteren Klassifizierung des Topics an es angehängt werden können. Ein Subscriber ist ein beliebiger Akteur, welcher den abgespeicherten Datensatz unter der Angabe des Topics extrahiert. [@mqtt-hivemq]
 
 ![Beispiel MQTT Topic Structure [@mqtt-hivemq]](img/Schrempf/MQTT-Topic-Structure.png){width=30%}
 
-In unserem Fall ist der Publisher der Hardware-Prototyp und der Subsciber ist Telegraf.
+In unserem Fall ist der Publisher der Hardware-Prototyp und der Subsciber ist Telegraf. Telegraf ist ein Client, in dieser speziellen Variante auch Scraper genannt, welcher von InfluxDB entworfen wurde um aktiv Datenquellen anzuzapfen und die mittels einer Konfigurationsdatei definierten Filter auf die Ursprünge anzuwenden und die dadurch extrahierten Werte an eine beliebige Applikation weiterzuleiten. Telegraf ist in der Programmiersprache Go verfasst und bietet unzählige Plugins zum empfangen, verarbeiten, aufbereiten und weitersenden der Daten an. Die Konfigurationen werden im TOML^[Tom's Obvious, Minimal Language]-Syntax geschrieben. Hier wurden die Erweiterung für MQTT, RegEx^[regular expression] zum Topic-Struktur-Filtern und InfluxDBv2 verwendet. Das Filtern der Topics hat den Sinn, dass man nur die nötigsten Daten bekommt, Overhead reduziert und auch die einzelnen Werte exakt zuweisen kann. Als erstes wird nach einem groben Gesamttopic gefiltert und temporäre Tags zum weiterverarbeiten erstellt.
+
+```{caption="Filtern der Topics in Telegraf mittels Regex" .toml}
+[[processors.regex]]
+  [[processors.regex.tags]]
+    key = "topic"
+    pattern = "^contrude/(\\d+)/(\\d+)/([^/]+)$"
+    replacement = "$1,$2,$3"
+```
+
+Nur wird jeder temporäre Tag mit einem real-funcktionalen Tag ausgewechselt. Dieser Prozess passiert drei mal. Für Schiff, Container und der Art des Sensors. Hier wird beispielhaftg nur der Schiffstag angeheftet. [@gpt-telegraf-regex]
+
+```{caption="Ersetzen der temporären Topic-Tags durch funcktionale Tags" .toml}
+[[processors.regex]]
+  [[processors.regex.tags]]
+    key = "topic"
+    pattern = "^([^,]+),([^,]+),([^,]+)$"
+    replacement = "$1"
+    result_key = "ship"
+```
+
+Zum Schluss wird der transformierte Datensatz in die Datenbank eingespeist. Hierbei müssen sowohl die Verbindungsdetails und Anmeldedaten als auch die Datenbank und die Zeitstempelpräzesion bekannt gegeben werden. Zum Sicherstellen, dass nur ausgewählte Datensätze in die DB kommen, wird mittels Tagpass definiert, welchen Tag das Topic haben muss, um gespeichert zu werden. Im folgenden Beispiel muss das Topic den in der Umgebungsvariable `TEMPERATURE_TAGPASS` definierten Tagwert haben, um in den zugehörigen Temperaturbucket zu gelangen.
+
+```{caption="Persistieren der Messwerte in die Datenbank" .toml}
+[[outputs.influxdb_v2]]
+  urls = ["${INFLUX_URL}:${INFLUX_PORT}"]
+  token = "${INFLUX_TOKEN}"
+  organization = "${INFLUX_ORG}"
+  bucket = "${TEMPERATURE_BUCKET}"
+  precision = "s"
+  
+  # Only pass data where the sensor tag is temperature
+  [outputs.influxdb_v2.tagpass]
+    sensor = ["${TEMPERATURE_TAGPASS}"]
+```
+
+InfluxDB ist ein zeitreihenbasierte Datenbankmanagementsystem, in welchem eine Datenbank Bucket heißt. In diesem hier benötigten Anwendungsfall gibt es für jeden einzelnen Messwert jeweils einen Bucket. Diese wären:
+
+- temperature = Temperatur
+- humidity = Luftfeuchtigkeit
+- air_pressure = Luftdruck
+- vibration = Vibration
+- longitude = Längengrad
+- latitude = Breitengrad
+- altitude = Seehöhe
+
+Außerdem gibt es InfluxDBv1 und InfluxDBv2. Bei V1 muss man für API-Zugriffe Benutzername und Passwort angeben, was unter Umständen eine Sicherheitslücke sein kann. Bei V2 wird der Gesamte API-Verkehr über Tokens geregelt. Ein entscheidender Unterschied ist auch die Abfragesprache. V1 verwendet normales SQL, V2 hingegen verwendet Flux. Dies führte zu einer erheblichen Perfomancesteigerung. [@influx-v1-vs-v2] Flux ist eine SQL ähliche Query-Sprache, jedoch sehr stark auf das Abfragen von Zeitreihen optimiert. [@flux]
 
 #### Grafana
+
+Grafana ist ein Open-Source-Monitoring-Tool. Sprich, man kann es zur Datenvisualisierung verschiedenster Quellen und Eingabearten verwenden und sogar Alarme ausgeben lassen, wenn gewisse Events auftreten oder Werte aus der Reihe tanzen. Somit bietet Grafana nicht nur Visualisierungsmöglichkeiten der beliebtesten Datenquellen an, sondern auch ein Benachrichtigungsystem, welche es in Summe auch zu einem bekannten Industriestandard gemacht haben. In Grafana werden Dashboard erstellt und darin Panels. Ein Panel ist eine Art der Visualisierung. Zum Beispiel Histogramme, Heatmaps oder Balkendiagramme. [@grafana-general] Außerdem bietet es den großen Vorteil, dass Dashboards und Panels als JSON abrufbar sind und somit sehr einfach importiert / exportiert werden können.
+
+Um eine Visualisierung hinzuzufügen, muss man ein neues Dashboard und darin eine neue Visualisierung erstellen. Nun wird man gefragt, die Datenquelle zu konfigurieren. Hierfür wird das Plugin für InfluxDB verwendet und eine neue Connection zu unserer Datenbank aufgebaut. Bei den Dashboardeinstellungen kann man Variablen erstellen. Diese werden hier in weiterer Folge als Platzhalter für die Schiff- und Container IDs verwendet. Die Variablen bestehen jeweils aus einer Query, welche nur die Werte mit den angegebenen Tags herausfiltern. Dies kann nur dann geschehen, wenn die in InlfuxDB gespeicherten Werte überhaupt diese Informationen als Tags bekommen haben.
+
+![Grafana Variablen für Schiffe und Container [@copilot-grafana-telegraf]](img/Schrempf/grafana-variables.png){width=100%}
+
+Nun sieht die leere Visualisierung (Panel) so aus:
+
+![Leeres Grafana Panel](img/Schrempf/grafana-empty-panel.png){width=100%}
+
+Im unteren Teil kann man sehen, dass die zuvor ausgewählte Datensourse da ist und das man diese mittels Flux-Queries abfragen kann. Um ein Panel zur Temperaturvisualisierung zu gestalten, kann man die unten angegebene Query verwenden. Der Zeitraum wird im Panel selbst definiert und die Variablen können mittels einem Dropdownmenüs angepasst werden.
+
+```{caption="Flux-Query für Temperaturwerte in Grafana" .flux}
+from(bucket: "temperature")
+  |> range(start: v.timeRangeStart, stop: v.timeRangeStop)
+  |> filter(fn: (r) => r["ship"] == "${ship}")
+  |> filter(fn: (r) => r["container"] == "${container}")
+```
+
+Nur noch auf Refresh drücken und es sieht schon so aus:
+
+![Simples Grafana Panel](img/Schrempf/grafana-simple-panel.png){width=100%}
+
+Nach weiteren Anpassungen wie Achsenbeschriftung, Diagrammtyp, Diagrammtitel, Einheiten und Farben sieht das Diagramm in finaler Version so aus:
+
+![Temperatur Grafana Panel](img/Schrempf/grafana-temperatur-panel.png){width=100%}
 
 ### Continuous Integration und Continuous Deployment
 
