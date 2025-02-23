@@ -262,8 +262,56 @@ Selbst aber mit dem sogenannten HMR (Hot Module Replacement --> Änderungen im C
 
 > Wenn Sie ein Modul importieren, behandelt Vite es als virtuelles Modul. Während der Entwicklung bündelt es nicht Ihren gesamten Code in eine einzelne Datei. Stattdessen erstellt es bei Bedarf Builds für jedes Modul und stellt sie in separaten Dateien bereit. Dieser Ansatz eliminiert die Notwendigkeit eines vollständigen Bündelungsprozesses bei jeder Änderung, führt zu schnelleren Reloads und – natürlich – zu einem zufriedenen Entwickler. [vgl. @Telerik-BuildTools]
 
-##### Erstellen eines React-Projekt mit Vite
-TBA
+##### Erstellen & Aufbau eines Vite React-Projekt 
+Unter der Annahme, dass `Node.js` installiert ist, ist es sehr einfach, ein React Projekt mithilfe von Vite zu erstellen. Hierfür muss man einfach innerhalb eines Terminals folgenden Befehl ausführen:
+
+```{caption="Befehl zum Erstellen eines React-Projekts mit Vite" .txt}
+npm create vite@latest project-name
+```
+[vgl. @React-CrashCourse]
+
+Mithilfe diesen Befehls wird der Prozess zum Erstellen eines neuen React Projekts mit der neuesten Vite Version gestartet. Als erstes wird folgendes gefragt:
+
+![Auswahl des Projekttyps nach npm Befehl](img/Gekle/CreateProject1.png){width=75%}
+
+Um ein React Project speziell zu erstellen muss natürlich "React" mithilfe der Pfeiltasten und Enter ausgewählt werden. Daraufhin wird noch gefragt, ob man Typescript oder JavaScript verwenden möchte (siehe Bild unten). Im Rahmen der Diplomarbeit wurde einfach nur JavaScript ausgewählt.
+
+![Auswahl zwischen TypeScript und Javascript während der Projekterstellung](img/Gekle/CreateProject2.png){width=75%}
+
+Ist dies einmal gemacht, kann das Projekt mithilfe eines Code-Editors geöffnet werden. Innerhalb des Projekts kann dann ein `vite.config.js`-File gefunden werden, in welchen man die Konfigurationen des Projekts (etwa den Port) ändern kann. Um aber alles funktional zu machen müssen mit `npm install` noch die Dependencies installiert werden. In einem regulären Projekt würde man dann mit dem Befehl `npm run dev` das React-Projekt starten. Bei jedem React-Projekt handelt es sich wie bereits erwähnt um eine "Single-Page-Application". Diese "Single-Page" bildet `index.html`, und alles weitere (Komponente) werden via JavaScript dazugeladen. Als Einstiegsfile dient die sogenannte `main.jsx`, welche (standardmäßig) `app.jsx` lädt, welche wiederum die Hauptkomponente des Projekts bildet. [vgl. @React-CrashCourse]
+
+```{caption="index.html File" .html}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/src/img/LogoSimple.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contrude</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+```
+
+Generell gibt es regulär 2 CSS-Files, da jedoch TailwindCSS benutzt wird, wird nur eines davon benötigt: `index.css`. Um TailwindCSS (Version 3.4) zu installieren müssen nach dem React-Projekt Erstellen selbst noch folgende 2 Befehle im Terminal ausgeführt werden:
+```{caption="TailwindCSS Installieren Befehle" .txt}
+npm install -D tailwindcss@3 postcss autoprefixer
+npx tailwindcss init -p
+``` 
+[vgl. @TailwindCSS-Docs-ViteSetup]
+
+Danach müsssen über die neu erschienene `tailwind.config.js` noch die Pfade definiert werden und der Inhalt der `index.css` mit folgendem ersetzt werden:
+```{caption="Updaten der index.css für TailwindCSS" .css}
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+[vgl. @TailwindCSS-Docs-ViteSetup]
+
+Ist dies gemacht, kann TailwindCSS innerhalb des (gesamnten) Projekts genutzt werden.
 
 #### Tailwind CSS
 
@@ -799,18 +847,12 @@ Die Main Page wurde mit großem Abstand am stärksten verändert. Bei der Contai
 
 Ein völlig neues Komponente war der ShipChooser-Dialog. Dieser wird aufgerufen, wenn auf einen durch das Grid angezeigten Containers geklickt wird. Angenommen ein Container repräsentiert zehn Container, dann kann über den Dialog noch ausgewählt werden, welchen Container man genau haben möchte und man wird dann zu der passenden Detail Page weitergeleitet. Das Design dieses Dialogs, wurde auch für weitere spätere Dialoge verwendet. 
 
-#### Allgemeine Struktur des React Projekts
+#### Projektspezifische Struktur des React Projekts
 Alle wichtigen Folder & Files befinden sich innerhalb des `src`-Folders:
 
 ![Erste Version des Website Designs](img/Gekle/Website-Structure.png){{width=50%}
 
-`App.jsx` und `index.css` bilden die beiden "Grundpfeiler" des React-Projekts. `App.js` ist etwa dafür verantwortlich die Routes der Website zu definieren und `index.css` wird von TailwindCSS durch folgende 3 Zeilen verwendet:
-
-```{caption="Nutzung von index.css mithilfe von TailwindCSS" .js}
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-```
+`App.jsx` bildet auch hier den "Grundpfeiler" des React-Projekts, da es als Hauptkomponent dient und etwa dafür verantwortlich ist, die Routes der Website zu definieren.
 
 Alle weiteren Files, welche die Website umfasst sind in Folder untergeordnet und werden via Imports mit dem korrekten Pfad dort importiert, wo sie benötigt werden. Diese Folder inkludieren:
 
@@ -1222,7 +1264,16 @@ Klickt der User also auf das Alarm-Icon, dann wird in der DetailPage die `handle
 So wird z.B. angegeben, dass folgender Threshold existiert: Wenn die Latitude (Breitengrad) < als 90 Grad ist, dann befindet sich Latitude im kritischen Zustand. Wie auch der `ContainerChooser` besitzt dieser Dialog folgenden Code innerhalb eines Close `Button` : `onClick={onClose}`.
 
 ##### Sidebar
-TBA
+Die Sidebar ist als Komponente in dem Sinn einzigartig, dass sie sowohl innerhalb der `MainPage` als auch der `DetailPage` gleich aussieht und denselben Zweck erfüllt. Sie setzt sich generell aus mehreren untereinander gereihten `divs` welche alle unterschiedlich viele Prozent der gesamten Höhe der Sidebar einnehmen:
+
+- Logo-div (10%) --> enthält Logo
+- Favoriten-div (32%) --> enthält die als Favoriten markierten Container-Seriennummern
+- Alarm-div (47%) --> enthält diejenigen Container deren Thresholds (nur "Critical", "High" und "Low") anschlagen
+- Button-div (5%) --> enthält 2 Buttons welche jeweils einen Dialog aufrufen (`Settings` & `UserProfile`)
+
+Zwischen dem ersten, zweiten und zweiten, dritten `div` befindet sich jeweils noch ein weiteres, welches 3% der Höhe einnimmt und anschreibt, worum es sich bei dem darunter liegenden `div` handelt (Favoriten oder Alarm). Bei dem Alarm- und Favoriten-div ist es zusätzlich möglich auf und ab zu scrollen, sollte sich die Anzahl der angezeigten Container-Nummern nicht ausgehen. Ihren Inhalt entnehmen die beiden aus `useStates` (`alerts` für die Alerts und `favoritesSerialNumbers` für die Favoriten), welche über `useEffects` die aktuellen Daten aus dem Backend speichern. 
+
+Die Dialoge, welche über Buttons am unteren Ende der Sidebar aufgerufen werden können, sehen gleich aus wie der `ContainerChooser`-Dialog. Die Funktionalität des `UserProfile`-Dialogs ist lediglich, eine Möglichkeit zu bieten, den User auszuloggen und an die `LoginPage` zurückzuschicken. Der `Settings`-Dialog wurde nur zum Zweck der Vollständigkeit und Ausbauunfähigkeit der Website eingefügt. Er lässt sich aufrufen, hat aber keine implementierten Funktionalitäten.
 
 #### REST Calls mit Axios
 
