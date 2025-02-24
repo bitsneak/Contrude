@@ -5,14 +5,14 @@
 #include "Adafruit_BME280.h"
 #include "PubSubClient.h"
 #include "WiFi.h"
-#include <Adafruit_MPU6050.h>
-#include <TinyGPS++.h>
+#include "Adafruit_MPU6050.h"
+#include "TinyGPS++.h"
+#include "painlessMesh.h"
+#include <Arduino_JSON.h>
 
-
- // Define the RX and TX pins for Serial 2
+// Define the RX and TX pins for Serial 2
 #define RXD2 16
 #define TXD2 17
-
 #define GPS_BAUD 9600
 
 // --- Constants & Credentials ---
@@ -23,6 +23,11 @@ const char *mqtt_username = "contrude";
 const char *mqtt_password = "HaG1$Vk&62!cWv";
 const int mqtt_port = 1883;
 
+// --- MESH Details ---
+#define MESH_PREFIX "CONTRUDE_MESH" //name for your MESH
+#define MESH_PASSWORD "MESHpassword" //password for your MESH
+#define MESH_PORT 5555 //default port
+
 // --- Objects ---
 Adafruit_BME280 bme;
 Adafruit_MPU6050 mpu;
@@ -30,6 +35,15 @@ HardwareSerial gpsSerial(2);
 WiFiClient espClient;
 PubSubClient client(espClient);
 TinyGPSPlus gps;
+
+Scheduler userScheduler;
+painlessMesh mesh;
+
+// Number for this node
+int nodeNumber = 1;
+
+// String to send to other nodes with sensor readings
+String readings;
 
 // --- Timing ---
 unsigned long currentTime, lastTime = 0;
@@ -45,44 +59,104 @@ void printGPSData();
 void initBME();
 void initMPU();
 void initGPS();
+void checkGPS();
+String getReadings();
+void sendMessage();
+
+// Create tasks: to send messages and get readings
+Task taskSendMessage(TASK_SECOND * 5 , TASK_FOREVER, &sendMessage);
+
+String getReadings() {
+  JSONVar jsonReadings;
+  jsonReadings["node"] = nodeNumber;
+  jsonReadings["temp"] = bme.readTemperature();
+  jsonReadings["hum"] = bme.readHumidity();
+  jsonReadings["pres"] = bme.readPressure()/100.0F;
+  readings = JSON.stringify(jsonReadings);
+  return readings;
+}
+
+void sendMessage() {
+  String msg = getReadings();
+  mesh.sendBroadcast(msg);
+}
+
+// Needed for painless library
+void receivedCallback(uint32_t from, String &msg) {
+  Serial.printf("Received from %u msg=%s\n", from, msg.c_str());
+  JSONVar myObject = JSON.parse(msg.c_str());
+  int node = myObject["node"];
+  double temp = myObject["temp"];
+  double hum = myObject["hum"];
+  double pres = myObject["pres"];
+  Serial.print("Node: ");
+  Serial.println(node);
+  Serial.print("Temperature: ");
+  Serial.print(temp);
+  Serial.println(" C");
+  Serial.print("Humidity: ");
+  Serial.print(hum);
+  Serial.println(" %");
+  Serial.print("Pressure: ");
+  Serial.print(pres);
+  Serial.println(" hpa");
+}
+
+void newConnectionCallback(uint32_t nodeId) {
+  Serial.printf("New Connection, nodeId = %u\n", nodeId);
+}
+
+void changedConnectionCallback() {
+  Serial.printf("Changed connections\n");
+}
+
+void nodeTimeAdjustedCallback(int32_t offset) {
+  Serial.printf("Adjusted time %u. Offset = %d\n", mesh.getNodeTime(), offset);
+}
 
 void setup() {
-Serial.begin(115200);
+  Serial.begin(115200);
 
-Serial.println("In Setup");
+  Serial.println("In Setup");
 
-// Setup Sensors
-initBME();
-initMPU();
-//initGPS();
+  // Setup Sensors
+  initBME();
+  initMPU();
+  initGPS();
+  checkGPS();
 
   // Setup WiFi and MQTT
-  //setup_wifi();
-  //client.setServer(mqtt_server, mqtt_port);
+  setup_wifi();
+  client.setServer(mqtt_server, mqtt_port);
+
+  mesh.init(MESH_PREFIX, MESH_PASSWORD, &userScheduler, MESH_PORT);
+  mesh.onReceive(&receivedCallback);
+  mesh.onNewConnection(&newConnectionCallback);
+  mesh.onChangedConnections(&changedConnectionCallback);
+  mesh.onNodeTimeAdjusted(&nodeTimeAdjustedCallback);
+
+  userScheduler.addTask(taskSendMessage);
+  taskSendMessage.enable();
 }
 
 void loop() {
-  /*
+  mesh.update();
+
   if (!client.connected()) {
     reconnect();
   }
   client.loop();
-  */
-  
-  
 
   currentTime = millis();
   if (currentTime - lastTime >= interval) {
-    delay(5000);
-    //publishSensorData();
+    publishSensorData();
     printBMEData();
     printMPUData();
-    //printGPSData();;
+    printGPSData();
     lastTime = currentTime;
   }
 }
 
-// --- WiFi Setup ---
 void setup_wifi() {
   Serial.print("Connecting to ");
   Serial.println(ssid);
@@ -94,7 +168,6 @@ void setup_wifi() {
   Serial.println("\nWiFi connected!");
 }
 
-// --- MQTT Reconnection ---
 void reconnect() {
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
@@ -109,14 +182,12 @@ void reconnect() {
   }
 }
 
-// --- Publish Sensor Data to MQTT ---
 void publishSensorData() {
   client.publish("contrude/69/420/temperature", String(bme.readTemperature()).c_str());
   client.publish("contrude/69/420/pressure", String(bme.readPressure()).c_str());
   client.publish("contrude/69/420/humidity", String(bme.readHumidity()).c_str());
 }
 
-// --- Print Sensor Data to Serial Monitor ---
 void printBMEData() {
   Serial.print("Temperature: ");
   Serial.print(bme.readTemperature());
@@ -137,61 +208,31 @@ void printMPUData() {
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
 
-
   Serial.print("Acceleration X: ");
   Serial.print(a.acceleration.x);
-  Serial.print(", Y: ");
-  Serial.print(a.acceleration.y);
-  Serial.print(", Z: ");
-  Serial.print(a.acceleration.z);
   Serial.println(" m/s^2");
-
-  Serial.print("Rotation X: ");
-  Serial.print(g.gyro.x);
-  Serial.print(", Y: ");
-  Serial.print(g.gyro.y);
-  Serial.print(", Z: ");
-  Serial.print(g.gyro.z);
-  Serial.println(" rad/s");
 }
 
 void printGPSData() {
-   while (gpsSerial.available() > 0){
-    // get the byte data from the GPS
-    char gpsData = gpsSerial.read();
-    Serial.print(gpsData);
+  while (gpsSerial.available() > 0) {
+    gps.encode(gpsSerial.read());
   }
-  delay(1000);
-  Serial.println("-------------------------------");
 }
 
-void initBME(){
-  
-    if (!bme.begin(0x76) && !bme.begin(0x77)) {
-    Serial.println("Failed to initialize BME280 sensor!");
-  } else {
-    Serial.println("BME280 sensor initialized successfully!");
+void initBME() {
+  bme.begin(0x76);
+}
+
+void initMPU() {
+  mpu.begin();
+}
+
+void initGPS() {
+  gpsSerial.begin(GPS_BAUD, SERIAL_8N1, RXD2, TXD2);
+}
+
+void checkGPS() {
+  if (gpsSerial.available() == 0) {
+    Serial.println("No data from GPS module. Check connections.");
   }
-
-}
-
-void initMPU(){
-
-// Initialize MPU6050
-if (!mpu.begin()) {
-  Serial.println("Failed to initialize MPU6050 sensor!");
-} else {
-  Serial.println("MPU6050 sensor initialized successfully!");
-   mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
-   mpu.setGyroRange(MPU6050_RANGE_500_DEG);
-   mpu.setFilterBandwidth(MPU6050_BAND_5_HZ);
-}
-
-}
-
-void initGPS(){
-
-gpsSerial.begin(GPS_BAUD, SERIAL_8N1, RXD2, TXD2);
-Serial.println("Serial 2 started at 9600 baud rate");
-
 }
