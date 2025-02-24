@@ -105,10 +105,6 @@ da-kiquellen:
 - ki: ChatGPT-4o
   short-prompt: Telegraf Split Data into different DBs
   pdf-file: Schrempf/KI/telegraf-regex-ChatGPT.pdf
-# hg fragen wegen file größe
-#- ki: Microsoft Copilot
-#  short-prompt: Configuring Telegraf for MQTT to InfluxDB2 Data Collection
-#  pdf-file: Schrempf/KI/grafana-telegraf-MS-Copilot.pdf
 
 da-appendix:
 

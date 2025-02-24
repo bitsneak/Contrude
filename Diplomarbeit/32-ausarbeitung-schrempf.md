@@ -336,6 +336,12 @@ Das JSON, welches beim aufrufen des Endpoints ausgegeben wird, sieht so aus:
 }
 ```
 
+### MQTT
+
+MQTT^[Message Queuing Telemetry Transport] ist ein Nachrichtenprotokoll, welches dazu verwendet wird, um mit nicht stabilen Netzwerken oder mit Netzwerken mit begrenzten Ressourcen zu kommunizieren. Dieser basiert auf der Publisher-Subscriber Architektur. Der Publisher sendet seine Daten and den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein # als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic kann nun ein oder mehrere Werte im JSON-Format abgelegt werden. Beim Broker liegen dann die Werte auf. Ein Topic kann auch einen oder mehrere Tags haben. Diese sind Flags, welche zur weiteren Klassifizierung des Topics an es angehängt werden können. Ein Subscriber ist ein beliebiger Akteur, welcher den abgespeicherten Datensatz unter der Angabe des Topics extrahiert. [@mqtt-hivemq]
+
+![Beispiel MQTT Topic Structure [@mqtt-hivemq]](img/Schrempf/MQTT-Topic-Structure.png){width=30%}
+
 ## Praktische Arbeit
 
 ### Datenspeicherung- und Visualisierung
@@ -459,11 +465,7 @@ Um ein praktikable UI^[user interface = Benutzeroberfläche] bieten zu können, 
 
 #### InfluxDB
 
-Das von uns entworfene Gerät sendet seine Messwerte an einen MQTT^[Message Queuing Telemetry Transport] Broker. Dieser basiert auf der Publisher-Subscriber Architektur. Der Publisher sendet seine Daten and den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein # als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic kann nun ein oder mehrere Werte im JSON-Format abgelegt werden. Beim Broker liegen dann die Werte auf. Ein Topic kann auch einen oder mehrere Tags haben. Diese sind Flags, welche zur weiteren Klassifizierung des Topics an es angehängt werden können. Ein Subscriber ist ein beliebiger Akteur, welcher den abgespeicherten Datensatz unter der Angabe des Topics extrahiert. [@mqtt-hivemq]
-
-![Beispiel MQTT Topic Structure [@mqtt-hivemq]](img/Schrempf/MQTT-Topic-Structure.png){width=30%}
-
-In unserem Fall ist der Publisher der Hardware-Prototyp und der Subsciber ist Telegraf. Telegraf ist ein Client, in dieser speziellen Variante auch Scraper genannt, welcher von InfluxDB entworfen wurde um aktiv Datenquellen anzuzapfen und die mittels einer Konfigurationsdatei definierten Filter auf die Ursprünge anzuwenden und die dadurch extrahierten Werte an eine beliebige Applikation weiterzuleiten. Telegraf ist in der Programmiersprache Go verfasst und bietet unzählige Plugins zum empfangen, verarbeiten, aufbereiten und weitersenden der Daten an. Die Konfigurationen werden im TOML^[Tom's Obvious, Minimal Language]-Syntax geschrieben. Hier wurden die Erweiterung für MQTT, RegEx^[regular expression] zum Topic-Struktur-Filtern und InfluxDBv2 verwendet. Das Filtern der Topics hat den Sinn, dass man nur die nötigsten Daten bekommt, Overhead reduziert und auch die einzelnen Werte exakt zuweisen kann. Als erstes wird nach einem groben Gesamttopic gefiltert und temporäre Tags zum weiterverarbeiten erstellt.
+Wir verwenden MQTT um Daten vom Prototyp zum Server zu bekommen. Das von uns entworfene Gerät sendet seine Messwerte an einen MQTT Broker. In unserem Fall ist der Publisher der Hardware-Prototyp und der Subsciber ist Telegraf. Telegraf ist ein Client, in dieser speziellen Variante auch Scraper genannt, welcher von InfluxDB entworfen wurde um aktiv Datenquellen anzuzapfen und die mittels einer Konfigurationsdatei definierten Filter auf die Ursprünge anzuwenden und die dadurch extrahierten Werte an eine beliebige Applikation weiterzuleiten. Telegraf ist in der Programmiersprache Go verfasst und bietet unzählige Plugins zum empfangen, verarbeiten, aufbereiten und weitersenden der Daten an. Die Konfigurationen werden im TOML^[Tom's Obvious, Minimal Language]-Syntax geschrieben. Hier wurden die Erweiterung für MQTT, RegEx^[regular expression] zum Topic-Struktur-Filtern und InfluxDBv2 verwendet. Das Filtern der Topics hat den Sinn, dass man nur die nötigsten Daten bekommt, Overhead reduziert und auch die einzelnen Werte exakt zuweisen kann. Als erstes wird nach einem groben Gesamttopic gefiltert und temporäre Tags zum weiterverarbeiten erstellt.
 
 ```{caption="Filtern der Topics in Telegraf mittels Regex" .toml}
 [[processors.regex]]
@@ -517,7 +519,7 @@ Grafana ist ein Open-Source-Monitoring-Tool. Sprich, man kann es zur Datenvisual
 
 Um eine Visualisierung hinzuzufügen, muss man ein neues Dashboard und darin eine neue Visualisierung erstellen. Nun wird man gefragt, die Datenquelle zu konfigurieren. Hierfür wird das Plugin für InfluxDB verwendet und eine neue Connection zu unserer Datenbank aufgebaut. Bei den Dashboardeinstellungen kann man Variablen erstellen. Diese werden hier in weiterer Folge als Platzhalter für die Schiff- und Container IDs verwendet. Die Variablen bestehen jeweils aus einer Query, welche nur die Werte mit den angegebenen Tags herausfiltern. Dies kann nur dann geschehen, wenn die in InlfuxDB gespeicherten Werte überhaupt diese Informationen als Tags bekommen haben.
 
-![Grafana Variablen für Schiffe und Container [@copilot-grafana-telegraf]](img/Schrempf/grafana-variables.png){width=100%}
+![Grafana Variablen für Schiffe und Container [@grafana-variables]](img/Schrempf/grafana-variables.png){width=100%}
 
 Nun sieht die leere Visualisierung (Panel) so aus:
 
