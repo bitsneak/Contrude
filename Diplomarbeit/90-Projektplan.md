@@ -54,7 +54,7 @@ Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft u
 | 2024-10-24 | Zweitpräsentation der Themenstellung |
 | 2025-01-10 | Erstabgabe der DA |
 | 2025-02-07 | Zweitabgabe der DA |
-| 2025-?-? | Drittpräsentation der Themenstellung |
+| 2025-02-26 | Drittpräsentation der Themenstellung |
 | 2025-03-07 | Endabgabe der DA |
 | 2025-04-22 | Endpräsentation der DA |
 
