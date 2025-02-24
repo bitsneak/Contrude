@@ -41,3 +41,6 @@ Server/mqtt/config/password.txt
 **node_modules/
 **package-lock.json
 **dist/
+
+# BMP280 libraries
+Sensorik/BMP280/.pio/
