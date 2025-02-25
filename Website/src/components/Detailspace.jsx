@@ -201,6 +201,11 @@ const Detailspace = ({thresholdSentences}) => {
             ))}
           </tbody>
         </table>
+        
+        <button className="border border-black px-2 mt-2"type="button" onClick={() => window.open(`/graphs/${shipId}.html`, '_blank')}>
+          Show Position Diagram
+        </button>
+
       </div>
       <div className="h-5/6 w-1/4 pt-10 pr-10">
         <textarea className="resize-none overflow-auto text-base w-full border-2 border-dashed border-gray-400 bg-gray-100 text-gray-700 h-[385px] p-2" 
