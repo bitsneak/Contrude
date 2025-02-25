@@ -106,6 +106,14 @@ da-kiquellen:
   short-prompt: Telegraf Split Data into different DBs
   pdf-file: Schrempf/KI/telegraf-regex-ChatGPT.pdf
 
+- ki: ChatGPT-4o
+  short-prompt: Server Structure Contrude
+  pdf-file: Schrempf/KI/server-structure-ChatGPT.pdf
+
+- ki: ChatGPT-4o
+  short-prompt: Traefik Reverse Proxy
+  pdf-file: Schrempf/KI/traefik-config-ChatGPT.pdf
+
 da-appendix:
 
 #Kampl

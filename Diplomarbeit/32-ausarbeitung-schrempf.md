@@ -4,7 +4,7 @@
 
 ## Theorie
 
-### Datenspeicherung- und Visualisierung
+### Datenspeicherung und Visualisierung
 
 Eine Datenbank ermöglicht die Speicherung und Verwaltung von zusammenhängenden Daten. Hier können große Datenmengen übersichtlich abgebildet werden. Es gibt verschiedenste Datenbankkonzepte, welche auf ihre eigene Art und Weise Vor- und Nachteile bringen. In dieser Ausarbeitung wird sich auf zwei funktional unterschiedliche Arten fokussiert.
 
@@ -39,7 +39,7 @@ Um solch ein Ergebnis zu erreichen, müssen vorhandene Daten bereinigt, gefilter
 
 ![CI / CD Ablauf [@bestarion]](img/Schrempf/CI-CD.png){width=100%}
 
-CI / CD^[Continuous Integration und Continuous Deployment] ist ein Konzept, welches Entwicklerteams, dazu anregt, kontinuierlich und in kürzeren Abständen Dinge am Code zu ändern, diesen zu verbessern und zu automatisieren. Wie oben dargestellt, ist es ein nie endender Kreislauf. Man unterscheidet zwei Komponenten voneinander: Die Continuous integration und das Continuous delivery.
+CI / CD^[abk:CI/CD|Continuous Integration und Continuous Deployment] ist ein Konzept, welches Entwicklerteams, dazu anregt, kontinuierlich und in kürzeren Abständen Dinge am Code zu ändern, diesen zu verbessern und zu automatisieren. Wie oben dargestellt, ist es ein nie endender Kreislauf. Man unterscheidet zwei Komponenten voneinander: Die Continuous integration und das Continuous delivery.
 
 Unter CI^[Continuous Integration] versteht man das tatsächliche Entwickeln, Testen und Hochladen des Codes in das VCS^[Version Control System]. Dies wird durch verschiedene Methoden und Prozesse erleichtert, wie zum Beispiel automatisches Testen des Programms oder agiles Projektmanagement.
 
@@ -65,13 +65,15 @@ Ein Container benutzt die Virtualisierungstools des Linuxkernels um Ressourcen z
 
 ![Übersicht von Container Security Tools [@docker-security]](img/Schrempf/Container-Security-Tools.png){width=100%}
 
-Soweit zum Allgemeinen der Virtualisierung. Doch was hat Docker damit zu tun? Docker ist ein Open Source Projekt, welches sich auf die Containerization spezialisiert hat. Es bietet einen riesigen freien Markt (Docker Hub) zur Erstellung und Distribution von Docker Images an. Es wird so verwaltet, dass es verschiedene Registries gibt. Pro Registry gibt es die verschiedenen Versionen eines Images. Ein Registry wird mit username/image-name benannt. Ein Image ist das zuvor genannte Äquivalent zu der Definition eines Containers. Ein Image ist in Schichten aufgebaut und jede Schicht stellt einen neuen Zustand des Containers dar. Das vollständig ausgeführte und unter Umständen auch angepasste Image ist dann der laufende Container. Auf Basis eines Images können mehrere Container laufen. [@ibm-docker]
+Soweit zum Allgemeinen der Virtualisierung. Doch was hat Docker damit zu tun? Docker ist ein Open Source Projekt, welches sich auf die Containerization spezialisiert hat. Es bietet einen riesigen freien Markt (Docker Hub) zur Erstellung und Distribution von Docker Images an. Es wird so verwaltet, dass es verschiedene Registries gibt. Pro Registry gibt es die verschiedenen Versionen eines Images. Ein Registry wird mit username/image-name benannt. Ein Image ist das zuvor genannte Äquivalent zu der Definition eines Containers. Ein Image ist in Schichten aufgebaut und jede Schicht stellt einen neuen Zustand des Containers dar. Das vollständig ausgeführte und unter Umständen auch angepasste Image ist dann der laufende Container. Auf Basis eines Images können mehrere Container laufen. [@ibm-docker] Jedes Image hat einen Entrypoint. In diesem wird spezifiziert, was geschehen soll, wenn der Container (zum ersten mal) gestartet wird.
 
 Jedes Image wird in einem `Dockerfile` definiert. Hierbei spricht man nur von einer Datei, in welcher die Anweisungen zum Aufbau der Schichten gespeichert sind. Beim Starten des Containers interagiert die Docker CLI^[command line interface] mit dem `Dockerfile` und führt die Anweisungen aus. Eine beliebte Variante ist es, ein schon bestehendes Image zu verwenden und seine eigene Applikation mit Schichten on top zu bauen. [@ibm-docker]
 
 Ein `Dockerfile` ist sehr vielseitig und bietet verschiedene Funktionen. Eine sehr wichtige sind Secrets. Diese stehen für Platzhalter, in die der Anwender Werte eingibt, welche im weiteren Programmablauf benötigt werden. Oftmals werden sie als Umgebungsvariablen realisiert. Eine wichtige Eigenschaft solch einer Einheit ist, dass es ein eigenes System ist, welches unabhängig vom Host existiert. Dementsprechend gehen im Container gespeicherte Daten und Änderungen verloren, wenn dieser heruntergefahren wird. Um dieses Problem zu beheben, gibt es Volumes. Sie dienen dazu, Daten in den Container, z.B. Code, und aus ihm heraus, z.B. Datenbanken, zu bekommen. Um aus dem Container heraus kommunizieren zu können, muss ein Portforwarding zwischen Host und Cotnainer eingestellt werden.
 
-![Übersicht vom Containeraufbau [@container-overview]](img/Schrempf/Container-Infrastructure-Overview.png){width=100%}
+![Containerschichten [@docker-image-layers]](img/Schrempf/Container-Layers-Overview.png){width=80%}
+
+![Übersicht vom Containeraufbau [@container-overview]](img/Schrempf/Container-Infrastructure-Overview.png){width=80%}
 
 Ein Beispiel solch eines Dockerfiles ist hier zu sehen. Es baut auf das schon bestehenden Ubuntu-Image auf, installiert Python, fügt eine Datei hinzu, schaltet die benötigten Ports frei und führt das Python-Script aus. [@docker-dockerfile]
 
@@ -336,6 +338,16 @@ Das JSON, welches beim aufrufen des Endpoints ausgegeben wird, sieht so aus:
 }
 ```
 
+### Reverse Proxy
+
+Ein Reverse Proxy ist zwischen den in das Internet freigeschaltenen Services und dem Internet. Somit kommuniziert ein Client nicht direkt mit den Services, sondern muss zuerst beim Reverse Proxy vorbei. Dies hat mehrere Vorteile. Die Anwendungen sind nicht direkt dem Internet ausgesetzt, was eine zusätzliche Sicherheitsebene einführt, da nie die Server IP(s), sondern nur die des Reverse Proxies ersichtlich sind. Load Balancing ist ein weiterer Aspekt einer solchen Software. Es beschreibt den Vorgang des Aufteilens der Anfragen an verschiedene Server, die aber nach außen hin als einer agieren. Somit können überlastungsbedingte Ausfälle vermieden werden. Wenn mehrere Benutzer den gleichen Inhalt abfragen wollen, kann dieser zur Leistungsverbesserung zwischengespeichert werden - Caching genannt. Diese Tätigkeit kann auch übernommen werden. [@reverse-proxy]
+
+![Funktionsweise eines Reverse Proxies [@tls]](img/Schrempf/reverse-proxy.png){width=100%}
+
+Niemand will seine Daten unverschlüsselt versenden. Eine oft in Kombination angebotene Lösung: SSL^[Secure Sockets Layer] bzw. TLS^[Transport Layer Security]. [@reverse-proxy] SSL ist der Vorgänger zu TLS und ermöglicht das S in HTTPS^[Hypertext Transfer Protocol Secure]. Bei SSL wird ein Handshake zwischen den Geräten durchgeführt, welcher beweisen soll, dass sie auch die sind, für die sie sich ausgeben. Außerdem werden die Daten verschlüsselt und digital signiert. TLS hieß es erst seit dem, dass nicht nur die IETF^[Internet Engineering Task Force] sondern auch Netscape daran mitentwickelten. Beide funktionieren mit einem Asymmetrisches Kryptosystem. [@ssl] [@tls]
+
+![Funktionsweise eines TLS Handshakes [@tls]](img/Schrempf/tls-ssl-handshake.png){width=100%}
+
 ### MQTT
 
 MQTT^[Message Queuing Telemetry Transport] ist ein Nachrichtenprotokoll, welches dazu verwendet wird, um mit nicht stabilen Netzwerken oder mit Netzwerken mit begrenzten Ressourcen zu kommunizieren. Dieser basiert auf der Publisher-Subscriber Architektur. Der Publisher sendet seine Daten and den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein # als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic kann nun ein oder mehrere Werte im JSON-Format abgelegt werden. Beim Broker liegen dann die Werte auf. Ein Topic kann auch einen oder mehrere Tags haben. Diese sind Flags, welche zur weiteren Klassifizierung des Topics an es angehängt werden können. Ein Subscriber ist ein beliebiger Akteur, welcher den abgespeicherten Datensatz unter der Angabe des Topics extrahiert. [@mqtt-hivemq]
@@ -344,7 +356,7 @@ MQTT^[Message Queuing Telemetry Transport] ist ein Nachrichtenprotokoll, welches
 
 ## Praktische Arbeit
 
-### Datenspeicherung- und Visualisierung
+### Datenspeicherung und Visualisierung
 
 #### MySQL
 
@@ -544,9 +556,47 @@ Nach weiteren Anpassungen wie Achsenbeschriftung, Diagrammtyp, Diagrammtitel, Ei
 
 ### Continuous Integration und Continuous Deployment
 
-#### Server
-
 #### Docker
+
+In einer sich immer schneller ändernden Welt ist eine modulare Software unausweichlich um Patches rasch einzuspielen, Sicherheitslücken zu fixen und neue Features implementieren zu können. Da es leichter ist so ein System einmal zu entwerfen und dann zu erweitern als ein bestehendes Konstrukt umzugestalten, wurde hier vom Anfang an Docker verwendet um genau so eine Architektur zu erzielen. Die gesamte Software ist in Microservices unterteilt und kann theoretisch seperat betrieben werden. Ausnahmen hinsichtlich der Abhängigkeit/Modularität bestehen nur bei Anwendungen, die eine Andere voraussetzen z.B. ein Server eine Datenbank. Anfangs wurde überlegt, für jeden einzelnen Service ein Dockerfile zu schreiben. Ein Problem welches sich nicht lange darauf einstellte war, wie man denn all die Anwendungen gleichzeitig hochfahren könne. Eine Lösung bot hierbei Docker Compose. Nun kann man mehrere Services in einer Datei definieren und mit einem Befehl hochfahren: `docker compose up`. Da man in Docker Compose zwar einen Service aus einem Image, welches in einem eigenen Dockerfile beschrieben wurde, erstellen kann, dies jedoch bei uns keinen Sinn hatte, wurde die Strategie dahin gehend verändert, dass nur noch das Base-Image vom Docker-Hub verwendet und im gebotenen Rahmen abgewandelt wurde. Wir haben uns für die zweite Version entschieden, da wird die Base-Images nicht wirklich verändern, sondern eher Konfigurationen an ihnen durchführen. Beispiele dafür sind Volume-Mounts, Entrypoints anpassen oder Umgebungsvariablen setzen. Zusätzlich erspart das, das schreiben unzähliger Dockerfiles und man kann alles übersichtlich in einer Datei behalten. [@gpt-server-structure] Ein guter Vergleich für das gelingen unseres Ansetzes ist, dass zu Anfang nur drei Services im Einsatz waren und nun sind wir bei zwölf, welche über den Lauf der Zeit ihren Weg in unsere Anwendung gefunden haben und auch leicht einzugliedern waren. Folgende Services sind final im Einsatz:
+
+- Datenbanken
+  - Ship
+  - Container
+  - User
+  - Grenzwerte / Thresholds
+- Backend
+  - Traefik
+  - MQTT Broker
+  - Telegraf
+- API Backend
+  - REST
+  - Authentifizierung
+- Frontend
+  - Grafana
+  - Webapplikation
+
+Da gewisse Anwendungen vertrauliche Informationen benötigen wie Passwörter, Tokens und Webaddressen wurden diese in Envirnoment-Variable-Files gespeichert. Zu jedem Service der sensible Umgebungsvariablen benötigt, gibt es eine `.env.template` Datei. Diese Datei spezifiziert welche Environments gesetzt gehören. Nicht nur sensibles kann hier mitgegeben werden, sondern es wird auch eine Differenzierung zwischen Produktiv- und Entwicklungsumgebungen ermöglicht.
+
+```{caption="Definition einer Entwicklungsumgebung mittels Umgebungsvariablen" .env}
+TRAEFIK_DOMAIN=traefik.localhost
+API_DOMAIN=api.localhost
+WEB_DOMAIN=www.localhost
+```
+
+```{caption="Definition einer Produktivumgebung mittels Umgebungsvariablen" .env}
+TRAEFIK_DOMAIN=traefik.contrude.eu
+API_DOMAIN=api.contrude.eu
+WEB_DOMAIN=www.contrude.eu
+```
+
+##### Traefik
+
+Traefik ist ein Open-Source Reverse Proxy und Load Balancer. Ein groß Vorteil von Traefik zu anderen Konkurenten ist, dass man nicht viel konfigurieren muss, da es aufgrund eines eigenen Service Discorvery Modus die zu routenden Anwendungen automatisch erkennt. Außerdem muss man sich nicht mehr mühselig SSL-Zertifikate kaufen, sondern kann diese sich generieren lassen. Ein kleines Kontra bringt dieses Feature aber mit sich: Da die Zertifikate nicht von einer offiziellen Autorität ausgestellt wurden, werden diese in den Browsern und von manchen Libraries als unsicher geflaggt. [@traefik-overview]
+
+![Traefik Übersicht [@traefik-overview]](img/Schrempf/traefik-overview.png){width=100%}
+
+#### Server
 
 #### GitHub Action
 
