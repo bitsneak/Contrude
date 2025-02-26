@@ -16,17 +16,22 @@
 #define GPS_BAUD 9600
 
 // --- Constants & Credentials ---
-const char *ssid = "";
-const char *password = "";
+const char *ssid = "You lost the Game";
+const char *password = "Achtzehn";
 const char *mqtt_server = "mqtt.contrude.eu";
 const char *mqtt_username = "contrude";
 const char *mqtt_password = "HaG1$Vk&62!cWv";
+const char *mqtt_domain = "contrude/";
+const int ship_number = 1;
 const int mqtt_port = 1883;
+// Number for this node and also number for the container
+int nodeNumber = 1;
+
+String mqtt_publish = String(mqtt_domain) + ship_number + "/" + nodeNumber;
 
 // --- MESH Details ---
-#define MESH_PREFIX "CONTRUDE_MESH" //name for your MESH
-#define MESH_PASSWORD "MESHpassword" //password for your MESH
-#define MESH_PORT 5555 //default port
+#define MESH_PREFIX "CONTRUDE_MESH" 
+#define MESH_PORT 5555 
 
 // --- Objects ---
 Adafruit_BME280 bme;
@@ -39,8 +44,6 @@ TinyGPSPlus gps;
 Scheduler userScheduler;
 painlessMesh mesh;
 
-// Number for this node
-int nodeNumber = 1;
 
 // String to send to other nodes with sensor readings
 String readings;
@@ -81,7 +84,7 @@ void sendMessage() {
   mesh.sendBroadcast(msg);
 }
 
-// Needed for painless library
+
 void receivedCallback(uint32_t from, String &msg) {
   Serial.printf("Received from %u msg=%s\n", from, msg.c_str());
   JSONVar myObject = JSON.parse(msg.c_str());
@@ -123,24 +126,25 @@ void setup() {
   initBME();
   initMPU();
   initGPS();
-  checkGPS();
+
 
   // Setup WiFi and MQTT
   setup_wifi();
   client.setServer(mqtt_server, mqtt_port);
+  
 
-  mesh.init(MESH_PREFIX, MESH_PASSWORD, &userScheduler, MESH_PORT);
-  mesh.onReceive(&receivedCallback);
-  mesh.onNewConnection(&newConnectionCallback);
-  mesh.onChangedConnections(&changedConnectionCallback);
-  mesh.onNodeTimeAdjusted(&nodeTimeAdjustedCallback);
+  //mesh.init(MESH_PREFIX, password, &userScheduler, MESH_PORT);
+  //mesh.onReceive(&receivedCallback);
+  //mesh.onNewConnection(&newConnectionCallback);
+  //mesh.onChangedConnections(&changedConnectionCallback);
+  //mesh.onNodeTimeAdjusted(&nodeTimeAdjustedCallback);
 
-  userScheduler.addTask(taskSendMessage);
-  taskSendMessage.enable();
+  //userScheduler.addTask(taskSendMessage);
+  //taskSendMessage.enable();
 }
 
 void loop() {
-  mesh.update();
+  //mesh.update();
 
   if (!client.connected()) {
     reconnect();
@@ -150,12 +154,12 @@ void loop() {
   currentTime = millis();
   if (currentTime - lastTime >= interval) {
     publishSensorData();
-    printBMEData();
-    printMPUData();
-    printGPSData();
     lastTime = currentTime;
   }
 }
+
+
+// Wifi and Server Segment
 
 void setup_wifi() {
   Serial.print("Connecting to ");
@@ -183,56 +187,73 @@ void reconnect() {
 }
 
 void publishSensorData() {
-  client.publish("contrude/69/420/temperature", String(bme.readTemperature()).c_str());
-  client.publish("contrude/69/420/pressure", String(bme.readPressure()).c_str());
-  client.publish("contrude/69/420/humidity", String(bme.readHumidity()).c_str());
-}
-
-void printBMEData() {
-  Serial.print("Temperature: ");
-  Serial.print(bme.readTemperature());
-  Serial.println(" °C");
-
-  Serial.print("Pressure: ");
-  Serial.print(bme.readPressure());
-  Serial.println(" Pa");
-
-  Serial.print("Humidity: ");
-  Serial.print(bme.readHumidity());
-  Serial.println(" %");
-
-  Serial.println("---------------------------");
-}
-
-void printMPUData() {
   sensors_event_t a, g, temp;
   mpu.getEvent(&a, &g, &temp);
 
-  Serial.print("Acceleration X: ");
-  Serial.print(a.acceleration.x);
-  Serial.println(" m/s^2");
+  client.publish((String(mqtt_publish) + "/temperature").c_str(), String(bme.readTemperature()).c_str());
+  client.publish((String(mqtt_publish) + "/pressure").c_str(), String(bme.readPressure()).c_str());
+  client.publish((String(mqtt_publish) + "/humidity").c_str(), String(bme.readHumidity()).c_str());
+  client.publish((String(mqtt_publish) + "/vibration").c_str(), String(a.acceleration.x).c_str());
+
+
+
 }
 
-void printGPSData() {
-  while (gpsSerial.available() > 0) {
-    gps.encode(gpsSerial.read());
-  }
-}
+
+// Initializer Segment
 
 void initBME() {
   bme.begin(0x76);
+  Serial.println("Initialized BME");
 }
 
 void initMPU() {
   mpu.begin();
+  Serial.println("Initialized MPU");
 }
 
 void initGPS() {
   gpsSerial.begin(GPS_BAUD, SERIAL_8N1, RXD2, TXD2);
+  Serial.println("Initialized GPS on Baudrate: " + GPS_BAUD);
 }
 
-void checkGPS() {
-  if (gpsSerial.available() == 0) {
-    Serial.println("No data from GPS module. Check connections.");
-  }
-}
+
+// Debug Segment 
+
+
+//void checkGPS() {
+//  if (gpsSerial.available() == 0) {
+//    Serial.println("No data from GPS module. Check connections.");
+//  }
+//}
+//
+//void printBMEData() {
+//  Serial.print("Temperature: ");
+//  Serial.print(bme.readTemperature());
+//  Serial.println(" °C");
+//
+//  Serial.print("Pressure: ");
+//  Serial.print(bme.readPressure());
+//  Serial.println(" Pa");
+//
+//  Serial.print("Humidity: ");
+//  Serial.print(bme.readHumidity());
+//  Serial.println(" %");
+//
+//  Serial.println("---------------------------");
+//}
+//
+//void printMPUData() {
+//  sensors_event_t a, g, temp;
+//  mpu.getEvent(&a, &g, &temp);
+//
+//  Serial.print("Acceleration X: ");
+//  Serial.print(a.acceleration.x);
+//  Serial.println(" m/s^2");
+//}
+//
+//void printGPSData() {
+//  while (gpsSerial.available() > 0) {
+//    gps.encode(gpsSerial.read());
+//  }
+//}
