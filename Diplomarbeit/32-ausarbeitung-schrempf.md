@@ -35,6 +35,24 @@ Um Rohdaten verständlich zu machen, im Kontext betrachten zu können und etwaig
 
 Um solch ein Ergebnis zu erreichen, müssen vorhandene Daten bereinigt, gefiltert und ausgewählt werden. Beim Erstellen der Visualisierungen muss eine Verzerrung der Daten hinsichtlich Trivialisierung, Überspitzung und menschlichen Vorurteilen vermeiden werden. [@aws-datenvisualisierung]
 
+### Datenübertragung
+
+#### Reverse Proxy
+
+Ein Reverse Proxy ist zwischen den in das Internet freigeschaltenen Services und dem Internet. Somit kommuniziert ein Client nicht direkt mit den Services, sondern muss zuerst beim Reverse Proxy vorbei. Dies hat mehrere Vorteile. Die Anwendungen sind nicht direkt dem Internet ausgesetzt, was eine zusätzliche Sicherheitsebene einführt, da nie die Server IP(s), sondern nur die des Reverse Proxies ersichtlich sind. Load Balancing ist ein weiterer Aspekt einer solchen Software. Es beschreibt den Vorgang des Aufteilens der Anfragen an verschiedene Server, die aber nach außen hin als einer agieren. Somit können überlastungsbedingte Ausfälle vermieden werden. Wenn mehrere Benutzer den gleichen Inhalt abfragen wollen, kann dieser zur Leistungsverbesserung zwischengespeichert werden - Caching genannt. Diese Tätigkeit kann auch übernommen werden. [@reverse-proxy]
+
+![Funktionsweise eines Reverse Proxies [@tls]](img/Schrempf/reverse-proxy.png){width=100%}
+
+Niemand will seine Daten unverschlüsselt versenden. Eine oft in Kombination angebotene Lösung: SSL^[Secure Sockets Layer] bzw. TLS^[Transport Layer Security]. [@reverse-proxy] SSL ist der Vorgänger zu TLS und ermöglicht das S in HTTPS^[Hypertext Transfer Protocol Secure]. Bei SSL wird ein Handshake zwischen den Geräten durchgeführt, welcher beweisen soll, dass sie auch die sind, für die sie sich ausgeben. Außerdem werden die Daten verschlüsselt und digital signiert. TLS hieß es erst seit dem, dass nicht nur die IETF^[Internet Engineering Task Force] sondern auch Netscape daran mitentwickelten. Beide funktionieren mit einem Asymmetrisches Kryptosystem. [@ssl] [@tls]
+
+![Funktionsweise eines TLS Handshakes [@tls]](img/Schrempf/tls-ssl-handshake.png){width=100%}
+
+#### MQTT
+
+MQTT^[Message Queuing Telemetry Transport] ist ein Nachrichtenprotokoll, welches dazu verwendet wird, um mit nicht stabilen Netzwerken oder mit Netzwerken mit begrenzten Ressourcen zu kommunizieren. Dieser basiert auf der Publisher-Subscriber Architektur. Der Publisher sendet seine Daten and den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein # als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic kann nun ein oder mehrere Werte im JSON-Format abgelegt werden. Beim Broker liegen dann die Werte auf. Ein Topic kann auch einen oder mehrere Tags haben. Diese sind Flags, welche zur weiteren Klassifizierung des Topics an es angehängt werden können. Ein Subscriber ist ein beliebiger Akteur, welcher den abgespeicherten Datensatz unter der Angabe des Topics extrahiert. [@mqtt-hivemq]
+
+![Beispiel MQTT Topic Structure [@mqtt-hivemq]](img/Schrempf/MQTT-Topic-Structure.png){width=30%}
+
 ### Continuous Integration und Continuous Deployment
 
 ![CI / CD Ablauf [@bestarion]](img/Schrempf/CI-CD.png){width=100%}
@@ -338,22 +356,6 @@ Das JSON, welches beim aufrufen des Endpoints ausgegeben wird, sieht so aus:
 }
 ```
 
-### Reverse Proxy
-
-Ein Reverse Proxy ist zwischen den in das Internet freigeschaltenen Services und dem Internet. Somit kommuniziert ein Client nicht direkt mit den Services, sondern muss zuerst beim Reverse Proxy vorbei. Dies hat mehrere Vorteile. Die Anwendungen sind nicht direkt dem Internet ausgesetzt, was eine zusätzliche Sicherheitsebene einführt, da nie die Server IP(s), sondern nur die des Reverse Proxies ersichtlich sind. Load Balancing ist ein weiterer Aspekt einer solchen Software. Es beschreibt den Vorgang des Aufteilens der Anfragen an verschiedene Server, die aber nach außen hin als einer agieren. Somit können überlastungsbedingte Ausfälle vermieden werden. Wenn mehrere Benutzer den gleichen Inhalt abfragen wollen, kann dieser zur Leistungsverbesserung zwischengespeichert werden - Caching genannt. Diese Tätigkeit kann auch übernommen werden. [@reverse-proxy]
-
-![Funktionsweise eines Reverse Proxies [@tls]](img/Schrempf/reverse-proxy.png){width=100%}
-
-Niemand will seine Daten unverschlüsselt versenden. Eine oft in Kombination angebotene Lösung: SSL^[Secure Sockets Layer] bzw. TLS^[Transport Layer Security]. [@reverse-proxy] SSL ist der Vorgänger zu TLS und ermöglicht das S in HTTPS^[Hypertext Transfer Protocol Secure]. Bei SSL wird ein Handshake zwischen den Geräten durchgeführt, welcher beweisen soll, dass sie auch die sind, für die sie sich ausgeben. Außerdem werden die Daten verschlüsselt und digital signiert. TLS hieß es erst seit dem, dass nicht nur die IETF^[Internet Engineering Task Force] sondern auch Netscape daran mitentwickelten. Beide funktionieren mit einem Asymmetrisches Kryptosystem. [@ssl] [@tls]
-
-![Funktionsweise eines TLS Handshakes [@tls]](img/Schrempf/tls-ssl-handshake.png){width=100%}
-
-### MQTT
-
-MQTT^[Message Queuing Telemetry Transport] ist ein Nachrichtenprotokoll, welches dazu verwendet wird, um mit nicht stabilen Netzwerken oder mit Netzwerken mit begrenzten Ressourcen zu kommunizieren. Dieser basiert auf der Publisher-Subscriber Architektur. Der Publisher sendet seine Daten and den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein # als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic kann nun ein oder mehrere Werte im JSON-Format abgelegt werden. Beim Broker liegen dann die Werte auf. Ein Topic kann auch einen oder mehrere Tags haben. Diese sind Flags, welche zur weiteren Klassifizierung des Topics an es angehängt werden können. Ein Subscriber ist ein beliebiger Akteur, welcher den abgespeicherten Datensatz unter der Angabe des Topics extrahiert. [@mqtt-hivemq]
-
-![Beispiel MQTT Topic Structure [@mqtt-hivemq]](img/Schrempf/MQTT-Topic-Structure.png){width=30%}
-
 ## Praktische Arbeit
 
 ### Datenspeicherung und Visualisierung
@@ -596,10 +598,12 @@ Traefik ist ein Open-Source Reverse Proxy und Load Balancer. Ein groß Vorteil v
 
 ![Traefik Übersicht [@traefik-overview]](img/Schrempf/traefik-overview.png){width=100%}
 
-#### Server
-
 #### GitHub Action
+
+#### Server
 
 ### REST API
 
-#### JavaScript
+#### Authentifizierung
+
+#### Schnitstellen
