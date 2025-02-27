@@ -43,7 +43,7 @@ Ein Reverse Proxy ist zwischen den in das Internet freigeschaltenen Services und
 
 ![Funktionsweise eines Reverse Proxies [@tls]](img/Schrempf/reverse-proxy.png){width=100%}
 
-Niemand will seine Daten unverschlüsselt versenden. Eine oft in Kombination angebotene Lösung: SSL^[Secure Sockets Layer] bzw. TLS^[Transport Layer Security]. [@reverse-proxy] SSL ist der Vorgänger zu TLS und ermöglicht das S in HTTPS^[Hypertext Transfer Protocol Secure]. Bei SSL wird ein Handshake zwischen den Geräten durchgeführt, welcher beweisen soll, dass sie auch die sind, für die sie sich ausgeben. Außerdem werden die Daten verschlüsselt und digital signiert. TLS hieß es erst seit dem, dass nicht nur die IETF^[Internet Engineering Task Force] sondern auch Netscape daran mitentwickelten. Beide funktionieren mit einem Asymmetrisches Kryptosystem. [@ssl] [@tls]
+Niemand will seine Daten unverschlüsselt versenden. Eine oft in Kombination angebotene Lösung: SSL^[Secure Sockets Layer] bzw. TLS^[Transport Layer Security]. [@reverse-proxy] SSL ist der namentliche Vorgänger zu TLS und ermöglicht das S in HTTPS^[Hypertext Transfer Protocol Secure]. Bei SSL wird ein Handshake zwischen den Geräten durchgeführt, welcher beweisen soll, dass sie auch die sind, für die sie sich ausgeben. Außerdem werden die Daten verschlüsselt und digital signiert. TLS hieß es erst seit dem, dass nicht nur die IETF^[Internet Engineering Task Force] sondern auch Netscape daran mitentwickelten. Beide funktionieren mit einem Asymmetrisches Kryptosystem. [@ssl] [@tls]
 
 ![Funktionsweise eines TLS Handshakes [@tls]](img/Schrempf/tls-ssl-handshake.png){width=100%}
 
@@ -114,7 +114,7 @@ CMD ["flask", "run", "--host", "0.0.0.0", "--port", "8000"]
 
 [@docker-dockerfile]
 
-Docker compose ist eine Funktionalität von Docker. Es ermöglicht die Definition von mehreren Microservices in einer YAML^[yet another markup language]-Konfigurationsdatei Namens `compose.yml`. Hier wird ein Microservice nur Service genannt. Ein Service kann wieder als Dockerfile definiert werden oder sogar das Image vom Docker Hub benutzt und in der Datei bis zu einem gewissen Maß weiter spezialisiert werden. In der `compose.yml` werden Ports, Secrets, zu benutzende Volumes, Networks und die Anzahl der Container des Services beschrieben. Da nun mehrere Microservices zwar als Bausteine definiert werden, jedoch miteinander interagierene können um ein ganzes Konstrukt zu bilden, gibt es die sogenanten Networks. Über diese können Tasks, wie Containerübergreifende Datenkommunikation, realisiert werden. So sieht eine `compose.yml` Datei grundelegend aus:
+Docker compose ist eine Funktionalität von Docker. Es ermöglicht die Definition von mehreren Microservices in einer YAML^[yet another markup language]-Konfigurationsdatei Namens `compose.yml`. Hier wird ein Microservice nur Service genannt. Ein Service kann wieder als Dockerfile definiert werden oder sogar das Image vom Docker Hub benutzt und in der Datei bis zu einem gewissen Maß weiter spezialisiert werden. In der `compose.yml` werden Ports, Secrets, zu benutzende Volumes, Networks und die Anzahl der Container des Services beschrieben. Da nun mehrere Microservices zwar als Bausteine definiert werden, jedoch miteinander interagierene können um ein ganzes Konstrukt zu bilden, gibt es die sogenanten Networks. Über diese können Tasks, wie Containerübergreifende Datenkommunikation, realisiert werden. So sieht eine `compose.yml` Datei grundelegend aus: [@docker-compose]
 
 ```{caption="Beispiel eines docker compose files" .yml}
 services:
@@ -155,8 +155,6 @@ networks:
   front-tier: {}
   back-tier: {}
 ```
-
-[@docker-compose]
 
 Ein weitere Funktionalität von Docker ist Docker Swarm. Mit diesem Tool wird eine Orchestrierungsmöglichkeit für Anwendungen mit mehr als einem Host angeboten. Hierbei kann man die Anzahl der Container per Host angeben, wo welcher Container laufen soll und vieles mehr. Beschrieben wird das Verhalten des Swarms über eine leicht anders funktionierende Version der `compose.yml`. Jedoch ist anzumerken, dass Docker Swarm nicht so ausgereift und mehr so etwas in der Art wie ein Notbehelf aufgrund der Nachfrage ist. Für kontrollierte und ausführliche Ochestrierung wird ein explizit dafür ausgelegtes Framework, wie Kubernetes, empfohlen.
 [@docker-swarm] [@circleci-blog]
@@ -562,23 +560,19 @@ Nach weiteren Anpassungen wie Achsenbeschriftung, Diagrammtyp, Diagrammtitel, Ei
 
 In einer sich immer schneller ändernden Welt ist eine modulare Software unausweichlich um Patches rasch einzuspielen, Sicherheitslücken zu fixen und neue Features implementieren zu können. Da es leichter ist so ein System einmal zu entwerfen und dann zu erweitern als ein bestehendes Konstrukt umzugestalten, wurde hier vom Anfang an Docker verwendet um genau so eine Architektur zu erzielen. Die gesamte Software ist in Microservices unterteilt und kann theoretisch seperat betrieben werden. Ausnahmen hinsichtlich der Abhängigkeit/Modularität bestehen nur bei Anwendungen, die eine Andere voraussetzen z.B. ein Server eine Datenbank. Anfangs wurde überlegt, für jeden einzelnen Service ein Dockerfile zu schreiben. Ein Problem welches sich nicht lange darauf einstellte war, wie man denn all die Anwendungen gleichzeitig hochfahren könne. Eine Lösung bot hierbei Docker Compose. Nun kann man mehrere Services in einer Datei definieren und mit einem Befehl hochfahren: `docker compose up`. Da man in Docker Compose zwar einen Service aus einem Image, welches in einem eigenen Dockerfile beschrieben wurde, erstellen kann, dies jedoch bei uns keinen Sinn hatte, wurde die Strategie dahin gehend verändert, dass nur noch das Base-Image vom Docker-Hub verwendet und im gebotenen Rahmen abgewandelt wurde. Wir haben uns für die zweite Version entschieden, da wird die Base-Images nicht wirklich verändern, sondern eher Konfigurationen an ihnen durchführen. Beispiele dafür sind Volume-Mounts, Entrypoints anpassen oder Umgebungsvariablen setzen. Zusätzlich erspart das, das schreiben unzähliger Dockerfiles und man kann alles übersichtlich in einer Datei behalten. [@gpt-server-structure] Ein guter Vergleich für das gelingen unseres Ansetzes ist, dass zu Anfang nur drei Services im Einsatz waren und nun sind wir bei zwölf, welche über den Lauf der Zeit ihren Weg in unsere Anwendung gefunden haben und auch leicht einzugliedern waren. Folgende Services sind final im Einsatz:
 
-- Datenbanken
-  - Ship
-  - Container
-  - User
-  - Grenzwerte / Thresholds
-- Backend
-  - Traefik
-  - MQTT Broker
-  - Telegraf
-- API Backend
-  - REST
-  - Authentifizierung
-- Frontend
-  - Grafana
-  - Webapplikation
+| Image | Usage | Services | Scope |
+|--|--|--|--|
+| mysql:8.0.29 | MySQL Datenbanken | Schiffe, Container, Grenzwerte, Benutzer  | Datenbanken |
+| influxdb:2.7-alpine | Zeitreihenbasierte Sensordatenbank | InfluxDB | Datenbanken |
+| traefik:v3.1.5 | Reverse Proxy | Traefik | Backend |
+| eclipse-mosquitto:openssl | MQTT Broker | MQTT | Backend |
+| telegraf:1.32-alpine | Datenübermittelung von MQTT zu InfluxDB | Telegraf | Backend |
+| node:22-alpine3.18 | JavaScript Applikationen | Authentifizierung, REST-API, Webanwendung | API, Frontend |
+| grafana/grafana:main | Datenvisualisierung | Grafana | Frontend |
 
-Da gewisse Anwendungen vertrauliche Informationen benötigen wie Passwörter, Tokens und Webaddressen wurden diese in Envirnoment-Variable-Files gespeichert. Zu jedem Service der sensible Umgebungsvariablen benötigt, gibt es eine `.env.template` Datei. Diese Datei spezifiziert welche Environments gesetzt gehören. Nicht nur sensibles kann hier mitgegeben werden, sondern es wird auch eine Differenzierung zwischen Produktiv- und Entwicklungsumgebungen ermöglicht.
+: Welche Images werden für welche Services verwendet
+
+Da gewisse Anwendungen vertrauliche Informationen benötigen wie Passwörter, Tokens und Webaddressen wurden diese in Envirnoment-Variable-Files gespeichert. Diese Datei wird in dem Docker Compose Abschnitt `env_file` angegeben. Zu jedem Service der sensible Umgebungsvariablen benötigt, gibt es eine `.env.template` Datei. Diese Datei spezifiziert welche Environments gesetzt gehören und fungiert somit als Template. Hier werden noch keine sensiblen Informationen angegeben und somit kann sie in das VCS hochgeladen werden. Nicht nur sensibles kann hier mitgegeben werden, sondern es wird auch eine Differenzierung zwischen Produktiv- und Entwicklungsumgebungen ermöglicht.
 
 ```{caption="Definition einer Entwicklungsumgebung mittels Umgebungsvariablen" .env}
 TRAEFIK_DOMAIN=traefik.localhost
@@ -592,13 +586,75 @@ API_DOMAIN=api.contrude.eu
 WEB_DOMAIN=www.contrude.eu
 ```
 
+Alle Services haben die gleiche Struktur und gewisse Ähnlichkeiten im Aufbau. Bei jedem Service wird das Attribut `restart` auf `unless-stopped` gesetzt. Dies bewirkt, dass bei einem schwerwiegenden Fehler, welcher den Container zum Absturz bringt, sich ein neuer Container hochfährt und Anfragen weitherin entgegengenommen werden können. Somit ist der Grundstein für eine Self-Healing-Architecture gelegt. Wenn Volumes gemounted werden, wird zur besseren Kontrolle auch spezifiziert, ob dieser Mount Read-Only oder Read-Write Rechte im Container selbst haben soll. Die Sektion `deploy` ist noch ein überbleibes aus der Phase des Projekts, als wir Docker Swarm verwendet haben, wird aber auch unter der alleinigen Nutzung von Docke Compose, zwar weniger effektiv aber doch, verwendet.
+
+##### MySQL
+
+Die MySQL Datenbank Services sind so konfiguriert, dass sie alle das selbe Admin (root) Passwort, welches nach der Erstanmeldung geändert werden muss, haben. Dies dient zur leichteren Erstkonfiguration und bringt aufgrund des Einmalpassworts einen gewissen Sicherheitsfaktor mit. Es werden immer zwei Volumemounts vollzogen. Einmal die Datenbank selbst, welche im Container unter dem Pfad `/var/lib/mysql` erreichbar ist, und als zweites die Datenbankscripts zum initialisieren der DB. Der Standardport einer MySQL Instanz ist 3306, aber aufgrund dessen, dass bei uns davon vier verschiedene Stück exesiteren, wurden die Ports inkremental geändert. Hier ein Beispiel der Container DB:
+
+```{caption="Definition eines MySQL Services" .yml}
+db_container:
+  image: mysql:8.0.29
+  environment:
+    MYSQL_ROOT_PASSWORD: 123
+    MYSQL_ONETIME_PASSWORD: "yes"
+  restart: unless-stopped
+  volumes:
+    - ./databases/container/mysql:/var/lib/mysql:rw
+    - ./databases/container/scripts:/docker-entrypoint-initdb.d/:ro
+  ports:
+    - "3308:3306"
+  deploy:
+    mode: global
+```
+
 ##### Traefik
 
-Traefik ist ein Open-Source Reverse Proxy und Load Balancer. Ein groß Vorteil von Traefik zu anderen Konkurenten ist, dass man nicht viel konfigurieren muss, da es aufgrund eines eigenen Service Discorvery Modus die zu routenden Anwendungen automatisch erkennt. Außerdem muss man sich nicht mehr mühselig SSL-Zertifikate kaufen, sondern kann diese sich generieren lassen. Ein kleines Kontra bringt dieses Feature aber mit sich: Da die Zertifikate nicht von einer offiziellen Autorität ausgestellt wurden, werden diese in den Browsern und von manchen Libraries als unsicher geflaggt. [@traefik-overview]
+Traefik ist ein Open-Source Reverse Proxy und Load Balancer. Ein großer Vorteil von Traefik zu anderen Konkurenten ist, dass man nicht viel konfigurieren muss, da es aufgrund eines eigenen Service Discorvery Modus die zu routenden Anwendungen automatisch erkennt. Außerdem muss man sich nicht mehr mühselig SSL-Zertifikate kaufen, sondern kann diese sich generieren lassen. Ein kleines Kontra bringt dieses Feature aber mit sich: Da die Zertifikate nicht von einer offiziellen Autorität ausgestellt werden, werden diese in den Browsern und von manchen Libraries als unsicher geflaggt. [@traefik-overview]
 
 ![Traefik Übersicht [@traefik-overview]](img/Schrempf/traefik-overview.png){width=100%}
 
+Um unsere Services sicher im Internet freizuschalten, verwenden wir die automatisierte Generierung von TLS Zertifikaten von Traefik, welches mit Let's Encrypt, einer Zertifizierungsauthorität, interagiert. Somit upgraden wir von HTTP zu HTTPS auf. [@traefik-lets-encrypt] Des Weiteren haben wir Traefik so konfiguriert, dass jeglicher HTTP traffic auf HTTPS umgeleitet wird. Dem Benutzer wird faktisch ein verschlüsselter Datentransfer im Sinne des größeren Wohls aufgezwungen. Außerdem wird zur Sicherheitssteigerung auch noch konfiguriert, dass nicht jeder Service ins Web geschaltet werden soll, sondern nur jene, welche expliziert erwähnt werden. Zusätzlich bietet Traefik ein Web-Dashboard an, mit welchem man eine gute Übersicht über die verwalteten Services erhält. Wir haben zwei API-Server. Einen zur Authentifizierung und einen um die Daten der Schiffe, Container, Grenz- und Messwerte zu erhalten. Um eine logische und (sicherheits-) technische Abgrenzung zu ermöglichen, werden diese zwei seprat von einander betrieben. Um auch einen Unterschied beim Aufrufen dieser im WWW^[World Wide Web] zu ermöglichen, gibt es eine Domain, aber verschiede Path-Prefixes unter denen man die Services erreichen kann. Der Prefix für die Authentifiziernungstelle lautet `/auth` und für die restlichen Angelegenheiten `/rest`. Da es mit der internen API Struktur der Server beim weiterrouten der Anfragen Probleme gibt wenn davor etwas steht, was aber nicht im API-Server selbst angegeben wurde, wird nach der Verarbeitung der Anfrage durch Traefik der Path-Prefix wieder weggeschnitten. [@gpt-traefik] Wichtig anzumerken ist auch noch, dass wenn man Environment-Files für Traefik verwendet, diese im exakt selben Ordner sein müssen wie die Docker Compose Datei in welcher Traefik definiert ist, da ansonsten der Service die Datei nicht lesen/interpretieren kann. Dies ist ein Sonderfall und trifft nur auf den hier behandelten Service zu.
+
+```{caption="Definition eines Traefik Services" .yml}
+traefik:
+  image: traefik:v3.1.5
+  env_file: .env
+  restart: unless-stopped
+  command:
+    - "--api.dashboard=true"
+    - "--providers.docker=true"
+    - "--providers.docker.exposedByDefault=false"
+    - "--entrypoints.websecure.address=:443"
+    - "--certificatesresolvers.myresolver.acme.httpchallenge.entrypoint=websecure"
+    - "--certificatesresolvers.myresolver.acme.httpchallenge=true"
+    - "--certificatesresolvers.myresolver.acme.email=${CERT_EMAIL}"
+    - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+  ports:
+    - "443:443" # only HTTPS traffic
+  volumes:
+    - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    - "./letsencrypt:/letsencrypt:rw" # storage for Let's Encrypt certificates
+  labels:
+    traefik.enable: true
+    traefik.http.routers.api.rule: Host(`${TRAEFIK_DOMAIN}`) # hostname for dashboard
+    traefik.http.routers.api.service: api@internal
+    traefik.http.routers.api.entrypoints: websecure # reroute all traffic to https
+    traefik.http.routers.api.tls.certresolver: myresolver
+    traefik.http.routers.api.middlewares: traefik-auth
+    traefik.http.middlewares.traefik-auth.digestauth.users: ${DASHBOARD_AUTH} # secure dashboard with login
+    traefik.http.middlewares.traefik-auth.digestauth.removeheader: true
+    traefik.http.middlewares.strip-prefixes.stripPrefix.prefixes: ${AUTH_PREFIX}, ${REST_PREFIX}
+  deploy:
+    mode: global
+```
+
 #### GitHub Action
+
+Wir verwenden GitHub als VCS. Die dort möglich gemachte Automatisierung haben wir sehr zu unserem Vorteil genutzt. Es existieren zwei verschiedene Workflows um unser Leben zu erleichtern.
+
+1. Server deploy
+2. Superlinter
 
 #### Server
 
