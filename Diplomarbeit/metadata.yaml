@@ -122,6 +122,11 @@ da-appendix:
   pdf-file: Kampl/NTVS-5IT-SJ24-25-Embedded-Systems.pdf
   seiten: 1-32
 
+- abschnitt: Serielle Schnittstellen
+  pdf-file: Kampl/Serielle-Schnittstellen-Kampl
+  seiten: 3-8
+
+
 # Diplomarbeitsvereinbarungen müssen zum Schluss sein 
 
 - abschnitt: Diplomatbeitsvereinbarung Englisch

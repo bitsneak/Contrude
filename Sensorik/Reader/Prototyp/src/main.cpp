@@ -154,6 +154,7 @@ void loop() {
   currentTime = millis();
   if (currentTime - lastTime >= interval) {
     publishSensorData();
+    printMPUData();
     lastTime = currentTime;
   }
 }
@@ -227,33 +228,34 @@ void initGPS() {
 //  }
 //}
 //
-//void printBMEData() {
-//  Serial.print("Temperature: ");
-//  Serial.print(bme.readTemperature());
-//  Serial.println(" °C");
-//
-//  Serial.print("Pressure: ");
-//  Serial.print(bme.readPressure());
-//  Serial.println(" Pa");
-//
-//  Serial.print("Humidity: ");
-//  Serial.print(bme.readHumidity());
-//  Serial.println(" %");
-//
-//  Serial.println("---------------------------");
-//}
-//
-//void printMPUData() {
-//  sensors_event_t a, g, temp;
-//  mpu.getEvent(&a, &g, &temp);
-//
-//  Serial.print("Acceleration X: ");
-//  Serial.print(a.acceleration.x);
-//  Serial.println(" m/s^2");
-//}
-//
-//void printGPSData() {
-//  while (gpsSerial.available() > 0) {
-//    gps.encode(gpsSerial.read());
-//  }
-//}
+void printBMEData() {
+  Serial.print("Temperature: ");
+  Serial.print(bme.readTemperature());
+  Serial.println(" °C");
+
+  Serial.print("Pressure: ");
+  Serial.print(bme.readPressure());
+  Serial.println(" Pa");
+
+  Serial.print("Humidity: ");
+  Serial.print(bme.readHumidity());
+  Serial.println(" %");
+
+  Serial.println("---------------------------");
+}
+
+void printMPUData() {
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+
+  Serial.print("Acceleration X: ");
+  Serial.print(a.acceleration.x);
+  Serial.println(" m/s^2");
+}
+
+void printGPSData() {
+  while (gpsSerial.available() > 0) {
+    gps.encode(gpsSerial.read());
+  }
+}
+

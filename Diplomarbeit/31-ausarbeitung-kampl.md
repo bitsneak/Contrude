@@ -12,14 +12,14 @@ Solche Systeme gibt es bereits seit den 1960. Damals baute der amerikanische Ing
 Später wurden Mikroprozessoren in der 1600 Serie von Volkswagen verwendet um das Kraftstoffeinspritzsystem zu steuern.
 In den 70ern konnte Intel den ersten Prozessor entwickeln, welcher der Öffentlichkeit zugänglich war: den Intel 4004. Ein 4-Bit-Mikroprozessor, wlecher in Taschenrechnern und anderen kleineren elektronischen Geräte verwendet wurde.
 
-Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Software und Hardware ist für einen speziell programmierte Aufgabe. Obwohl man ein ES mit einem Computer gleichstellen kann, haben sie des öfteren keine Graphische Oberfläche für Benutzer.
+Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Software und Hardware ist für einen speziell programmierte Aufgabe. Obwohl man ein Es mit einem Computer gleichstellen kann, haben sie des öfteren keine Graphische Oberfläche für Benutzer.
 [vgl. @EmbeddedSystems]
 
 #### Komponenten
 
 Die Hauptkomponenten eines Embedded Systems sind ein Mikroprozessor oder ein Mikrocontroller. Während ein Mikroprozessor lediglich eine CPU enthält, umfasst ein Mikrocontroller zusätzlich Speicher, Peripheriegeräte, GPIOs, Flash-Speicher und viele weitere Komponenten.
 
-![Aufbau](img/Kampl/AufbauES.jpg){width=300px}
+![Aufbau eines Mikrocontrollers](img/Kampl/AufbauES.jpg){width=300px}
 
 ##### CPU
 
@@ -30,21 +30,24 @@ Die CPU (Central Processing Unit) ist die primäre Steuereinheit eines Systems. 
 Der Bus verbindet die CPU mit den anderen Komponenten. Es gibt daher verschiedene Arten von Bussen, wie z. B. den Datenbus, den Adressbus und den Steuerbus. Je nach Prozessor können unterschiedlich viele Bits gleichzeitig übertragen werden.
 
 	
-Des weiteren kann mann Busse noch in 
+Des weiteren kann mann Busse noch in 2 Typen nach der Breite aufteilen:
 
-2 Typen nach der Breite aufteilen:
+1. Parallel: Beim parallelen System gibt es mehrere Leitungen welche gleichzeitig Daten verschicken wodurch die Busbreite viel höher ist.
+2. Seriell: Serielle Systeme übertragen Daten bitweise über eine einzelne Leitung, also nacheinander. Ein serieller Bus kann synchron,taktsignalbasiert, oder asynchron, durch Steuerleitungen und Protokolle koordiniert, arbeiten. Während ältere serielle Busse oft langsamer als parallele waren, sind moderne serielle Bussysteme durch höhere Taktraten und verbesserte Protokolle meist leistungsfähiger und effizienter.
 
-1. Parallel: Beim parallelen System gibt es mehrere Leitungen welche gleichzeitig Daten verschicken wodurch die Breite viel höher ist.
-2. Seriell: Serielle Systeme verschicken über eine Leitung Bitweise also nacheinander ihre Daten. Das bedeutet auch wenn ein Datenfluss stopt, stoppen alle. Aus diesem Grund ist ein serieller Bus meist langsamer und günstiger als ein paralleler. Außerdem kann man Serielle Busse noch in synchron, also taktbasiert mit einer Clock damit Sender und Empfänger *synchron* arbeiten und asynchron, also durch Steurerleitungen und Protokolle koordiniert, einteilen.
  
 
 ##### Schnittstellen
 
 - **SPI:**^[Serial Peripheral Interface] Eine synchrone serielle Schnittstelle, ideal für die Verbindung von Peripherigeräten.
 
-    Es besteht aus den drei Leitungen POCI^[Peripheral Out/Controller In] oder auch MISO^[Master In/Slave Out], PICO/MOSI^[Peripheral In/Controller Out | Master Out/Slave In] und der Serial Clock. Außerdem dem gibt es noch den Slave-Select, aber da dies ein äußert problematischer Außdruck ist wurde es zu Chip-Select umbenannt. Die Chip-Select Leitung sorgt dafür, dass der Controller ein Peripherigerät zur Kommuniaktion auswählt.
+    Es besteht aus den drei Leitungen POCI^[Peripheral Out/Controller In] oder auch MISO^[Master In/Slave Out], PICO/MOSI^[Peripheral In/Controller Out | Master Out/Slave In] und der Serial Clock. Außerdem dem gibt es noch den Slave-Select, aber da dies ein äußerst problematischer Außdruck ist wurde es zu Chip-Select umbenannt. Die Chip-Select Leitung sorgt dafür, dass der Controller ein Peripherigerät zur Kommuniaktion auswählt.
 
     Bei der SPI-Kommunikation gibt es keinen klaren Sender oder Empfänger, sondern einen kontinuierlichen Austausch, da sowohl die Peripherie als auch der Controller gleichzeitig ein Bit übertragen. Die Peripherie steuert die Kommunikation, indem sie die SCK-Impulse generiert, während der Controller das Signal annimmt und verarbeitet. Selbst wenn noch kein Ergebnis vorliegt, misst die Peripherie die Polarität der PICO/MOSI-Leitung und bestimmt daraus das nächste Bit.
+
+    ![SPI-BUS-Grafik [@Serial-Peripheral-Interface-Grafik]](img/Kampl/SPI-single-slave.svg.png){width=400px} 
+    
+    ![SPI-Timerdiagramm [@Serielle-Schnittstellen]](img/Kampl/TimerDiagramm-SPI.png){width=400px}
 
 - **UART:**^[Universal Asynchronous Receiver Transmitter] Asynchrone serielle Verbindung, die ohne externen Taktgeber arbeitet.
 
@@ -52,16 +55,24 @@ Des weiteren kann mann Busse noch in
 
     UART verwendet in der Regel zwei Hauptleitungen: TX^[Transmit] zum Senden und RX^[Receive] zum Empfangen von Daten. Zusätzlich können für die Hardware-Flow-Control weitere Leitungen genutzt werden, wie RTS^[Request to Send], mit dem der Sender signalisiert, dass er bereit ist, Daten zu übertragen, und CTS^[Clear to Send], das dem Sender anzeigt, dass der Empfänger bereit ist. 
 
+    ![I2C-BUS-Grafik [@I2C-Bus-Grafik]](img/Kampl/I2C-Grafik.gif){width=400px} 
+
+    ![I2C-Timerdiagramm [@I2C-TimerDiagramm]](img/Kampl/I2C-TimerDiagramm.png){width=400px} 
+
 - **I2C:**^[Inter-Integrated Circuit] Serieller Zweidraht-Bus mit Master-Slave-Kommunikation.
         
     In einem I2C-Bus gibt es mindestens einen Master und bis zu 127 Slaves. Ein Bus mit mehreren Mastern wird als Multi-Master-Bus bezeichnet. Jeder Slave benötigt eine eigene 7- oder 10-Bit-Adresse, um individuell mit einem Master kommunizieren zu können. Zusätzlich gibt es eine Broadcast-Adresse, über die alle Slaves gleichzeitig angesprochen werden können. Wie bei SPI beginnt die Kommunikation erst, wenn der Master einen Slave adressiert. Anders als bei SPI wird jedoch festgelegt, ob gesendet oder empfangen wird. Die Übertragung erfolgt durch Start- und Stopp-Bedingungen, die der Master über die Zustände der Takt- und Datenleitung steuert. Nach einer erfolgreichen Kommunikation senden die Slaves ihre Adresse und im Schreibfall ein Acknowledge.
+
+    ![UART-Grafik [@UART-Grafik]](img/Kampl/UART-Grafik.png){width=400px} 
+
+    ![UART-Timerdiagramm [@Serielle-Schnittstellen]](img/Kampl/UART-TimerDiagramm.png){width=400px} 
 
 ##### RAM
 
 RAM ist eine Art Speichertyp, in welchem die Speicherzellen direkt angesprochen werden. In
 diesem Zusammenhang spricht man dann von *Speicher mit wahlfreiem Zugriff*. Das heißt RAM
 erlaubt den Zugriff jede Speicherzelle.
-RAM wird in Computer als Arbeitsspeicher verwendet, weil es eine schnelle Verarbeitung vom
+RAM wird als Arbeitsspeicher verwendet, weil es eine schnelle Verarbeitung vom
 Prozessor garantiert. Im Grunde unterscheidet man zwischen zwei Arten von RAMs:
 
 - **SRAM:**^[Static RAM] Der schnellere der zwei Ram-Typen. Er speichert seine Inahlte mittels Flip-Flops und benötigt deshalb auch keine Refreshes. Jedoch ist der Einsatz von Flip-Flops äußerst Stromaufwendig und zu dem auch noch teuer. Trotzdem wird aufgrund eben dieser Kippglieder der SRAM häufig als Cache oder Puffer eingesetzt, da der Inhalt nach dem Abruf immer noch erhalten bleibt.
@@ -69,13 +80,19 @@ Prozessor garantiert. Im Grunde unterscheidet man zwischen zwei Arten von RAMs:
 
 ##### ROM
 
+Wie der RAM ist auch der ROM eine Art Speicher. ROM-Speicher holt sich den Befehlscode direkt aus den Programmspeicher. Der große Unterschied zu anderen Speicherarten ist das der ROM, meist, nur lesenden Zugriff erlaubt und nicht löschbar ist, daher auch der Name **Read Only Memory**.
+
 - **PROM** ^[Programmable Read-Only Memory]: Dieser Speichertyp kann nur einmal beschrieben werden. Beim Programmieren werden selektiv Sicherungen durchgebrannt, sodass die gespeicherten Daten nicht mehr verändert werden können.  
 
 - **EPROM** ^[Erasable Programmable Read-Only Memory]: Dieser Speicher kann mit UV-Licht gelöscht werden. Dazu ist ein spezielles Quarzfenster erforderlich, durch das das UV-Licht die Speicherzellen erreicht und löscht, sodass der Speicher erneut beschrieben werden kann.  
 
+![EPROM [@EPROM]](img/Kampl/EPROM.jpg){width=300px} 
+
 - **OTP-EPROM** ^[One-Time Programmable EPROM]: Eine spezielle Variante des EPROM, die nicht mit UV-Licht gelöscht werden kann. Das liegt daran, dass der Speicher in ein lichtundurchlässiges Gehäuse eingeschweißt ist, wodurch ein erneutes Löschen verhindert wird.  
 
 - **Flash**: Elektronisch lösch- und beschreibbarer Speicher, der in Blöcken oder einzelnen Sektoren selektiv gelöscht werden kann. Während das Schreiben und Löschen relativ langsam ist, erfolgt das Lesen sehr schnell. Flash-Speicher ersetzt zunehmend traditionelle ROM-Typen.  
+
+![FLASH [@FLASH]](img/Kampl/Flash.png){width=300px} 
 
 - **EEPROM** ^[Electrically Erasable Programmable Read-Only Memory]: Dieser Speicher kann elektrisch gelöscht und erneut beschrieben werden. Er wird oft für kleine, nichtflüchtige Datenspeicher wie Seriennummern oder MAC-Adressen in elektrischen Geräten verwendet. EEPROMs benötigen im Vergleich zu Flash-Speichern weniger Pins und werden meist seriell beschrieben.  
 [vgl. @EmbeddedSystems]
@@ -89,7 +106,7 @@ Register sind temporäre Speicher, die teils festgelegte Verwendungszwecke (z. B
 
 - **Timer:** Das Timer-Modul dient zur Überwachung und Steuerung zeitkritischer Prozesse. Es kann als einfacher Zähler, zur Erzeugung von PWM-Signalen oder zur Zeitmessung verwendet werden. Timer-Interrupts ermöglichen präzise Steuerungen in Echtzeitanwendungen.  
 
-- **Watchdog:** Der Watchdog-Timer erhöht die Sicherheit eines Systems, indem er einen automatischen Neustart auslöst, wenn das System nicht in regelmäßigen Abständen auf ihn reagiert. Dies verhindert ein Hängenbleiben oder Blockieren der Software und sorgt für eine höhere Zuverlässigkeit in Embedded-Systemen. Umgangssprachlich wird er als Todmansschalter bezeichnet.
+- **Watchdog:** Der Watchdog-Timer erhöht die Sicherheit eines Systems, indem er einen automatischen Neustart auslöst, wenn das System nicht in regelmäßigen Abständen auf ihn reagiert. Dies verhindert ein Hängenbleiben oder Blockieren der Software und sorgt für eine höhere Zuverlässigkeit in Embedded-Systemen. Umgangssprachlich wird er als Totmansschalter bezeichnet.
 
 - **DMA** ^[Direct Memory Access]: Der Direct Memory Access ermöglicht es Peripheriegeräten, Daten direkt mit dem Speicher auszutauschen, ohne die CPU zu belasten. Dies beschleunigt den Datentransfer erheblich, insbesondere bei großen Datenmengen wie Audio- oder Videodaten, und verbessert die Gesamtleistung des Systems.  
 [vgl. @EmbeddedSystems]
@@ -116,7 +133,7 @@ Die Firmware ist eine softwarebasierte Komponente, die fest in einem elektronisc
 - **A/D- und D/A-Wandler:**^[Analog/Digital & Digital/Analog Wandler] Ermöglichen die Umwandlung zwischen analogen und digitalen Signalen. Wichtig für Sensoranwendungen.
 - **PWM:**^[Pulsweitenmodulation] Steuerung von LEDs, Motoren oder anderen Aktoren durch variable Einschaltdauer eines Signals.
 
-### Der Prototyp
+### Prototyping mit dem EPS32
 	
 #### IDE
 
@@ -125,9 +142,10 @@ Um ein Programm erfolgreich auf dem ESP32 ausführen zu können, benötigt man e
 >Eine integrierte Entwicklungsumgebung (IDE) ist Software für eine optimierte Anwendungsentwicklung, die gängige Entwicklertools in einer zentralen grafischen Oberfläche vereint.
 [@RedHatIDE]
 
-Jede IDE enthält in der Regel ähnliche Standardkomponenten, darunter einen integrierten Code-Editor – also einen Texteditor mit Syntax-Highlighting und gegebenenfalls Autovervollständigung –, ein Programm zum Bauen und Kompilieren des Codes sowie einen Debugge. [vgl. @RedHatIDE]
+Jede IDE enthält in der Regel ähnliche Standardkomponenten, darunter einen integrierten Code-Editor – also einen Texteditor mit Syntax-Highlighting und gegebenenfalls Autovervollständigung –, ein Programm zum Bauen und Kompilieren des Codes sowie einen Debugger. [vgl. @RedHatIDE]
 
 ##### Vorteile
+
 
 **IDEs bieten viele Vorteile, die beim Schreiben von Code unterstützen.**
 
@@ -148,12 +166,12 @@ Eine der bekanntesten und am weitesten verbreiteten Entwicklungsumgebungen für 
 
 ---
 
-![PlatformIO](img/Kampl/PlatformIO.png){width=400px}
+![PlatformIO](img/Kampl/PlatformIO.png){width=500px}
 
 
 PlatformIO ist eine Entwicklungsumgebung, die als Erweiterung für den Texteditor Visual Studio Code genutzt wird. Sie bietet eine bessere Projektstruktur, eine fortschrittlichere Konfigurationsverwaltung und umfangreiche Unterstützung für verschiedene Mikrocontroller. Zwei zentrale Elemente sorgen dabei für einen reibungslosen Ablauf: die Hauptdatei (Main-File) und die Plattform-Konfigurationsdatei (.ini-File). Besonders die .ini-Datei spielt eine entscheidende Rolle, da sie die Projektkonfiguration festlegt und sicherstellt, dass der Upload-Prozess auf den Mikrocontroller zuverlässig und ohne Komplikationen funktioniert.
 
-```{caption="Beispiel einer .ini Datei" .ini}
+```{caption="Beispiel einer .ini Datei für ein PlatformIO Projekt" .ini}
     ; PlatformIO Project Configuration File
     ;
     ;   Build options: build flags, source filter
@@ -188,7 +206,7 @@ Um nun ein erstes Projekt zu erstellen muss mann einfach nur auf den PlatformIO 
 
 ##### Tools
 
-![Toolbar [@PlatformIO-firststeps]](img/Kampl/platformio-ide-vscode-toolbar.png){width=500px}
+![Toolbar von PlatformIO [@PlatformIO-firststeps]](img/Kampl/platformio-ide-vscode-toolbar.png){width=500px}
 
 1. **Home**: sorgt dafür, dass das Home Menü von PlatformIO. In diesem kann man seine Projekte verwalten sowie Bibiliothekten für das aktuelle hinzufügen.
 2. **Build**: Kompiliert den Code des Projekts und erstellt eine Datei welche auf den Mikrocontroller hochgeladen werden kann.
@@ -197,11 +215,11 @@ Um nun ein erstes Projekt zu erstellen muss mann einfach nur auf den PlatformIO 
    2. Die Firmware (.bin oder .hex Datei) wird auf das Gerät über den Port hochgeladen.
    3. Während des Uploads wird jeglicher Fortschritt im Terminal angezeigt.
 4. **Clean**: Löscht alle temporären Dateien, welche  beim Build-Prozess erstellt wurden. (z.B.: kompilierte Objektdateien, die Firmware-Datei). Im Grunde wird der /.pio Ordner gelöscht.
-5. **Serial Port Monitor**: Öffnet eine Konsole innerhalb von Visual Studio, welche die Kommunikation zwischen dem ESP32 und dem Computer überwacht. Wichtig dabei ist zu beachten das die Baudrate richtig eingestellt ist. Normale Baudraten sind 9600 sowie 115200.
+5. **Serial Port Monitor**: Öffnet eine Konsole innerhalb von Visual Studio, welche die Kommunikation zwischen dem ESP32 und dem Computer überwacht. Wichtig dabei ist zu beachten das die Baudrate richtig eingestellt ist. Übliche Baudraten sind 9600 sowie 115200. (Baud 8-N-1 --> Ein Starbit, 8 Datenbits-Kein Paritätsbit-1 Stoppbit)
 6. **Core (CLI)**: Ist eine Kommandozeilen-Toolbox, welche die vorher genannten Funktionen anbietet.
 7. **Project Environment Switcher**: Erlaubt es zwischen verschiedenen Umgebungen innerhalb eines Projektes zu wechseln, falls sie vorhanden sind. Diese Umgebungen werden in der platformio.ini Datei angelegt. Das könnte ungefähr so aussehen:
 
-```{caption="Beispiel Von Mehreren Umgebungen" .ini}
+```{caption="Beispiel Von Mehreren Umgebungen in PlatfromIO" .ini}
 [env:esp32]
 platform = espressif32
 board = esp32dev
@@ -246,11 +264,11 @@ void loop() {
 
 Jetzt, da wir wissen, dass unser Gerät funktioniert, können wir mit der weiteren Entwicklung beginnen. Zuerst sollten wir jeden einzelnen Sensor separat ansprechen, um auch hier zu testen, ob die Sensoren funktionieren. Ein Schritt nach dem anderen.
 
-#### BME280
+#### BME280 als Temperatur, Luftdruch und Luftfeuchtigkeits Sensor
 
 Zuvor müssen wir jedoch einige Bibliotheken hinzufügen damit wir den BME280 einfacher ansprechen können. Die verbreitetste Bibliothek ist die **Adafruit BME280 Library**. Man fügt sie dem Projekt hinzu indem man etweder man die folgende Zeile ```adafruit/Adafruit BME280 Library@^2.2.4``` unter dem Punkt **lib_deps** in der .ini-Datei hinzufügt, oder indem man PlatformIO verwendet, um die Library automatisch hinzuzufügen. 
 
-![BME-Library](img/Kampl/BME-Library.png){width=300px}
+![BME-Library](img/Kampl/BME-Library.png){width=500px}
 
 Außerdem benötigt man noch die ```adafruit/Adafruit BME280 Library@^2.2.4```, welche als Schnittstelle für die Sensoren dient.
 
@@ -385,13 +403,13 @@ void setup() {
 
 Das Setup ist im Grunde der wichtigste Teil, da es alle wichtigen Variablen, Modi usw. intialisiert. Es selbst ist hier in drei Teile eingeteilt:
 
-1. **Serial.beginn(115200)**: Hier wird die auf 115200 gestellt damit der serielle Monitor und der Sensor kommunizieren können.
+1. **Serial.begin(115200)**: Hier wird die auf 115200 gestellt damit der serielle Monitor und der Sensor kommunizieren können.
 2. **if(!bme.begin(0x76))**: Hier wird der Sensor mit der Adresse 0x76 , wie im Datenblatt beschrieben, initialisiert. [@BME280-Datasheet]
 3. **Fehlerbehandlung**: Falls der BME280 nicht gefunden wird oder nicht initialisiert werden kann kommt es zur Fehlerbehandlung und wenn nicht dann geht es weiter in den
 
 ***Loop***
 
-```{caption="Loop BME" .cpp}
+```{caption="Loop Funktion des BME Programms" .cpp}
 void loop() { 
     printValues();
     delay(delayTime);
@@ -428,13 +446,270 @@ void printValues() {
 
 [@BME280-Test]
 
-Dieser Teil des Codes gibt die Messwerter auf dem Serial Monitor, in einer aufpolierten Version aus. Der Grund für die Ausgabe is meist Debugging.
+Dieser Teil des Codes gibt die Messwerter auf dem Serial Monitor, in einer aufpolierten Version aus. Der Grund für die Ausgabe ist meist Debugging.
 
-#### MPU6050
+ ![BME-Ausgabe](img/Kampl/BME-Terminal.png){width=500px}
+
+#### MPU6050 als Beschleunigungssensor
+
+Um nun auf diesen Sensor zugreifen zu können werden wieder einige Bibliotheken benötigt welche man wieder in der Ini-Datei hinzufügen muss. Über die Unified Sensor Library wurde schon geschrieben neu ist die ```adafruit/Adafruit MPU6050 @ ^2.0.3``` Library welche die verbindung zum Beschleunigungsensor vereinfacht.
+
+Um nun tatsächlich Daten vom Sensor zu bekommen benutzt man folgendes Programm
+
+```{caption="MPU Beispiel" .cpp}
+// Basic demo for accelerometer readings from Adafruit MPU6050
+
+#include <Adafruit_MPU6050.h>
+#include <Adafruit_Sensor.h>
+#include <Wire.h>
+
+Adafruit_MPU6050 mpu;
+
+void setup(void) {
+  Serial.begin(115200);
+  while (!Serial)
+    delay(10); // will pause Zero, Leonardo, etc until serial console opens
+
+  Serial.println("Adafruit MPU6050 test!");
+
+  // Try to initialize!
+  if (!mpu.begin()) {
+    Serial.println("Failed to find MPU6050 chip");
+    while (1) {
+      delay(10);
+    }
+  }
+  Serial.println("MPU6050 Found!");
+
+  mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
+  Serial.print("Accelerometer range set to: ");
+  switch (mpu.getAccelerometerRange()) {
+  case MPU6050_RANGE_2_G:
+    Serial.println("+-2G");
+    break;
+  case MPU6050_RANGE_4_G:
+    Serial.println("+-4G");
+    break;
+  case MPU6050_RANGE_8_G:
+    Serial.println("+-8G");
+    break;
+  case MPU6050_RANGE_16_G:
+    Serial.println("+-16G");
+    break;
+  }
+  mpu.setGyroRange(MPU6050_RANGE_500_DEG);
+  Serial.print("Gyro range set to: ");
+  switch (mpu.getGyroRange()) {
+  case MPU6050_RANGE_250_DEG:
+    Serial.println("+- 250 deg/s");
+    break;
+  case MPU6050_RANGE_500_DEG:
+    Serial.println("+- 500 deg/s");
+    break;
+  case MPU6050_RANGE_1000_DEG:
+    Serial.println("+- 1000 deg/s");
+    break;
+  case MPU6050_RANGE_2000_DEG:
+    Serial.println("+- 2000 deg/s");
+    break;
+  }
+
+  mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
+  Serial.print("Filter bandwidth set to: ");
+  switch (mpu.getFilterBandwidth()) {
+  case MPU6050_BAND_260_HZ:
+    Serial.println("260 Hz");
+    break;
+  case MPU6050_BAND_184_HZ:
+    Serial.println("184 Hz");
+    break;
+  case MPU6050_BAND_94_HZ:
+    Serial.println("94 Hz");
+    break;
+  case MPU6050_BAND_44_HZ:
+    Serial.println("44 Hz");
+    break;
+  case MPU6050_BAND_21_HZ:
+    Serial.println("21 Hz");
+    break;
+  case MPU6050_BAND_10_HZ:
+    Serial.println("10 Hz");
+    break;
+  case MPU6050_BAND_5_HZ:
+    Serial.println("5 Hz");
+    break;
+  }
+
+  Serial.println("");
+  delay(100);
+}
+
+void loop() {
+
+  /* Get new sensor events with the readings */
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+
+}
+```
+[@MPU6050-Test]
 
 ##### Erklärung
 
-#### GY-GPSMV2
+Dieses Programm liest die Daten welche der MPU6050 Sensor bekommt aus der I2C Schnittstelle aus und bereit sie über Print-Statements schnön leserlich auf.
+
+***Bibliotheken***
+
+```{caption="Dependencies MPU" .cpp}
+#include <Wire.h>
+#include <Adafruit_Sensor.h>
+#include <Adafruit_MPU6050.h>
+```
+
+[@MPU6050-Test]
+
+Dieser Teil zeigt die bereits beschreibt die schon beim BME beschriebenen Bibliotheken + der MPU Bibliothek.
+
+***Definitionen und Variablen***
+
+```{caption="Definition und Variablen MPU" .cpp}
+Adafruit_MPU6050 mpu;
+```
+
+2. **mpu**: ist ein Instanz des Objektes Adafruit_MPU6050 und stellt den Sensor dar.
+
+***Setup***
+
+```{caption="Setup MPU" .cpp}
+void setup(void) {
+  Serial.begin(115200);
+  while (!Serial)
+    delay(10); // will pause Zero, Leonardo, etc until serial console opens
+
+  Serial.println("Adafruit MPU6050 test!");
+
+  // Try to initialize!
+  if (!mpu.begin()) {
+    Serial.println("Failed to find MPU6050 chip");
+    while (1) {
+      delay(10);
+    }
+  }
+  Serial.println("MPU6050 Found!");
+
+  mpu.setAccelerometerRange(MPU6050_RANGE_8_G);
+  Serial.print("Accelerometer range set to: ");
+  switch (mpu.getAccelerometerRange()) {
+  case MPU6050_RANGE_2_G:
+    Serial.println("+-2G");
+    break;
+  case MPU6050_RANGE_4_G:
+    Serial.println("+-4G");
+    break;
+  case MPU6050_RANGE_8_G:
+    Serial.println("+-8G");
+    break;
+  case MPU6050_RANGE_16_G:
+    Serial.println("+-16G");
+    break;
+  }
+  mpu.setGyroRange(MPU6050_RANGE_500_DEG);
+  Serial.print("Gyro range set to: ");
+  switch (mpu.getGyroRange()) {
+  case MPU6050_RANGE_250_DEG:
+    Serial.println("+- 250 deg/s");
+    break;
+  case MPU6050_RANGE_500_DEG:
+    Serial.println("+- 500 deg/s");
+    break;
+  case MPU6050_RANGE_1000_DEG:
+    Serial.println("+- 1000 deg/s");
+    break;
+  case MPU6050_RANGE_2000_DEG:
+    Serial.println("+- 2000 deg/s");
+    break;
+  }
+
+  mpu.setFilterBandwidth(MPU6050_BAND_21_HZ);
+  Serial.print("Filter bandwidth set to: ");
+  switch (mpu.getFilterBandwidth()) {
+  case MPU6050_BAND_260_HZ:
+    Serial.println("260 Hz");
+    break;
+  case MPU6050_BAND_184_HZ:
+    Serial.println("184 Hz");
+    break;
+  case MPU6050_BAND_94_HZ:
+    Serial.println("94 Hz");
+    break;
+  case MPU6050_BAND_44_HZ:
+    Serial.println("44 Hz");
+    break;
+  case MPU6050_BAND_21_HZ:
+    Serial.println("21 Hz");
+    break;
+  case MPU6050_BAND_10_HZ:
+    Serial.println("10 Hz");
+    break;
+  case MPU6050_BAND_5_HZ:
+    Serial.println("5 Hz");
+    break;
+  }
+
+  Serial.println("");
+  delay(100);
+}
+```
+[@MPU6050-Test]
+
+
+1. **Serial.beginn(115200)**: Hier wird die auf 115200 gestellt damit der serielle Monitor und der Sensor kommunizieren können.
+2. **if (!mpu.begin())**: Hier wird der Sensor initialisiert.
+3. **mpu.setAccelerometerRange(MPU6050_RANGE_8_G)**: Ist die Auflösung des Beschleunigungssensor, also in welchen Bereich, und wie genau, gemessen wird. Desto kleiner der G-Wert^[Erdbeschleunigung] desto genauer die Auflösung und desto kleiner der Messbereich.
+
+| G-Bereich | Max. Messwert    |
+|-----------|-----------------|
+| ±2G      |  19,62 m/s²     |
+| ±4G      |  39,24 m/s²     |
+| ±8G      |  78,48 m/s²     |
+| ±16G     |  156,96 m/s²    | 
+
+4. **mpu.setGyroRange(MPU6050_RANGE_500_DEG)**: Dieser Teil setzt den Messbereich des Gyroskops fest. Um genauer zu sein in diesen fall auf +-500 Grad/Sekunde. Auch hier gilt das Prinzip wieder, je größer der Bereich desto kleiner die Auflösung.
+
+| Konstantenname               | Messbereich            |
+|------------------------------|------------------------|
+| `MPU6050_RANGE_250_DEG`      | ±250 °/s               |
+| `MPU6050_RANGE_500_DEG`      | ±500 °/s (gesetzt)     |
+| `MPU6050_RANGE_1000_DEG`     | ±1000 °/s              |
+| `MPU6050_RANGE_2000_DEG`     | ±2000 °/s              |
+
+5. **mpu.setFilterBandwidth(MPU6050_BAND_21_HZ)**: Hier wird die Brandweite angepasst um einzustellen Welche werte der Sensor misst und welche er nur als Rauschen wahrnimmt.
+
+
+***Loop***
+
+```{caption="Loop Funktion des MPU Sensors" .cpp}
+void loop() { 
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+
+  Serial.print("Acceleration X: ");
+  Serial.print(a.acceleration.x);
+  Serial.println(" m/s^2");
+}
+```
+
+[@MPU6050-Test]
+
+Der Loop ist eine grundlegende Struktur in Arduino-Sketches, die kontinuierlich ausgeführt wird, solange das Programm läuft. Hier ist eine detaillierte Erklärung der einzelnen Komponenten. 
+**sensors_event_t a, g, temp**: Diese Zeile deklariert drei Variablen mit dem Typ sensors_event_t. Diese Variablen werden verwendet, um die Ereignisdaten für die Beschleunigung (a), die Drehgeschwindigkeit (g) und die Temperatur (temp) zu speichern.
+**mpu.getEvent(&a, &g, &temp);**: Diese Funktion ruft die neuesten Sensordaten vom MPU6050-Sensor ab und speichert sie in den Variablen von vorher. 
+
+Außerdem gibt der Loop wieder einmal über Print-Statements die Werte aus um sei auf dem Serial Monitor zu sehen.
+
+![MPU-Ausgabe](img/Kampl/MPU-Terminal.png){width=500px}
+
+#### GY-GPSMV2 Sensor zur Bestimmung der Postition mittels GPS
 
 ##### Erklärung
 
@@ -446,13 +721,17 @@ Dieser Teil des Codes gibt die Messwerter auf dem Serial Monitor, in einer aufpo
 
 ### Sonstiges
 
+#### GitHub Actions
+
+//newpage
+
 ## Praktische Arbeit
 
-### Bau des Prototypen
+### Entwicklung des Prototypen
 
 #### Benötigte Hardwarekomponenten
 
-Um ein Projekt zu realisieren, bei dem Umweltdaten ausgelesen werden, benötigt man geeignete Komponenten, auf denen die Software zuverlässig läuft. Bei der Auswahl dieser Komponenten spielten mehrere Faktoren eine Rolle, darunter die Kosten, die Größe sowie die Anzahl der verfügbaren Funktionen.
+Um ein Projekt zu realisieren, bei dem Umweltdaten ausgelesen werden, benötigt man geeignete Komponenten, auf denen die Software zuverlässig läuft. Bei der Auswahl dieser Komponenten spielten mehrere Faktoren eine Rolle, darunter die Kosten, die Größe, die Anwendungsfälle sowie die Anzahl der verfügbaren Funktionen.
 
 Unser finaler Prototyp sollte folgende physikalischen Messwerte erfassen können.
 
@@ -464,16 +743,16 @@ Unser finaler Prototyp sollte folgende physikalischen Messwerte erfassen können
 
 Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Komponenten entschieden:
 
-##### ESP32***
+##### ESP32
   **Grund**: Der ESP32 ist ein leistungsstarker und kostengünstiger Mikrocontroller mit integrierter WLAN- und Bluetooth Funktionalität. Er bietet eine höhere Rechenleistung als ein Arduino und ist im durchschnitt auch kleiner als jener, was für die mobile Nutzung vom Vorteil ist.
   **Spezifikationen**:
-  
+
      - Größe: $39mm  *  28mm  *  6mm$
      - 34 I/O Pins
      - SoC: ESP32-WROOM-32
      - Netzspannung: 5V
 
-![ArduinoPins [@ESP32-Datenblatt]](img/Kampl/ESP32-Pins.png){width=500px}
+![ESP32-Pins [@ESP32-Datenblatt]](img/Kampl/ESP32-Pins.png){width=500px}
 
 ##### BME280
   **Grund**: Der BME280 ist ein vielseitiger Sensor, welcher sowohl die Temperatur, die Luftfeuchtigkeit als auch den Luftdruck messen kann. Außerdem ist er kompakt und kostengünstig.
@@ -489,6 +768,7 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 ##### MPU6050
   **Grund**: Der MPU6050 ist eine Kombination aus Beschleungiungssensor und Gyroskop. Damit können Bewegungen auf der X, der Y und der Z-Achse erfasst werden.
   **Spezifikationen**:
+
      - Größe: $25mm  *  20mm  *  7mm$
      - 8 Pins
      - Schnittstelle I2C
