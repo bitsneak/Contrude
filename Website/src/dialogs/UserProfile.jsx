@@ -1,13 +1,32 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from '../api/AxiosInstance';
 
 const UserProfile = ({ open, onClose }) => {
   const navigate = useNavigate();
 
-  const handleLogOut = () => {
+  const handleLogOut = async () => {
     {onClose}
-    navigate(`/`);
+    const refreshToken = localStorage.getItem('refreshToken');
+    try {
+      const response = await fetch('https://api.contrude.eu/auth/logout', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ refreshToken: refreshToken }),
+    });
+
+    if(response.ok === true){
+      navigate('/');
+    }else{
+      console.log('Not able to logout')
+    }
+  
+    } catch (error) {
+      console.log('Error', error);
+    }
 
   }
   

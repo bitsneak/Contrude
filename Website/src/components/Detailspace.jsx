@@ -202,7 +202,7 @@ const Detailspace = ({thresholdSentences}) => {
           </tbody>
         </table>
         
-        <button className="border border-black px-2 mt-2"type="button" onClick={() => window.open(`/graphs/${shipId}.html`, '_blank')}>
+        <button className="border border-black px-2 mt-2"type="button" onClick={() => window.open(`/graphs/${shipId}.html?highlight=${combinedSerialNumber}`, '_blank')}>
           Show Position Diagram
         </button>
 
