@@ -678,10 +678,10 @@ void setup(void) {
 
 | Konstantenname               | Messbereich            |
 |------------------------------|------------------------|
-| `MPU6050_RANGE_250_DEG`      | ±250 °/s               |
-| `MPU6050_RANGE_500_DEG`      | ±500 °/s (gesetzt)     |
-| `MPU6050_RANGE_1000_DEG`     | ±1000 °/s              |
-| `MPU6050_RANGE_2000_DEG`     | ±2000 °/s              |
+| ```MPU6050_RANGE_250_DEG```      | ±250 °/s               |
+| ```MPU6050_RANGE_500_DEG```      | ±500 °/s (gesetzt)     |
+| ```MPU6050_RANGE_1000_DEG```    | ±1000 °/s              |
+| ```MPU6050_RANGE_2000_DEG```    | ±2000 °/s              |
 
 5. **mpu.setFilterBandwidth(MPU6050_BAND_21_HZ)**: Hier wird die Brandweite angepasst um einzustellen Welche werte der Sensor misst und welche er nur als Rauschen wahrnimmt.
 
@@ -705,11 +705,83 @@ Der Loop ist eine grundlegende Struktur in Arduino-Sketches, die kontinuierlich 
 **sensors_event_t a, g, temp**: Diese Zeile deklariert drei Variablen mit dem Typ sensors_event_t. Diese Variablen werden verwendet, um die Ereignisdaten für die Beschleunigung (a), die Drehgeschwindigkeit (g) und die Temperatur (temp) zu speichern.
 **mpu.getEvent(&a, &g, &temp);**: Diese Funktion ruft die neuesten Sensordaten vom MPU6050-Sensor ab und speichert sie in den Variablen von vorher. 
 
-Außerdem gibt der Loop wieder einmal über Print-Statements die Werte aus um sei auf dem Serial Monitor zu sehen.
+Außerdem gibt der Loop wieder die Werte über Print-Statements aus um sie auf dem Serial Monitor sehen zu können.
 
 ![MPU-Ausgabe](img/Kampl/MPU-Terminal.png){width=500px}
 
 #### GY-GPSMV2 Sensor zur Bestimmung der Postition mittels GPS
+
+Der letzte Sensor zur Realisierung ist das GPS-Modul GY-GPSMV2. Hier werden, noch, keine zusätzlichen Bibliotheken benötigt da es schon relativ einfach ist auf den Sensor zuzugreifen. 
+
+Um nun die GPS-Postion in seiner NMEA^[National Marine Electronics Association] Rohform auslesen zu können, greifen mit dem folgenden Programm auf die UART-Schnittstelle des Sensors zu.
+
+```{caption="GY-GPSMV2 Test Programm mit Daten in Rohform" .cpp}
+#define RXD2 16
+#define TXD2 17
+
+#define GPS_BAUD 9600
+
+// Create an instance of the HardwareSerial class for Serial 2
+HardwareSerial gpsSerial(2);
+
+void setup(){
+  // Serial Monitor
+  Serial.begin(115200);
+  
+  // Start Serial 2 with the defined RX and TX pins and a baud rate of 9600
+  gpsSerial.begin(GPS_BAUD, SERIAL_8N1, RXD2, TXD2);
+  Serial.println("Serial 2 started at 9600 baud rate");
+}
+
+void loop(){
+  while (gpsSerial.available() > 0){
+    // get the byte data from the GPS
+    char gpsData = gpsSerial.read();
+    Serial.print(gpsData);
+  }
+  delay(1000);
+  Serial.println("-------------------------------");
+}
+```
+[@GPS-Testprogramm]
+
+Das Proplem mit NMEA Daten ist, das sie unleserlich sind
+
+![NMEA-Ausgabe](img/Kampl/NMEA-Ausgabe.png){width=500px} [@GPS-Testprogramm]
+
+Deshalb, benötigt man doch noch eine Bibliothek und zwar TinyGPSPlus. Man fügt wie immer diese Bibliothek in der Ini-Datei hinzu, diesesmal mit auf folgende Weise: ```mikalhart/TinyGPSPlus@^1.1.0```.
+
+Danach wird der Code hierum erweitert:
+
+```{caption="GY GPSMV2 Erweiterung mit verarbeiteten Daten" .cpp}
+void loop() {
+  // This sketch displays information every time a new sentence is correctly encoded.
+  unsigned long start = millis();
+
+  while (millis() - start < 1000) {
+    while (gpsSerial.available() > 0) {
+      gps.encode(gpsSerial.read());
+    }
+    if (gps.location.isUpdated()) {
+      Serial.print("LAT: ");
+      Serial.println(gps.location.lat(), 6);
+      Serial.print("LONG: "); 
+      Serial.println(gps.location.lng(), 6);
+      Serial.print("SPEED (km/h) = "); 
+      Serial.println(gps.speed.kmph()); 
+      Serial.print("ALT (min)= "); 
+      Serial.println(gps.altitude.meters());
+      Serial.print("HDOP = "); 
+      Serial.println(gps.hdop.value() / 100.0); 
+      Serial.print("Satellites = "); 
+      Serial.println(gps.satellites.value()); 
+      Serial.print("Time in UTC: ");
+      Serial.println(String(gps.date.year()) + "/" + String(gps.date.month()) + "/" + String(gps.date.day()) + "," + String(gps.time.hour()) + ":" + String(gps.time.minute()) + ":" + String(gps.time.second()));
+      Serial.println("");
+    }
+  }
+}
+```
 
 ##### Erklärung
 
