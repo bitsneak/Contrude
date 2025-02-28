@@ -4,7 +4,7 @@ import Settings from "../dialogs/Settings";
 import axiosInstance from '../api/AxiosInstance';
 import checkForAlerts from "../util/AlertChecker";
 
-const Sidebar = ({selectedShip}) => {
+const Sidebar = ({selectedShip, page}) => {
   const [isUserProfileDialogOpen, setUserProfileDialogOpen] = useState(false);
   const [isSettingsDialogOpen, setSettingsDialogOpen] = useState(false);
 
@@ -24,7 +24,7 @@ const Sidebar = ({selectedShip}) => {
   const handleOpenSettingsDialog = () => {
     setSettingsDialogOpen(true); // Open the dialog
   };
-
+  
   // fetch favourites
   useEffect(() => {
     const fetchFavoritesById = async() => {
@@ -54,7 +54,13 @@ const Sidebar = ({selectedShip}) => {
     const fetchContainerIdsOfShip = async () => {
       try {
         if (selectedShip != null){
-          const shipId = selectedShip.id;
+          let shipId = null;
+          if(page === 'detail'){
+            shipId = selectedShip;
+          }else{
+            shipId = selectedShip.id;
+          }
+          
           const containerIdsResponse = await axiosInstance.get(`/rest/ship/${shipId}/containers`);
   
           const fetchedIds = containerIdsResponse.data?.containers || [];
@@ -119,17 +125,20 @@ const Sidebar = ({selectedShip}) => {
           }
   
           // Check for alerts after collecting sentences for the container
-          currentAlerts.push(checkForAlerts(sentences, fetchedSerialNumber));
+          // Wait for checkForAlerts to resolve before pushing the result
+          const alertsForContainer = await checkForAlerts(sentences, fetchedSerialNumber, selectedShip, page);
+          currentAlerts.push(...alertsForContainer);  // Spread the alerts array into the currentAlerts array
           sentences.length = 0;  // Clear sentences array for the next iteration
         }
-        setAlerts(currentAlerts);        
+        setAlerts(currentAlerts);  // Set the alerts once all containers are processed
       } catch (error) {
         console.error("Failed to fetch containers of ship:", error.message);
       }
     };
   
     fetchAndCheck();
-  }, [containerIds]); // Ensure to add any necessary dependencies
+  }, [containerIds, selectedShip, page]);  // Add the correct dependencies
+  
   
 
   return (

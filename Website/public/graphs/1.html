@@ -46,6 +46,11 @@
 <svg></svg>
 
 <script>
+    function getUrlParameter(name) {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get(name);
+    }
+
     d3.json('EmmaMaersk.json').then(function(graphData) {
         const nodes = [];
         const links = [];
@@ -141,24 +146,32 @@
         }
 
         function highlightNode(event, selectedNode) {
+            applyHighlight(selectedNode.id);
+        }
+
+        function applyHighlight(nodeId) {
             node.selectAll('circle').classed('highlight', false).classed('connected', false);
             link.classed('highlight-link', false);
 
-            // Knoten hervorheben
-            d3.select(event.currentTarget).select('circle').classed('highlight', true);
+            node.filter(d => d.id === nodeId)
+                .select('circle')
+                .classed('highlight', true);
 
-            // Verbindungen hervorheben
-            link.filter(d => d.source.id === selectedNode.id || d.target.id === selectedNode.id)
+            link.filter(d => d.source.id === nodeId || d.target.id === nodeId)
                 .classed('highlight-link', true);
 
-            // Verbundene Knoten hervorheben
             node.filter(d =>
                 links.some(link =>
-                    (link.source.id === selectedNode.id && link.target.id === d.id) ||
-                    (link.target.id === selectedNode.id && link.source.id === d.id)
+                    (link.source.id === nodeId && link.target.id === d.id) ||
+                    (link.target.id === nodeId && link.source.id === d.id)
                 ))
                 .select('circle')
                 .classed('connected', true);
+        }
+
+        const highlightId = getUrlParameter('highlight');
+        if (highlightId) {
+            applyHighlight(highlightId);
         }
     }).catch(function(error) {
         console.log(error);

@@ -6,11 +6,13 @@ import ShipSelect from "../components/ShipSelect";
 import DetailControl from "../components/DetailControl";
 import Detailspace from "../components/Detailspace";
 import ThresholdViewer from "../dialogs/ThresholdViewer";
+import { useParams } from 'react-router-dom';
 
 const DetailPage = () => {
   const [thresholdViewerOpen, setThresholdViewerOpen] = useState(true);
   const [thresholdSentences, setThresholdSentences] = useState([]);
-
+  const {shipId, containerId} = useParams();
+  const pageType = "detail";
 
   const handleThresholdSentencesUpdate = (sentences) => {
     setThresholdSentences(sentences);
@@ -30,7 +32,7 @@ const DetailPage = () => {
 
   return (
     <div className='flex h-screen'>
-      <Sidebar />,
+      <Sidebar selectedShip={shipId} page={pageType}/>
       
       <div className='flex-grow flex flex-col'>
         <Topbar

@@ -16,6 +16,7 @@ const MainPage = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogValues, setDialogValues] = useState([]);
+  const pageType = "main";
   const navigate = useNavigate();
   
 
@@ -91,7 +92,7 @@ const MainPage = () => {
 
   return (
     <div className="flex h-screen">
-      <Sidebar selectedShip={selectedShip}/>
+      <Sidebar selectedShip={selectedShip} page={pageType}/>
   
       <div className="flex-grow flex flex-col">
         <Topbar

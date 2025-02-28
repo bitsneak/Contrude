@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import axiosInstance from '../api/AxiosInstance';
 import LoginField from '../components/LoginField';
-import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { HiArrowNarrowRight } from "react-icons/hi";
 import { useNavigate } from 'react-router-dom';
 
