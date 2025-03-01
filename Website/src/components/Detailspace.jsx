@@ -98,6 +98,34 @@ const Detailspace = ({thresholdSentences}) => {
     }
   };
 
+  const handelSelectEnironmentDara = (environmentData) => {
+      switch(environmentData){
+        case "Temperature":
+          window.open(`http://api.contrude.eu:3000/d/cec6s5kn3e51cf/environment-data?orgId=1&var-ship=${shipId}&var-container=${containerId}&from=now-7d&to=now`, '_blank')
+          break;
+        case "Pressure":
+          window.open(`http://api.contrude.eu:3000/d/cec6s5kn3e51cf/environment-data?orgId=2&var-ship=${shipId}&var-container=${containerId}&from=now-7d&to=now`, '_blank')
+          break;
+        case "Humidity":
+          window.open(`http://api.contrude.eu:3000/d/cec6s5kn3e51cf/environment-data?orgId=3&var-ship=${shipId}&var-container=${containerId}&from=now-7d&to=now`, '_blank')
+          break;
+        case "Vibration":
+          window.open(`http://api.contrude.eu:3000/d/cec6s5kn3e51cf/environment-data?orgId=4&var-ship=${shipId}&var-container=${containerId}&from=now-7d&to=now`, '_blank')
+          break;
+        case "Altitude":
+          window.open(`http://api.contrude.eu:3000/d/cec6s5kn3e51cf/environment-data?orgId=5&var-ship=${shipId}&var-container=${containerId}&from=now-7d&to=now`, '_blank')
+          break;
+        case "Latitude":
+          window.open(`http://api.contrude.eu:3000/d/cec6s5kn3e51cf/environment-data?orgId=6&var-ship=${shipId}&var-container=${containerId}&from=now-7d&to=now`, '_blank')
+          break;
+        case "Longitude":
+          window.open(`http://api.contrude.eu:3000/d/cec6s5kn3e51cf/environment-data?orgId=1&var-ship=${shipId}&var-container=${containerId}&from=now-7d&to=now`, '_blank')
+          break;
+        default:
+          break;
+      }
+  };
+
   // Fetch Data when containerId or shipId changes
   useEffect(() => {
     const fetchContainerEnvironmentData = async () => {
@@ -193,7 +221,7 @@ const Detailspace = ({thresholdSentences}) => {
           <tbody>
             {tableData.map((row, index) => (
               <tr key={index}>
-                <td className="border border-black px-4 py-2 w-2/12">{row.environment}</td>
+                <td className="border border-black px-4 py-2 w-2/12 hover:text-blue-950 hover:underline" onClick={() => handelSelectEnironmentDara(row.environment)}>{row.environment}</td>
                 <td className="border border-black px-4 py-2 w-5/12">{row.value}</td>
                 <td className="border border-black px-4 py-2 w-1/12">{row.unit}</td>
                 <td className="border border-black px-4 py-2 w-4/12">{row.alert}</td>
@@ -202,7 +230,7 @@ const Detailspace = ({thresholdSentences}) => {
           </tbody>
         </table>
         
-        <button className="border border-black px-2 mt-2"type="button" onClick={() => window.open(`/graphs/${shipId}.html?highlight=${combinedSerialNumber}`, '_blank')}>
+        <button className="border border-black px-2 mt-2" type="button" onClick={() => window.open(`/graphs/${shipId}.html?highlight=${combinedSerialNumber}`, '_blank')}>
           Show Position Diagram
         </button>
 
