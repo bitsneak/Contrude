@@ -711,9 +711,8 @@ Außerdem gibt der Loop wieder die Werte über Print-Statements aus um sie auf d
 
 #### GY-GPSMV2 Sensor zur Bestimmung der Postition mittels GPS
 
-Der letzte Sensor zur Realisierung ist das GPS-Modul GY-GPSMV2. Hier werden, noch, keine zusätzlichen Bibliotheken benötigt da es schon relativ einfach ist auf den Sensor zuzugreifen. 
-
-Um nun die GPS-Postion in seiner NMEA^[National Marine Electronics Association] Rohform auslesen zu können, greifen mit dem folgenden Programm auf die UART-Schnittstelle des Sensors zu.
+Der letzte Sensor zur Realisierung ist das GPS-Modul GY-GPSMV2. Im Grunde werden für diesen Sensor keine weiteren Bibliotheken benötigt jedoch kommt dazu gleich noch mehr.
+Um nun die GPS-Postion in seiner NMEA^[National Marine Electronics Association] Rohform auslesen zu können, greift man mit dem folgenden Programm auf die UART-Schnittstelle des Sensors zu.
 
 ```{caption="GY-GPSMV2 Test Programm mit Daten in Rohform" .cpp}
 #define RXD2 16
@@ -745,15 +744,72 @@ void loop(){
 ```
 [@GPS-Testprogramm]
 
+
+##### Erklärung
+
+***Variablen für das GPS-Modul***
+
+```{caption="GY-GPSMV2 Variablen" .cpp}
+  #define RXD2 16
+  #define TXD2 17
+  #define GPS_BAUD 9600
+
+  HardwareSerial gpsSerial(2);
+```
+
+1. **RXD2**: Ist eine Konstante, die den GPIO-Pin 16 für den Empfang von Daten definiert.  
+2. **TXD2**: Ist eine Konstante, die den GPIO-Pin 17 für das Senden (TX) von Daten definiert.  
+3. **GPS_BAUD**: Ist eine Konstante, die die Baudrate von 9600, wie im Datenblatt angegeben, für die Kommunikation mit dem Sensor festlegt. [@GPS-Baudrate]
+4. **gpsSerial(2)**: Hier wird eeine Instanz des HardwareSerial Objektes auf UART-Port2 erstellt um mit dem Mikrocontroller zu kommunizieren
+
+***Setup für das GPS-Modul***
+
+```{caption="GY-GPSMV2 Setup" .cpp}
+void setup(){
+  // Serial Monitor
+  Serial.begin(115200);
+  
+  // Start Serial 2 with the defined RX and TX pins and a baud rate of 9600
+  gpsSerial.begin(GPS_BAUD, SERIAL_8N1, RXD2, TXD2);
+  Serial.println("Serial 2 started at 9600 baud rate");
+}
+```
+
+Wie auch schon bei den anderen Sensoren muss auch hier zuerst eine Baudrate, in diesen Fall 115200, für die Kommunikation initialisiert werden. Mithilfe von ```gpsSerial``` wird eine Serielle Verbindung zum GPS-Modul hersgestellt in welcher die Baudrate, die Standard-Konfiguration von 8-Datenbits, keine Parität, der Stoppbit und die zwei Schnittstellen übergeben werden. Desweiteren gibt es noch das Print-Statement um den Fortschritt auf dem Serial Monitor sehen zu können. 
+
+***Loop Funktionen für das GPS-Modul (NMEA)***
+
+```{caption="GY-GPSMV2 Test Programm mit Daten in Rohform" .cpp}
+void loop(){
+  while (gpsSerial.available() > 0){
+    // get the byte data from the GPS
+    char gpsData = gpsSerial.read();
+    Serial.print(gpsData);
+  }
+  delay(1000);
+  Serial.println("-------------------------------");
+}
+```
+
+Die Loop Funktion für das GPS-Modul überprüft zuerst, ob Daten momentan verfügbar sind. Dies regelt sie mithilfe der While-Schleife: ```while (gpsSerial.available() > 0)```. Um nun die NMEA-Daten zu Printen, werden sie zuerst in einem char-Datentypen gespeichert und danach mittels ```Serial-print(gpsData);``` auf dem Serial Monitor ausgebene werden können.
+
+
+***Loop Funktionen für das GPS-Modul (Aufbereitet)***
+
 Das Proplem mit NMEA Daten ist, das sie unleserlich sind
 
 ![NMEA-Ausgabe](img/Kampl/NMEA-Ausgabe.png){width=500px} [@GPS-Testprogramm]
 
-Deshalb, benötigt man doch noch eine Bibliothek und zwar TinyGPSPlus. Man fügt wie immer diese Bibliothek in der Ini-Datei hinzu, diesesmal mit auf folgende Weise: ```mikalhart/TinyGPSPlus@^1.1.0```.
+Deshalb, benötigt man doch noch eine Bibliothek und zwar **TinyGPSPlus**. Man fügt wie immer diese Bibliothek in der Ini-Datei hinzu, diesesmal mit auf folgende Weise: ```mikalhart/TinyGPSPlus@^1.1.0```.
 
 Danach wird der Code hierum erweitert:
 
-```{caption="GY GPSMV2 Erweiterung mit verarbeiteten Daten" .cpp}
+
+
+```{caption="GY-GPSMV2 Erweiterung mit verarbeiteten Daten" .cpp}
+
+TinyGPSPlus gps;
+
 void loop() {
   // This sketch displays information every time a new sentence is correctly encoded.
   unsigned long start = millis();
@@ -783,19 +839,49 @@ void loop() {
 }
 ```
 
-##### Erklärung
+Die TinyGPSPlus bietet viele Funktionen zur leserlichen Darstellung der GPS-Daten. Die wichtigste von ihnen ist die  ```gps.encode()``` Funktionen welche die unleserlichen NMEA dekodiert und verarbeitet. Danach wird mithilfe eines IF-Statements darauf geachtet, ob sich die Position des Gerätes verändert hat ```if(gps.locaton.isUpdated())```. Und zum Schluss gibt es alle möglichen Daten, wie den Längen und Breitengrad, des Sensors aus.
 
 ### Datenübertragung
 
 #### MQTT
 
-### Mesh
+> MQTT (Message Queuing Telemetry Transport) ist ein Nachrichtenprotokoll für eingeschränkte Netzwerke mit geringer Bandbreite und IoT-Geräte mit extrem hoher Latenzzeit. Da Message Queuing Telemetry Transport auf Umgebungen mit niedriger Bandbreite und hoher Latenz spezialisiert ist, ist es ein ideales Protokoll für die Machine-to-Machine-Kommunikation
+[@Inray-GmbH]
+
+MQTT wird häufig in IoT-Anwendungen^[Internet of Things] aufgrund eben dieser geringen benötigten Bandbreite verwendet, da es dadurch sehr zuverlässig arbeitet und selbst bei schlechter Netzwerkverbindung funktioniert.
+
+Einige Wichtige Begriffe im Zusammenhang mit MQTT sind
+
+- **Publisher**: Der Sender, der Informationen oder Daten an den Broker schickt.
+- **Subscriber**: Der Empfänger, der sich beim Broker anmeldet, um bestimmte Nachrichten zu erhalten.
+- **Broker**: Ist ein Vermittler, zum Beispiel ein Server, welcher Nachrichten von Publishern/Sendern entgegennimmt und sie and Subscribern/Empfängern weiterleitet.
+- **Topic**: Eine Art "Kategorien" in welchen Nachrichten veröffentlicht werden. Diese Kategorien können von von Empfänger abonniert werden um diese Nachrichten zu bekommen.
+
+### WLAN-Mesh
+
+Ein Mesh ist ein System/Netzwerk, welches aus mehreren WLAN-Zugangspunkten, songenannten Access Points, besteht. Es sorgt dafür, dass diese Access Points eine lückenlose WLAN-Abdeckung zugesichert werden kann.
+
+Um nun ein Mesh-Netzwerk nun aufbauen zu können muss man zuerst die einzelnen Knotenpunkte miteinander verbinden. Dabei ist immer mindestens einer dieser Punkte mit einem Router oder Modem verbunden um eine Verbindung mit dem Internet herzustellen. Die restlichen Knoten kommunizieren dann drahtlos untereinander. [vgl.@EK-WlanMesh]
+Wenn nun ein Knoten Daten sendet werden sie von nächstgelegenen Knoten auch aufgenommen. Die Daten werden dann von Knoten zu Knoten weitergeleitet bis sie den Hauptknoten erreichen und zum Schluss im Internet landen. Dieser Prozess wird Hop-to-Hop Kommunikation genannt.[vgl.@Wikipedia-Hop]
+Ein weiters wichtiges Merkmal eines Meshes ist, das songenannte Seamless-Roaming. Dabei wechseln die einzelnen Knoten immer zu Access Point mit dem stärksten Signal ohne, dass die Verbindung unterbrochen wird. Des weiteren verfügt ein Mesh über eine Selbstheilungsfunktion. D.h.: Wenn ein Knotenpunkt, aus verschiedensten Gründen, ausfällt oder die Verbindung verliert, so sucht das System automatisch nach einer alternativen Route über andere Knotenpunkte um wieder eine stabile Verbindung aufzubauen.[vgl.@EK-WlanMesh]
 
 ### Sonstiges
 
 #### GitHub Actions
 
-//newpage
+GitHub Actions ist ein Tool zur Automatisierung von Softwareprozessen wie dem Testen und Bereitstellen von Code. Ein zentrales Feature ist **CI/CD**^[Continuous Integration und Continuous Delivery/Deployment], das automatisch Code ändert und veröffentlicht. Nach erfolgreichem Abschluss aller Tests kann der neue Code automatisch ins Repository übertragen werden.
+
+Actions haben noch viele weitere Funktionen da sie im Grunde eine Virtuelle Umgebung erschaffen in welcher Code ausgeführt werden kann.
+
+Um einen **Workflow** zu erstellen, legt man, im vorher erstellten Woreine **YAML-Datei** an, die folgende Elemente definiert:
+
+- **Event**: Der Auslöser des Workflows (z. B. ein neuer Code-Push).  
+- **Jobs**: Die Aufgaben, die nach dem Event ausgeführt werden.  
+- **Runner**: Die Umgebung, in der der Code läuft (z. B. Ubuntu, Windows, macOS).  
+- **Steps & Actions**: Schritte innerhalb eines Jobs, die bestimmte Aktionen ausführen, wie z. B. das Testen oder Überprüfen des Codes.  
+
+
+\newpage
 
 ## Praktische Arbeit
 

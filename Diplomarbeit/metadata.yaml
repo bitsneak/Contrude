@@ -50,6 +50,9 @@ da-kiquellen:
 - ki: ChatGPT-4o
   short-prompt: Grundstruktur einer .ini-Datei
   pdf-file: Kampl/KI/Theorie/PlatformIO-INI-FILE-BSP-ChatGPT.pdf
+- ki: ChatGPT-4o
+  short-prompt: GitHub Actions Erklärung
+  pdf-file: Kampl/KI/Theorie/GitHub-Actions-Erklaerung.pdf
 
 # Gekle
 - ki: ChatGPT-4o
@@ -123,8 +126,12 @@ da-appendix:
   seiten: 1-32
 
 - abschnitt: Serielle Schnittstellen
-  pdf-file: Kampl/Serielle-Schnittstellen-Kampl
+  pdf-file: Kampl/Serielle-Schnittstellen-Kampl.pdf
   seiten: 3-8
+
+- abschnitt: Configuration
+  pdf-file: Kampl/NEO-6-DataSheet-GPS.G6-HW-09005.pdf
+  seiten: 11
 
 
 # Diplomarbeitsvereinbarungen müssen zum Schluss sein 
