@@ -98,7 +98,7 @@ const Detailspace = ({thresholdSentences}) => {
     }
   };
 
-  const handelSelectEnironmentDara = (environmentData) => {
+  const handelSelectEnironmentData = (environmentData) => {
       switch(environmentData){
         case "Temperature":
           window.open(`http://api.contrude.eu:3000/d/cec6s5kn3e51cf/environment-data?orgId=1&var-ship=${shipId}&var-container=${containerId}&from=now-7d&to=now`, '_blank')
@@ -221,7 +221,7 @@ const Detailspace = ({thresholdSentences}) => {
           <tbody>
             {tableData.map((row, index) => (
               <tr key={index}>
-                <td className="border border-black px-4 py-2 w-2/12 hover:text-blue-950 hover:underline" onClick={() => handelSelectEnironmentDara(row.environment)}>{row.environment}</td>
+                <td className="border border-black px-4 py-2 w-2/12 hover:text-blue-950 hover:underline" onClick={() => handelSelectEnironmentData(row.environment)}>{row.environment}</td>
                 <td className="border border-black px-4 py-2 w-5/12">{row.value}</td>
                 <td className="border border-black px-4 py-2 w-1/12">{row.unit}</td>
                 <td className="border border-black px-4 py-2 w-4/12">{row.alert}</td>

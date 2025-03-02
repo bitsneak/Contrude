@@ -762,38 +762,52 @@ const simulation = d3.forceSimulation(nodes)
 ```
 [vgl. @gpt-D3jsDGScript]
 
-Wie bereits erwähnt entstammen die Kanten aus dem `links`-Array. Die Container selbst, erscheinen in Form eines Kreises (mit ihrem Namen) als Knoten. Das Hin- und Her- ziehen dieser Knoten wird über die D3s Dragging-API umgesetzt. Zieht der User den Knoten von A nach B, so wird die Simulation neu gestartet, um die Position dynamisch anzupassen. Ist die Drag-Geste vollendet, so wird die Simulation wieder gestoppt und der Knoten verbleibt an seiner Position. Zusätzlich wird durch das Einfärben der Komponente des Graphen, der Knoten (blau) mit seinen Verbindungen (orange) zu anderen Containern (grün) hervorgehoben. Dies wird über die Klassen `highlight`, `connected` und `highlight-link` gesteuert:
+Wie bereits erwähnt entstammen die Kanten aus dem `links`-Array. Die Container selbst, erscheinen in Form eines Kreises (mit ihrem Namen) als Knoten. Das Hin- und Herziehen dieser Knoten wird über die D3s Dragging-API umgesetzt. Zieht der User den Knoten von A nach B, so wird die Simulation neu gestartet, um die Position dynamisch anzupassen. Ist die Drag-Geste vollendet, so wird die Simulation wieder gestoppt und der Knoten verbleibt an seiner Position. [vgl. @gpt-D3jsDGScript]
+
+Zusätzlich wird durch das Einfärben der Komponente des Graphen, der Knoten (blau) mit seinen Verbindungen (orange) zu anderen Containern (grün) hervorgehoben. Damit direkt beim Aufrufen des Graphen bereits ein Knoten automatisch markiert ist, wird der Name des Knoten bzw. Containers, den man eingefärbt haben will, in die URL geschrieben:
+
+````{caption="URL eines Dragable Graphen, der über die Website aufgerufen wurde" .txt}
+https://www.contrude.eu/graphs/1.html?highlight=OBBU1000011
+````
+
+Wichtig ist hier das `?highlight=OBBU1000011` (gibt Name des Knoten an), da das Script überprüft ob ein solcher vorhanden ist. Ist dies der Fall, dann wird die `applyHighlight` Funktion aufgerufen, welche dafür sorgt, dass der richtige Knoten und seine Nachbarn farblich markiert werden: [LINK1]
+
 
 ```{caption="Farbsteuerung des Graphen" .js}
-function highlightNode(event, selectedNode) {
-    node.selectAll('circle').classed('highlight', false).classed('connected', false);
+function applyHighlight(nodeId) {
+    node.selectAll('circle')
+        .classed('highlight', false)
+        .classed('connected', false);
+
     link.classed('highlight-link', false);
 
-    // Knoten hervorheben
-    d3.select(event.currentTarget).select('circle').classed('highlight', true);
+    node.filter(d => d.id === nodeId)
+        .select('circle')
+        .classed('highlight', true);
 
-    // Verbindungen hervorheben
-    link.filter(d => d.source.id === selectedNode.id || d.target.id === selectedNode.id)
+    link.filter(d => d.source.id === nodeId || d.target.id === nodeId)
         .classed('highlight-link', true);
 
-    // Verbundene Knoten hervorheben
     node.filter(d =>
         links.some(link =>
-            (link.source.id === selectedNode.id && link.target.id === d.id) ||
-            (link.target.id === selectedNode.id && link.source.id === d.id)
-        ))
-        .select('circle')
-        .classed('connected', true);
+            (link.source.id === nodeId && link.target.id === d.id) ||
+            (link.target.id === nodeId && link.source.id === d.id)
+        )
+    )
+    .select('circle')
+    .classed('connected', true);
 }
-
 ```
-[vgl. @gpt-D3jsDGScript]
+[LINK1]
+
+Natürlich ist es auch möglich, per Klick einen anderen Container auszuwählen. Dies ist möglich, da die Knoten über `.on('click', highlightNode)` die `highLightNode` Methode aufruft, welche die ID des angeklickten Knoten übernimmt und an die oben angeführte `applyHighlight` weitergibt. [LINK1]
+
 
 Basierend auf dem `graphSpecific.json` aus dem Kapitel *Exportieren in JSON Files* würde als Ergebnis des Dragable-Graph-Skripts folgender Graph entstehen:
 
 ![Dragable Graph basierend auf graphSpecific aus vorhergehenden Kapitel](img/Gekle/DG-Example.png)
 
-Ein umfangreicherer Graph, welcher aus einer Simulation mit 16 Containern entstammt und folgende Daten hat:
+Ein umfangreicherer Graph, welcher aus einer Simulation mit 16 Containern entstammt und folgende Daten hat...
 
 - Ausgangscontainer: cont2
 - Tiefe der `graphSpecific` = 2
@@ -888,7 +902,7 @@ Wie auch die MainPage unterteilt sich die Detail Page in 3 große Komponente:
 
 ![Struktur der Detail Page](img/Gekle/DetailPageStructure.png)
 
-Die `Detailspace` ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit Notizen, welche auch gespeichert werden, hinzuzufügen zählt ebenfalls zu den Aufgaben der `DetailSpace`. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Threshholds und Zurückgehen zur MainPage bietet.
+Die `Detailspace`-Komponente ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit Notizen, welche auch gespeichert werden, hinzuzufügen zählt ebenfalls zu den Aufgaben der `DetailSpace`. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Threshholds und Zurückgehen zur MainPage bietet.
 
 #### Funktionsweise der Komponenten
 ##### LoginField der LoginPage
@@ -1166,7 +1180,11 @@ const [tableData, setTableData] = useState([
 ]);
 ```
 
-Es besitzt denselben Aufbau wie die Tabelle (`table`), in welcher die Umweltdaten und Alerts der Threshholds angezeigt werden und baut daher auch auf dem Array auf. Nachdem die Umweltdaten von dem Backend gefetcht wurden, wird `value` des Arrays für jedes `environment` überschrieben, was durch die `updateTableData` Methode geschieht. Diese übernimmt den gefetchten Wert und von welchen Sensor dieser kommt (z.B. temperatur):
+Es besitzt denselben Aufbau wie die Tabelle (`table`), in welcher die Umweltdaten und Alerts der Threshholds angezeigt werden und baut daher auch auf dem Array auf:
+
+![Tabelle basierend auf dem tableData Array](img/Gekle/DetailspaceCloseup.png)
+
+Nachdem die Umweltdaten von dem Backend gefetcht wurden, wird `value` des Arrays für jedes `environment` überschrieben, was durch die `updateTableData` Methode geschieht. Diese übernimmt den gefetchten Wert und von welchen Sensor dieser kommt (z.B. temperatur):
 
 ```{caption="updateTableData Methode" .js}
 const updateTableData = (newValue, sensor) => {
@@ -1195,6 +1213,31 @@ const updateTableData = (newValue, sensor) => {
 Es wird wieder mithilfe der `.map`-Funktion durch das Array iteriert und mittels eines `Switch/Case` geschaut, um welchen Sensor es sich handelt. Einmal das richtige Case gefunden wird eine Kopie von `item` erstellt und der richtige Wert verändert. Der Grund wieso eine Kopie erstellt werden muss ist folgender:
 
 > Eine **Shallow Copy** muss returned werden, da React nur Änderungen erkennt, wenn der Verweis auf das Objekt oder Array geändert wird, was bei direkter Mutation des ursprünglichen Objekts/Arrays nicht der Fall ist. [vgl. @gpt-updateTableData]
+
+Wie im Bild oben auch zu sehen ist befindet sich unter der Tabelle noch ein Button mit der Bezeichnung "Show Position Diagram". Dieser ermöglicht es, dass die aus dem **Container Simulator** stammenden **Dragable Graphs** in einem seperaten Tab aufgerufen werden. In der Theorie wird zusätzlich immer die Seriennummer des aktuell ausgewählten Containers mit übergeben, wodurch dieser automatisch eingefärbt wird. Allerdings stammen die Graphen wie erwähnt aus dem Simulator, wodurch die Knoten nicht nach den Seriennummern benannt werden sondern mit "cont#" wobei "#" eine fortlaufende Zahl ist. Die Eigenschaft, dass dieser Graph in einem seperaten Tab geöffnet wird, kann dadurch ermöglicht werden, wenn das `button`-Element via `onClick` `window.open` mit `_blank` ausführt:
+
+````{caption="HTML Show Position Diagram Button" .html}
+<button className="border border-black px-2 mt-2" type="button" onClick={() => window.open(`/graphs/${shipId}.html?highlight=${combinedSerialNumber}`, '_blank')}>
+  Show Position Diagram
+</button>
+````
+
+Der `Detailspace` bietet aber noch eine weitere Verlinkung. Sieht man sich den Body der zentrale Tabelle des Komponents in HTML an...:
+
+````{caption="tbody HTML Element der Tabelle des Detailspaces" .html}
+<tbody>
+  {tableData.map((row, index) => (
+    <tr key={index}>
+      <td className="border border-black px-4 py-2 w-2/12 hover:text-blue-950 hover:underline" onClick={() => handelSelectEnironmentData(row.environment)}>{row.environment}</td>
+      <td className="border border-black px-4 py-2 w-5/12">{row.value}</td>
+      <td className="border border-black px-4 py-2 w-1/12">{row.unit}</td>
+      <td className="border border-black px-4 py-2 w-4/12">{row.alert}</td>
+    </tr>
+  ))}
+</tbody>
+````
+
+... so kann man sehen, dass beim Klicken auf den jeweiligen Umweltdatenwert (z.B. Temperatur) die `handleSelectEnvironmentData`-Methode aufgerufen wird. Diese übernimmt die Bezeichnung des Umweltdatenwerts und ruft den dazu passenden **Grafana** Link auf.
 
 Weiters werden die Notizen (ein HTML `TextArea`-Element) von `Detailspace` verwaltet. Hierzu kommen zwei Methoden ins Spiel:
 
