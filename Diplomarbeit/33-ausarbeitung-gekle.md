@@ -762,38 +762,52 @@ const simulation = d3.forceSimulation(nodes)
 ```
 [vgl. @gpt-D3jsDGScript]
 
-Wie bereits erwähnt entstammen die Kanten aus dem `links`-Array. Die Container selbst, erscheinen in Form eines Kreises (mit ihrem Namen) als Knoten. Das Hin- und Her- ziehen dieser Knoten wird über die D3s Dragging-API umgesetzt. Zieht der User den Knoten von A nach B, so wird die Simulation neu gestartet, um die Position dynamisch anzupassen. Ist die Drag-Geste vollendet, so wird die Simulation wieder gestoppt und der Knoten verbleibt an seiner Position. Zusätzlich wird durch das Einfärben der Komponente des Graphen, der Knoten (blau) mit seinen Verbindungen (orange) zu anderen Containern (grün) hervorgehoben. Dies wird über die Klassen `highlight`, `connected` und `highlight-link` gesteuert:
+Wie bereits erwähnt entstammen die Kanten aus dem `links`-Array. Die Container selbst, erscheinen in Form eines Kreises (mit ihrem Namen) als Knoten. Das Hin- und Herziehen dieser Knoten wird über die D3s Dragging-API umgesetzt. Zieht der User den Knoten von A nach B, so wird die Simulation neu gestartet, um die Position dynamisch anzupassen. Ist die Drag-Geste vollendet, so wird die Simulation wieder gestoppt und der Knoten verbleibt an seiner Position. [vgl. @gpt-D3jsDGScript]
+
+Zusätzlich wird durch das Einfärben der Komponente des Graphen, der Knoten (blau) mit seinen Verbindungen (orange) zu anderen Containern (grün) hervorgehoben. Damit direkt beim Aufrufen des Graphen bereits ein Knoten automatisch markiert ist, wird der Name des Knoten bzw. Containers, den man eingefärbt haben will, in die URL geschrieben:
+
+````{caption="URL eines Dragable Graphen, der über die Website aufgerufen wurde" .txt}
+https://www.contrude.eu/graphs/1.html?highlight=OBBU1000011
+````
+
+Wichtig ist hier das `?highlight=OBBU1000011` (gibt Name des Knoten an), da das Script überprüft ob ein solcher vorhanden ist. Ist dies der Fall, dann wird die `applyHighlight` Funktion aufgerufen, welche dafür sorgt, dass der richtige Knoten und seine Nachbarn farblich markiert werden: [LINK1]
+
 
 ```{caption="Farbsteuerung des Graphen" .js}
-function highlightNode(event, selectedNode) {
-    node.selectAll('circle').classed('highlight', false).classed('connected', false);
+function applyHighlight(nodeId) {
+    node.selectAll('circle')
+        .classed('highlight', false)
+        .classed('connected', false);
+
     link.classed('highlight-link', false);
 
-    // Knoten hervorheben
-    d3.select(event.currentTarget).select('circle').classed('highlight', true);
+    node.filter(d => d.id === nodeId)
+        .select('circle')
+        .classed('highlight', true);
 
-    // Verbindungen hervorheben
-    link.filter(d => d.source.id === selectedNode.id || d.target.id === selectedNode.id)
+    link.filter(d => d.source.id === nodeId || d.target.id === nodeId)
         .classed('highlight-link', true);
 
-    // Verbundene Knoten hervorheben
     node.filter(d =>
         links.some(link =>
-            (link.source.id === selectedNode.id && link.target.id === d.id) ||
-            (link.target.id === selectedNode.id && link.source.id === d.id)
-        ))
-        .select('circle')
-        .classed('connected', true);
+            (link.source.id === nodeId && link.target.id === d.id) ||
+            (link.target.id === nodeId && link.source.id === d.id)
+        )
+    )
+    .select('circle')
+    .classed('connected', true);
 }
-
 ```
-[vgl. @gpt-D3jsDGScript]
+[LINK1]
+
+Natürlich ist es auch möglich, per Klick einen anderen Container auszuwählen. Dies ist möglich, da die Knoten über `.on('click', highlightNode)` die `highLightNode` Methode aufruft, welche die ID des angeklickten Knoten übernimmt und an die oben angeführte `applyHighlight` weitergibt. [LINK1]
+
 
 Basierend auf dem `graphSpecific.json` aus dem Kapitel *Exportieren in JSON Files* würde als Ergebnis des Dragable-Graph-Skripts folgender Graph entstehen:
 
 ![Dragable Graph basierend auf graphSpecific aus vorhergehenden Kapitel](img/Gekle/DG-Example.png)
 
-Ein umfangreicherer Graph, welcher aus einer Simulation mit 16 Containern entstammt und folgende Daten hat:
+Ein umfangreicherer Graph, welcher aus einer Simulation mit 16 Containern entstammt und folgende Daten hat...
 
 - Ausgangscontainer: cont2
 - Tiefe der `graphSpecific` = 2
@@ -864,6 +878,8 @@ Alle weiteren Files, welche die Website umfasst sind in Folder untergeordnet und
 - pages --> enthält die 3 Page-Komponenten (`LoginPage`, `MainPage`, `DetailPage`)
 - util --> enthält die Scripts, welche erweiterte Funktionen übernehmen (z.B. `ContainerDistributor`)
 
+Zusätzlich gibt es noch den `public`-Folder, in welchem sich nur ein Unterordner namens `graphs` befindet. Die spezielle Eigenschaft des `public` Folders ist es, dass seine Inhalte statisch sind und direkt über eine URL aufgerufen werden können, ohne dass sie Vite builden muss. Innerhalb des `graphs`-Folders befinden sich alle aus dem **Container Simulator** überführten JavaScript-Scripts und die dazu benötigte JSON Datei, um den Dragable Graph über die Website simulieren zu können.  
+
 #### Aufbau der Pages
 
 ##### Aufbau MainPage
@@ -886,7 +902,7 @@ Wie auch die MainPage unterteilt sich die Detail Page in 3 große Komponente:
 
 ![Struktur der Detail Page](img/Gekle/DetailPageStructure.png)
 
-Die `Detailspace` ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit Notizen, welche auch gespeichert werden, hinzuzufügen zählt ebenfalls zu den Aufgaben der `DetailSpace`. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Threshholds und Zurückgehen zur MainPage bietet.
+Die `Detailspace`-Komponente ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit Notizen, welche auch gespeichert werden, hinzuzufügen zählt ebenfalls zu den Aufgaben der `DetailSpace`. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Threshholds und Zurückgehen zur MainPage bietet.
 
 #### Funktionsweise der Komponenten
 ##### LoginField der LoginPage
@@ -1164,7 +1180,11 @@ const [tableData, setTableData] = useState([
 ]);
 ```
 
-Es besitzt denselben Aufbau wie die Tabelle (`table`), in welcher die Umweltdaten und Alerts der Threshholds angezeigt werden und baut daher auch auf dem Array auf. Nachdem die Umweltdaten von dem Backend gefetcht wurden, wird `value` des Arrays für jedes `environment` überschrieben, was durch die `updateTableData` Methode geschieht. Diese übernimmt den gefetchten Wert und von welchen Sensor dieser kommt (z.B. temperatur):
+Es besitzt denselben Aufbau wie die Tabelle (`table`), in welcher die Umweltdaten und Alerts der Threshholds angezeigt werden und baut daher auch auf dem Array auf:
+
+![Tabelle basierend auf dem tableData Array](img/Gekle/DetailspaceCloseup.png)
+
+Nachdem die Umweltdaten von dem Backend gefetcht wurden, wird `value` des Arrays für jedes `environment` überschrieben, was durch die `updateTableData` Methode geschieht. Diese übernimmt den gefetchten Wert und von welchen Sensor dieser kommt (z.B. temperatur):
 
 ```{caption="updateTableData Methode" .js}
 const updateTableData = (newValue, sensor) => {
@@ -1193,6 +1213,31 @@ const updateTableData = (newValue, sensor) => {
 Es wird wieder mithilfe der `.map`-Funktion durch das Array iteriert und mittels eines `Switch/Case` geschaut, um welchen Sensor es sich handelt. Einmal das richtige Case gefunden wird eine Kopie von `item` erstellt und der richtige Wert verändert. Der Grund wieso eine Kopie erstellt werden muss ist folgender:
 
 > Eine **Shallow Copy** muss returned werden, da React nur Änderungen erkennt, wenn der Verweis auf das Objekt oder Array geändert wird, was bei direkter Mutation des ursprünglichen Objekts/Arrays nicht der Fall ist. [vgl. @gpt-updateTableData]
+
+Wie im Bild oben auch zu sehen ist befindet sich unter der Tabelle noch ein Button mit der Bezeichnung "Show Position Diagram". Dieser ermöglicht es, dass die aus dem **Container Simulator** stammenden **Dragable Graphs** in einem seperaten Tab aufgerufen werden. In der Theorie wird zusätzlich immer die Seriennummer des aktuell ausgewählten Containers mit übergeben, wodurch dieser automatisch eingefärbt wird. Allerdings stammen die Graphen wie erwähnt aus dem Simulator, wodurch die Knoten nicht nach den Seriennummern benannt werden sondern mit "cont#" wobei "#" eine fortlaufende Zahl ist. Die Eigenschaft, dass dieser Graph in einem seperaten Tab geöffnet wird, kann dadurch ermöglicht werden, wenn das `button`-Element via `onClick` `window.open` mit `_blank` ausführt:
+
+````{caption="HTML Show Position Diagram Button" .html}
+<button className="border border-black px-2 mt-2" type="button" onClick={() => window.open(`/graphs/${shipId}.html?highlight=${combinedSerialNumber}`, '_blank')}>
+  Show Position Diagram
+</button>
+````
+
+Der `Detailspace` bietet aber noch eine weitere Verlinkung. Sieht man sich den Body der zentrale Tabelle des Komponents in HTML an...:
+
+````{caption="tbody HTML Element der Tabelle des Detailspaces" .html}
+<tbody>
+  {tableData.map((row, index) => (
+    <tr key={index}>
+      <td className="border border-black px-4 py-2 w-2/12 hover:text-blue-950 hover:underline" onClick={() => handelSelectEnironmentData(row.environment)}>{row.environment}</td>
+      <td className="border border-black px-4 py-2 w-5/12">{row.value}</td>
+      <td className="border border-black px-4 py-2 w-1/12">{row.unit}</td>
+      <td className="border border-black px-4 py-2 w-4/12">{row.alert}</td>
+    </tr>
+  ))}
+</tbody>
+````
+
+... so kann man sehen, dass beim Klicken auf den jeweiligen Umweltdatenwert (z.B. Temperatur) die `handleSelectEnvironmentData`-Methode aufgerufen wird. Diese übernimmt die Bezeichnung des Umweltdatenwerts und ruft den dazu passenden **Grafana** Link auf.
 
 Weiters werden die Notizen (ein HTML `TextArea`-Element) von `Detailspace` verwaltet. Hierzu kommen zwei Methoden ins Spiel:
 
@@ -1531,12 +1576,12 @@ setSerialNumbers(fetchedSerialNumbers);
 ```
 Dies geschieht indem mittels einer `for`-Schleife durch das neue Array iteriert wird und pro ID die passende Seriennummer geholt wird, welche dann in das `fetchedSerialNumbers` Array eingefügt werden. Ist die Schleife zu Ende wird das Seriennummer-Array mit `setSerialNumbers` in die `serialNumber useState` gesetzt. Diese Daten innerhalb des `useState` werden dann in einer unordered List mithilfe der .map Methode aufgelistet. (siehe *Komponenten der Top Bar der MainPage*). 
 
-Der **Thresholdviewer** Dialog benötigt um seine Funktion, das Anzeigen aller für einen Container festgelegten Thresholds, zwei Calls:
+Der **ThresholdViewer** Dialog benötigt um seine Funktion, das Anzeigen aller für einen Container festgelegten Thresholds, zwei Calls:
 
 - alle Thresholds fetchen
 - zusätzliche Daten zu den Thresholds fetchen
 
-Der Erstere ist eher unkompliziert, da mithilfe der containerId (aus `useParams()` [vgl. @Refine-ReactRouter]) einfach alle zum Container gehörende Thresholds ins Frontend geholt werden. ABER: Diese kommen in folgender Form:
+Der Erste ist eher unkompliziert, da mithilfe der containerId (aus `useParams()` [vgl. @Refine-ReactRouter]) einfach alle zum Container gehörende Thresholds ins Frontend geholt werden. ABER: Diese kommen in folgender Form:
 
 ![Form, in welcher die aus dem Backend gefetchten Thresholds sich befinden](img/Gekle/ThresholdsByBackend.png)
 
@@ -1577,4 +1622,81 @@ onSentencesUpdate(sentences);
 Dieser Code läuft in einer `for`-Schleife, da ja mehrere Thresholds für den Container gesetzt sein können. `validThresholds` ist ein mit `isArray` geprüftes Duplikat jenes Arrays, welches im ersten API Call die Thresholds (in Id Form) abspeichert. Zum Schluss werden in der Variable `sentences` die gefetchten Daten zusammen mit `value` in die Satzform gebracht und im `sentences`-`useState`-Array abgespeichert. Es ist dieses Array, welches vom Dialog mit `onSentencesUpdate` an die DetailPage zurück geliefert wird. 
 
 ##### Sidebar
-TBA
+Rest Calls werden innerhalb der Sidebar-Komponente aufgrund dieser 2 Funktionalitäten benötigt:
+
+- Anzeigen der Favoriten (je nach User)
+- Anzeigen der ausgelösten Alerts (nur `Critical`, `High` und `Low`)
+
+Dafür benötigt die Sidebar vor allem die aktuelle `shipId` und die `page`-Variable, welche angibt von wo aus die Sidebar aufgerufen wird. Die `page`-Variable ist deshalb notwendig, da die Sidebar von allen Pages (also MainPage und DetailPage) aufgerufen werden kann. Warum braucht man diese nun genau? Als Beispiel muss die Sidebar über ein `useEffect` (`fetchContainerIdsOfShip`) alle Container IDs des jeweiligen Schiffs aus dem Backend besorgen, wofür die `shipId` aus der jeweiligen Page benötigt wird. Allerdings ruft die MainPage diese Variable aus dem Backend ab wodurch `shipId` als Objekt mit ID und Name übergeben wird, während die DetailPage die `shipId` aus der URL mit `useParams` nimmt und nur die Nummer selbst übergibt. Dies führt zu Situation wo z.B. folgender Code (aus dem eben erwähnten `useEffect`) benötigt wird:
+
+````{caption="shipId Zuweisung je nach page" .js}
+let shipId = null;
+  if(page === 'detail'){
+    shipId = selectedShip;
+  }else{
+    shipId = selectedShip.id;
+  }
+````
+
+In diesem Code wird sicher gegangen, dass die `shipId` tatsächlich für den folgenden REST-Call (alle Ids aus Backend holen) benutzt werden kann.
+
+Das fetchen der **Favoriten** ist sehr schnell und einfach, da es nur zwei REST-Calls benötigt werden:
+
+1. fetchen der Ids der Favoriten-Container
+2. fetchen der passenden Seriennummern
+
+Für den ersten wird lediglich die `userId` benötigt, welche beim Login neben den beiden Tokens in das LocalStorage gespeichert wird und daher einfach abgerufen werden kann. Sind einmal alle Ids gefetch, so wird durch diese durch iteriert und die passenden Seriennummern abgefragt. Ist das abgeschlossen, so werden diese in eine `useState`-Variable names `favoritesSerialNumbers` gespeichert und können durch das auflisten innerhalb einer "Unordered List" = `ul` in der Sidenar angezeigt werden:
+
+````{caption="Ungeordnete Liste der Favoriten" .html}
+<ul>
+  {favoritesSerialNumbers.map((favoriteSN) => (<li key = {favoriteSN}>{favoriteSN}</li>))}
+</ul>
+````
+
+Das Anzeigen der **Alerts** benötigt anders als die Favoriten etwas mehr Daten aus dem Backen:
+
+- alle Container-Ids des Schiffes
+- alle Seriennummern der Ids
+- alle Thresholds
+- zusätzliche Daten zu den Thresholds
+- die aktuellen Umweltdaten der Container
+
+Die Ids werden in einem seperaten, oben erwähnten `fetchContainerIdsOfShip`-`useEffect` beschaffen. Der Rest wird in einem zweiten `useEffect` namens `fetchAndCheck` geregelt.[LINK2] [LINK3] Hier werden innerhalb einer `for`-Schleife für jede Container-Id die weitere Daten gefetch: Seriennummer und Thresholds. Für die Thresholds und ihren zusätzlichen Daten wurde derselbe Code wie innerhalb des `Thresholdviewer`-Dialogs benutzt, was auch bedeutet, dass die Thresholds mit den Seriennummern der Container in die "Satzform" gebracht werden. (genaueres siehe: REST Calls mit Axios -> Detailpage -> Dialoge). Ist all dies abgeschlossen, so wird folgender Code ausgeführt:
+
+````{caption="Aufruden des AlertChecker Skripts" .js}
+// Check for alerts after collecting sentences for the container
+// Wait for checkForAlerts to resolve before pushing the result
+const alertsForContainer = await checkForAlerts(sentences, fetchedSerialNumber, selectedShip, page);
+currentAlerts.push(...alertsForContainer);  // Spread the alerts array into the currentAlerts array
+sentences.length = 0;  // Clear sentences array for the next iteration
+````
+[LINK2] [LINK3]
+
+Was hier passiert ist, dass mit `checkForAlerts` die Methode eines weiteren Skripts namens `AlertChecker.js` aufgerufen und gewartet bis diese vollendet wird. Danach werden die "abgewandelten Sentences" (=Alerts) aus dem Skript in `currentAlerts` zwischengespeichert, `sentences` zurückgesetzt und damit ein Durchlauf durch die Schleife beendet. Sind alle Alerts in `currentAlerts` gespeichert, so werden diese mit `setAlerts(currentAlerts);` auf die `alerts`-useState Variable kopiert, welche dann wie die Favoriten innerhalb einer "Unordered List" auf der Website angezeigt werden. [LINK3]
+
+Das **AlertChecker**-Skript selbst ist eine Erweiterung des `ConditionChecker.js`-Skripts, welches innerhalb der `ThresholdViewer`-Komponente verwendet wird und übernimmt diese Variablen:
+- sentences (= Array der "Threshold-Sentences")
+- serialNumber (= Seriennummer des aktuellen Containers)
+- selectedShip (= aktuelle Schiff-Id)
+- page (= von welche Page wurde die Sidebar aufgerufen)
+
+Die Sentences werden innerhalb einer `forSchleife` dann in ihre Einzelteile zerbrochen und in verschiedene Variablen gespeichert. (`sentence` ist jeweils ein Threshold-Satz aus dem Array, welcher sich von Durchlauf zu Durchlauf der Schleife änert):
+- `const [condition, result] = sentence.split(" = ");` (z.B. condition = Air-Pressure > 100 & result = Critical)
+- `const conditionParts = condition.split(" ");` (z.B. Air-Pressure, >, 100)
+- `let parameterValue = 0;` (zu Beginn immer 0)
+- `const conditionParameter = conditionParts[0];` (z.B, Air Pressure)
+- `const comparator = conditionParts[1]` (z.B. >)
+- `const conditionValue = parseFloat(conditionParts[2]);` (z.B. 100)
+
+In weiterer Folge werden mithilfe von zwei REST-Calls einerseit die Id der Seriennummer und alle zur Id gehörenden **Umweltdaten** (=`environmentDataRespone`)gefetcht. Auch hier muss wieder mithilfe von `page` die `shipId` richtig gesetzt werden. Ist dies erledigt, so folgen zwei `switch-case`. Das erste nutzt `conditionParameter` um aus dem gefetchten `environmentDataRespones` (Objekt) die korrekten Daten herauszulesen. Dies könnte z.B. zwischen der Temperatur und der Vibration so unterschiedlich aussehen:
+
+````{caption="Umweltdaten korrekt aus gefetchten Objekt lesen", txt}
+Case: Temperatur
+parameterValue = environmentDataResponse.data.sensor_data.temperature[0].value;
+
+Case: Vibration
+parameterValue = environmentDataResponse.data.sensor_data.vibration[0].value;
+````
+
+Das Zweite wurde aus dem `ConditionChecker.js`-Skript übernommen und überprüft je nach `comparator` ob der Ausdruck $parameterValue COMPARATOR conditionValue$ wahr oder falsch ist (z.B. 101 > 100 = WAHR). Je nachdem wird eine Variable namens `isValid` auf TRUE oder FALSE gesetzt und sollte sie TRUE sein, so wird unter der Voraussetzung dass `result` Critical, High oder Low ist ein alert erstellt welcher folgende Form hat: "`conditionParamter` of `serialNumber` = result" (z.B. Humidity of OBBU1000011 = High). Diese werden alle in einem `alerts`-Array gespeichert, welches letztendlich vom Skript an die Sidebar zurückgegeben wird.
+

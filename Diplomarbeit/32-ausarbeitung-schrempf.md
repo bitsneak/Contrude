@@ -161,7 +161,7 @@ Ein weitere Funktionalität von Docker ist Docker Swarm. Mit diesem Tool wird ei
 
 #### Pipeline
 
-Wie oben angedeuted, nehmen Pipelines dem Programmierer sehr viel arbeit ab. Verschiedene Plattformen haben verschiedene Möglichkeiten Pipelines zu benutzen, definieren und auszuführen. Beispiele wären Jenkins oder so wie es in dieser Ausarbeitung verwendet worden ist: GitHub. GitHub bietet GitHub Actions an. Hierbei schreibt man eine YAML-Datei in der steht, was wann wie geschehen soll und legt sie im Verzeichnis `.github/workflows` in seinem Repository ab.
+Wie oben angedeuted, nehmen Pipelines dem Programmierer sehr viel arbeit ab. Verschiedene Plattformen haben verschiedene Möglichkeiten Pipelines zu benutzen, definieren und auszuführen. Beispiele wären Jenkins oder so wie es in dieser Ausarbeitung verwendet worden ist: GitHub. GitHub bietet GitHub Actions an. Hierbei schreibt man eine YAML-Datei in der steht, was wann wie geschehen soll und legt sie im Verzeichnis `.github/workflows` in seinem Repository ab. Wenn die Action ausgelöst wird, startet GitHub eine VM mit dem unter dem Tag `runs-on` definierten Betriebsystem, welche die weiteren definierten Tasks ausführt.
 
 Eine GitHub Action besteht aus folgenden Komponenten:
 
@@ -614,7 +614,7 @@ Traefik ist ein Open-Source Reverse Proxy und Load Balancer. Ein großer Vorteil
 
 ![Traefik Übersicht [@traefik-overview]](img/Schrempf/traefik-overview.png){width=100%}
 
-Um unsere Services sicher im Internet freizuschalten, verwenden wir die automatisierte Generierung von TLS Zertifikaten von Traefik, welches mit Let's Encrypt, einer Zertifizierungsauthorität, interagiert. Somit upgraden wir von HTTP zu HTTPS auf. [@traefik-lets-encrypt] Des Weiteren haben wir Traefik so konfiguriert, dass jeglicher HTTP traffic auf HTTPS umgeleitet wird. Dem Benutzer wird faktisch ein verschlüsselter Datentransfer im Sinne des größeren Wohls aufgezwungen. Außerdem wird zur Sicherheitssteigerung auch noch konfiguriert, dass nicht jeder Service ins Web geschaltet werden soll, sondern nur jene, welche expliziert erwähnt werden. Zusätzlich bietet Traefik ein Web-Dashboard an, mit welchem man eine gute Übersicht über die verwalteten Services erhält. Wir haben zwei API-Server. Einen zur Authentifizierung und einen um die Daten der Schiffe, Container, Grenz- und Messwerte zu erhalten. Um eine logische und (sicherheits-) technische Abgrenzung zu ermöglichen, werden diese zwei seprat von einander betrieben. Um auch einen Unterschied beim Aufrufen dieser im WWW^[World Wide Web] zu ermöglichen, gibt es eine Domain, aber verschiede Path-Prefixes unter denen man die Services erreichen kann. Der Prefix für die Authentifiziernungstelle lautet `/auth` und für die restlichen Angelegenheiten `/rest`. Da es mit der internen API Struktur der Server beim weiterrouten der Anfragen Probleme gibt wenn davor etwas steht, was aber nicht im API-Server selbst angegeben wurde, wird nach der Verarbeitung der Anfrage durch Traefik der Path-Prefix wieder weggeschnitten. [@gpt-traefik] Wichtig anzumerken ist auch noch, dass wenn man Environment-Files für Traefik verwendet, diese im exakt selben Ordner sein müssen wie die Docker Compose Datei in welcher Traefik definiert ist, da ansonsten der Service die Datei nicht lesen/interpretieren kann. Dies ist ein Sonderfall und trifft nur auf den hier behandelten Service zu.
+Um unsere Services sicher im Internet freizuschalten, verwenden wir die automatisierte Generierung von TLS Zertifikaten von Traefik, welches mit Let's Encrypt, einer Zertifizierungsauthorität, interagiert. Somit upgraden wir von HTTP zu HTTPS auf. [@traefik-lets-encrypt] Des Weiteren haben wir Traefik so konfiguriert, dass jeglicher HTTP traffic auf HTTPS umgeleitet wird. Dem Benutzer wird faktisch ein verschlüsselter Datentransfer im Sinne des größeren Wohls aufgezwungen. Außerdem wird zur Sicherheitssteigerung auch noch konfiguriert, dass nicht jeder Service ins Web geschaltet werden soll, sondern nur jene, welche expliziert erwähnt werden. Zusätzlich bietet Traefik ein Web-Dashboard an, mit welchem man eine gute Übersicht über die verwalteten Services erhält. Wir haben zwei API-Server. Einen zur Authentifizierung und einen um die Daten der Schiffe, Container, Grenz- und Messwerte zu erhalten. Um eine logische und (sicherheits-) technische Abgrenzung zu ermöglichen, werden diese zwei seprat von einander betrieben. Um auch einen Unterschied beim Aufrufen dieser im WWW^[World Wide Web] zu ermöglichen, gibt es eine Domain, aber verschiede Path-Prefixes unter denen man die Services erreichen kann. Der Prefix für die Authentifiziernungstelle lautet `/auth` und für die restlichen Angelegenheiten `/rest`. Da es mit der internen API Struktur der Server beim weiterrouten der Anfragen Probleme gibt wenn davor etwas steht, was aber nicht im API-Server selbst angegeben wurde, wird nach der Verarbeitung der Anfrage durch Traefik der Path-Prefix wieder weggeschnitten. [@gpt-traefik] Wichtig anzumerken ist auch noch, dass wenn man Environment-Files für Traefik verwendet, diese im exakt selben Ordner sein müssen wie die Docker Compose Datei in welcher Traefik definiert ist, da ansonsten der Service die Datei nicht lesen/interpretieren kann. Dies ist ein Sonderfall und trifft nur auf den hier behandelten Dienst zu.
 
 ```{caption="Definition eines Traefik Services" .yml}
 traefik:
@@ -649,14 +649,55 @@ traefik:
     mode: global
 ```
 
+#### Server
+
+Um unsere Services öffentlich zugänglich machen zu können, wurde ein simpler headless Ubuntu Server (Version 24.04) aufgesetzt. Ein verlässlicher Remotezuugriff wird mithilfe der Installation von SSH ermöglicht. Da unsere gesamte Architektur auf Docker aufbaut, wurde auch diese Software dort installiert.
+
 #### GitHub Action
 
-Wir verwenden GitHub als VCS. Die dort möglich gemachte Automatisierung haben wir sehr zu unserem Vorteil genutzt. Es existieren zwei verschiedene Workflows um unser Leben zu erleichtern.
+Wir verwenden GitHub als VCS. Die durch diese Entscheidung möglich gewordenen Automatisierungsmöglichkeiten haben wir sehr zu unserem Vorteil genutzt. Es existieren zwei verschiedene Workflows um unser Leben zu erleichtern.
 
-1. Server deploy
-2. Superlinter
+##### Server deploy
 
-#### Server
+Da sämtliche Anwendungen ihren eigenen Docker Container bzw. Eintrag im Docker Compose haben, fällt es sehr leicht, unsere Arbeit zu deployen. Es gibt verschiedene Ansätze solch eine Aufgabe zu realisieren, doch wir haben uns dafür entschieden, eine SSH Verbindung zu unserem Server aufzubauen, den geänderten Code von dort aus zu pullen und um sicherzustellen das alle Dienste up to date sind die Docker Container komplett herunter- und wieder hochzufahren. Dies bringt, eine für uns vernachlässigbare, Downtime von 30s mit sich. Der angegebene Prozess muss seitens Docker so ablaufen, da Codeänderungen sonst nicht direkt im Container übernommen werden würden. Außerdem muss noch eine Änderung beim Server vorgenommen werden, um diese Art des deployens zu ermöglichen. Wenn man Docker Container auf Ubuntu starten bzw. stoppen will, muss man dies mit erhöten Rechten, sprich `sudo`, machen, was das eingeben eines Passworts voraussetzt. Dieser Prozess beinhaltet eine Benutzerinteraktion und lässt sich sehr schwer automatisieren. Das Benuzten einer GitHub Action wird erschwert. Um das Problem zu umgehen, nutzen wir eine Datei des Linuxsystems welche ermöglicht, gewisse Befehle ohne Sudo-Rechte auszuführen. Sie befindet sich in `/etc/sudoers` und man muss folgende Zeile anfügen, um ein Docker Compose Script ohne Adminrechte ausführen zu können, wobei `pi` der ausführende Benutzer ist: `pi ALL=(ALL) NOPASSWD: /usr/bin/docker compose up -d, /usr/bin/docker compose down`. [@sudo-no-pass] Der vollständige Workflow besteht aus zwei Teilen, welche jeweils die korrespondierenden Shellanweisungen ausführen.
+
+1. Das SSH Zertifikat des Servers zu den trusted Hosts in der GitHub Action VM hinzufügen.
+2. Sich in den Server mittels SSH einloggen, den aktuellsten Stand pullen und die Docker Container herunter- und hochfahren.
+
+```{caption="Updaten der Docker Container am Server" .yml}
+sshpass -p '${{ secrets.SSH_PWD }}' ssh -v -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} <<'ENDSSH'
+cd ${{ secrets.SSH_WORKDIR }}
+git pull https://${{ secrets.SSH_GITHUB_PAT }}@github.com/BitSneak/Contrude.git
+cd ./Server
+sudo docker compose down
+sudo docker compose up -d
+ENDSSH
+```
+
+##### Super-Linter
+
+Ein Linter ist eine Software, welche deinen Code analysiert und dich auf Formatierungsfehler und Codekonsistenz hinweist. Seine Aufgabe ist es, dich bei der Implementierung von Best-Practice Strategien zu unterstützen und Programmfehler vorzubeugen. Für verschiedene Programmiersprachen gibt es unterschiedliche Linter. Ein Super-Linter ist nun eine Sammlung von Lintern und dient als Gesamtpacket. Somit muss man nicht mehr für jede verwendete Programmiersprache einen implementieren, sondern kann diese Collection verwenden um gleichzeitig mehrere Sprachen abzudecken. Die zugehörige GitHub Action ist sehr simpel und sieht folgendermaßen aus: [@superlinter]
+
+```{caption="GitHub Superlinter" .yml}
+name: Super-Linter
+
+on:
+  push:
+
+jobs:
+  super-lint:
+    name: Lint code base
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Lint Codebase
+        uses: github/super-linter@v4
+        env:
+          DEFAULT_BRANCH: main
+          GITHUB_TOKEN: $({ secrets.GITHUB_TOKEN })
+```
 
 ### REST API
 
