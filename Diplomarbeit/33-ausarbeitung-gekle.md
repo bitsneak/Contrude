@@ -864,6 +864,8 @@ Alle weiteren Files, welche die Website umfasst sind in Folder untergeordnet und
 - pages --> enthält die 3 Page-Komponenten (`LoginPage`, `MainPage`, `DetailPage`)
 - util --> enthält die Scripts, welche erweiterte Funktionen übernehmen (z.B. `ContainerDistributor`)
 
+Zusätzlich gibt es noch den `public`-Folder, in welchem sich nur ein Unterordner namens `graphs` befindet. Die spezielle Eigenschaft des `public` Folders ist es, dass seine Inhalte statisch sind und direkt über eine URL aufgerufen werden können, ohne dass sie Vite builden muss. Innerhalb des `graphs`-Folders befinden sich alle aus dem **Container Simulator** überführten JavaScript-Scripts und die dazu benötigte JSON Datei, um den Dragable Graph über die Website simulieren zu können.  
+
 #### Aufbau der Pages
 
 ##### Aufbau MainPage
