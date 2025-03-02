@@ -1576,12 +1576,12 @@ setSerialNumbers(fetchedSerialNumbers);
 ```
 Dies geschieht indem mittels einer `for`-Schleife durch das neue Array iteriert wird und pro ID die passende Seriennummer geholt wird, welche dann in das `fetchedSerialNumbers` Array eingefügt werden. Ist die Schleife zu Ende wird das Seriennummer-Array mit `setSerialNumbers` in die `serialNumber useState` gesetzt. Diese Daten innerhalb des `useState` werden dann in einer unordered List mithilfe der .map Methode aufgelistet. (siehe *Komponenten der Top Bar der MainPage*). 
 
-Der **Thresholdviewer** Dialog benötigt um seine Funktion, das Anzeigen aller für einen Container festgelegten Thresholds, zwei Calls:
+Der **ThresholdViewer** Dialog benötigt um seine Funktion, das Anzeigen aller für einen Container festgelegten Thresholds, zwei Calls:
 
 - alle Thresholds fetchen
 - zusätzliche Daten zu den Thresholds fetchen
 
-Der Erstere ist eher unkompliziert, da mithilfe der containerId (aus `useParams()` [vgl. @Refine-ReactRouter]) einfach alle zum Container gehörende Thresholds ins Frontend geholt werden. ABER: Diese kommen in folgender Form:
+Der Erste ist eher unkompliziert, da mithilfe der containerId (aus `useParams()` [vgl. @Refine-ReactRouter]) einfach alle zum Container gehörende Thresholds ins Frontend geholt werden. ABER: Diese kommen in folgender Form:
 
 ![Form, in welcher die aus dem Backend gefetchten Thresholds sich befinden](img/Gekle/ThresholdsByBackend.png)
 
@@ -1622,4 +1622,81 @@ onSentencesUpdate(sentences);
 Dieser Code läuft in einer `for`-Schleife, da ja mehrere Thresholds für den Container gesetzt sein können. `validThresholds` ist ein mit `isArray` geprüftes Duplikat jenes Arrays, welches im ersten API Call die Thresholds (in Id Form) abspeichert. Zum Schluss werden in der Variable `sentences` die gefetchten Daten zusammen mit `value` in die Satzform gebracht und im `sentences`-`useState`-Array abgespeichert. Es ist dieses Array, welches vom Dialog mit `onSentencesUpdate` an die DetailPage zurück geliefert wird. 
 
 ##### Sidebar
-TBA
+Rest Calls werden innerhalb der Sidebar-Komponente aufgrund dieser 2 Funktionalitäten benötigt:
+
+- Anzeigen der Favoriten (je nach User)
+- Anzeigen der ausgelösten Alerts (nur `Critical`, `High` und `Low`)
+
+Dafür benötigt die Sidebar vor allem die aktuelle `shipId` und die `page`-Variable, welche angibt von wo aus die Sidebar aufgerufen wird. Die `page`-Variable ist deshalb notwendig, da die Sidebar von allen Pages (also MainPage und DetailPage) aufgerufen werden kann. Warum braucht man diese nun genau? Als Beispiel muss die Sidebar über ein `useEffect` (`fetchContainerIdsOfShip`) alle Container IDs des jeweiligen Schiffs aus dem Backend besorgen, wofür die `shipId` aus der jeweiligen Page benötigt wird. Allerdings ruft die MainPage diese Variable aus dem Backend ab wodurch `shipId` als Objekt mit ID und Name übergeben wird, während die DetailPage die `shipId` aus der URL mit `useParams` nimmt und nur die Nummer selbst übergibt. Dies führt zu Situation wo z.B. folgender Code (aus dem eben erwähnten `useEffect`) benötigt wird:
+
+````{caption="shipId Zuweisung je nach page" .js}
+let shipId = null;
+  if(page === 'detail'){
+    shipId = selectedShip;
+  }else{
+    shipId = selectedShip.id;
+  }
+````
+
+In diesem Code wird sicher gegangen, dass die `shipId` tatsächlich für den folgenden REST-Call (alle Ids aus Backend holen) benutzt werden kann.
+
+Das fetchen der **Favoriten** ist sehr schnell und einfach, da es nur zwei REST-Calls benötigt werden:
+
+1. fetchen der Ids der Favoriten-Container
+2. fetchen der passenden Seriennummern
+
+Für den ersten wird lediglich die `userId` benötigt, welche beim Login neben den beiden Tokens in das LocalStorage gespeichert wird und daher einfach abgerufen werden kann. Sind einmal alle Ids gefetch, so wird durch diese durch iteriert und die passenden Seriennummern abgefragt. Ist das abgeschlossen, so werden diese in eine `useState`-Variable names `favoritesSerialNumbers` gespeichert und können durch das auflisten innerhalb einer "Unordered List" = `ul` in der Sidenar angezeigt werden:
+
+````{caption="Ungeordnete Liste der Favoriten" .html}
+<ul>
+  {favoritesSerialNumbers.map((favoriteSN) => (<li key = {favoriteSN}>{favoriteSN}</li>))}
+</ul>
+````
+
+Das Anzeigen der **Alerts** benötigt anders als die Favoriten etwas mehr Daten aus dem Backen:
+
+- alle Container-Ids des Schiffes
+- alle Seriennummern der Ids
+- alle Thresholds
+- zusätzliche Daten zu den Thresholds
+- die aktuellen Umweltdaten der Container
+
+Die Ids werden in einem seperaten, oben erwähnten `fetchContainerIdsOfShip`-`useEffect` beschaffen. Der Rest wird in einem zweiten `useEffect` namens `fetchAndCheck` geregelt.[LINK2] [LINK3] Hier werden innerhalb einer `for`-Schleife für jede Container-Id die weitere Daten gefetch: Seriennummer und Thresholds. Für die Thresholds und ihren zusätzlichen Daten wurde derselbe Code wie innerhalb des `Thresholdviewer`-Dialogs benutzt, was auch bedeutet, dass die Thresholds mit den Seriennummern der Container in die "Satzform" gebracht werden. (genaueres siehe: REST Calls mit Axios -> Detailpage -> Dialoge). Ist all dies abgeschlossen, so wird folgender Code ausgeführt:
+
+````{caption="Aufruden des AlertChecker Skripts" .js}
+// Check for alerts after collecting sentences for the container
+// Wait for checkForAlerts to resolve before pushing the result
+const alertsForContainer = await checkForAlerts(sentences, fetchedSerialNumber, selectedShip, page);
+currentAlerts.push(...alertsForContainer);  // Spread the alerts array into the currentAlerts array
+sentences.length = 0;  // Clear sentences array for the next iteration
+````
+[LINK2] [LINK3]
+
+Was hier passiert ist, dass mit `checkForAlerts` die Methode eines weiteren Skripts namens `AlertChecker.js` aufgerufen und gewartet bis diese vollendet wird. Danach werden die "abgewandelten Sentences" (=Alerts) aus dem Skript in `currentAlerts` zwischengespeichert, `sentences` zurückgesetzt und damit ein Durchlauf durch die Schleife beendet. Sind alle Alerts in `currentAlerts` gespeichert, so werden diese mit `setAlerts(currentAlerts);` auf die `alerts`-useState Variable kopiert, welche dann wie die Favoriten innerhalb einer "Unordered List" auf der Website angezeigt werden. [LINK3]
+
+Das **AlertChecker**-Skript selbst ist eine Erweiterung des `ConditionChecker.js`-Skripts, welches innerhalb der `ThresholdViewer`-Komponente verwendet wird und übernimmt diese Variablen:
+- sentences (= Array der "Threshold-Sentences")
+- serialNumber (= Seriennummer des aktuellen Containers)
+- selectedShip (= aktuelle Schiff-Id)
+- page (= von welche Page wurde die Sidebar aufgerufen)
+
+Die Sentences werden innerhalb einer `forSchleife` dann in ihre Einzelteile zerbrochen und in verschiedene Variablen gespeichert. (`sentence` ist jeweils ein Threshold-Satz aus dem Array, welcher sich von Durchlauf zu Durchlauf der Schleife änert):
+- `const [condition, result] = sentence.split(" = ");` (z.B. condition = Air-Pressure > 100 & result = Critical)
+- `const conditionParts = condition.split(" ");` (z.B. Air-Pressure, >, 100)
+- `let parameterValue = 0;` (zu Beginn immer 0)
+- `const conditionParameter = conditionParts[0];` (z.B, Air Pressure)
+- `const comparator = conditionParts[1]` (z.B. >)
+- `const conditionValue = parseFloat(conditionParts[2]);` (z.B. 100)
+
+In weiterer Folge werden mithilfe von zwei REST-Calls einerseit die Id der Seriennummer und alle zur Id gehörenden **Umweltdaten** (=`environmentDataRespone`)gefetcht. Auch hier muss wieder mithilfe von `page` die `shipId` richtig gesetzt werden. Ist dies erledigt, so folgen zwei `switch-case`. Das erste nutzt `conditionParameter` um aus dem gefetchten `environmentDataRespones` (Objekt) die korrekten Daten herauszulesen. Dies könnte z.B. zwischen der Temperatur und der Vibration so unterschiedlich aussehen:
+
+````{caption="Umweltdaten korrekt aus gefetchten Objekt lesen", txt}
+Case: Temperatur
+parameterValue = environmentDataResponse.data.sensor_data.temperature[0].value;
+
+Case: Vibration
+parameterValue = environmentDataResponse.data.sensor_data.vibration[0].value;
+````
+
+Das Zweite wurde aus dem `ConditionChecker.js`-Skript übernommen und überprüft je nach `comparator` ob der Ausdruck $parameterValue COMPARATOR conditionValue$ wahr oder falsch ist (z.B. 101 > 100 = WAHR). Je nachdem wird eine Variable namens `isValid` auf TRUE oder FALSE gesetzt und sollte sie TRUE sein, so wird unter der Voraussetzung dass `result` Critical, High oder Low ist ein alert erstellt welcher folgende Form hat: "`conditionParamter` of `serialNumber` = result" (z.B. Humidity of OBBU1000011 = High). Diese werden alle in einem `alerts`-Array gespeichert, welches letztendlich vom Skript an die Sidebar zurückgegeben wird.
+
