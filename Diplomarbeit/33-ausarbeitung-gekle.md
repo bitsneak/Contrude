@@ -858,7 +858,19 @@ Ein völlig neues Komponente war der ShipChooser-Dialog. Dieser wird aufgerufen,
 #### Projektspezifische Struktur des React Projekts
 Alle wichtigen Folder & Files befinden sich innerhalb des `src`-Folders:
 
-![Erste Version des Website Designs](img/Gekle/Website-Structure.png){width=50%}
+\dirtree{%
+.1 public.
+.2 graphs.
+.1 src.
+.2 api.
+.2 assets.
+.2 components.
+.2 dialogs.
+.2 icons.
+.2 img.
+.2 pages.
+.2 util.
+}
 
 `App.jsx` bildet auch hier den "Grundpfeiler" des React-Projekts, da es als Hauptkomponent dient und etwa dafür verantwortlich ist, die Routes der Website zu definieren.
 
