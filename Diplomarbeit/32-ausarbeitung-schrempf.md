@@ -31,7 +31,7 @@ Ein Sonderfall der TSDB ist die RRD^[Round Robin Database]. Diese löscht alte D
 
 Um Rohdaten verständlich zu machen, im Kontext betrachten zu können und etwaige Korrelationen zwischen verschiedenen Datensets sichtbar zu machen, ist es notwendig, die oben genannten Methoden anzuwenden. Hierbei ist eine unkomplizierte Grafik als Endprodukt das Ziel.
 
-![Beispiel einer Datenvisualisierung von Mittelwerten einer Temperaturaufzeichnung  [@kaggle-weather-data]](img/Schrempf/Weather-Data-Set.png){width=100%}
+![Beispiel einer Datenvisualisierung von Mittelwerten einer Temperaturaufzeichnung  [@kaggle-weather-data]](img/Schrempf/weather-data-set.png){width=100%}
 
 Um solch ein Ergebnis zu erreichen, müssen vorhandene Daten bereinigt, gefiltert und ausgewählt werden. Beim Erstellen der Visualisierungen muss eine Verzerrung der Daten hinsichtlich Trivialisierung, Überspitzung und menschlichen Vorurteilen vermeiden werden. [@aws-datenvisualisierung]
 
@@ -51,11 +51,11 @@ Niemand will seine Daten unverschlüsselt versenden. Eine oft in Kombination ang
 
 MQTT^[Message Queuing Telemetry Transport] ist ein Nachrichtenprotokoll, welches dazu verwendet wird, um mit nicht stabilen Netzwerken oder mit Netzwerken mit begrenzten Ressourcen zu kommunizieren. Dieser basiert auf der Publisher-Subscriber Architektur. Der Publisher sendet seine Daten and den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein # als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic kann nun ein oder mehrere Werte im JSON-Format abgelegt werden. Beim Broker liegen dann die Werte auf. Ein Topic kann auch einen oder mehrere Tags haben. Diese sind Flags, welche zur weiteren Klassifizierung des Topics an es angehängt werden können. Ein Subscriber ist ein beliebiger Akteur, welcher den abgespeicherten Datensatz unter der Angabe des Topics extrahiert. [@mqtt-hivemq]
 
-![Beispiel MQTT Topic Structure [@mqtt-hivemq]](img/Schrempf/MQTT-Topic-Structure.png){width=30%}
+![Beispiel MQTT Topic Structure [@mqtt-hivemq]](img/Schrempf/mqtt-topic-structure.png){width=30%}
 
 ### Continuous Integration und Continuous Deployment
 
-![CI / CD Ablauf [@bestarion]](img/Schrempf/CI-CD.png){width=100%}
+![CI / CD Ablauf [@bestarion]](img/Schrempf/ci-cd.png){width=100%}
 
 CI / CD^[abk:CI/CD|Continuous Integration und Continuous Deployment] ist ein Konzept, welches Entwicklerteams, dazu anregt, kontinuierlich und in kürzeren Abständen Dinge am Code zu ändern, diesen zu verbessern und zu automatisieren. Wie oben dargestellt, ist es ein nie endender Kreislauf. Man unterscheidet zwei Komponenten voneinander: Die Continuous integration und das Continuous delivery.
 
@@ -81,7 +81,7 @@ Microservices sind Teile eines Produkts. Früher gab es nur einen einzigen groß
 
 Ein Container benutzt die Virtualisierungstools des Linuxkernels um Ressourcen zu teilen und verwalten. Für nicht Unix-Betriebsysteme gibt es Software die den Linuxkernel simmulieren kann. Zum Beispiel WSL^[Windows-Subsystem für Linux] oder Hyper-V bei Windows. Durch die gemeinsame Nutzung des Kernels muss auch keine dezidierte Definition der benötigten Ressourcen stattfinden, da diese automatisch vom System alloziert werden. Das Konzept eines Containers ähnelt dem, einer VM^[Virtuelle Maschine]. Nur mit dem wesentlichen Vorteil, dass kein komplett eigenes OS verwendet wird, sondern nur die Schritte zum produzieren eines gewissen Outputs angegeben werden. Container haben eine Abstraktionsebene zum Kernel, aber da eben kein eigenes Betriebsystem wie bei einer VM verwendet wird, gibt es auch ein marginales Sicherheitsrisiko. Malware könnte durch die gemeinsame Nutzung des Kernels eben auf diesen zugreifen und erheblichen Schaden anrichten. Um dem Vorzubeugen, gibt es etliche Third-Party Tools mit denene die Sicherheit über das schon gegebene Maß erhöht werden kann. [@ibm-docker]
 
-![Übersicht von Container Security Tools [@docker-security]](img/Schrempf/Container-Security-Tools.png){width=100%}
+![Übersicht von Container Security Tools [@docker-security]](img/Schrempf/container-security-tools.png){width=100%}
 
 Soweit zum Allgemeinen der Virtualisierung. Doch was hat Docker damit zu tun? Docker ist ein Open Source Projekt, welches sich auf die Containerization spezialisiert hat. Es bietet einen riesigen freien Markt (Docker Hub) zur Erstellung und Distribution von Docker Images an. Es wird so verwaltet, dass es verschiedene Registries gibt. Pro Registry gibt es die verschiedenen Versionen eines Images. Ein Registry wird mit username/image-name benannt. Ein Image ist das zuvor genannte Äquivalent zu der Definition eines Containers. Ein Image ist in Schichten aufgebaut und jede Schicht stellt einen neuen Zustand des Containers dar. Das vollständig ausgeführte und unter Umständen auch angepasste Image ist dann der laufende Container. Auf Basis eines Images können mehrere Container laufen. [@ibm-docker] Jedes Image hat einen Entrypoint. In diesem wird spezifiziert, was geschehen soll, wenn der Container (zum ersten mal) gestartet wird.
 
@@ -89,9 +89,9 @@ Jedes Image wird in einem `Dockerfile` definiert. Hierbei spricht man nur von ei
 
 Ein `Dockerfile` ist sehr vielseitig und bietet verschiedene Funktionen. Eine sehr wichtige sind Secrets. Diese stehen für Platzhalter, in die der Anwender Werte eingibt, welche im weiteren Programmablauf benötigt werden. Oftmals werden sie als Umgebungsvariablen realisiert. Eine wichtige Eigenschaft solch einer Einheit ist, dass es ein eigenes System ist, welches unabhängig vom Host existiert. Dementsprechend gehen im Container gespeicherte Daten und Änderungen verloren, wenn dieser heruntergefahren wird. Um dieses Problem zu beheben, gibt es Volumes. Sie dienen dazu, Daten in den Container, z.B. Code, und aus ihm heraus, z.B. Datenbanken, zu bekommen. Um aus dem Container heraus kommunizieren zu können, muss ein Portforwarding zwischen Host und Cotnainer eingestellt werden.
 
-![Containerschichten [@docker-image-layers]](img/Schrempf/Container-Layers-Overview.png){width=80%}
+![Containerschichten [@docker-image-layers]](img/Schrempf/container-layers-overview.png){width=80%}
 
-![Übersicht vom Containeraufbau [@container-overview]](img/Schrempf/Container-Infrastructure-Overview.png){width=80%}
+![Übersicht vom Containeraufbau [@container-overview]](img/Schrempf/container-infrastructure-overview.png){width=80%}
 
 Ein Beispiel solch eines Dockerfiles ist hier zu sehen. Es baut auf das schon bestehenden Ubuntu-Image auf, installiert Python, fügt eine Datei hinzu, schaltet die benötigten Ports frei und führt das Python-Script aus. [@docker-dockerfile]
 
@@ -344,7 +344,7 @@ Mit dem letzten Befehl
 node app.js
 ```
 
-wird die Applikation gestarted und kann auf `http://localhost:80/hello` oder mittels cURL und `curl localhost/hello` aufgerufen werden. [@medium-rest-node-js]
+wird die Applikation gestarted und kann auf `http://localhost:80/hello` oder mittels cURL und `curl localhost/hello` aufgerufen werden. [@medium-rest-api]
 
 Das JSON, welches beim aufrufen des Endpoints ausgegeben wird, sieht so aus:
 
@@ -649,9 +649,21 @@ traefik:
     mode: global
 ```
 
+Den Diensten, welche freigeschaltet werden sollen, müssen nun Labels hinzugefügt werden, welche dem Auto-Discovery von Traefik gewisse Grundeinstellungen mitteilen.
+
+```{caption="Traefik Labels um einen Service zu konfigurieren" .yml}
+traefik.enable: true
+traefik.http.routers.web.rule: Host(`${DOMAIN}`) # hostname
+traefik.http.services.web.loadbalancer.server.port: ${PORT} # port
+traefik.http.routers.web.entrypoints: websecure # reroute to https
+traefik.http.routers.web.tls.certresolver: myresolver
+```
+
 #### Server
 
-Um unsere Services öffentlich zugänglich machen zu können, wurde ein simpler headless Ubuntu Server (Version 24.04) aufgesetzt. Ein verlässlicher Remotezuugriff wird mithilfe der Installation von SSH ermöglicht. Da unsere gesamte Architektur auf Docker aufbaut, wurde auch diese Software dort installiert.
+Um unsere Services öffentlich zugänglich machen zu können, wurde ein simpler headless Ubuntu Server mit der Version 24.04 auf einem Rasperry Pi Model B mit 4GB RAM aufgesetzt. Dieses Gerät wurde dann mittels einer öffentlichen IP^[Internet Protocol] Addresse und einer damit assoziierten Domain im Internet zugänglich gemacht. Ein verlässlicher Remotezuugriff wird mithilfe der Installation von SSH^[Secure Shell] ermöglicht. Da unsere gesamte Architektur auf Docker aufbaut, wurde auch diese Software dort installiert.
+
+![Raspberry Pi](img/Schrempf/physical-server.png){width=100%}
 
 #### GitHub Action
 
@@ -701,6 +713,176 @@ jobs:
 
 ### REST API
 
+Bei der Umsetzung der Backend Server haben wir uns für eine Trennung der Authentifizierung und der Datenabfrage entschieden, da bei einer Komprimierung einer dieser Komponenten die jeweils andere funktionsfähig bleibt und sie auch getrennt von einander betrieben werden können, was eine zusätzliche Sicherheitskomponente einführt. Außerdem wird JavaScript als Programmiersprache und Node.js verwendet, da es unzählige, für uns sehr nützliche, Libraries anbietet. Trotz der logischen Trennung sind beide jedoch gleich aufgebaut: [@medium-rest-api]
+
+\dirtree{%
+.1 rest.
+.2 src.
+.3 db.
+.4 connect.js.
+.4 helper.js.
+.3 errors.
+.4 customErrors.js.
+.3 middlewares.
+.4 handleError.js.
+.4 notFound.js.
+.4 tryCatchWrapper.js.
+.4 validateRouteParameter.js.
+.3 resources.
+.2 ssl.
+.2 .env.
+.2 app.js.
+.2 package.json.
+}
+
+In `package.json` werden die Grundzüge des Projekts beschrieben. Welche Packages verwendet werden, welche Metadaten vorhanden sind und der Einsprungspunkt. Da, aufgrund der besseren Lesbarkeit, entschieden wurde, modular JavaScript (ES Module) zu verwenden und dies auch spezifiziert werden muss, wurde `'type': 'module'` in der oben angesprochenen Datei eingegeben. Dies ermöglicht nun z.B. `import` anstatt der CommonJS Variante `require()` zu verwenden.
+
+`app.js` ist der Einsprungspunkt der Applikation. In ihr werden alle Routes importiert und Express mitgeteilt, auch diese zu benutzten. Außerdem werden die Standard-Error-Handler für die HTTP Codes 404 und 500 initialisiert und der Server auf dem Port 80 gestartet.
+
+#### Datenbanken
+
+Im Ordner `db` werden die Connection-Pools zu den jeweiligen Datenbanken definiert. Ab der MySQL Version 8.0.16 sind SSL-Zertifikate Pflicht zum Angeben beim Verbinden zur DB. Die Zertifikate werden im gleichnamigen Ordner `ssl/db` aufbewahrt. Dies im Hinterkopf behaltend sieht ein Connection-Pool mit maximal 100 Connections gelichzeitig folgendermaßen aus: [@medium-rest-api]
+
+```{caption="MySQL Connection Pool für die Container DB" .js}
+export const container = mysql
+  .createPool({
+    host: "db_container",
+    port: 3306,
+    database: "configuration",
+    database: "certificate",
+    database: "corporation",
+    database: "dimension",
+    user: "rest",
+    password: process.env.DB_CONTAINER_PASSWORD,
+    waitForConnections: true,
+    connectionLimit: 100,
+    ssl: {
+      sslmode: "verify-full",
+      ca: fs.readFileSync("./ssl/db/container/ca.pem"),
+      cert: fs.readFileSync("./ssl/db/container/cert.pem"),
+      key: fs.readFileSync("./ssl/db/container/key.pem"),
+    }
+  }).promise();
+```
+
+Hingegen solch eines Connection-Pools ist das Prozedere um einen für eine InfluxDB herzustellen um einiges simpler, da man nur die Datenbank URL und den passenden Token angeben muss: [@influxdb-javascript]
+
+```{caption="InfluxDB Connection Pool für die Sensor DB" .js}
+export const sensor = new InfluxDB({url: process.env.DB_SENSOR_URL, token: process.env.DB_SENSOR_TOKEN});
+```
+
+Alle Connection-Pools werden in der `helper.js` genutzt werden. Dort sind Methoden definiert, welche einmal pro Datenbankanfrage aufgerufen werden, sich für die Dauer der Anfrage eine Connection aus dem Pool holen und nach Beendigung der Aufgabe diese wieder freigeben. Folgendes Prinzip kann für alle SQL Datenbanken verwendet und erweitert werden. Man erstellt eine Map aus den Namen, Datentyp String, der Datenbanken in Kombination mit den Imports der jeweiigen Datenbanken. In einer Funktion stellt man die Verbindung zur DB her, formatiert mögliche Eingabeparameter des SQL Statements, führt dieses in der Zugeteilten Datenbank aus und schließt die Connection. Somit hat man einen Session Manager.
+
+```{caption="SQL Session Manager" .js}
+import { container } from "./connect.js";
+
+// Map from database name to database connection pool import
+const dbMap = {
+    "container": container,
+};
+
+// Generalized session function
+const session = async function(sql, params, db) {    
+    const con = await dbMap[db].getConnection();
+    sql = params !== undefined ? dbMap[db].format(sql, params) : sql;
+    
+    const result = await con.query(sql);
+    con.release();
+    return result;
+};
+
+// Used general session to make a specific database session
+export const container_session = async function(sql, params) {
+    return session(sql, params, "container");
+};
+```
+
+Eine No-SQL Datenbank kann weniger leicht generalisiert werden und muss bis zu einem gewissen Grad spezifisch bleiben. Der Ansatz bleibt aber wieder der Gleiche. Man übergiebt die auszuführende Query und bekommt die Daten zurück. In InfluxDB gibt es pro Datensatz mehrere Spalten mit verschiedensten Informationen. Jedoch werden nicht alle davon benötigt und können der einfachheit halber nicht übernommen werden. Außerdem können Daten in InfluxDB auch wieder über eine REST Schnitstelle abgefragt werden, welche eine vorteilhafte Ebene an Abstraktion mti sich bringt. In folgendem Beispiel wurde die Session auch gleich dazu genutzt, Timestamps auf das richtige Format zu kriegen und gewisse Datafields noch zu manipulieren / umzubenennen.
+
+```{caption="Flux Session Manager" .js}
+export const sensor_session = async function(flux) {
+    const api = sensor.getQueryApi(process.env.DB_SENSOR_ORG);
+
+    return await new Promise((resolve, reject) => {
+        const results = [];
+
+        api.queryRows(flux, {
+            next(row, tableMeta) {
+                const result = tableMeta.toObject(row);
+
+                // remove unnecessary fields
+                delete result["result"];
+                delete result["table"];
+                delete result["_start"];
+                delete result["_stop"];
+                delete result["_field"];
+                delete result["_measurement"];
+                delete result["topic"];
+                delete result["host"];
+
+                // rename field _time to time
+                result["time"] = result["_time"];
+                delete result["_time"];
+                // rename field _value to value
+                result["value"] = result["_value"];
+                delete result["_value"];
+
+                // strip away unnecessary seconds
+                result["time"] = result["time"].split('.')[0] + 'Z';
+                // strip away unnecessary decimals
+                result["value"] = parseFloat(result["value"]).toFixed(2);
+                
+                results.push(result); // add each row to the final results
+            },
+            error(error) {
+                reject(error); // reject on error
+            },
+            complete() {
+                resolve(results); // resolve with all collected results
+            },
+        });
+    });
+};
+```
+
+#### Middleware
+
+TODO
+
+- Errors
+- tryCatchWrapper
+- validateRouteParameter
+
+#### Routing
+
+TODO
+
+- Controller.js
+- Routes.js
+
 #### Authentifizierung
 
-#### Schnitstellen
+TODO
+
+- Tokenprinzip
+  - JWT
+  - Access- und Refresh
+- Wichtigste Funktionen im Kern vorstellen
+  - Login
+  - Logout
+  - refreshToken
+  - create new user
+
+#### Datenabfrage
+
+TODO
+
+- validateTokens
+- Vorstellen der einzelnen Abfragemöglichkeiten
+  - ship
+  - container
+  - threshold
+  - sensor
+- eingehen auf die wichtigsten punkte wie die functions ausschauen
+  - bei sensor dass erstellen und prüfen der queries
+  - nicht alle und nicht alles sehr detailreich machen - grob und übersichtlich
