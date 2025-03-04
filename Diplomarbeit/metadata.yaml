@@ -99,6 +99,18 @@ da-kiquellen:
   short-prompt: D3js Dragable Graph Skript
   pdf-file: Gekle/KI/Praxis/D3jsDragableGraph-ChatGPT.pdf
 
+- ki: ChatGPT-4o
+  short-prompt: Erweiterte Farbsteuerung des D3js Dragable Graph Skript
+  pdf-file: Gekle/KI/Praxis/DG-ChatGPT-Erweiterung
+
+- ki: ChatGPT-4o
+  short-prompt: Fix fetchAndCheck Methode bezüglich parameterValue Variable
+  pdf-file: Gekle/KI/Praxis/FetchAndCheckFix-ChatGPT.pdf
+
+- ki: ChatGPT-4o
+  short-prompt: Async Probleme von fetchAndCheck Methode fixen
+  pdf-file: Gekle/KI/Praxis/FetchAndCheckFix2-ChatGPT.pdf
+
 # Schrempf
 
 - ki: ChatGPT-4o

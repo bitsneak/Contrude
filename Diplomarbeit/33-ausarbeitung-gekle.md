@@ -752,7 +752,7 @@ Zusätzlich wird durch das Einfärben der Komponente des Graphen, der Knoten (bl
 https://www.contrude.eu/graphs/1.html?highlight=OBBU1000011
 ````
 
-Wichtig ist hier das `?highlight=OBBU1000011` (gibt Name des Knoten an), da das Script überprüft ob ein solcher vorhanden ist. Ist dies der Fall, dann wird die `applyHighlight` Funktion aufgerufen, welche dafür sorgt, dass der richtige Knoten und seine Nachbarn farblich markiert werden: [LINK1]
+Wichtig ist hier das `?highlight=OBBU1000011` (gibt Name des Knoten an), da das Script überprüft ob ein solcher vorhanden ist. Ist dies der Fall, dann wird die `applyHighlight` Funktion aufgerufen, welche dafür sorgt, dass der richtige Knoten und seine Nachbarn farblich markiert werden: [vgl. @gpt-D3jsDGScript-Erweiterung]
 
 
 ```{caption="Farbsteuerung des Graphen" .js}
@@ -780,9 +780,9 @@ function applyHighlight(nodeId) {
     .classed('connected', true);
 }
 ```
-[LINK1]
+[vgl. @gpt-D3jsDGScript-Erweiterung]
 
-Natürlich ist es auch möglich, per Klick einen anderen Container auszuwählen. Dies ist möglich, da die Knoten über `.on('click', highlightNode)` die `highLightNode` Methode aufruft, welche die ID des angeklickten Knoten übernimmt und an die oben angeführte `applyHighlight` weitergibt. [LINK1]
+Natürlich ist es auch möglich, per Klick einen anderen Container auszuwählen. Dies ist möglich, da die Knoten über `.on('click', highlightNode)` die `highLightNode` Methode aufruft, welche die ID des angeklickten Knoten übernimmt und an die oben angeführte `applyHighlight` weitergibt. [vgl. @gpt-D3jsDGScript-Erweiterung]
 
 
 Basierend auf dem `graphSpecific.json` aus dem Kapitel *Exportieren in JSON Files* würde als Ergebnis des Dragable-Graph-Skripts folgender Graph entstehen:
@@ -1647,7 +1647,7 @@ Das Anzeigen der **Alerts** benötigt anders als die Favoriten etwas mehr Daten 
 - zusätzliche Daten zu den Thresholds
 - die aktuellen Umweltdaten der Container
 
-Die Ids werden in einem separaten, oben erwähnten `fetchContainerIdsOfShip`-`useEffect` beschaffen. Der Rest wird in einem zweiten `useEffect` namens `fetchAndCheck` geregelt.[LINK2] [LINK3] Hier werden innerhalb einer `for`-Schleife für jede Container-Id die weiteren Daten gefetch: Seriennummer und Thresholds. Für die Thresholds und ihre zusätzlichen Daten wurde derselbe Code wie innerhalb des `Thresholdviewer`-Dialogs benutzt, was auch bedeutet, dass die Thresholds mit den Seriennummern der Container in die "Satzform" gebracht werden. (genaueres siehe: REST Calls mit Axios -> Detailpage -> Dialoge). Ist all dies abgeschlossen, so wird folgender Code ausgeführt:
+Die Ids werden in einem separaten, oben erwähnten `fetchContainerIdsOfShip`-`useEffect` beschaffen. Der Rest wird in einem zweiten `useEffect` namens `fetchAndCheck` geregelt.[vgl. @gpt-FetchAndCheckFixEins] [vgl. @gpt-FetchAndCheckFixZwei] Hier werden innerhalb einer `for`-Schleife für jede Container-Id die weiteren Daten gefetch: Seriennummer und Thresholds. Für die Thresholds und ihre zusätzlichen Daten wurde derselbe Code wie innerhalb des `Thresholdviewer`-Dialogs benutzt, was auch bedeutet, dass die Thresholds mit den Seriennummern der Container in die "Satzform" gebracht werden. (genaueres siehe: REST Calls mit Axios -> Detailpage -> Dialoge). Ist all dies abgeschlossen, so wird folgender Code ausgeführt:
 
 ````{caption="Aufruden des AlertChecker Skripts" .js}
 // Check for alerts after collecting sentences for the container
@@ -1656,9 +1656,9 @@ const alertsForContainer = await checkForAlerts(sentences, fetchedSerialNumber, 
 currentAlerts.push(...alertsForContainer);  // Spread the alerts array into the currentAlerts array
 sentences.length = 0;  // Clear sentences array for the next iteration
 ````
-[LINK2] [LINK3]
+[vgl. @gpt-FetchAndCheckFixEins] [vgl. @gpt-FetchAndCheckFixZwei]
 
-Was hier passiert ist, dass mit `checkForAlerts` die Methode eines weiteren Skripts namens `AlertChecker.js` aufgerufen und gewartet wird, bis diese vollendet wird. Danach werden die "abgewandelten Sentences" (=Alerts) aus dem Skript in `currentAlerts` zwischengespeichert, `sentences` zurückgesetzt und damit ein Durchlauf durch die Schleife beendet. Sind alle Alerts in `currentAlerts` gespeichert, so werden diese mit `setAlerts(currentAlerts);` auf die `alerts`-useState Variable kopiert, welche dann wie die Favoriten innerhalb einer "Unordered List" auf der Website angezeigt werden. [LINK3]
+Was hier passiert ist, dass mit `checkForAlerts` die Methode eines weiteren Skripts namens `AlertChecker.js` aufgerufen und gewartet wird, bis diese vollendet wird. Danach werden die "abgewandelten Sentences" (=Alerts) aus dem Skript in `currentAlerts` zwischengespeichert, `sentences` zurückgesetzt und damit ein Durchlauf durch die Schleife beendet. Sind alle Alerts in `currentAlerts` gespeichert, so werden diese mit `setAlerts(currentAlerts);` auf die `alerts`-useState Variable kopiert, welche dann wie die Favoriten innerhalb einer "Unordered List" auf der Website angezeigt werden. [vgl. @gpt-FetchAndCheckFixZwei]
 
 Das **AlertChecker**-Skript selbst ist eine Erweiterung des `ConditionChecker.js`-Skripts, welches innerhalb der `ThresholdViewer`-Komponente verwendet wird und übernimmt diese Variablen:
 - sentences (= Array der "Threshold-Sentences")
