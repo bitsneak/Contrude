@@ -10,7 +10,7 @@ Ein zentraler Aspekt der Diplomarbeit ist das ungefähre Identifizieren der Posi
 
 Die Kapazität eines Schiffes wird in der Regel mit TEUs (Twenty Foot Equivalent Units) angegeben. Jeder Container ist also 20 Fuß (6,1 m) oder ca. 6 Meter lang. Containerschiffe können von weniger als tausend TEUs bis hin zu 24000 TEUs haben. [vgl. @Pfeiffer-Containerschiffe] [vgl. @IngenieurDE-Containershiffe]
 
-![Entwicklung von Container Schiffen [@IncoDocs-TEU]](img/Gekle/Evolution-Container-Schiffe.jpg){width=75%}
+![Entwicklung von Container Schiffen [@IncoDocs-TEU]](img/Gekle/Evolution-Container-Schiffe.jpg){width=50%}
 
 Im Rahmen der Diplomarbeit werden aber nur 3 Prototypen angefertigt, welche einerseits die benötigten Umweltdaten liefern, andererseits aber auch miteinander kommunizieren. Die Komplexität eines "Containergeflechts" bestehend aus nur 3 Containern hält sich daher in Grenzen und um den vollen Umfang unserer Diplomarbeit zu veranschaulichen ist ein anderer Weg vonnöten. Dies ist, wo der Simulator ins Spiel kommt: Er übernimmt die Aufgabe, ein System an Containern ohne hunderten oder gar tausenden Prototypen darzustellen.
 
@@ -111,7 +111,7 @@ Dieser Code würde folgendem entsprechen:
 
 ##### Dragable Graph (DG)
 
-Der große Vorteil des dragable Graphs besteht darin, dass er interaktiv ist. Ein User kann also mit dem Mauszeiger die einzelnen Knoten hin und her bewegen, wobei auch die Kanten sich mit bewegen. Dies hilft besonders bei der Benutzerfreundlichkeit, da sich der User den Graphen so richten kann, wie es ihm gefällt, wodurch sie sich sehr gut für Datenvisualisierung eignen. Eine JavaScript Bibliothek um so einem Graph zu ermöglichen ist z.B. D3.js. [vgl. @D3js-Homepage], welcher auch in der Diplomarbeit verwendet wurde. [vgl. @gpt-DragableGraph] Des weiteren ist es eine weitere Eigenschaft des DG, dass sich Knoten nicht übereinander lagern können, da sie sich von einander abstoßen. Durch diese Mechanik spannt sich der Graph automatisch auf und sorgt für eine übersichtliche Visualisierung der Contaiener (Knoten), ohne dass sie sich gegenseitig verdecken.
+Der große Vorteil des Dragable Graphs besteht darin, dass er interaktiv ist. Ein User kann also mit dem Mauszeiger die einzelnen Knoten hin und her bewegen, wobei auch die Kanten sich mit bewegen. Dies hilft besonders bei der Benutzerfreundlichkeit, da sich der User den Graphen so richten kann, wie es ihm gefällt, wodurch sie sich sehr gut für Datenvisualisierung eignen. Eine JavaScript Bibliothek um so einem Graph zu ermöglichen ist z.B. D3.js. [vgl. @D3js-Homepage], welcher auch in der Diplomarbeit verwendet wurde. [vgl. @gpt-DragableGraph] Des weiteren ist es eine weitere Eigenschaft des DG, dass sich Knoten nicht übereinander lagern können, da sie sich von einander abstoßen. Durch diese Mechanik spannt sich der Graph automatisch auf und sorgt für eine übersichtliche Visualisierung der Contaiener (Knoten), ohne dass sie sich gegenseitig verdecken.
 
 ### Website
 
@@ -181,9 +181,7 @@ Anders als im ersten Code, wo eine `Searchbar`-, `ShipSelect`- und `GridDropDown
 Mit der Verwendung von funktionellen Komponenten geht jedoch folgendes verloren:
 
 - ein dedizierter Zustand (State), welcher durch die Render-Aufrufe bestehen bleibt
-- die Verwendung von Lifecycle-Funktionen, welche das Verhalten des Komponents je nach Phase des Lifecycle steuern 
-
-[vgl. @GeeksForGeeks-useState]
+- die Verwendung von Lifecycle-Funktionen, welche das Verhalten des Komponents je nach Phase des Lifecycle steuern [vgl. @GeeksForGeeks-useState]
 
 Der `useState`-Hook erlaubt es nun aber, dass State zu den funktionellen Komponenten hinzugefügt wird. [vgl. @GeeksForGeeks-useState]
 Es können auch mehrere State-Variablen in einer Komponente definiert werden. Ein `useState` sieht in der Regel in etwa so aus:
@@ -207,9 +205,7 @@ Es gibt in React neben der useState auch noch andere Hooks. React selbst unterte
 Die 3 "Basic Hooks" sind hierbei allerdings die wichtigsten. Neben dem bereits erwähnten `useState()` gibt es auch noch:
 
 - `useEffect()` --> für Ausführung von Side-Effects wie das Laden von Daten via API, Event-Handler oder die Konsolen Ausgabe
-- `useContext()` --> ermöglicht es Daten aus einem Context-Provider zu konsumieren
-
-[vgl. @DoubleSlash-ReactHooks]
+- `useContext()` --> ermöglicht es Daten aus einem Context-Provider zu konsumieren [vgl. @DoubleSlash-ReactHooks]
 
 ##### React Router
 
@@ -244,17 +240,13 @@ Die zentralen Aufgaben eines Build Tools sind:
 - konvertieren des JavaScript/ TypeScript Codes in eine für Browser kompatible Version
 - bündeln von Komponenten und Files um die Anzahl an HTTP Requests für das Laden der App zu verringern
 - unnütze Zeichen (z.B. Whitespaces) löschen um Ladezeiten zu verbessern
-- allgemein die Performance des Codes verbessern (z.B. mit "Tree Shaking", welches unbenutzten Code eliminiert)
-
-[vgl. @CodeParrot-BuildTools]
+- allgemein die Performance des Codes verbessern (z.B. mit "Tree Shaking", welches unbenutzten Code eliminiert)[vgl. @CodeParrot-BuildTools]
 
 Eines dieser Build Tools ist Vite, welches sich besonders durch seine Geschwindigkeit auszeichnet (vite = französisch für schnell). Zu den Gründen warum Vite mittlerweile so beliebt ist zählen u.a.:
 
 - Geschwindigkeit --> benutzt ES, um Quellcode direkt im Browser bereitzustellen
 - out-of-the-box Support für React/TypeScript/...
-- optimierter Build durch die Verwendung von Rollup als Bundler 
-
-[vgl @CodeParrot-BuildTools]
+- optimierter Build durch die Verwendung von Rollup als Bundler [vgl @CodeParrot-BuildTools]
 
 ![Funktionen von Vite @eluminoustechnologies-vite](img/Gekle/Vite-Features.png){width=100%}
 
@@ -362,9 +354,7 @@ Tailwind nennt dies Pseudo Klassen. Die 3 wichtigsten sind folgende:
 
 - Hover --> aktiviert, wenn der User über das Element hovert
 - Focus --> aktiviert, wenn der User das Element z.B. durch einen Klick in Fokus nimmt
-- Active --> aktiviert, wenn der User das Element durch User aktiviert wird
-
-[vgl. @TailwindCSS-DocsV1]
+- Active --> aktiviert, wenn der User das Element durch User aktiviert wird [vgl. @TailwindCSS-DocsV1]
 
 All diese Pseudo Klassen können auch mit "group-" verbunden werden, um mehrere Code-Teile gleichzeitig zu manipulieren. [vgl. @TailwindCSS-DocsV1]
 
@@ -381,9 +371,7 @@ Die API, welche aufgrund ihrer Flexibilität, Schnelligkeit und Einfachheit ber�
 - GET (Abrufen)
 - POST (Erstellen)
 - PUT (Aktualisieren)
-- DELETE (Löschen)
-
-[vgl. @Talend-REST]
+- DELETE (Löschen) [vgl. @Talend-REST]
 
 Die Anfrage geht dann beim Server ein und die REST API kümmert sich darum, dass eine Antwort gesucht und sofort zurückgeliefert wird. Die Antworten sind in der Regel im JSON (JavaScript Object Notation) Format. [vgl. @Talend-REST]
 
@@ -396,9 +384,7 @@ Damit eine REST API gültig ist, müssen 6 Kriterien erfüllt sein:
 3. Cachefähige Daten --> optimiert Interaktion zwischen Client und Server
 4. einheitliche Schnittstelle zwischen Komponenten --> von überall kann auf Ressourcen gleich zugegriffen werden
 5. mehrschichtiges System --> organisiert einzelne Servertypen und macht Struktur für Client unsichtbar
-6. Code-On-Dmand --> auf Anforderungen ausführbaren Code von Server an Client senden (optional)
-
-[vgl. @RedHat-REST]
+6. Code-On-Dmand --> auf Anforderungen ausführbaren Code von Server an Client senden (optional) [vgl. @RedHat-REST]
 
 ##### REST in REACT - Axios
 
@@ -407,9 +393,7 @@ Es ist durchaus möglich, HTTP Abfragen innerhalb von React ohne externer Librar
 - eingebaute Funktionen zum Abbrechen von Abfragen
 - interzeptieren (vor Senden einer Abfrage/ nach Erhalten einer Antwort logische Operationen durchführen)
 - hat CSRF (Cross Site Request Forgery) Schutz
-- breite Community + Support
-
-[vgl. @GeeksForGeeks-Axios]
+- breite Community + Support [vgl. @GeeksForGeeks-Axios]
 
 Weiters ist der Code mit Axios etwas einfacher zu lesen:
 Ohne:
@@ -746,9 +730,7 @@ Die Erstellung des Graphen erfolgt über die JavaScript Bibliothek D3.js, welche
 > D3s Kraft-gestützte Simulation (forceSimulation) berechnet die Positionen der Knoten basierend auf folgenden Kräften:
 > - forceLink: Verbindet Knoten basierend auf den Links.
 > - forceManyBody: Erzeugt eine Abstoßung zwischen Knoten, damit sie nicht zu dicht beieinander liegen.
-> - forceCenter: Zentriert das gesamte Diagramm im SVG-Bereich.
-
-[vgl. @gpt-D3jsDGScript]
+> - forceCenter: Zentriert das gesamte Diagramm im SVG-Bereich. [vgl. @gpt-D3jsDGScript]
 
 ```{caption="Verwendung eines svg-Elements um den Graphen zu rendern" .js}
 const svg = d3.select('svg');
@@ -864,7 +846,7 @@ Ein völlig neues Komponente war der ShipChooser-Dialog. Dieser wird aufgerufen,
 #### Projektspezifische Struktur des React Projekts
 Alle wichtigen Folder & Files befinden sich innerhalb des `src`-Folders:
 
-![Erste Version des Website Designs](img/Gekle/Website-Structure.png){{width=50%}
+![Erste Version des Website Designs](img/Gekle/Website-Structure.png){width=50%}
 
 `App.jsx` bildet auch hier den "Grundpfeiler" des React-Projekts, da es als Hauptkomponent dient und etwa dafür verantwortlich ist, die Routes der Website zu definieren.
 
@@ -902,7 +884,7 @@ Wie auch die MainPage unterteilt sich die Detail Page in 3 große Komponente:
 
 ![Struktur der Detail Page](img/Gekle/DetailPageStructure.png)
 
-Die `Detailspace`-Komponente ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit Notizen, welche auch gespeichert werden, hinzuzufügen zählt ebenfalls zu den Aufgaben der `DetailSpace`. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Threshholds und Zurückgehen zur MainPage bietet.
+Die `Detailspace`-Komponente ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit Notizen, welche auch gespeichert werden, hinzuzufügen zählt ebenfalls zu den Aufgaben der `DetailSpace`. Der Button unterhalb der Tabelle öffnet in einem neuen Browser-Tab einen Graphen, welcher das ausgewählte Schiff mit seinen Containern repsäsentiert. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Threshholds und Zurückgehen zur MainPage bietet.
 
 #### Funktionsweise der Komponenten
 ##### LoginField der LoginPage
@@ -1318,6 +1300,8 @@ Die Sidebar ist als Komponente in dem Sinn einzigartig, dass sie sowohl innerhal
 
 Zwischen dem ersten, zweiten und zweiten, dritten `div` befindet sich jeweils noch ein weiteres, welches 3% der Höhe einnimmt und anschreibt, worum es sich bei dem darunter liegenden `div` handelt (Favoriten oder Alarm). Bei dem Alarm- und Favoriten-div ist es zusätzlich möglich auf und ab zu scrollen, sollte sich die Anzahl der angezeigten Container-Nummern nicht ausgehen. Ihren Inhalt entnehmen die beiden aus `useStates` (`alerts` für die Alerts und `favoritesSerialNumbers` für die Favoriten), welche über `useEffects` die aktuellen Daten aus dem Backend speichern. 
 
+![Aufteilung der Sidebar in Prozenten](img/Gekle/SidebarPercentages.png){width=80%}
+
 Die Dialoge, welche über Buttons am unteren Ende der Sidebar aufgerufen werden können, sehen gleich aus wie der `ContainerChooser`-Dialog. Die Funktionalität des `UserProfile`-Dialogs ist lediglich, eine Möglichkeit zu bieten, den User auszuloggen und an die `LoginPage` zurückzuschicken. Der `Settings`-Dialog wurde nur zum Zweck der Vollständigkeit und Ausbauunfähigkeit der Website eingefügt. Er lässt sich aufrufen, hat aber keine implementierten Funktionalitäten.
 
 #### REST Calls mit Axios
@@ -1627,7 +1611,7 @@ Rest Calls werden innerhalb der Sidebar-Komponente aufgrund dieser 2 Funktionali
 - Anzeigen der Favoriten (je nach User)
 - Anzeigen der ausgelösten Alerts (nur `Critical`, `High` und `Low`)
 
-Dafür benötigt die Sidebar vor allem die aktuelle `shipId` und die `page`-Variable, welche angibt von wo aus die Sidebar aufgerufen wird. Die `page`-Variable ist deshalb notwendig, da die Sidebar von allen Pages (also MainPage und DetailPage) aufgerufen werden kann. Warum braucht man diese nun genau? Als Beispiel muss die Sidebar über ein `useEffect` (`fetchContainerIdsOfShip`) alle Container IDs des jeweiligen Schiffs aus dem Backend besorgen, wofür die `shipId` aus der jeweiligen Page benötigt wird. Allerdings ruft die MainPage diese Variable aus dem Backend ab wodurch `shipId` als Objekt mit ID und Name übergeben wird, während die DetailPage die `shipId` aus der URL mit `useParams` nimmt und nur die Nummer selbst übergibt. Dies führt zu Situation wo z.B. folgender Code (aus dem eben erwähnten `useEffect`) benötigt wird:
+Dafür benötigt die Sidebar vor allem die aktuelle `shipId` und die `page`-Variable, welche angibt, von wo aus die Sidebar aufgerufen wird. Die `page`-Variable ist deshalb notwendig, da die Sidebar von allen Pages (also MainPage und DetailPage) aufgerufen werden kann. Warum braucht man diese nun genau? Als Beispiel muss die Sidebar über ein `useEffect` (`fetchContainerIdsOfShip`) alle Container IDs des jeweiligen Schiffs aus dem Backend besorgen, wofür die `shipId` aus der jeweiligen Page benötigt wird. Allerdings ruft die MainPage diese Variable aus dem Backend ab, wodurch `shipId` als Objekt mit ID und Namen übergeben wird, während die DetailPage die `shipId` aus der URL mit `useParams` nimmt und nur die Nummer selbst übergibt. Dies führt zu Situation, wo z.B. folgender Code (aus dem eben erwähnten `useEffect`) benötigt wird:
 
 ````{caption="shipId Zuweisung je nach page" .js}
 let shipId = null;
@@ -1640,12 +1624,14 @@ let shipId = null;
 
 In diesem Code wird sicher gegangen, dass die `shipId` tatsächlich für den folgenden REST-Call (alle Ids aus Backend holen) benutzt werden kann.
 
+![Sidebar in Main- und Detailpage](img/Gekle/Sidebar.png)
+
 Das fetchen der **Favoriten** ist sehr schnell und einfach, da es nur zwei REST-Calls benötigt werden:
 
 1. fetchen der Ids der Favoriten-Container
 2. fetchen der passenden Seriennummern
 
-Für den ersten wird lediglich die `userId` benötigt, welche beim Login neben den beiden Tokens in das LocalStorage gespeichert wird und daher einfach abgerufen werden kann. Sind einmal alle Ids gefetch, so wird durch diese durch iteriert und die passenden Seriennummern abgefragt. Ist das abgeschlossen, so werden diese in eine `useState`-Variable names `favoritesSerialNumbers` gespeichert und können durch das auflisten innerhalb einer "Unordered List" = `ul` in der Sidenar angezeigt werden:
+Für den ersten wird lediglich die `userId` benötigt, welche beim Login neben den beiden Tokens in das LocalStorage gespeichert wird und daher einfach abgerufen werden kann. Sind einmal alle Ids gefetch, so wird durch diese durch iteriert und die passenden Seriennummern abgefragt. Ist das abgeschlossen, so werden diese in eine `useState`-Variable namens `favoritesSerialNumbers` gespeichert und können durch das Auflisten innerhalb einer "Unordered List" = `ul` in der Sidenar angezeigt werden:
 
 ````{caption="Ungeordnete Liste der Favoriten" .html}
 <ul>
@@ -1661,7 +1647,7 @@ Das Anzeigen der **Alerts** benötigt anders als die Favoriten etwas mehr Daten 
 - zusätzliche Daten zu den Thresholds
 - die aktuellen Umweltdaten der Container
 
-Die Ids werden in einem seperaten, oben erwähnten `fetchContainerIdsOfShip`-`useEffect` beschaffen. Der Rest wird in einem zweiten `useEffect` namens `fetchAndCheck` geregelt.[LINK2] [LINK3] Hier werden innerhalb einer `for`-Schleife für jede Container-Id die weitere Daten gefetch: Seriennummer und Thresholds. Für die Thresholds und ihren zusätzlichen Daten wurde derselbe Code wie innerhalb des `Thresholdviewer`-Dialogs benutzt, was auch bedeutet, dass die Thresholds mit den Seriennummern der Container in die "Satzform" gebracht werden. (genaueres siehe: REST Calls mit Axios -> Detailpage -> Dialoge). Ist all dies abgeschlossen, so wird folgender Code ausgeführt:
+Die Ids werden in einem separaten, oben erwähnten `fetchContainerIdsOfShip`-`useEffect` beschaffen. Der Rest wird in einem zweiten `useEffect` namens `fetchAndCheck` geregelt.[LINK2] [LINK3] Hier werden innerhalb einer `for`-Schleife für jede Container-Id die weiteren Daten gefetch: Seriennummer und Thresholds. Für die Thresholds und ihre zusätzlichen Daten wurde derselbe Code wie innerhalb des `Thresholdviewer`-Dialogs benutzt, was auch bedeutet, dass die Thresholds mit den Seriennummern der Container in die "Satzform" gebracht werden. (genaueres siehe: REST Calls mit Axios -> Detailpage -> Dialoge). Ist all dies abgeschlossen, so wird folgender Code ausgeführt:
 
 ````{caption="Aufruden des AlertChecker Skripts" .js}
 // Check for alerts after collecting sentences for the container
@@ -1672,15 +1658,15 @@ sentences.length = 0;  // Clear sentences array for the next iteration
 ````
 [LINK2] [LINK3]
 
-Was hier passiert ist, dass mit `checkForAlerts` die Methode eines weiteren Skripts namens `AlertChecker.js` aufgerufen und gewartet bis diese vollendet wird. Danach werden die "abgewandelten Sentences" (=Alerts) aus dem Skript in `currentAlerts` zwischengespeichert, `sentences` zurückgesetzt und damit ein Durchlauf durch die Schleife beendet. Sind alle Alerts in `currentAlerts` gespeichert, so werden diese mit `setAlerts(currentAlerts);` auf die `alerts`-useState Variable kopiert, welche dann wie die Favoriten innerhalb einer "Unordered List" auf der Website angezeigt werden. [LINK3]
+Was hier passiert ist, dass mit `checkForAlerts` die Methode eines weiteren Skripts namens `AlertChecker.js` aufgerufen und gewartet wird, bis diese vollendet wird. Danach werden die "abgewandelten Sentences" (=Alerts) aus dem Skript in `currentAlerts` zwischengespeichert, `sentences` zurückgesetzt und damit ein Durchlauf durch die Schleife beendet. Sind alle Alerts in `currentAlerts` gespeichert, so werden diese mit `setAlerts(currentAlerts);` auf die `alerts`-useState Variable kopiert, welche dann wie die Favoriten innerhalb einer "Unordered List" auf der Website angezeigt werden. [LINK3]
 
 Das **AlertChecker**-Skript selbst ist eine Erweiterung des `ConditionChecker.js`-Skripts, welches innerhalb der `ThresholdViewer`-Komponente verwendet wird und übernimmt diese Variablen:
 - sentences (= Array der "Threshold-Sentences")
 - serialNumber (= Seriennummer des aktuellen Containers)
 - selectedShip (= aktuelle Schiff-Id)
-- page (= von welche Page wurde die Sidebar aufgerufen)
+- page (= von welcher Page wurde die Sidebar aufgerufen)
 
-Die Sentences werden innerhalb einer `forSchleife` dann in ihre Einzelteile zerbrochen und in verschiedene Variablen gespeichert. (`sentence` ist jeweils ein Threshold-Satz aus dem Array, welcher sich von Durchlauf zu Durchlauf der Schleife änert):
+Die Sentences werden innerhalb einer `forSchleife` dann in ihre Einzelteile zerbrochen und in verschiedene Variablen gespeichert. (`sentence` ist jeweils ein Threshold-Satz aus dem Array, welcher sich von Durchlauf zu Durchlauf der Schleife ändert):
 - `const [condition, result] = sentence.split(" = ");` (z.B. condition = Air-Pressure > 100 & result = Critical)
 - `const conditionParts = condition.split(" ");` (z.B. Air-Pressure, >, 100)
 - `let parameterValue = 0;` (zu Beginn immer 0)
@@ -1688,7 +1674,7 @@ Die Sentences werden innerhalb einer `forSchleife` dann in ihre Einzelteile zerb
 - `const comparator = conditionParts[1]` (z.B. >)
 - `const conditionValue = parseFloat(conditionParts[2]);` (z.B. 100)
 
-In weiterer Folge werden mithilfe von zwei REST-Calls einerseit die Id der Seriennummer und alle zur Id gehörenden **Umweltdaten** (=`environmentDataRespone`)gefetcht. Auch hier muss wieder mithilfe von `page` die `shipId` richtig gesetzt werden. Ist dies erledigt, so folgen zwei `switch-case`. Das erste nutzt `conditionParameter` um aus dem gefetchten `environmentDataRespones` (Objekt) die korrekten Daten herauszulesen. Dies könnte z.B. zwischen der Temperatur und der Vibration so unterschiedlich aussehen:
+In weiterer Folge werden mithilfe von zwei REST-Calls einerseits die Id der Seriennummer und alle zur Id gehörenden **Umweltdaten** (=`environmentDataRespone`)gefetcht. Auch hier muss wieder mithilfe von `page` die `shipId` richtig gesetzt werden. Ist dies erledigt, so folgen zwei `switch-case`. Das erste nutzt `conditionParameter`, um aus dem gefetchten `environmentDataRespones` (Objekt) die korrekten Daten herauszulesen. Dies könnte z.B. zwischen der Temperatur und der Vibration so unterschiedlich aussehen:
 
 ````{caption="Umweltdaten korrekt aus gefetchten Objekt lesen", txt}
 Case: Temperatur
@@ -1698,5 +1684,4 @@ Case: Vibration
 parameterValue = environmentDataResponse.data.sensor_data.vibration[0].value;
 ````
 
-Das Zweite wurde aus dem `ConditionChecker.js`-Skript übernommen und überprüft je nach `comparator` ob der Ausdruck $parameterValue COMPARATOR conditionValue$ wahr oder falsch ist (z.B. 101 > 100 = WAHR). Je nachdem wird eine Variable namens `isValid` auf TRUE oder FALSE gesetzt und sollte sie TRUE sein, so wird unter der Voraussetzung dass `result` Critical, High oder Low ist ein alert erstellt welcher folgende Form hat: "`conditionParamter` of `serialNumber` = result" (z.B. Humidity of OBBU1000011 = High). Diese werden alle in einem `alerts`-Array gespeichert, welches letztendlich vom Skript an die Sidebar zurückgegeben wird.
-
+Das Zweite wurde aus dem `ConditionChecker.js`-Skript übernommen und überprüft je nach `comparator`, ob der Ausdruck $parameterValue COMPARATOR conditionValue$ wahr oder falsch ist (z.B. 101 > 100 = WAHR). Je nachdem wird eine Variable namens `isValid` auf TRUE oder FALSE gesetzt und sollte sie TRUE sein, so wird unter der Voraussetzung, dass `result` Critical, High oder Low ist, ein alert erstellt, welcher folgende Form hat: "`conditionParamter` of `serialNumber` = result" (z.B. Humidity of OBBU1000011 = High). Diese werden alle in einem `alerts`-Array gespeichert, welches letztendlich vom Skript an die Sidebar zurückgegeben wird.
