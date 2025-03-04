@@ -176,12 +176,24 @@ Die `Topbar`-Komponente übernimmt in einer anderen Page etwa ganz andere Kompon
 
 Anders als im ersten Code, wo eine `Searchbar`-, `ShipSelect`- und `GridDropDown`-Komponente übergeben wird, wird hier etwa eine `DetailControl`-Komponente übergeben. Die Funktionalität als auch das Aussehen der `Topbar` ändert sich so. Dieses Komponenten-basierte programmieren ist das Herz von React Development.
 
+Die Komponente werden in React nicht in reinen Javascript geschrieben sondern verwenden mit **JSX** eine erweiderte Form davon:
+
+> JSX ist eine Syntaxerweiterung für JavaScript, die es Ihnen erlaubt, Komponenten und Elemente ohne großen Aufwand zu erzeugen. JSX nutzt eine Schreibweise, die den Tags in HTML gleicht. Innerhalb von JSX können Sie JavaScript-Ausdrücke in geschweiften Klammern einfügen und so beispielsweise Werte oder das Ergebnis eines Funktionsaufrufs anzeigen.
+
+Schleifen erzeugen Sie normalerweise, indem Sie eine Datenstruktur, meist ein Array, mit der map-Methode in eine JSX-Struktur umwandeln.
+Bedingungen mit if-Statements innerhalb der JSX-Strukturen zu formulieren, ist nicht möglich. 
+
+Sie können dies entweder auslagern oder beispielsweise mit dem Ternär- oder dem logischen Und-Operator arbeiten. [Buchquelle]
+
 ##### Use-State & Hooks
 
-Mit der Verwendung von funktionellen Komponenten geht jedoch folgendes verloren:
+> Die Hooks-API stellt eine Aufwertung der Funktionskomponenten dar. Vor der Einführung der neuen Schnittstelle war es nur in Klassenkomponenten möglich, einen lokalen State zu implementieren und auf Lifecycle-Methoden zurückzugreifen. Diese und weitere Einschränkungen werden durch die Hooks weitestgehend aufgehoben. [Buchquelle]
 
-- ein dedizierter Zustand (State), welcher durch die Render-Aufrufe bestehen bleibt
-- die Verwendung von Lifecycle-Funktionen, welche das Verhalten des Komponents je nach Phase des Lifecycle steuern [vgl. @GeeksForGeeks-useState]
+Die großen Vorteile, welche die Hooks mit sich bringen sind hierbei folgende:
+
+- Reduzierung des Komponentenumfangs
+- Entfernen von Duplikaten
+- Ersatz von komplexen Entwurfsmustern [Buchquelle]
 
 Der `useState`-Hook erlaubt es nun aber, dass State zu den funktionellen Komponenten hinzugefügt wird. [vgl. @GeeksForGeeks-useState]
 Es können auch mehrere State-Variablen in einer Komponente definiert werden. Ein `useState` sieht in der Regel in etwa so aus:
