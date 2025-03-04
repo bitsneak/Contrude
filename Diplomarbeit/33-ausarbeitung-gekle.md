@@ -1700,7 +1700,7 @@ Die Sentences werden innerhalb einer `forSchleife` dann in ihre Einzelteile zerb
 
 In weiterer Folge werden mithilfe von zwei REST-Calls einerseits die Id der Seriennummer und alle zur Id gehörenden **Umweltdaten** (=`environmentDataRespone`)gefetcht. Auch hier muss wieder mithilfe von `page` die `shipId` richtig gesetzt werden. Ist dies erledigt, so folgen zwei `switch-case`. Das erste nutzt `conditionParameter`, um aus dem gefetchten `environmentDataRespones` (Objekt) die korrekten Daten herauszulesen. Dies könnte z.B. zwischen der Temperatur und der Vibration so unterschiedlich aussehen:
 
-````{caption="Umweltdaten korrekt aus gefetchten Objekt lesen", txt}
+````{caption="Umweltdaten korrekt aus gefetchten Objekt lesen" .txt}
 Case: Temperatur
 parameterValue = environmentDataResponse.data.sensor_data.temperature[0].value;
 
@@ -1708,4 +1708,4 @@ Case: Vibration
 parameterValue = environmentDataResponse.data.sensor_data.vibration[0].value;
 ````
 
-Das Zweite wurde aus dem `ConditionChecker.js`-Skript übernommen und überprüft je nach `comparator`, ob der Ausdruck $parameterValue COMPARATOR conditionValue$ wahr oder falsch ist (z.B. 101 > 100 = WAHR). Je nachdem wird eine Variable namens `isValid` auf TRUE oder FALSE gesetzt und sollte sie TRUE sein, so wird unter der Voraussetzung, dass `result` Critical, High oder Low ist, ein alert erstellt, welcher folgende Form hat: "`conditionParamter` of `serialNumber` = result" (z.B. Humidity of OBBU1000011 = High). Diese werden alle in einem `alerts`-Array gespeichert, welches letztendlich vom Skript an die Sidebar zurückgegeben wird.
+Das Zweite wurde aus dem `ConditionChecker.js`-Skript übernommen und überprüft je nach `comparator`, ob der Ausdruck `parameterValue COMPARATOR conditionValue` wahr oder falsch ist (z.B. 101 > 100 = WAHR). Je nachdem wird eine Variable namens `isValid` auf TRUE oder FALSE gesetzt und sollte sie TRUE sein, so wird unter der Voraussetzung, dass `result` Critical, High oder Low ist, ein alert erstellt, welcher folgende Form hat: "`conditionParamter` of `serialNumber` = result" (z.B. Humidity of OBBU1000011 = High). Diese werden alle in einem `alerts`-Array gespeichert, welches letztendlich vom Skript an die Sidebar zurückgegeben wird.
