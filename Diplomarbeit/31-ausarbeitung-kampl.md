@@ -133,6 +133,18 @@ Die Firmware ist eine softwarebasierte Komponente, die fest in einem elektronisc
 - **A/D- und D/A-Wandler:**^[Analog/Digital & Digital/Analog Wandler] Ermöglichen die Umwandlung zwischen analogen und digitalen Signalen. Wichtig für Sensoranwendungen.
 - **PWM:**^[Pulsweitenmodulation] Steuerung von LEDs, Motoren oder anderen Aktoren durch variable Einschaltdauer eines Signals.
 
+### Sensoren
+
+#### Temperatur - Thermometer
+
+#### Luftdruck - Barometer
+
+#### Luftfeuchtigkeit - Hygrometer
+
+#### Beschleunigung - Accelerometer
+
+#### GPS
+
 ### Prototyping mit dem EPS32
 	
 #### IDE
@@ -889,7 +901,7 @@ Um einen **Workflow** zu erstellen, legt man, im vorher erstellten Woreine **YAM
 
 #### Benötigte Hardwarekomponenten
 
-Um ein Projekt zu realisieren, bei dem Umweltdaten ausgelesen werden, benötigt man geeignete Komponenten, auf denen die Software zuverlässig läuft. Bei der Auswahl dieser Komponenten spielten mehrere Faktoren eine Rolle, darunter die Kosten, die Größe, die Anwendungsfälle sowie die Anzahl der verfügbaren Funktionen.
+Um ein Projekt zu realisieren, bei dem Umweltdaten ausgelesen werden, benötigt man geeignete Komponenten, auf denen die Software zuverlässig läuft. Bei der Auswahl dieser Komponenten spielten mehrere Faktoren eine Rolle, darunter die Kosten, die Größe, die Anwendungsfälle sowie die Anzahl der verfügbaren Funktionen. Des weiteren ist zu beachten, dass die Diplomarbeit mehr ein *Proof of Concept* sein soll.
 
 Unser finaler Prototyp sollte folgende physikalischen Messwerte erfassen können.
 
@@ -898,6 +910,8 @@ Unser finaler Prototyp sollte folgende physikalischen Messwerte erfassen können
 - Luftdruck
 - Beschleunigung und Geschwindigkeit
 - Standortbestimmung mittels GPS
+  - Breiten/- Längengrade
+  - Meereshöhe
 
 Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Komponenten entschieden:
 
@@ -960,7 +974,26 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 |  81.19 € |
 
 
-#### Grundaufbau
+#### Zusammenbau des Prototyps
+
+Nachdem nun alle Einzelteile vorhanden sind, kann mit dem Zusammenbau begonnen werden. Bevor jedoch die Komponenten verbunden werden, ist es wichtig, einen detaillierten Plan zu erstellen. Zur Erstellung dieses Plans habe ich die Software **Fritzing** verwendet.
+
+![Aufbau des Prototyps](img/Kampl/Prototyp-Steckplatine.png){width=400px}
+
+##### Was ist Fritzing?
+
+> Fritzing ist ein benutzerfreundliches Werkzeug, das einen intuitiven und nachhaltigen Einstieg in die Elektronik und das Physical Computing ermöglicht. Die Software stellt elektronische Komponenten wie Sensoren, Steckplatinen oder Mikrocontroller realistisch dar und erleichtert das Erstellen von Schaltplänen sowie die Dokumentation elektronischer Prototypen. Dies schafft eine wichtige Grundlage für die Kommunikation und den Austausch im Rahmen eines Projekts. 
+[@Was-ist-Fritzing]
+
+##### Aufbau des Prototyps auf dem Breadboard
+
+Nach der Modellierung des Grundaufbaus in **Fritzing** können wir den Prototypen physisch auf einem **Breadboard** (Steckplatine) aufbauen. Dies ist ein wichtiger Schritt, um die einzelnen Komponenten zu überprüfen und die Programmierung zu starten.
+
+![Aufbau des Prototyps](img/Kampl/Prototyp-Steckplatine.png){width=400px}
+
+
+
+##### Sensoren
 
 #### Endprodukt
 
@@ -972,8 +1005,4 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 
 ##### Mesh
 
-#### Datenübertragung
-
 #### MQTT
-
-#### Deployment

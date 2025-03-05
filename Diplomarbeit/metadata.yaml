@@ -47,12 +47,16 @@ da-kurzfassung-en: The placement of containers on a cargo ship is predefined in 
 
 da-kiquellen:
 # Kampl
+#- ki: ChatGPT-4o
+#  short-prompt: Grundstruktur einer .ini-Datei
+#  pdf-file: Kampl/KI/Theorie/PlatformIO-INI-FILE-BSP-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: GitHub Actions Erklärung
+#  pdf-file: Kampl/KI/Theorie/GitHub-Actions-Erklaerung.pdf
+
 - ki: ChatGPT-4o
-  short-prompt: Grundstruktur einer .ini-Datei
-  pdf-file: Kampl/KI/Theorie/PlatformIO-INI-FILE-BSP-ChatGPT.pdf
-- ki: ChatGPT-4o
-  short-prompt: GitHub Actions Erklärung
-  pdf-file: Kampl/KI/Theorie/GitHub-Actions-Erklaerung.pdf
+  short-prompt: Zusammenfügen der KI-Quellen
+  pdf-file: Kampl/KI/Theorie/Zusammenfuegung-KI-Theorie-Kampl.pdf
 
 # Gekle
 - ki: ChatGPT-4o
@@ -145,6 +149,10 @@ da-appendix:
   pdf-file: Kampl/NEO-6-DataSheet-GPS.G6-HW-09005.pdf
   seiten: 11
 
+- abschnitt: Fritzing
+  pdf-file: Kampl/FritzingInfoBroschuereDE.pdf
+  seiten: 3
+
 
 # Diplomarbeitsvereinbarungen müssen zum Schluss sein 
 
@@ -155,3 +163,5 @@ da-appendix:
   pdf-file: HTL-DA-Doku-DE.pdf
 
 ---
+
+
