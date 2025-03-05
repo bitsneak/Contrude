@@ -49,9 +49,26 @@ Niemand will seine Daten unverschlüsselt versenden. Eine oft in Kombination ang
 
 #### MQTT
 
-MQTT^[Message Queuing Telemetry Transport] ist ein Nachrichtenprotokoll, welches dazu verwendet wird, um mit nicht stabilen Netzwerken oder mit Netzwerken mit begrenzten Ressourcen zu kommunizieren. Dieser basiert auf der Publisher-Subscriber Architektur. Der Publisher sendet seine Daten and den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein # als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic kann nun ein oder mehrere Werte im JSON-Format abgelegt werden. Beim Broker liegen dann die Werte auf. Ein Topic kann auch einen oder mehrere Tags haben. Diese sind Flags, welche zur weiteren Klassifizierung des Topics an es angehängt werden können. Ein Subscriber ist ein beliebiger Akteur, welcher den abgespeicherten Datensatz unter der Angabe des Topics extrahiert. [@mqtt-hivemq]
+MQTT^[Message Queuing Telemetry Transport] ist ein Nachrichtenprotokoll, welches dazu verwendet wird, um mit nicht stabilen Netzwerken oder mit Netzwerken mit begrenzten Ressourcen zu kommunizieren. Dieser basiert auf der Publisher-Subscriber Architektur. Der Publisher sendet seine Daten and den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein # als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic kann nun ein oder mehrere Werte im JSON^[JavaScript Object Notation]-Format abgelegt werden. Beim Broker liegen dann die Werte auf. Ein Topic kann auch einen oder mehrere Tags haben. Diese sind Flags, welche zur weiteren Klassifizierung des Topics an es angehängt werden können. Ein Subscriber ist ein beliebiger Akteur, welcher den abgespeicherten Datensatz unter der Angabe des Topics extrahiert. [@mqtt-hivemq]
 
 ![Beispiel MQTT Topic Structure [@mqtt-hivemq]](img/Schrempf/mqtt-topic-structure.png){width=30%}
+
+#### JSON Web Token
+
+JWTs^[JSON Web Token] sind mit dem Standard RFC 7519 normiert. Sie dienen dazu, Tokens, also Schlüssel, zur Authentifizierung zu erstellen. Sie sind sehr kompakt und können deshalb gut in HTTP-Headers transportiert werden und enthalten Informationen zu den betroffenen Benutzern. Durch die in ihnen gespeicherten Informationen vermindert man die Anfragen, welche an die Datenbanken gestellt werdene müssen. Sie werden dafür genutzt, um den Zugriff zu Diensten zu regulieren oder verschlüsselt Daten auszutauschen. [@jwt]
+
+Ein JSON Web Token besteht aus drei Teilen, welche durch Punkte getrennt werden und im Base64 Format vorliegen. Der Header, Payload und die Signatur. Somit folgt dieser Token der Form `xxxxx.yyyyy.zzzzz`. Im Header wird der Typ des Tokens (JWT) und der benutzte Hashingalgorithmus angegeben. In der Payload werden die zu haltenden Daten angegeben. Die Signatur dient dazu, zu verifizieren, dass der Absender / Ersteller des Tokens der ist, für den er sich ausgibt. Sie besteht aus dem gehashten addierten Werten des Headers, Payloads und eines Secrets. Das Secret dient als eine Art Salt, welches zur Garantie der Eindeutigkeit beigefügt wird. Ein Salt ist ein Zeichenkette, welche der Hashalgorithmus mathematisch verschränkt in das Endprodukt einbindet. [@jwt]
+
+```{caption="HMAC SHA256 Signatur eines JWT" .json}
+HMACSHA256(
+  base64UrlEncode(header) + '.' +
+  base64UrlEncode(payload),
+  secret)
+```
+
+Wie funktioniert es? Am Anfang gibt der Benutzer sein Login Daten an. Vorzugsweise Benutzername und Passwort. Nun wird ihm nach erfolgreicher Authentifizierung der Token zurückgegeben, welchen er bei den Protected Routes im Authentication Header der Anfrage mitführen muss. Ein JWT ist stateless, was bedeutet, dass der Status des Benutzers nicht im Server vermerkt ist. [@jwt] Da solch ein Token eine gewisse Macht mit sich bringt, ist stets zu beachten, dass die Tokens auch nur eine gewisse Zeit, meistens 10 - 15 min gültig sind. [@medium-auth-simple]
+
+![JWT Authentikationsablauf [@jwt]](img/Schrempf/jwt-auth-process.png){width=100%}
 
 ### Continuous Integration und Continuous Deployment
 
@@ -218,9 +235,9 @@ Weitere mögliche automatisierte Anwengungsfälle sind:
 
 ### REST API
 
-Eine API^[Application Programming Interface] ist Programmierschnittstelle, die dafür entworfen worden ist, um autonomen Anwendungen das Kommunizieren und den Austausch von Daten zu erleichtern und zwischen ihnen zu standardisieren. REST^[Representational State Transfer] ist ein Prinzip, welches verschieden umgesetzt werden kann, als Zwischendienst zwischen dem Client und dem Backend dient und als Schnitstelle zum Abrufen von Ressourcen vom Client and den Server verwendet wird. Hierbei nutzt man URIs. Ein Uniform Resource Identifier ist dafür da, eine Ressource eindeutig zu identifizieren. [vgl. @REST-API-Design-Rulebook, S. 11]
+Eine API^[Application Programming Interface] ist Programmierschnittstelle, die dafür entworfen worden ist, um autonomen Anwendungen das Kommunizieren und den Austausch von Daten zu erleichtern und zwischen ihnen zu standardisieren. REST^[Representational State Transfer] ist ein Prinzip, welches verschieden umgesetzt werden kann, als Zwischendienst zwischen dem Client und dem Backend dient und als Schnitstelle zum Abrufen von Ressourcen vom Client and den Server verwendet wird. Hierbei nutzt man URIs^[Uniform Resource Identifier]. Ein Uniform Resource Identifier ist dafür da, eine Ressource eindeutig zu identifizieren. [vgl. @REST-API-Design-Rulebook, S. 11]
 
-Bei RESTful APIs sendet der Client eine Anfrage über HTTP^[Hypertext Transfer Protocol] an eine URI^[Uniform Resource Identifier] und bekommt daraufhin seine Antwort. [@redhat-rest]
+Bei RESTful APIs sendet der Client eine Anfrage über HTTP^[Hypertext Transfer Protocol] an eine URI und bekommt daraufhin seine Antwort. [@redhat-rest]
 Die möglichen Anfragearten des Clients nennt man HTTP-Methodes und diese sind: [@mozilla-rest]
 
 - GET
@@ -243,7 +260,7 @@ Die möglichen Anfragearten des Clients nennt man HTTP-Methodes und diese sind: 
 
 #### Design
 
-Es gibt zwar verschiedene Ansätze so eine API umzusetzen, jedoch gibt es Richtlinien und Best-Practices. Die Antwort des Servers and den Client sollte in JSON^[JavaScript Object Notation] verfasst sein. Um die Skalierbarkeit der Anwendungen zu garantieren, ist eine Server nicht dazu verpflichtet, den Status einer Ressource sich zu merken. Diese Aufgabe obligt rein dem Client.
+Es gibt zwar verschiedene Ansätze so eine API umzusetzen, jedoch gibt es Richtlinien und Best-Practices. Die Antwort des Servers and den Client sollte in JSON verfasst sein. Um die Skalierbarkeit der Anwendungen zu garantieren, ist eine Server nicht dazu verpflichtet, den Status einer Ressource sich zu merken. Diese Aufgabe obligt rein dem Client.
 [vgl. @REST-API-Design-Rulebook, S. 3 f.]
 
 Eine URI soll klar verständlich und strukturell aufklärend designed sein. Wenn man die URI begutachtet, soll genau ersichtlich sein, welche Ressource man bei Aufruf erhält. Der Aufbau ist in der RFC 3986 beschrieben unter dem Format:
@@ -262,7 +279,7 @@ Eine URI soll klar verständlich und strukturell aufklärend designed sein. Wenn
   - Um unnötige Probleme zu vermeiden soll die gesamte URI klein geschrieben werden
 - File extensions dürfen nicht in in der URI vorkommen
 - Widerspruchsfreie Namen für Subdomains.
-- CRUD Namen dürfen in keinem Part der URI verwendet werden.
+- CRUD^[Create, Read, Update, Delete] Namen dürfen in keinem Part der URI verwendet werden.
 [vgl. @REST-API-Design-Rulebook, S. 11 - 13]
 
 **URI Designregeln**:
@@ -608,6 +625,10 @@ db_container:
     mode: global
 ```
 
+##### Node.js
+
+In Docker Compose gibt es ein Attribut `command`, in dem man Shell Commands angeben kann, die beim Starten des Containers ausgeführt werden sollen. Node.js benötigt viele Packages im Hintergrund, welche im Ordner `node_modules` geladen werden. Die Packages können sich aber je nach Betriebsystem und / oder Kernel unterscheiden. Somit ist es am sinnvollsten, wenn man sie jedes mal frisch installiert. Dies kann mit dem Command `sh -c 'npm install && npm run build && npm run dev -- --host'` erzielt werden.
+
 ##### Traefik
 
 Traefik ist ein Open-Source Reverse Proxy und Load Balancer. Ein großer Vorteil von Traefik zu anderen Konkurenten ist, dass man nicht viel konfigurieren muss, da es aufgrund eines eigenen Service Discorvery Modus die zu routenden Anwendungen automatisch erkennt. Außerdem muss man sich nicht mehr mühselig SSL-Zertifikate kaufen, sondern kann diese sich generieren lassen. Ein kleines Kontra bringt dieses Feature aber mit sich: Da die Zertifikate nicht von einer offiziellen Autorität ausgestellt werden, werden diese in den Browsern und von manchen Libraries als unsicher geflaggt. [@traefik-overview]
@@ -663,7 +684,7 @@ traefik.http.routers.web.tls.certresolver: myresolver
 
 Um unsere Services öffentlich zugänglich machen zu können, wurde ein simpler headless Ubuntu Server mit der Version 24.04 auf einem Rasperry Pi Model B mit 4GB RAM aufgesetzt. Dieses Gerät wurde dann mittels einer öffentlichen IP^[Internet Protocol] Addresse und einer damit assoziierten Domain im Internet zugänglich gemacht. Ein verlässlicher Remotezuugriff wird mithilfe der Installation von SSH^[Secure Shell] ermöglicht. Da unsere gesamte Architektur auf Docker aufbaut, wurde auch diese Software dort installiert.
 
-![Raspberry Pi](img/Schrempf/physical-server.png){width=100%}
+![Server auf einem Raspberry Pi](img/Schrempf/physical-server.png){width=100%}
 
 #### GitHub Action
 
@@ -716,23 +737,26 @@ jobs:
 Bei der Umsetzung der Backend Server haben wir uns für eine Trennung der Authentifizierung und der Datenabfrage entschieden, da bei einer Komprimierung einer dieser Komponenten die jeweils andere funktionsfähig bleibt und sie auch getrennt von einander betrieben werden können, was eine zusätzliche Sicherheitskomponente einführt. Außerdem wird JavaScript als Programmiersprache und Node.js verwendet, da es unzählige, für uns sehr nützliche, Libraries anbietet. Trotz der logischen Trennung sind beide jedoch gleich aufgebaut: [@medium-rest-api]
 
 \dirtree{%
-.1 rest.
-.2 src.
+.1 src.
+.2 db.
+.3 connect.js.
+.3 helper.js.
+.2 errors.
+.3 customErrors.js.
+.2 middlewares.
+.3 handleError.js.
+.3 notFound.js.
+.3 tryCatchWrapper.js.
+.3 validateRouteParameter.js.
+.2 resources.
 .3 db.
-.4 connect.js.
+.4 controller.js.
 .4 helper.js.
-.3 errors.
-.4 customErrors.js.
-.3 middlewares.
-.4 handleError.js.
-.4 notFound.js.
-.4 tryCatchWrapper.js.
-.4 validateRouteParameter.js.
-.3 resources.
-.2 ssl.
-.2 .env.
-.2 app.js.
-.2 package.json.
+.4 routes.js.
+.1 ssl.
+.1 .env.
+.1 app.js.
+.1 package.json.
 }
 
 In `package.json` werden die Grundzüge des Projekts beschrieben. Welche Packages verwendet werden, welche Metadaten vorhanden sind und der Einsprungspunkt. Da, aufgrund der besseren Lesbarkeit, entschieden wurde, modular JavaScript (ES Module) zu verwenden und dies auch spezifiziert werden muss, wurde `'type': 'module'` in der oben angesprochenen Datei eingegeben. Dies ermöglicht nun z.B. `import` anstatt der CommonJS Variante `require()` zu verwenden.
@@ -847,42 +871,322 @@ export const sensor_session = async function(flux) {
 
 #### Middleware
 
-TODO
+Eine Middleware ist prinzipiell dafür konzipiert, Daten zu transformieren, überprüfen oder Fehler zu beheben oder zu werfen. Im `middlewares` Ordner wird primär Error handling und parameter checking betrieben. Mit `handleError.js` wird eine Möglichkeit geboten, indiviudelle Fehlermeldungen mit den korrespondierenden HTTP-Codes zu werfen. Dies wird mit der Klasse `CustomError` realisiert. Der `tryCatchWrapper.js` ist eine Funktion, die einen try-catch Block beinhaltet und als Argument eine auszuführende Funktion bietet. Wenn in der auszuführenden Funktion Fehler geworfen werden, die dort nicht schon behandelt werden, schafft diese Funktion sozusagen ein Schutzgitter, welches selbst bei critical Errors die weitere Exekution des Programms ermöglicht. Es wird als Wrapper angewandt. [@medium-rest-api] URIs können Variablen in ihren Pathsegmenten beinhalten. Wenn solche vom REST Endpoint benötigt werden, kann es zu schwerwiegenden Problemen führen, wenn diese Variablen nicht gesetzt sind. Um dies vorzubeugen, wurde `validateRouteParameter.js` geschrieben. Es bietet eine Funktion, welche bei der Routendefinition als Middleware eingespeist werden kann, um im Vorhinein zu überprüfen, ob die Variablen gesetzt sind und wenn nicht, die Anfrage vorzeitig zu beenden. Queryparameter und Routebodies muss man jedoch in der von der Routedefinition aufgerufenen Funktion selbst nach Vorhandenheit prüfen.
 
-- Errors
-- tryCatchWrapper
-- validateRouteParameter
+```{caption="Erstellen einer individuellen Error Klasse" .js}
+export class CustomError extends Error {
+    constructor(message, statusCode) {
+      super(message);
+      this.statusCode = statusCode;
+    }
+};
+  
+export const createCustomError = (message, statusCode) => {
+  return new CustomError(message, statusCode);
+};
+```
+
+```{caption="Überprüfen der Vorhandenheit von Path Variablen bei REST Endpoints" .js}
+const validateRouteParams = function(req, res, next) {
+    // search for route parameters that are not set
+    for (const [key, value] of Object.entries(req.params)) {
+      // if a route parameter is not set, it starts with the place holder :
+      if (value.startsWith(":")) {
+        return next(createCustomError(`${key} parameter is required`, 400));
+      }
+    }
+    next();
+};
+```
 
 #### Routing
 
-TODO
+Endpoints werden mittels Express in dem File `routes.js` angefertigt. In dieser Dateie werden alle von den Routen benötigten Funktionen von `controller.js` importiert. In Letzterer wird beschrieben, was welche Route machen soll bzw. die Funktion welche hinter dieser Route steht. In der Ersten hingegen werden rein nur die Routendefinitionen vorgenommen. Anzumerken ist hierbei, dass Pathvariablen mit einem Dopppelpunkt und dem darauffolgenden Variablennamen gekennzeichnet werden. Man kann auch direkt im Pathnamen RegEx Ausdrücke anwenden.
 
-- Controller.js
-- Routes.js
+```{caption="Routing mittels Express" .js}
+import express from "express";
+
+import {
+    getContainerById,
+} from "./controller.js";
+import validateToken from "../../middlewares/validateToken.js";
+import validateRouteParams from "../../middlewares/validateRouteParameter.js";
+
+const router = express.Router();
+
+// execute the in the controller defined function when a request to this URI is sent
+router.route("/container/:id").get(validateRouteParams, validateToken("select"), getContainerById);
+
+export default router;
+```
 
 #### Authentifizierung
 
-TODO
+Es gibt verschiedene Möglichkeiten eine API zugänglich zu machen. Sie kann entweder für alle oder eingeschränkt verfügbar sein. Da in unserem Anwendungsfall auch sensible Daten verarbeitet werden, haben wir uns für eine beschränkte API entschieden. Wie schützt man sie nun? Mittels Tokens. Was sind Tokens? Tokens sind zufällig generierte Schlüsselpaare, welche Nutzerinformationen beinhalten. Diese darin gespeicherten Informationen können nur dann ausgelesen werden, wenn man den Schlüssel dekodieren kann. Deswegen ist es essenziell, um die Integrität des Systems zu bewahren, dass man eine gute Verschlüsselung verwendet. In diesem Fall hier werden die Libraries `bcryptjs` zur Hash Erstellung und `jsonwebtoken` zur Token Erstellung verwendet. Prinzipiell kann man auch nur einen JWT benutzen, doch hier wird ein Access und Refresh Prinzip verfolgt. Es gibt nun zwei Tokens. Einer, welcher jemanden Zugriff zu den Ressourcen ermöglicht und einen welcher den Access Token nach Ablauf verlängern kann. Somit kann ein Auto-Logout System implementiert werden. In dieser Ausarbeitung ist der Access Token 15 min und der Refresh Token 20 min gültig. Solang eine Aktivität des Benutzers verzeichnet wird, werden immer wieder neue Tokenpaare generiert. Doch nach 20 min Inaktivität verliet der Benutzer seinen Zugang und muss sich neu einloggen. Pro Tokenart gibt es verschiedene Salts, welche mittels `require("crypto").randomBytes(64).toString("hex")` in Node.js generiert werden können. Die Passwörter der Benutzer werden natürlich nicht im Reintext in den Datenbanken persitiert, sondern von `bcryptjs` gehasht. [@medium-auth-simple] Die Funktoin `bcryptjs.hash(input, n)` nimmt zwei Parameter an. Den zu hashenden Inputstring und die Anzahl der Hashdurchläufe n. In dieser Ausarbeitung wurden zehn Durchläufe festgelegt. Es gibt auch die Möglichkeit, einen Input mittels der `bcryptjs.compare(input, hashedInput)` Funktion zu prüfen, ob er gleich dem zweiten schon gehashten Input ist. Die wichtigsten Funktionen beim Authentifizierungssystem sind Login, Validate Token, Refresh Token und Logout.
 
-- Tokenprinzip
-  - JWT
-  - Access- und Refresh
-- Wichtigste Funktionen im Kern vorstellen
-  - Login
-  - Logout
-  - refreshToken
-  - create new user
+Die Login Funktion gibt einen Access- und Refresh Token als Response zurück und nimmt im Routebody die ID des Benutzers und dessen Passwort entgegen. Sie checkt in der Datenbank gegen, ob der Benutzer überhaupt existiert, dann vergleicht sie das angegebene Passwort und das aus der DB und speist schließendlich die Token mit den Benutzerdaten ein. [@medium-auth-mysql]
+
+```{caption="Login Funktion" .js}
+export const login = tryCatchWrapper(async function (req, res, next) {
+  // extract data from request body
+  const user = req.body.user;
+  const pwd = req.body.password;
+
+  // check if request body is present
+  if (user === undefined) return next(createCustomError("user is required", 409));
+  if (pwd === undefined) return next(createCustomError("password is required", 409));
+
+  // sql statements
+  const searchSql = "SELECT u.password, u.role, u.disabled FROM user.user u WHERE u.id = ? LIMIT 1";
+  const insertSql = "INSERT INTO user.token VALUES (?, ?)";
+
+  // check if user exists
+  const [rows] = await session(searchSql, user);
+  if (rows.length === 0) return next(createCustomError("User does not exist", 404));
+  // check if user is disabled
+  if (rows[0].disabled) return next(createCustomError("User is disabled", 401));
+
+  const hashedPwd = rows[0].password;
+  // check if the given password is correct
+  if (await bcryptjs.compare(pwd, hashedPwd)) {
+    // generate tokens
+    const accessToken = generateAccessToken(user, rows[0].role);
+    const refreshToken = generateRefreshToken(user, rows[0].role);
+
+    // insert tokens into the database and send them back
+    await session(insertSql, [accessToken, refreshToken]);
+    return res.status(201).json({ accessToken: accessToken, refreshToken: refreshToken});
+  } else {
+    return next(createCustomError("Password incorrect", 401));
+  }
+});
+```
+
+```{caption="Access Token Generierung" .js}
+export const generateAccessToken = function(user, role) {
+    return jwt.sign({user, role}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15m"})
+};
+```
+
+```{caption="Refresh Token Generierung" .js}
+export const generateRefreshToken = function(user, role) {
+    return jwt.sign({user, role}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "20m"})
+};
+```
+
+Die `validateToken` Funktion prüft, ob ein Token, welcher im Authorization-Header mitgeführt wird, valide ist. Dies beinhaltet, das nachschauen, ob der Token in der Datenbank vorhanden ist, ob er noch eine zeitliche Gültigkeit aufweist und das Überprufen, dass der Benutzer die für die Ressource benötigten Rechte aufweist und auch nicht gesperrt ist. Ein zusätzlicher Parameter `isMiddleware` wird aufgrund der Rückgabewerte benötigt, um zu unterscheiden, ob die Funktion innerhalb des Authentifizierungsservers oder von einer REST Abfrage aufgerufen wird. Als Routeparameter nimmt sie die benötigte Rechtsstufe entgegen und gibt entweder die HTTP-Codes 200 für valide (Zugriff gewährt) oder 403 (Zugriff verweigert) zurück.
+
+```{caption="Validate Token Funktion" .js}
+export const validateToken = (requiredPermission, isMiddleware = true) => {
+  return tryCatchWrapper(async (req, res, next) => {
+    // retrieve token from authorization header
+    const authHeader = req.headers["authorization"];
+
+    if (authHeader == null) return next(createCustomError("Token not present", 400));
+  
+    const token = authHeader.split(" ")[1];
+    if (token == null) return next(createCustomError("Token not present", 400));
+
+    if (requiredPermission === null || requiredPermission === "") return next(createCustomError("Permission not present", 400));
+
+    // sql statements
+    const searchUserSql = "SELECT u.disabled FROM user.user u WHERE u.id = ? LIMIT 1";
+    const searchTokenSql = "SELECT 1 FROM user.token t WHERE t.access = ? LIMIT 1";
+    // query to check if the role has the required permission
+    const searchRolePermissionSql = `
+      SELECT 1
+        FROM privilege.role_permission rp
+        INNER JOIN privilege.role r
+          ON rp.role = r.id
+        INNER JOIN privilege.permission p
+          ON rp.permission = p.id
+        WHERE r.id = ? AND p.name = ? LIMIT 1`;
+
+    // check if token is valid
+    let [rows] = await session(searchTokenSql, token);
+    if (rows.length === 0) return next(createCustomError("Token invalid", 401));
+
+    // verify token
+    const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+      if (err) return next(createCustomError("Token expired", 403));
+      req.user = user;
+      return user;
+    });
+
+    // extract name and role from token
+    const user = payload.user;
+    const userRole = payload.role;
+
+    // check if user is disabled
+    [rows] = await session(searchUserSql, user);
+    if (rows[0].disabled) return next(createCustomError("User is disabled", 401));
+
+    [rows] = await session(searchRolePermissionSql, [userRole, requiredPermission]);
+
+    // if there are any entries the user has the required permission
+    if (rows.length > 0) {
+      if (isMiddleware) return next();
+      else return res.status(200).json({ message: "ok" });
+    } else return next(createCustomError("Permission denied", 403)); 
+  });
+};
+```
+
+Die `refreshToken` Funktion ist dafür gedacht, dass man ihr im Routebody den Refresht Token übergibt und wenn dieser noch nicht abgelaufen ist, wird einem ein neues Paar an Access- und Refresh Tokens übergeben und das alte Paar aus der Datenbank entfernt.
+
+```{caption="Refresh Token Funktion" .js}
+export const refreshToken = tryCatchWrapper(async function (req, res, next) {
+  // extract data from request body
+  const refreshTokenOld = req.body.refreshToken;
+
+  // check if request body is present
+  if (refreshTokenOld === undefined) return next(createCustomError("refreshToken is required", 409));
+
+  // sql statements
+  const searchTokenSql = "SELECT 1 FROM user.token t WHERE t.refresh = ? LIMIT 1";
+  const searchUserSql = "SELECT u.disabled FROM user.user u WHERE u.id = ? LIMIT 1";
+  const updateSql = "UPDATE user.token t SET t.access = ?, t.refresh = ? WHERE t.refresh = ?";
+
+  // check if token is valid
+  let [rows] = await session(searchTokenSql, refreshTokenOld);
+  if (rows.length === 0) return next(createCustomError("Refresh token invalid", 400));
+
+  // check if refresh token is expired
+  const payload = jwt.verify(refreshTokenOld, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) return next(createCustomError("Token expired", 403));
+    else return user;
+  });
+
+  // retrieve user name from token
+  const user = payload.user;
+  const userRole = payload.role;
+
+  // check if user is disabled
+  [rows] = await session(searchUserSql, user);
+  if (rows[0].disabled) return next(createCustomError("User is disabled", 401));
+
+  // generate tokens
+  const accessTokenNew = generateAccessToken(user, userRole);
+  const refreshTokenNew = generateRefreshToken(user, userRole);
+
+  await session(updateSql, [accessTokenNew, refreshTokenNew, refreshTokenOld]);
+  return res.status(201).json({ accessToken: accessTokenNew, refreshToken: refreshTokenNew });
+});
+```
+
+Um den Prozess der Benutzerabwicklung zu vervollständigen, gibt es noch den Logout. Hier wird im Routebody wieder der Refresh Token übergeben und die Tokenpaare des Nutzers aus der Datenbank entfernt.
+
+```{caption="Logout Funktion" .js}
+export const logout = tryCatchWrapper(async function (req, res, next) {
+  // extract data from request body
+  const refreshToken = req.body.refreshToken;
+
+  // check if request body is present
+  if (refreshToken === undefined) return next(createCustomError("refreshToken is required", 409));
+
+  // sql statements
+  const searchSql = "SELECT 1 FROM user.token t WHERE t.refresh = ? LIMIT 1";
+  const deleteSql = "DELETE FROM user.token t WHERE t.refresh = ?";
+
+  // check if token is valid
+  const [rows] = await session(searchSql, refreshToken);
+  if (rows.length === 0) return next(createCustomError("Token invalid", 400));
+
+  // check if refresh token is expired
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) return next(createCustomError("Token expired", 403));
+  });
+
+  // delete old token
+  await session(deleteSql, refreshToken);
+  return res.status(201).json({ message: "Logged out"});
+});
+```
+
+Um diese Funktionen auch tatsächlich benutzen zu können, müssen sie mittels Express in einer URI bereitgestellt werden können.
+
+```{caption="Authentifizierungsroutes" .js}
+router.route("/login").post(login);
+router.route("/logout").delete(logout);
+router.route("/token/:permission").get(validateRouteParams, (req, res, next) => validateToken(req.params.permission, false)(req, res, next));
+router.route("/token/refresh").post(refreshToken);
+```
 
 #### Datenabfrage
 
-TODO
+Im Vergleich zur allgemeinen Struktur gibt es beim Datenabfrageserver noch eine weitere Datei namens `middlewares/validateToken.js`. Diese bietet eine Schnittstelle zum Authentifizierungsserver um die in den Header mitgeführten Token zu prüfen. Sie leitet einfach die Anfrage weiter und verarbeitet sie erst dann, wenn von `auth/token/:permission` ein Statuscode 200 zurückgegeben wird. Die Struktur bleibt aber ansonten aufrecht. Damit ist gemeint, dass in `ressources` nun weitere Ordner für die jeweiligen Datenbanken gemacht wurden.
 
-- validateTokens
-- Vorstellen der einzelnen Abfragemöglichkeiten
-  - ship
-  - container
-  - threshold
-  - sensor
-- eingehen auf die wichtigsten punkte wie die functions ausschauen
-  - bei sensor dass erstellen und prüfen der queries
-  - nicht alle und nicht alles sehr detailreich machen - grob und übersichtlich
+\dirtree{%
+.1 resources.
+.2 container.
+.2 sensor.
+.2 ship.
+.2 threshold.
+}
+
+Vom Aufbau und der Funktionsweise gibt es kaum Unterschiede. Das einzige was hier verschieden ist, ist die Sensordatenbank, welche mit InfluxDB funktioniert. In `helper.js` wurden die Methoden `fluxQueryTimeRange` für Sensordaten in einem speziellen Zeitraum, `fluxQueryLatest` für die neuesten Sensordaten und `checkParams` zum Überprüfen der richtigen Zeitstempeleinheit (ISO 8601, UTC) definiert. Im Controller ist eine Map definiert, welche den Sensortypen ihren Bucket zuweist.  Ein Sensortyp kann z.B. Temperatur (temperature) oder Luftfeuchtigkeit (humidity) sein. Mit dieser Map wird eine signifikante Codereduzierung ermöglicht, da man nur noch eine `getSensorData(sensorType)` Funktion mit dem Sensortyp als Attribut haben kann. Als Pathvariablen werden die IDs des Containers und dessen aktuelles Schiffes angegeben. Als Queryparameter fungieren die Start- und Stopzeit und ein Boolean, ob man nur den neuesten Wert des Sensors haben will.
+
+```{caption="Allgemeine Sensordaten Funktion" .js}
+export const getSensorData = (sensorType) => {
+  return tryCatchWrapper(async function (req, res, next) {
+    // extract data from request parameters
+    const ship = req.params.ship;
+    const container = req.params.container;
+    // extract data from request query
+    const start = req.query.start;
+    const stop = req.query.stop;
+    const latest = req.query.latest;
+
+    // get the configuration for the given sensor type
+    const config = SENSOR_CONFIG[sensorType];
+    if (!config) return next(createCustomError("Invalid sensor type", 400));
+
+    // validate query parameters
+    let flux;
+    if (latest) {
+      // build query for the latest data
+      flux = fluxQueryLatest(config.bucket, ship, container);
+    } else if (start && stop) {
+      // validate start and stop
+      const checked = checkParams(start, stop);
+      if (checked) return next(createCustomError(checked, 400));
+
+      // build query for the time range
+      flux = fluxQueryTimeRange(config.bucket, ship, container, start, stop);
+    } else {
+      // invalid query parameters
+      return next(createCustomError("No valid query parameters", 400));
+    }
+
+    // execute query
+    const rows = await sensor_session(flux);
+    return res.status(200).json({ [config.responseKey]: rows });
+  });
+};
+```
+
+Um eine erhöhte Praktikabilität bieten zu können, gibt es auch die Möglichkeit, alle neuesten Sensorwerte eines gesamten Containers aufzurufen. Hierbei werden nur die Schiff und Container ID als Pathvariable benötigt.
+
+```{caption="Funktion um alle Sensordaten eines Container zu bekommen" .js}
+export const getAllSensorDataPerContainer = tryCatchWrapper(async function (req, res, next) {
+  // extract data from request parameters
+  const ship = req.params.ship;
+  const container = req.params.container;
+
+  // get data for all sensors
+  const sensorDataPromises = Object.keys(SENSOR_CONFIG).map(async (sensorType) => {
+    const config = SENSOR_CONFIG[sensorType];
+    const flux = fluxQueryLatest(config.bucket, ship, container);
+    const rows = await sensor_session(flux);
+    return { [config.responseKey]: rows };
+  });
+
+  // resolve all promises
+  const sensorDataArray = await Promise.all(sensorDataPromises);
+
+  // combine results into a single object
+  const sensorData = sensorDataArray.reduce((acc, data) => ({ ...acc, ...data }), {});
+
+  return res.status(200).json({ sensor_data: sensorData });
+});
+```
