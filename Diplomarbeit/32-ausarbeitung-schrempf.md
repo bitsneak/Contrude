@@ -74,7 +74,7 @@ Wie funktioniert es? Am Anfang gibt der Benutzer sein Login Daten an. Vorzugswei
 
 ![CI / CD Ablauf [@bestarion]](img/Schrempf/ci-cd.png){width=100%}
 
-CI / CD^[abk:CI/CD|Continuous Integration und Continuous Deployment] ist ein Konzept, welches Entwicklerteams, dazu anregt, kontinuierlich und in kürzeren Abständen Dinge am Code zu ändern, diesen zu verbessern und zu automatisieren. Wie oben dargestellt, ist es ein nie endender Kreislauf. Man unterscheidet zwei Komponenten voneinander: Die Continuous integration und das Continuous delivery.
+CI / CD^[Continuous Integration und Continuous Deployment] ist ein Konzept, welches Entwicklerteams, dazu anregt, kontinuierlich und in kürzeren Abständen Dinge am Code zu ändern, diesen zu verbessern und zu automatisieren. Wie oben dargestellt, ist es ein nie endender Kreislauf. Man unterscheidet zwei Komponenten voneinander: Die Continuous integration und das Continuous delivery.
 
 Unter CI^[Continuous Integration] versteht man das tatsächliche Entwickeln, Testen und Hochladen des Codes in das VCS^[Version Control System]. Dies wird durch verschiedene Methoden und Prozesse erleichtert, wie zum Beispiel automatisches Testen des Programms oder agiles Projektmanagement.
 
