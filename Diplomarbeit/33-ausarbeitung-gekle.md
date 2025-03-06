@@ -568,6 +568,8 @@ Als Basis-Signal wurde willkürlich 15 hergenommen, dieser Wert wird dann um ein
 
 Was würde es nun bewirken, wenn `randomNum` weiter verstreut wird (z. B., 0.1 bis 10)? Würde man diese Umstellung im Simulator umsetzen, dann steigt der Wert, um welchen das Basis-Signal (15) erhöht werden KANN (auch eine Verringerung ist natürlich möglich). Dies bedeutet, dass der Wahrscheinlichkeit, dass folgender Fall eintrifft: `cont.getSignalMinimum() <= signal => TRUE` steigt, was wiederum bedeutet, dass die Vernetzung zwischen den Containern dichter wird. Anders sinkt die Eintritts-Wahrscheinlichkeit des Ausdrucks, wenn `randomNum` verringert wird (z.B. auf 0.01 bis 0.1).
 
+Es sollte angemerkt werden, dass der Simulator nicht 100% realitätsgetreu ein Netz an Containern erstellen kann. So wird z.B. noch nicht gewährleistet, dass die empfangene Stärke des Signals mit steigender Distanz zum Ausgangs-Container absinkt. Dies kann aber in Zukunft noch umgesetzt werden.
+
 #### Verwendung der Daten (Funktionen des Simulators)
 Ist die Anzahl der Container erst einmal eingegeben, so wird der User mit folgendem konfrontiert:
 
@@ -795,7 +797,7 @@ function applyHighlight(nodeId) {
 ```
 [vgl. @gpt-D3jsDGScript-Erweiterung]
 
-Natürlich ist es auch möglich, per Klick einen anderen Container auszuwählen. Dies ist möglich, da die Knoten über `.on('click', highlightNode)` die `highLightNode` Methode aufruft, welche die ID des angeklickten Knotens übernimmt und an die oben angeführte `applyHighlight` weitergibt. [vgl. @gpt-D3jsDGScript-Erweiterung]
+Natürlich ist es auch möglich, per Klick einen anderen Container auszuwählen. Dies ist möglich, da die Knoten über: `.on('click', highlightNode)`, die `highLightNode` Methode aufrufen, welche die ID des angeklickten Knotens übernimmt und an die oben angeführte `applyHighlight` weitergibt. [vgl. @gpt-D3jsDGScript-Erweiterung]
 
 
 Basierend auf dem `graphSpecific.json` aus dem Kapitel *Exportieren in JSON Files* würde als Ergebnis des Dragable-Graph-Skripts folgender Graph entstehen:
@@ -819,9 +821,11 @@ Ein umfangreicherer Graph, welcher aus einer Simulation mit 16 Containern entsta
 Bevor die Website überhaupt mithilfe von React umgesetzt werden konnte, musste ein Design entworfen werden, mit welchem sich alle Beteiligten der Diplomarbeit ein Bild machen konnten, wie die Webanwendung letztendlich aussehen sollte. Die Umsetzung erfolgte über das Vektorgraphikprogramm Adobe Illustrator. 
 Die Website wurde primär auf 3 Seiten aufgeteilt:
 
-- Login Page
-- Main Page
-- Detail Page
+- Login Page (`/`)
+- Main Page (`/main`)
+- Detail Page (`/detail/:shipId/:containerId`)
+
+Da es sich bei dem Projekt um eine Single-Page-Application handelt, sind die oben angeführten Pages nicht tatsächliche eigene HTML-Dokumente, welche eine Seite repräsentieren, sondern funktionelle Komponente. Speziell jedoch die 3 Komponenten, mit verschiedenen Routes (siehe Klammer in der Aufzählung). 
 
 ##### Login Page
 Die Login Page ist selbstverständlich für die Anmeldung des Users verantwortlich. Im Rahmen der Diplomarbeit beschränkt sich diese aber wirklich nur auf das Anmelden und bietet daher keine Funktion zum Anlegen/ Registrierung eines neuen Users. Des Weiteren sollte die "voll-umfangende" Version des Logos, welches ebenfalls in Adobe Illustrator erstellt wurde, zu sehen sein.
@@ -853,6 +857,8 @@ Der Erstentwurf wurde dann von den an der Diplomarbeit Beteiligten analysiert. D
 In der Login Page wurde mittels eines Hyperlinks die Möglichkeit bereitgestellt, auf eine Impressum & Kontakt-Seite zu gelangen. Die Detailpage wurde um eine Notizfunktion erweitert, mit welcher der User eigene Notizen zu den jeweiligen Containern verschriftlichen kann. Diese wird links neben der Tabelle zu sehen sein. 
 
 Die Main Page wurde mit großem Abstand am stärksten verändert. Bei der Containerzoom-Funktion wurde der Button von links nach rechts verschoben, wo sie die Vor- und Zurückfunktion ersetzte. Daneben wurde eine Anzeige des aktuellen Zooms hinzugefügt. Anstelle des Zoom Button wurde auf der linken Seite ein "ShipSelect" Button eingeführt, welcher das Wechseln des Schiffs ermöglicht. Auch wurde das Design allgemein verbessert.
+
+Auch bei der Detail Page wurde vor allem die Topbar funktionstechnisch stark verändert, um etwa die Thresholds einsehen zu können. Zusätzlich würde ein Button hinzugefügt, welcher den Dragable Graphen aufruft. 
 
 Eine völlig neue Komponente war der ShipChooser-Dialog. Dieser wird aufgerufen, wenn auf einen durch das Grid angezeigten Container geklickt wird. Angenommen ein Container repräsentiert zehn Container, dann kann über den Dialog noch ausgewählt werden, welchen Container man genau haben möchte und man wird dann zu der passenden Detail Page weitergeleitet. Das Design dieses Dialogs, wurde auch für weitere spätere Dialoge verwendet. 
 
@@ -909,7 +915,7 @@ Wie auch die MainPage unterteilt sich die Detail Page in 3 große Komponenten:
 
 ![Struktur der Detail Page](img/Gekle/DetailPageStructure.png)
 
-Die `Detailspace`-Komponente ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit, Notizen, welche auch gespeichert werden, hinzuzufügen, zählt ebenfalls zu den Aufgaben der `DetailSpace`. Der Button unterhalb der Tabelle öffnet in einem neuen Browser-Tab einen Graphen, welcher das ausgewählte Schiff mit seinen Containern repräsentiert. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Thresholds und Zurückgehen zur MainPage bietet.
+Die `Detailspace`-Komponente ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit, Notizen, welche auch gespeichert werden, hinzuzufügen, zählt ebenfalls zu den Aufgaben des `DetailSpace`. Der Button unterhalb der Tabelle öffnet in einem neuen Browser-Tab einen Graphen, welcher das ausgewählte Schiff mit seinen Containern repräsentiert. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Thresholds und Zurückgehen zur MainPage bietet.
 
 #### Funktionsweise der Komponenten
 ##### LoginField der LoginPage
@@ -922,10 +928,10 @@ Die Login Page verwaltet zwei `useState`-Variablen: `username` und `password`. F
 
 ![LoginFields (Gelb markiert)](img/Gekle/Loginfields.png){width=33%}
 
-Innerhalb der Komponente wird ein HTML `input`-Tag benutzt. Input kann verschiedene Typen annehmen, wie hier etwa "text" und "password". Dem `LoginField` werden auch alle weiteren wichtigen Daten für das Input übergeben, wie etwa den Placeholder und den Wert (Value) den der User eingibt. Die Variable `isPassword` bestimmt, ob "text" oder "password" als Passwort angenommen wird und infolgedessen, ob der Text im `LoginField` als Plaintext oder ob der Text maskiert wird. [vgl. @GeeksForGeeks-HTMLInputTag]. Wird `onChange` innerhalb verändert, sprich der User gibt etwas Neues ein oder editiert bereits eingegebenes, dann gibt das `LoginField` den neuen Wert an die Login Page zurück, wo sie dann mit `setPassword/ setUsername` des `useState` auch wieder verändert werden.
+Innerhalb der Komponente wird ein HTML `input`-Tag benutzt. Input kann verschiedene Typen annehmen, wie hier etwa "text" und "password". Dem `LoginField` werden auch alle weiteren wichtigen Daten für das Input übergeben, wie etwa den Placeholder und den Wert (Value) den der User eingibt. Die Variable `isPassword` bestimmt, ob "text" oder "password" als Passwort angenommen wird und infolgedessen, ob der Text im `LoginField` als Plaintext oder ob der Text maskiert wird. [vgl. @GeeksForGeeks-HTMLInputTag]. Bei `onChange`, sprich der User tippt etwas Neues ein oder editiert bereits eingegebenes, gibt das `LoginField` den neuen Wert an die Login Page zurück, wo es dann mit `setPassword/ setUsername` des `useState` auch wieder verändert wird.
 
 ##### Workspace (MainPage)
-Die **Workspace** Komponente selbst übernimmt zwei Variablen aus der MainPage: `gridSize`, welche dem aktuell ausgewählte Grid entspricht und `selectedShip`, also das momentan ausgewählte Schiff. Die zentrale Aufgabe des Workspace, das Anzeigen der Container, wird von der **renderGrid**-Methode:
+Die **Workspace** Komponente selbst übernimmt zwei Variablen aus der MainPage: `gridSize`, welche dem aktuell ausgewählte Grid entspricht und `selectedShip`, also das momentan ausgewählte Schiff. Die zentrale Aufgabe des Workspace, das Anzeigen der Container, wird von der **renderGrid**-Methode übernommen:
 
 ```{caption="renderGrid Methode" .js}
 const renderGrid = () => {
@@ -1041,7 +1047,7 @@ export default distributeValues;
 
 Wurde dies nun errechnet, beginnt die eigentliche **renderGrid** Methode. Auch diese arbeitet mit einer verschachtelten `for`-Schleife, um durch die einzelnen Grid-Spots durchzuiterieren. Hierbei ist auch das Array des ``ContainerDistributer`` wichtig, da es bestimmt, wie lange die Schleifen anhalten sollen. Pro Spot wird dann ein HTML-`div` zu einem Array hinzugefügt (mit `.push(<div\> <\/div>)`). Jedes dieser Divs hat durch die Rechnung $Row - Column$ (aus den For Schleifen) eine eindeutige Id welche etwa dafür wichtig ist, dass wenn man über das jeweilige Div hovert nur dieses eine hervorgehoben wird. Außerdem wird über `onClick` bestimmt, dass im Falle des klicken auf ein `div` die `handleOpenDialog` aufgerufen wird, mit welcher der Dialog zum Aussuchen des richtigen realen Containers geöffnet wird.
 
-Die zweite wichtige Methode ist also die **handleOpenDialog** Methode, welche den eben erwähnten Dialog öffnet. Sie liest mit der eindeutigen Id der Sammel-Container aus einer in einem `useEffect` erstellten Map. Diese ordnet jedem Sammel-Container mithilfe ihrer eindeutigen Id die realen Container Ids (Mehrzahl!!) zu. Die realen Ids waren zuvor in dem `useState` Array `containerIds` in zufälliger Reihenfolge gespeichert und nun werden nur die passenden in die `dialogValues useState` gespeichert. Zusätzlich wird mithilfe der `isDialogOpen useState` der Dialog geöffnet. Das `ContainerChooser` Element (der Dialog) ist hier zu sehen:
+Die zweite wichtige Methode ist also die **handleOpenDialog** Methode, welche den eben erwähnten Dialog öffnet. Sie liest mit der eindeutigen Id der Sammel-Container aus einer in einem `useEffect` erstellten Map alle Ids der Container auf dem jeweiligen Schiff. Diese ordnet jedem Sammel-Container mithilfe ihrer eindeutigen Id die realen Container Ids (Mehrzahl!!) zu. Die realen Ids waren zuvor in dem `useState` Array `containerIds` in zufälliger Reihenfolge gespeichert und nun werden nur die passenden in die `dialogValues useState` gespeichert. Zusätzlich wird mithilfe der `isDialogOpen useState` der Dialog geöffnet bzw. geschlossen. Das `ContainerChooser` Element (der Dialog) ist hier zu sehen:
 ```{caption="ContainerChooser Komponente Nutzung" .js}
 <ContainerChooser
 	open={isDialogOpen}
@@ -1066,7 +1072,7 @@ const handleSelect = (value) => {
 };
 ```
 
-![ContainerChooser Dialog mit 9 Containern](img/Gekle/ContainerChooserExample.png)
+![ContainerChooser Dialog mit 9 Containern](img/Gekle/ContainerChooserExample.png){width=70%}
 
 Wichtig: auch wenn ein Sammel-Container (das `div`) nur einen oder gar keinen realen Container repräsentiert, wird trotzdem der Dialog geöffnet. Sollte keiner vorhanden sein, so ist nur der Close-Button zu sehen.
 
@@ -1077,7 +1083,7 @@ Der Nutzen der MainPage wird durch die `TopBar` sehr stark erweitert. Dies liegt
 2. Sie bietet eine Suchleiste, mit welcher man über die SerienNummer direkt den ContainerChooser Dialog geöffnet werden kann.
 3. Sie ermöglicht es, das Schiff zu wechseln.
 
-Die `Topbar` ist konfigurierbar, das bedeutet, man kann ihr je nach Anwendungszweck verschiedene weitere Komponenten übergeben. Hierbei kann man zwischen "Left" und "Right" unterscheiden, also ob man die Komponente linksbündig oder rechtsbündig haben möchte. Hier etwa die Erstellung der Topbar für die Main Page:
+Die `Topbar` ist konfigurierbar. Dies bedeutet, man kann ihr je nach Anwendungszweck verschiedene Komponenten übergeben. Hierbei kann man zwischen "Left" und "Right" unterscheiden, also ob man die Komponente linksbündig oder rechtsbündig haben möchte. Als Beispiel die Erstellung der Topbar für die Main Page:
 
 ```{caption="Verschiedene Nutzung der Topbar Komponente in der MainPage" .js}
 <Topbar
@@ -1138,7 +1144,7 @@ Im Kontext der MainPage ist die einzige rechts positionierte Komponente das **Gr
 )}
 ```
 
-Ist `showDropDown` nun TRUE, kommt die `.map` Funktion zum Einsatz. Diese hilft dabei, durch jedes Objekt der `gridOptions` durchzuiterieren, und pro Objekt (in diesem Fall `option`) wird ein neues HTML `List`-Item (\<li>) innerhalb einer Unordered List (\<ul>) angelegt. [vgl. @Ionos-JS-map] Jedes dieser List-Items repräsentiert eine Auswahlmöglichkeit des DropDown Menüs. Mithilfe des `labels` wird jedes eindeutig identifiziert und mittels `rows und cols` (aus dem `gridOptions` Array) wird dem User die dazu passende Grid Option angezeigt. Über `onClick` wird noch definiert, dass die `handleSelectGrid`-Methode aufgerufen werden soll, in welcher `showDropDown` wieder auf FALSE gesetzt und die `gridSize` Variable aus der MainPage über setGridSize, je nach User Auswahl neu gesetzt wird. Diese Änderung übernimmt, da es sich bei `gridSize` um eine useState-Variable handelt, dann auch die MainPage und in weiterer Folge der Workspace. Die Folge: das Grid wird neu gerendert. 
+Ist `showDropDown` nun TRUE, kommt die `.map` Funktion zum Einsatz. Diese hilft dabei, durch jedes Objekt der `gridOptions` durchzuiterieren, wobei pro Objekt (in diesem Fall `option`) wird ein neues HTML `List`-Item (\<li>) innerhalb einer Unordered List (\<ul>) angelegt. [vgl. @Ionos-JS-map] Jedes dieser List-Items repräsentiert eine Auswahlmöglichkeit des DropDown Menüs. Mithilfe des `labels` wird jedes eindeutig identifiziert und mittels `rows und cols` (aus dem `gridOptions` Array) wird dem User die dazu passende Grid Option angezeigt. Über `onClick` wird noch definiert, dass die `handleSelectGrid`-Methode aufgerufen werden soll, in welcher `showDropDown` wieder auf FALSE wird und die `gridSize` Variable aus der MainPage über setGridSize, je nach User Auswahl neu gesetzt wird. Diese Änderung übernimmt, da es sich bei `gridSize` um eine useState-Variable handelt, dann auch die MainPage und in weiterer Folge der Workspace. Die Folge: das Grid wird neu gerendert. 
 
 Zusätzlich soll direkt neben dem `div`, welches das Zoom-Icon repräsentiert, ein zweites `div` erstellt werden, welches den aktuellen Status von `gridSize.rows` und `gridSize.cols` anzeigt. Der Aufbau des GridDropDowns sieht also simpel dargestellt so aus:
 ```{caption="HTML Aufbau GridDropDown" .html}
@@ -1280,7 +1286,7 @@ if (updateResponse.status === 204) {
 ```
 [vgl. @FreeCodeCamp-setTimeOut]
 
-![Notizen mit erfolgreicher Update-Benachrichtigung](img/Gekle/UpdatedNotes.png)
+![Notizen mit erfolgreicher Update-Benachrichtigung](img/Gekle/UpdatedNotes.png){width=70%}
 
 ##### Komponenten der Topbar der DetailPage
 Die Topbar innerhalb der Detailpage ist nicht dieselbe, wie in der MainPage. Die Unterschiede sind folgende:
@@ -1295,7 +1301,7 @@ Die Topbar innerhalb der Detailpage ist nicht dieselbe, wie in der MainPage. Die
 1. Button um festgelegte Thresholds des Containers sich ausgeben zu lassen
 2. Button um zur MainPage zurückzugelangen
 
-![Topbar der DetailPage](img/Gekle/SearchbarDetail.png)
+![Topbar der DetailPage; blau = linksbündig; gelb = rechtsbündig](img/Gekle/SearchbarDetail.png)
 
 Die Retour Funktion nutzt wieder `useNavigate` von `react-router-dom`, indem durch das Klicken auf das `div`, welches hinter dem Retour-Icon liegt, `navigate('/main')` ausgeführt wird. Dadurch gelangt der User zurück auf die MainPage.
 
@@ -1309,14 +1315,14 @@ Innerhalb von `DetailControl` versteckt sich hinter dem Alarm-Icon, welches den 
 
 Klickt der User also auf das Alarm-Icon, dann wird in der DetailPage die `handleThresholdViewerToggle`-Methode aufgerufen, welche den Stand der `thresholdViewOpen useState` von FALSE auf TRUE bzw. von TRUE auf FALSE setzt. Ist diese Variable TRUE, so wird folgender Dialog geöffnet: `ThresholdViewer`.
 
-**ThresholdViewer** fragt für den aktuell ausgewählten Container alle Thresholds aus dem Backend ab und wandelt diese in einen gut lesbaren Zustand ("Satzform") um (=**Satzform**):
+**ThresholdViewer** fragt für den aktuell ausgewählten Container alle Thresholds aus dem Backend ab und wandelt diese in einen gut lesbaren Zustand (=**Satzform**) um:
 
-![Threshold Viewer Dialog](img/Gekle/ThreshholdViewer.png)
+![Threshold Viewer Dialog](img/Gekle/ThreshholdViewer.png){width=80%}
 
 So wird z.B. angegeben, dass folgender Threshold existiert: Wenn die Latitude (Breitengrad) < als 90 Grad ist, dann befindet sich Latitude im kritischen Zustand. Wie auch der `ContainerChooser` besitzt dieser Dialog folgenden Code innerhalb eines Close `Button` : `onClick={onClose}`.
 
 ##### Sidebar
-Die Sidebar ist als Komponente in dem Sinn einzigartig, dass sie sowohl innerhalb der `MainPage` als auch der `DetailPage` gleich aussieht und denselben Zweck erfüllt. Sie setzt sich generell aus mehreren untereinander gereihten `divs` welche alle unterschiedlich viele Prozent der gesamten Höhe der Sidebar einnehmen:
+Die Sidebar ist als Komponente in dem Sinn einzigartig, dass sie sowohl innerhalb der `MainPage` als auch der `DetailPage` gleich aussieht und denselben Zweck erfüllt. Sie setzt sich generell aus mehreren untereinander gereihten `divs` welche alle unterschiedlich viele Prozent der gesamten Höhe der Sidebar einnehmen außeinander:
 
 - Logo-div (10%) --> enthält Logo
 - Favoriten-div (32%) --> enthält die als Favoriten markierten Container-Seriennummern
@@ -1325,7 +1331,7 @@ Die Sidebar ist als Komponente in dem Sinn einzigartig, dass sie sowohl innerhal
 
 Zwischen dem ersten, zweiten und zweiten, dritten `div` befindet sich jeweils noch ein weiteres, welches 3% der Höhe einnimmt und anschreibt, worum es sich bei dem darunter liegenden `div` handelt (Favoriten oder Alarm). Bei dem Alarm- und Favoriten-div ist es zusätzlich möglich, auf und ab zu scrollen, sollte sich die Anzahl der angezeigten Container-Nummern nicht ausgehen. Ihren Inhalt entnehmen die beiden aus `useStates` (`alerts` für die Alerts und `favoritesSerialNumbers` für die Favoriten), welche über `useEffects` die aktuellen Daten aus dem Backend speichern. 
 
-![Aufteilung der Sidebar in Prozenten](img/Gekle/SidebarPercentages.png){width=80%}
+![Aufteilung der Sidebar in Prozenten](img/Gekle/SidebarPercentages.png){width=60%}
 
 Die Dialoge, welche über Buttons am unteren Ende der Sidebar aufgerufen werden können, sehen gleich aus wie der `ContainerChooser`-Dialog. Die Funktionalität des `UserProfile`-Dialogs ist lediglich, eine Möglichkeit zu bieten, den User auszuloggen und an die `LoginPage` zurückzuschicken. Der `Settings`-Dialog wurde nur zum Zweck der Vollständigkeit und Ausbauunfähigkeit der Website eingefügt. Er lässt sich aufrufen, hat aber keine implementierten Funktionalitäten.
 
