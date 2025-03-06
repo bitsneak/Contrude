@@ -72,9 +72,9 @@ Wie funktioniert es? Am Anfang gibt der Benutzer seine Logindaten an. Vorzugswei
 
 ### Continuous Integration und Continuous Deployment
 
-![CI/CD Ablauf [@bestarion]](img/Schrempf/ci-cd.png){width=100%}
+![CI / CD Ablauf [@bestarion]](img/Schrempf/ci-cd.png){width=100%}
 
-CI/CD^[Continuous Integration und Continuous Deployment] ist ein Konzept, welches Entwicklerteams, dazu anregt, kontinuierlich und in kürzeren Abständen Dinge am Code zu ändern, diesen zu verbessern und zu automatisieren. Wie oben dargestellt, ist es ein nie endender Kreislauf. Man unterscheidet zwei Komponenten voneinander: Die Continuous Integration und das Continuous Delivery.
+CI / CD^[Continuous Integration und Continuous Deployment] ist ein Konzept, welches Entwicklerteams, dazu anregt, kontinuierlich und in kürzeren Abständen Dinge am Code zu ändern, diesen zu verbessern und zu automatisieren. Wie oben dargestellt, ist es ein nie endender Kreislauf. Man unterscheidet zwei Komponenten voneinander: Die Continuous Integration und das Continuous Delivery.
 
 Unter CI^[Continuous Integration] versteht man das tatsächliche Entwickeln, Testen und Hochladen des Codes in das VCS^[Version Control System]. Dies wird durch verschiedene Methoden und Prozesse erleichtert, wie zum Beispiel das automatisches Testen des Programms oder agiles Projektmanagement. Das Testen einer Applikation ist ein essenzieller Weg zum Erfolg. CI befasst sich unter anderem mit den Ansätzen, wie ich mein Programm auf bestem Wege prüfen kann. Mit dieser Technologie wird der Grundstein für unter anderem automatisches Unit-, Integrations-, Regression-, Performancetesten gelegt.
 
@@ -291,7 +291,7 @@ Eine URI soll klar verständlich und strukturell aufklärend designed sein. Wenn
 - Stores sind Path Variables und können anstelle eines Nomens eingesetzt werden.
   - Ein Store erzeugt keine neue URI.
   - Ein Store benennt eine Ressource in der URI.
-  - Ein Store wird zur genauerene Identifikation / Spezifikation einer Ressource verwendet. (z.B. ID)
+  - Ein Store wird zur genaueren Identifikation / Spezifikation einer Ressource verwendet. (z.B. ID)
 - Controller Elemente werden als letztes and die URI angehängt.
   - Sie können nicht den CRUD-Operationen zugeordnet werden.
   - Sie spiegeln aufrufbare Funktionen wider.
@@ -573,7 +573,7 @@ Nach weiteren Anpassungen wie Achsenbeschriftung, Diagrammtyp, Diagrammtitel, Ei
 
 #### Docker
 
-In einer sich immer schneller ändernden Welt ist eine modulare Software unausweichlich, um Patches rasch einzuspielen, Sicherheitslücken zu fixen und neue Features implementieren zu können. Da es leichter ist, so ein System einmal zu entwerfen und dann zu erweitern als ein bestehendes Konstrukt umzugestalten, wurde hier von Anfang an Docker verwendet um genau so eine Architektur zu erzielen. Die gesamte Software ist in Microservices unterteilt und kann theoretisch separat betrieben werden. Ausnahmen hinsichtlich der Abhängigkeit/Modularität bestehen nur bei Anwendungen, die eine andere voraussetzen, z.B. ein Server eine Datenbank. Anfangs wurde überlegt, für jeden einzelnen Service ein Dockerfile zu schreiben. Ein Problem, das sich nicht lange darauf einstellte war, wie man denn all die Anwendungen gleichzeitig hochfahren kann. Eine Lösung bot hierbei Docker Compose. Nun kann man mehrere Services in einer Datei definieren und mit einem Befehl hochfahren: `docker compose up`. Da man in Docker Compose zwar einen Service aus einem Image, welches in einem eigenen Dockerfile beschrieben wurde, erstellen kann, dies jedoch bei uns keinen Sinn hatte, wurde die Strategie dahin gehend verändert, dass nur noch das Base-Image vom Docker-Hub verwendet und im gebotenen Rahmen abgewandelt wurde. Wir haben uns für die zweite Version entschieden, da wir die Base-Images nicht wirklich verändern, sondern eher Konfigurationen an ihnen durchführen. Beispiele dafür sind Volume-Mounts, Entrypoints anpassen oder Umgebungsvariablen setzen. Zusätzlich erspart dies, das Schreiben unzähliger Dockerfiles und man kann alles übersichtlich in einer Datei behalten. [@gpt-server-structure] Ein guter Vergleich für das Gelingen unseres Ansetzes ist, dass zu Anfang nur drei Services im Einsatz waren und nun sind wir bei zwölf, welche im Laufe der Zeit ihren Weg in unsere Anwendung gefunden haben und auch leicht einzugliedern waren. Folgende Services sind final im Einsatz:
+In einer sich immer schneller ändernden Welt ist eine modulare Software unausweichlich, um Patches rasch einzuspielen, Sicherheitslücken zu fixen und neue Features implementieren zu können. Da es leichter ist, so ein System einmal zu entwerfen und dann zu erweitern als ein bestehendes Konstrukt umzugestalten, wurde hier von Anfang an Docker verwendet um genau so eine Architektur zu erzielen. Die gesamte Software ist in Microservices unterteilt und kann theoretisch separat betrieben werden. Ausnahmen hinsichtlich der Abhängigkeit / Modularität bestehen nur bei Anwendungen, die eine andere voraussetzen, z.B. ein Server eine Datenbank. Anfangs wurde überlegt, für jeden einzelnen Service ein Dockerfile zu schreiben. Ein Problem, das sich nicht lange darauf einstellte war, wie man denn all die Anwendungen gleichzeitig hochfahren kann. Eine Lösung bot hierbei Docker Compose. Nun kann man mehrere Services in einer Datei definieren und mit einem Befehl hochfahren: `docker compose up`. Da man in Docker Compose zwar einen Service aus einem Image, welches in einem eigenen Dockerfile beschrieben wurde, erstellen kann, dies jedoch bei uns keinen Sinn hatte, wurde die Strategie dahin gehend verändert, dass nur noch das Base-Image vom Docker-Hub verwendet und im gebotenen Rahmen abgewandelt wurde. Wir haben uns für die zweite Version entschieden, da wir die Base-Images nicht wirklich verändern, sondern eher Konfigurationen an ihnen durchführen. Beispiele dafür sind Volume-Mounts, Entrypoints anpassen oder Umgebungsvariablen setzen. Zusätzlich erspart dies, das Schreiben unzähliger Dockerfiles und man kann alles übersichtlich in einer Datei behalten. [@gpt-server-structure] Ein guter Vergleich für das Gelingen unseres Ansetzes ist, dass zu Anfang nur drei Services im Einsatz waren und nun sind wir bei zwölf, welche im Laufe der Zeit ihren Weg in unsere Anwendung gefunden haben und auch leicht einzugliedern waren. Folgende Services sind final im Einsatz:
 
 | Image | Usage | Services | Scope |
 |--|--|--|--|
@@ -625,7 +625,7 @@ db_container:
 
 ##### Node.js
 
-In Docker Compose gibt es ein Attribut `command`, in dem man Shell-Commands angeben kann, die beim Starten des Containers ausgeführt werden sollen. Node.js benötigt viele Packages im Hintergrund, welche im Ordner `node_modules` geladen werden. Die Packages können sich aber je nach Betriebssystem und/oder Kernel unterscheiden. Somit ist es am sinnvollsten, wenn man sie jedes Mal frisch installiert. Dies kann mit dem Command `sh -c 'npm install && npm run build && npm run dev -- --host'` erzielt werden.
+In Docker Compose gibt es ein Attribut `command`, in dem man Shell-Commands angeben kann, die beim Starten des Containers ausgeführt werden sollen. Node.js benötigt viele Packages im Hintergrund, welche im Ordner `node_modules` geladen werden. Die Packages können sich aber je nach Betriebssystem und / oder Kernel unterscheiden. Somit ist es am sinnvollsten, wenn man sie jedes Mal frisch installiert. Dies kann mit dem Command `sh -c 'npm install && npm run build && npm run dev -- --host'` erzielt werden.
 
 ##### Traefik
 
@@ -735,27 +735,25 @@ jobs:
 Bei der Umsetzung der Backend-Server haben wir uns für eine Trennung der Authentifizierung und der Datenabfrage entschieden, da bei einer Kompromittierung einer dieser Komponenten die jeweils andere funktionsfähig bleibt und sie auch getrennt von einander betrieben werden können, was eine zusätzliche Sicherheitskomponente einführt. Außerdem verwenden wir JavaScript als Programmiersprache und Node.js, da es zahlreiche für uns sehr nützliche Libraries bietet. Trotz der logischen Trennung sind beide gleich aufgebaut: [@medium-rest-api]
 
 \dirtree{%
-.1 rest.
-.2 src.
+.1 src.
+.2 db.
+.3 connect.js.
+.3 helper.js.
+.2 errors.
+.3 customErrors.js.
+.2 middlewares.
+.3 handleError.js.
+.3 notFound.js.
+.3 tryCatchWrapper.js.
+.3 validateRouteParameter.js.
+.2 resources.
 .3 db.
-.4 connect.js.
-.4 helper.js.
-.3 errors.
-.4 customErrors.js.
-.3 middlewares.
-.4 handleError.js.
-.4 notFound.js.
-.4 tryCatchWrapper.js.
-.4 validateRouteParameter.js.
-.3 resources.
-.4 db.
-.5 controller.js.
-.5 helper.js.
-.5 routes.js.
-.2 ssl.
-.2 .env.
-.2 app.js.
-.2 package.json.
+.4 controller.js.
+.4 routes.js.
+.1 ssl.
+.1 .env.
+.1 app.js.
+.1 package.json.
 }
 
 In der Datei `package.json` werden die Grundzüge des Projekts beschrieben, wie z.B. die verwendeten Packages, die Metadaten und der Einsprungspunkt. Da, aufgrund der besseren Lesbarkeit, entschieden wurde, modular JavaScript (ES Module) zu verwenden und dies auch spezifiziert werden muss, wurde `'type': 'module'` in der oben angesprochenen Datei eingegeben. Dies ermöglicht nun z.B. `import` anstatt der CommonJS Variante `require()` zu nutzen.
@@ -820,7 +818,7 @@ export const container_session = async function(sql, params) {
 };
 ```
 
-Eine No-SQL-Datenbank ist schwieriger zu generalisieren und erfordert oft eine spezifische Anpassung an den jeweiligen Anwendungsfall. Der grundlegende Ansatz bleibt aber der Gleiche. Man übergiebt die auszuführende Query und bekommt die Daten zurück. In InfluxDB gibt es pro Datensatz mehrere Spalten mit verschiedensten Informationen. Jedoch werden nicht alle davon benötigt und können der einfachheit halber nicht übernommen werden. Außerdem können Daten in InfluxDB auch wieder über eine REST-Schnittstelle abgefragt werden, welche eine vorteilhafte Ebene an Abstraktion mti sich bringt. In folgendem Beispiel wurde die Session auch gleich dazu genutzt, Timestamps auf das richtige Format zu kriegen und gewisse Datafields noch zu manipulieren/umzubenennen.
+Eine No-SQL-Datenbank ist schwieriger zu generalisieren und erfordert oft eine spezifische Anpassung an den jeweiligen Anwendungsfall. Der grundlegende Ansatz bleibt aber der Gleiche. Man übergiebt die auszuführende Query und bekommt die Daten zurück. In InfluxDB gibt es pro Datensatz mehrere Spalten mit verschiedensten Informationen. Jedoch werden nicht alle davon benötigt und können der einfachheit halber nicht übernommen werden. Außerdem können Daten in InfluxDB auch wieder über eine REST-Schnittstelle abgefragt werden, welche eine vorteilhafte Ebene an Abstraktion mti sich bringt. In folgendem Beispiel wurde die Session auch gleich dazu genutzt, Timestamps auf das richtige Format zu kriegen und gewisse Datafields noch zu manipulieren / umzubenennen.
 
 ```{caption="Flux Session Manager" .js}
 export const sensor_session = async function(flux) {
