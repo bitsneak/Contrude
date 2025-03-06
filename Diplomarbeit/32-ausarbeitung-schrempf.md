@@ -6,21 +6,21 @@
 
 ### Datenspeicherung und Visualisierung
 
-Eine Datenbank ermöglicht die Speicherung und Verwaltung von zusammenhängenden Daten. Hier können große Datenmengen übersichtlich abgebildet werden. Es gibt verschiedenste Datenbankkonzepte, welche auf ihre eigene Art und Weise Vor- und Nachteile bringen. In dieser Ausarbeitung wird sich auf zwei funktional unterschiedliche Arten fokussiert.
+Eine Datenbank ermöglicht die Speicherung und Verwaltung von zusammenhängenden Daten. Hier können große Datenmengen übersichtlich abgebildet werden. Es gibt verschiedenste Datenbankkonzepte, welche auf ihre eigene Art und Weise Vor- und Nachteile bringen. Diese Ausarbeitung konzentriert sich auf zwei funktional unterschiedliche Ansätze.
 
 #### Relationale Datenbanken
 
-In einem relationalen Datenbanksystem werden Daten in Form von Tabellen gespeichert. Jede Tabelle hat eine Relation zu einer anderen Tabelle, entweder inhaltich oder strukturell. Durch diese Beziehungen, wenn sie richtig definiert sind, werden Redundanzen vermieden. Um solche Beziehungen richtig aufzubauen gibt es das Konzept der Normalisierung.
+In einem relationalen Datenbanksystem werden Daten in Form von Tabellen gespeichert. Jede Tabelle hat eine Relation zu einer anderen Tabelle, entweder inhaltlich oder strukturell. Durch diese Beziehungen, wenn sie richtig definiert sind, werden Redundanzen vermieden. Um solche Beziehungen richtig aufzubauen, gibt es das Konzept der Normalisierung.
 
 > Die Normalisierung von relationalen Datenbanken ist ein Vorgehen, bei dem die Ausgangstabelle in mehrere kleine Tabellen zerlegt wird. Dann werden sie über Fremdschlüssel in Beziehung gesetzt. Ziel einer solchen Normalisierung ist das Erschaffen einer redundanzfreien Datenspeicherung, die Vermeidung von Anomalien, sowie die Erstellung eines klar strukturierten Datenbankmodells. [@Nachhilfe-Team]
 
-Der entscheidende Vorteil von RDBs^[Relationale Datenbank] ist, dass sie eine gemeinsame standardisierte Sprache für die Datenabfrage- und verarbeitung besitzen - SQL^[Structured Query Language]. In relationalen Datenbanken werden primär Informationen persistiert, welche auf längere Zeit vorhanden bleiben und auf die nicht in kurzen Zeitintervallen zugegriffen wird.
+Der entscheidende Vorteil von RDBs^[Relationale Datenbank] ist, dass sie eine gemeinsame standardisierte Sprache für die Datenabfrage und -verarbeitung besitzen - SQL^[Structured Query Language]. In relationalen Datenbanken werden primär Informationen persistiert, welche über längere Zeit vorhanden bleiben und auf die nicht in kurzen Zeitintervallen zugegriffen wird.
 
 #### Zeitreihen Datenbanken
 
-In einem zeitreihen basierten Datenbanksystem werden Daten mit einem korrespondierenden Zeitstempel versehen. In anderen Datenbanken ist das Speichern einer Zeitmarke per Wert zwar auch möglich, jedoch weist eine TSDB^[Time Series Database] jedem einzelnen Wert automatisch einen eindeutigen Timestamp zu und vermerkt den daraus resultierenden Datensatz in einer Historie. In dieser ist der gesamte zeitliche Verlauf des Attributs festgehalten.
+In einem zeitreihenbasierten Datenbanksystem werden Daten mit einem korrespondierenden Zeitstempel versehen. In anderen Datenbanken ist das Speichern einer Zeitmarke per Wert zwar auch möglich, jedoch weist eine TSDB^[Time Series Database] jedem einzelnen Wert automatisch einen eindeutigen Timestamp zu und vermerkt den daraus resultierenden Datensatz in einer Historie. In dieser ist der gesamte zeitliche Verlauf des Attributs festgehalten.
 
-Zeitreihen DBs^[Datenbank] sind optimiert auf viele schreib und lese Operationen und sind nicht auf das verändern bzw. löschen der Datensätze ausgelegt. Je nach DBMS^[Datenbankmanagementsystem] können verschiedene Erfassungszeiträume und somit auch die Granularitiät des Timestamps definiert werden. Dies kann von Millisekunden bis hin zu Tagen gehen. Außerdem gibt es keine einheitliche Query-Sprache. In TSDBs werden Metriken, Sensordaten und generell Werte mit hoher Änderungsrate persistiert. [@Computerweekly]
+Zeitreihen DBs^[Datenbank] sind optimiert auf viele Schreib- und Leseoperationen und sind nicht auf das Verändern bzw. löschen der Datensätze ausgelegt. Je nach DBMS^[Datenbankmanagementsystem] können verschiedene Erfassungszeiträume und somit auch die Granularität des Timestamps definiert werden. Dies kann von Millisekunden bis zu Tagen reichen. Außerdem gibt es keine einheitliche Query-Sprache. In TSDBs werden Metriken, Sensordaten und generell Werte mit hoher Änderungsrate persistiert. [@Computerweekly]
 
 Ein Sonderfall der TSDB ist die RRD^[Round Robin Database]. Diese löscht alte Datensets nach einer definierten Zeit und / oder aggregiert sie auf einen Wert zusammen. [@joojscript]
 
@@ -29,35 +29,35 @@ Ein Sonderfall der TSDB ist die RRD^[Round Robin Database]. Diese löscht alte D
 > Datenvisualisierung ist der Prozess der Verwendung visueller Elemente wie Diagramme, Grafiken oder Karten zur Darstellung von Daten. Sie übersetzt komplexe, umfangreiche oder numerische Daten in eine visuelle Darstellung, die leichter zu verarbeiten ist.
 [@aws-datenvisualisierung]
 
-Um Rohdaten verständlich zu machen, im Kontext betrachten zu können und etwaige Korrelationen zwischen verschiedenen Datensets sichtbar zu machen, ist es notwendig, die oben genannten Methoden anzuwenden. Hierbei ist eine unkomplizierte Grafik als Endprodukt das Ziel.
+Um Rohdaten verständlich zu machen, im Kontext betrachten zu können und etwaige Korrelationen zwischen verschiedenen Datasets sichtbar zu machen, ist es notwendig, die oben genannten Methoden anzuwenden. Hierbei ist eine unkomplizierte Grafik als Endprodukt das Ziel.
 
 ![Beispiel einer Datenvisualisierung von Mittelwerten einer Temperaturaufzeichnung  [@kaggle-weather-data]](img/Schrempf/weather-data-set.png){width=100%}
 
-Um solch ein Ergebnis zu erreichen, müssen vorhandene Daten bereinigt, gefiltert und ausgewählt werden. Beim Erstellen der Visualisierungen muss eine Verzerrung der Daten hinsichtlich Trivialisierung, Überspitzung und menschlichen Vorurteilen vermeiden werden. [@aws-datenvisualisierung]
+Um ein solches Ergebnis zu erreichen, müssen vorhandene Daten bereinigt, gefiltert und ausgewählt werden. Beim Erstellen der Visualisierungen muss eine Verzerrung der Daten hinsichtlich Trivialisierung, Überspitzung und menschlicher Vorurteile vermieden werden. [@aws-datenvisualisierung]
 
 ### Datenübertragung
 
 #### Reverse Proxy
 
-Ein Reverse Proxy ist zwischen den in das Internet freigeschaltenen Services und dem Internet. Somit kommuniziert ein Client nicht direkt mit den Services, sondern muss zuerst beim Reverse Proxy vorbei. Dies hat mehrere Vorteile. Die Anwendungen sind nicht direkt dem Internet ausgesetzt, was eine zusätzliche Sicherheitsebene einführt, da nie die Server IP(s), sondern nur die des Reverse Proxies ersichtlich sind. Load Balancing ist ein weiterer Aspekt einer solchen Software. Es beschreibt den Vorgang des Aufteilens der Anfragen an verschiedene Server, die aber nach außen hin als einer agieren. Somit können überlastungsbedingte Ausfälle vermieden werden. Wenn mehrere Benutzer den gleichen Inhalt abfragen wollen, kann dieser zur Leistungsverbesserung zwischengespeichert werden - Caching genannt. Diese Tätigkeit kann auch übernommen werden. [@reverse-proxy]
+Ein Reverse Proxy ist zwischen den ins Internet freigeschalteten Services und dem Internet. Somit kommuniziert ein Client nicht direkt mit den Services, sondern muss zuerst über den Reverse Proxy laufen. Dies hat mehrere Vorteile. Die Anwendungen sind nicht direkt dem Internet ausgesetzt, was eine zusätzliche Sicherheitsebene einführt, da nie die Server-IP(s), sondern nur die des Reverse Proxies ersichtlich sind. Load-Balancing ist ein weiterer Aspekt einer solchen Software. Es beschreibt den Vorgang des Aufteilens der Anfragen an verschiedene Server, die aber nach außen hin als ein einziger agieren. Somit können überlastungsbedingte Ausfälle vermieden werden. Wenn mehrere Benutzer den gleichen Inhalt abfragen wollen, kann dieser zur Leistungsverbesserung zwischengespeichert werden - Caching genannt. Diese Aufgabe kann auch übernommen werden. [@reverse-proxy]
 
 ![Funktionsweise eines Reverse Proxies [@tls]](img/Schrempf/reverse-proxy.png){width=100%}
 
-Niemand will seine Daten unverschlüsselt versenden. Eine oft in Kombination angebotene Lösung: SSL^[Secure Sockets Layer] bzw. TLS^[Transport Layer Security]. [@reverse-proxy] SSL ist der namentliche Vorgänger zu TLS und ermöglicht das S in HTTPS^[Hypertext Transfer Protocol Secure]. Bei SSL wird ein Handshake zwischen den Geräten durchgeführt, welcher beweisen soll, dass sie auch die sind, für die sie sich ausgeben. Außerdem werden die Daten verschlüsselt und digital signiert. TLS hieß es erst seit dem, dass nicht nur die IETF^[Internet Engineering Task Force] sondern auch Netscape daran mitentwickelten. Beide funktionieren mit einem Asymmetrisches Kryptosystem. [@ssl] [@tls]
+Niemand will seine Daten unverschlüsselt versenden. Eine oft in Kombination angebotene Lösung: SSL^[Secure Sockets Layer] bzw. TLS^[Transport Layer Security]. [@reverse-proxy] SSL ist der namentliche Vorgänger von TLS und ermöglicht das S in HTTPS^[Hypertext Transfer Protocol Secure]. Bei SSL wird ein Handshake zwischen den Geräten durchgeführt, der beweisen soll, dass sie auch die sind, für die sie sich ausgeben. Außerdem werden die Daten verschlüsselt und digital signiert. TLS hieß es erst seit dem, dass nicht nur die IETF^[Internet Engineering Task Force], sondern auch Netscape daran mitentwickelt haben. Beide funktionieren mit einem asymmetrischen Kryptosystem. [@ssl] [@tls]
 
 ![Funktionsweise eines TLS Handshakes [@tls]](img/Schrempf/tls-ssl-handshake.png){width=100%}
 
 #### MQTT
 
-MQTT^[Message Queuing Telemetry Transport] ist ein Nachrichtenprotokoll, welches dazu verwendet wird, um mit nicht stabilen Netzwerken oder mit Netzwerken mit begrenzten Ressourcen zu kommunizieren. Dieser basiert auf der Publisher-Subscriber Architektur. Der Publisher sendet seine Daten and den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein # als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic kann nun ein oder mehrere Werte im JSON^[JavaScript Object Notation]-Format abgelegt werden. Beim Broker liegen dann die Werte auf. Ein Topic kann auch einen oder mehrere Tags haben. Diese sind Flags, welche zur weiteren Klassifizierung des Topics an es angehängt werden können. Ein Subscriber ist ein beliebiger Akteur, welcher den abgespeicherten Datensatz unter der Angabe des Topics extrahiert. [@mqtt-hivemq]
+MQTT^[Message Queuing Telemetry Transport] ist ein Nachrichtenprotokoll, das dazu verwendet wird, um mit nicht stabilen Netzwerken oder mit Netzwerken mit begrenzten Ressourcen zu kommunizieren. Es basiert auf der Publisher-Subscriber-Architektur. Der Publisher sendet seine Daten an den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen, um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein Hashtag als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic können nun ein oder mehrere Werte im JSON^[JavaScript Object Notation]-Format abgelegt werden. Beim Broker werden dann die Werte abgelegt. Ein Topic kann auch ein oder mehrere Tags haben. Diese sind Flags, die zur weiteren Klassifizierung des Topics an es angehängt werden können. Ein Subscriber ist ein beliebiger Akteur, welcher den abgespeicherten Datensatz unter der Angabe des Topics extrahiert. [@mqtt-hivemq]
 
 ![Beispiel MQTT Topic Structure [@mqtt-hivemq]](img/Schrempf/mqtt-topic-structure.png){width=30%}
 
 #### JSON Web Token
 
-JWTs^[JSON Web Token] sind mit dem Standard RFC 7519 normiert. Sie dienen dazu, Tokens, also Schlüssel, zur Authentifizierung zu erstellen. Sie sind sehr kompakt und können deshalb gut in HTTP-Headers transportiert werden und enthalten Informationen zu den betroffenen Benutzern. Durch die in ihnen gespeicherten Informationen vermindert man die Anfragen, welche an die Datenbanken gestellt werdene müssen. Sie werden dafür genutzt, um den Zugriff zu Diensten zu regulieren oder verschlüsselt Daten auszutauschen. [@jwt]
+JWTs^[JSON Web Token] sind mit nach dem Standard RFC 7519 normiert. Sie dienen dazu, Tokens, also Schlüssel, zur Authentifizierung zu erstellen. Sie sind sehr kompakt und können deshalb gut in HTTP-Headers transportiert werden und enthalten Informationen zu den betroffenen Benutzern. Durch die in ihnen gespeicherten Informationen vermindert man die Anfragen, welche an die Datenbanken gestellt werden müssen. Sie werden dafür genutzt, um den Zugriff auf Dienste zu regulieren oder verschlüsselt Daten auszutauschen. [@jwt]
 
-Ein JSON Web Token besteht aus drei Teilen, welche durch Punkte getrennt werden und im Base64 Format vorliegen. Der Header, Payload und die Signatur. Somit folgt dieser Token der Form `xxxxx.yyyyy.zzzzz`. Im Header wird der Typ des Tokens (JWT) und der benutzte Hashingalgorithmus angegeben. In der Payload werden die zu haltenden Daten angegeben. Die Signatur dient dazu, zu verifizieren, dass der Absender / Ersteller des Tokens der ist, für den er sich ausgibt. Sie besteht aus dem gehashten addierten Werten des Headers, Payloads und eines Secrets. Das Secret dient als eine Art Salt, welches zur Garantie der Eindeutigkeit beigefügt wird. Ein Salt ist ein Zeichenkette, welche der Hashalgorithmus mathematisch verschränkt in das Endprodukt einbindet. [@jwt]
+Ein JSON Web Token besteht aus drei Teilen, die durch Punkte getrennt werden und im Base64 Format vorliegen. Der Header, die Payload und die Signatur. Somit folgt dieser Token der Form `xxxxx.yyyyy.zzzzz`. Im Header wird der Typ des Tokens (JWT) und der benutzte Hashingalgorithmus angegeben. In der Payload werden die zu haltenden Daten angegeben. Die Signatur dient dazu, zu verifizieren, dass der Absender/Ersteller des Tokens der ist, für den er sich ausgibt. Sie besteht aus dem gehashten addierten Werten des Headers, Payloads und eines Secrets. Das Secret dient als eine Art Salt, welches zur Garantie der Eindeutigkeit beigefügt wird. Ein Salt ist eine Zeichenkette, welche der Hashalgorithmus mathematisch verschränkt in das Endprodukt einbindet. [@jwt]
 
 ```{caption="HMAC SHA256 Signatur eines JWT" .json}
 HMACSHA256(
@@ -66,23 +66,21 @@ HMACSHA256(
   secret)
 ```
 
-Wie funktioniert es? Am Anfang gibt der Benutzer sein Login Daten an. Vorzugsweise Benutzername und Passwort. Nun wird ihm nach erfolgreicher Authentifizierung der Token zurückgegeben, welchen er bei den Protected Routes im Authentication Header der Anfrage mitführen muss. Ein JWT ist stateless, was bedeutet, dass der Status des Benutzers nicht im Server vermerkt ist. [@jwt] Da solch ein Token eine gewisse Macht mit sich bringt, ist stets zu beachten, dass die Tokens auch nur eine gewisse Zeit, meistens 10 - 15 min gültig sind. [@medium-auth-simple]
+Wie funktioniert es? Am Anfang gibt der Benutzer seine Logindaten an. Vorzugsweise Benutzername und Passwort. Nun wird ihm nach erfolgreicher Authentifizierung der Token zurückgegeben, den er bei den Protected Routes im Authorization-Header der Anfrage mitführen muss. Ein JWT ist stateless, was bedeutet, dass der Status des Benutzers nicht auf dem Server vermerkt ist. [@jwt] Da solch ein Token eine gewisse Macht mit sich bringt, ist stets zu beachten, dass die Tokens auch nur eine gewisse Zeit, meistens 10 bis 15 Minuten, gültig sind. [@medium-auth-simple]
 
 ![JWT Authentikationsablauf [@jwt]](img/Schrempf/jwt-auth-process.png){width=100%}
 
 ### Continuous Integration und Continuous Deployment
 
-![CI / CD Ablauf [@bestarion]](img/Schrempf/ci-cd.png){width=100%}
+![CI/CD Ablauf [@bestarion]](img/Schrempf/ci-cd.png){width=100%}
 
-CI / CD^[Continuous Integration und Continuous Deployment] ist ein Konzept, welches Entwicklerteams, dazu anregt, kontinuierlich und in kürzeren Abständen Dinge am Code zu ändern, diesen zu verbessern und zu automatisieren. Wie oben dargestellt, ist es ein nie endender Kreislauf. Man unterscheidet zwei Komponenten voneinander: Die Continuous integration und das Continuous delivery.
+CI/CD^[Continuous Integration und Continuous Deployment] ist ein Konzept, welches Entwicklerteams, dazu anregt, kontinuierlich und in kürzeren Abständen Dinge am Code zu ändern, diesen zu verbessern und zu automatisieren. Wie oben dargestellt, ist es ein nie endender Kreislauf. Man unterscheidet zwei Komponenten voneinander: Die Continuous Integration und das Continuous Delivery.
 
-Unter CI^[Continuous Integration] versteht man das tatsächliche Entwickeln, Testen und Hochladen des Codes in das VCS^[Version Control System]. Dies wird durch verschiedene Methoden und Prozesse erleichtert, wie zum Beispiel automatisches Testen des Programms oder agiles Projektmanagement.
+Unter CI^[Continuous Integration] versteht man das tatsächliche Entwickeln, Testen und Hochladen des Codes in das VCS^[Version Control System]. Dies wird durch verschiedene Methoden und Prozesse erleichtert, wie zum Beispiel das automatisches Testen des Programms oder agiles Projektmanagement. Das Testen einer Applikation ist ein essenzieller Weg zum Erfolg. CI befasst sich unter anderem mit den Ansätzen, wie ich mein Programm auf bestem Wege prüfen kann. Mit dieser Technologie wird der Grundstein für unter anderem automatisches Unit-, Integrations-, Regression-, Performancetesten gelegt.
 
-Das Testen einer Applikation ist ein essenzieller Weg zum Erfolg. CI befasst sich unter anderem mit den Wegen, wie ich mein Programm auf besten Wege prüfen kann. Mit dieser Technologie wird der Grundstein für unter anderem automatisches Unit-, Integration-, Regression-, Performancetesten gelegt.
+Unter CD^[Continuous Deployment] versteht man das deployen von Software auf verschiedene Umgebungen. Hier fallen, wie oben angedeutet, Testumgebungen auch darunter, sowie Entwicklungsumgebungen und Produktivsysteme. Dieser ganze Prozess ist nun komplett automatisiert und wird bei verschiedenen Events getriggert.[@bestarion]
 
-Unter CD^[Continuous Deployment] versteht man das deployen von Software auf verschiedene Umgebungen. Hier fallen, wie oben angedeutet, Testumgebungen auch darunter, sowie Entwicklungsumgebungen und Produktivsysteme. Dieser ganze Prozess ist im nun komplett automatisiert und wird bei verschiedenen Events getriggert.[@bestarion]
-
-Um dieses sehr mächtige Konzept voll auszuschöpfen werden Pipelines angelegt. Diese verrichten die Arbeit, welche ansonsten manuell verrichtet werden müsste. Hier ein kleiner Ausblick:
+Um dieses sehr mächtige Konzept voll auszuschöpfen, werden Pipelines angelegt. Diese verrichten die Arbeit, welche ansonsten manuell verrichtet werden müsste. Hier ein kleiner Ausblick:
 
 1. Definierte Tests aufsetzten und ausführen
 2. Code packages erstellen
@@ -94,23 +92,23 @@ Um dieses sehr mächtige Konzept voll auszuschöpfen werden Pipelines angelegt. 
 
 Um solch ein großes Konzept überhaupt realisieren zu können, muss man sich ein Stück weit von der bisherigen Softwareentwicklung lossagen. Hier kommen Microservices und die Containerization ins Spiel.
 
-Microservices sind Teile eines Produkts. Früher gab es nur einen einzigen großen Softwaremonolithen, welcher mit seinen Teilen als ein großes Ganzes funktionierte. Heutzutage werden Teile identifiziert und jeder Baustein wird für sich issoliert programmiert. Dies bietet mehrere Vorteile. Bei einer konzeptionellen oder technischen Umstellung kann die einzelne Komponente leicht ausgetauscht und durch eine neue ersetzt werden. Außerdem ist die gesamte Software als auch einzelne Teile leicht Skallierbar. Jedes einzelne Element läuft in seiner dezidierten Umgebung, welche nur den Kernel mit dem OS^[Operating System] teilt und deswegen auch unabhängig auf verschiedenen Systemen einsatzbereit ist. Solch ein dezidierte Umgebung besteht aus Systembibliotheken, Abhängikeiten, Umgebungsvariablen und eventuellen eigenproduzierten Code der zu hostenden Anwendung. Dies ist ein Container. Es gilt: Funktioniert der Container, und somit auch der in ihm definierte Microservice auf einem System, so tut er es auch überall anders. Außerdem können Container auch leicht in Clouds deployd und gehosted werden. Solch ein Aspekt ist vorallem in Zeiten immer stärker werdenden Cloud-Computings immer wichtiger. [@ibm-docker]
+Microservices sind Teile eines Produkts. Früher gab es nur einen einzigen großen Softwaremonolithen, welcher mit seinen Teilen als ein großes Ganzes funktionierte. Heutzutage werden Teile identifiziert und jeder Baustein wird für sich isoliert programmiert. Dies bietet mehrere Vorteile. Bei einer konzeptionellen oder technischen Umstellung kann die einzelne Komponente leicht ausgetauscht und durch eine neue ersetzt werden. Außerdem ist die gesamte Software als auch einzelne Teile leicht Skallierbar. Jedes einzelne Element läuft in seiner dedizierten Umgebung, welche nur den Kernel mit dem OS^[Operating System] teilt und deswegen auch unabhängig auf verschiedenen Systemen einsatzbereit ist. Solch ein dezidierte Umgebung besteht aus Systembibliotheken, Abhängigkeiten, Umgebungsvariablen und eventuell eigenproduziertem Code der zu hostenden Anwendung. Dies ist ein Container. Es gilt: Funktioniert der Container, und somit auch der in ihm definierte Microservice auf einem System, so tut er es auch überall anders. Außerdem können Container auch leicht in Clouds deployed und gehosted werden. Solch ein Aspekt ist vor allem in Zeiten immer stärker werdenden Cloud-Computings immer wichtiger. [@ibm-docker]
 
 Ein Container benutzt die Virtualisierungstools des Linuxkernels um Ressourcen zu teilen und verwalten. Für nicht Unix-Betriebsysteme gibt es Software die den Linuxkernel simmulieren kann. Zum Beispiel WSL^[Windows-Subsystem für Linux] oder Hyper-V bei Windows. Durch die gemeinsame Nutzung des Kernels muss auch keine dezidierte Definition der benötigten Ressourcen stattfinden, da diese automatisch vom System alloziert werden. Das Konzept eines Containers ähnelt dem, einer VM^[Virtuelle Maschine]. Nur mit dem wesentlichen Vorteil, dass kein komplett eigenes OS verwendet wird, sondern nur die Schritte zum produzieren eines gewissen Outputs angegeben werden. Container haben eine Abstraktionsebene zum Kernel, aber da eben kein eigenes Betriebsystem wie bei einer VM verwendet wird, gibt es auch ein marginales Sicherheitsrisiko. Malware könnte durch die gemeinsame Nutzung des Kernels eben auf diesen zugreifen und erheblichen Schaden anrichten. Um dem Vorzubeugen, gibt es etliche Third-Party Tools mit denene die Sicherheit über das schon gegebene Maß erhöht werden kann. [@ibm-docker]
 
 ![Übersicht von Container Security Tools [@docker-security]](img/Schrempf/container-security-tools.png){width=100%}
 
-Soweit zum Allgemeinen der Virtualisierung. Doch was hat Docker damit zu tun? Docker ist ein Open Source Projekt, welches sich auf die Containerization spezialisiert hat. Es bietet einen riesigen freien Markt (Docker Hub) zur Erstellung und Distribution von Docker Images an. Es wird so verwaltet, dass es verschiedene Registries gibt. Pro Registry gibt es die verschiedenen Versionen eines Images. Ein Registry wird mit username/image-name benannt. Ein Image ist das zuvor genannte Äquivalent zu der Definition eines Containers. Ein Image ist in Schichten aufgebaut und jede Schicht stellt einen neuen Zustand des Containers dar. Das vollständig ausgeführte und unter Umständen auch angepasste Image ist dann der laufende Container. Auf Basis eines Images können mehrere Container laufen. [@ibm-docker] Jedes Image hat einen Entrypoint. In diesem wird spezifiziert, was geschehen soll, wenn der Container (zum ersten mal) gestartet wird.
+Soweit zum Allgemeinen der Virtualisierung. Doch was hat Docker damit zu tun? Docker ist ein Open Source Projekt, welches sich auf die Containerization spezialisiert hat. Es bietet einen riesigen freien Markt (Docker Hub) zur Erstellung und Distribution von Docker Images an. Es wird so verwaltet, dass es verschiedene Registries gibt. Pro Registry gibt es verschiedenen Versionen eines Images. Ein Registry wird mit username/image-name benannt. Ein Image ist das zuvor genannte Äquivalent zur Definition eines Containers. Ein Image ist in Schichten aufgebaut und jede Schicht stellt einen neuen Zustand des Containers dar. Das vollständig ausgeführte und unter Umständen auch angepasste Image ist dann der laufende Container. Auf Basis eines Images können mehrere Container laufen. [@ibm-docker] Jedes Image hat einen Entrypoint. In diesem wird spezifiziert, was geschehen soll, wenn der Container (zum ersten Mal) gestartet wird.
 
-Jedes Image wird in einem `Dockerfile` definiert. Hierbei spricht man nur von einer Datei, in welcher die Anweisungen zum Aufbau der Schichten gespeichert sind. Beim Starten des Containers interagiert die Docker CLI^[command line interface] mit dem `Dockerfile` und führt die Anweisungen aus. Eine beliebte Variante ist es, ein schon bestehendes Image zu verwenden und seine eigene Applikation mit Schichten on top zu bauen. [@ibm-docker]
+Jedes Image wird in einem `Dockerfile` definiert. Hierbei spricht man nur von einer Datei, in welcher die Anweisungen zum Aufbau der Schichten gespeichert sind. Beim Starten des Containers interagiert die Docker-CLI^[command line interface] mit dem `Dockerfile` und führt die Anweisungen aus. Eine beliebte Variante ist es, ein schon bestehendes Image zu verwenden und die eigene Applikation mit Schichten on top zu bauen. [@ibm-docker]
 
-Ein `Dockerfile` ist sehr vielseitig und bietet verschiedene Funktionen. Eine sehr wichtige sind Secrets. Diese stehen für Platzhalter, in die der Anwender Werte eingibt, welche im weiteren Programmablauf benötigt werden. Oftmals werden sie als Umgebungsvariablen realisiert. Eine wichtige Eigenschaft solch einer Einheit ist, dass es ein eigenes System ist, welches unabhängig vom Host existiert. Dementsprechend gehen im Container gespeicherte Daten und Änderungen verloren, wenn dieser heruntergefahren wird. Um dieses Problem zu beheben, gibt es Volumes. Sie dienen dazu, Daten in den Container, z.B. Code, und aus ihm heraus, z.B. Datenbanken, zu bekommen. Um aus dem Container heraus kommunizieren zu können, muss ein Portforwarding zwischen Host und Cotnainer eingestellt werden.
+Ein `Dockerfile` ist sehr vielseitig und bietet verschiedene Funktionen. Eine sehr wichtige Funktion sind Secrets. Diese stehen für Platzhalter, in die der Anwender Werte eingibt, welche im weiteren Programmablauf benötigt werden. Oftmals werden sie als Umgebungsvariablen realisiert. Eine wichtige Eigenschaft solch einer Einheit ist, dass sie ein eigenes System ist, welches unabhängig vom Host existiert. Dementsprechend gehen im Container gespeicherte Daten und Änderungen verloren, wenn dieser heruntergefahren wird. Um dieses Problem zu beheben, gibt es Volumes. Sie dienen dazu, Daten in den Container, z.B. Code, und aus ihm heraus, z.B. Datenbanken, zu bekommen. Um aus dem Cotnainer heraus kommunizieren zu können, muss ein Portforwarding zwischen Host und Cotnainer eingestellt werden.
 
 ![Containerschichten [@docker-image-layers]](img/Schrempf/container-layers-overview.png){width=80%}
 
 ![Übersicht vom Containeraufbau [@container-overview]](img/Schrempf/container-infrastructure-overview.png){width=80%}
 
-Ein Beispiel solch eines Dockerfiles ist hier zu sehen. Es baut auf das schon bestehenden Ubuntu-Image auf, installiert Python, fügt eine Datei hinzu, schaltet die benötigten Ports frei und führt das Python-Script aus. [@docker-dockerfile]
+Ein Beispiel solch eines Dockerfiles ist hier zu sehen. Es baut auf dem schon bestehenden Ubuntu-Image auf, installiert Python, fügt eine Datei hinzu, schaltet die benötigten Ports frei und führt das Python-Script aus. [@docker-dockerfile]
 
 ```{caption="Beispiel eines Dockerfiles" .yml}
 # syntax=docker/dockerfile:1
@@ -131,7 +129,7 @@ CMD ["flask", "run", "--host", "0.0.0.0", "--port", "8000"]
 
 [@docker-dockerfile]
 
-Docker compose ist eine Funktionalität von Docker. Es ermöglicht die Definition von mehreren Microservices in einer YAML^[yet another markup language]-Konfigurationsdatei Namens `compose.yml`. Hier wird ein Microservice nur Service genannt. Ein Service kann wieder als Dockerfile definiert werden oder sogar das Image vom Docker Hub benutzt und in der Datei bis zu einem gewissen Maß weiter spezialisiert werden. In der `compose.yml` werden Ports, Secrets, zu benutzende Volumes, Networks und die Anzahl der Container des Services beschrieben. Da nun mehrere Microservices zwar als Bausteine definiert werden, jedoch miteinander interagierene können um ein ganzes Konstrukt zu bilden, gibt es die sogenanten Networks. Über diese können Tasks, wie Containerübergreifende Datenkommunikation, realisiert werden. So sieht eine `compose.yml` Datei grundelegend aus: [@docker-compose]
+Docker Compose ist eine Funktionalität von Docker. Es ermöglicht die Definition mehrerer Microservices in einer YAML^[yet another markup language]-Konfigurationsdatei namens `compose.yml`. Hier wird ein Microservice nur Service genannt. Ein Service kann wieder als Dockerfile definiert werden oder sogar das Image vom Docker Hub verwenden und in der Datei bis zu einem gewissen Maß weiter spezialisiert werden. In der `compose.yml` werden Ports, Secrets, zu benutzende Volumes, Networks und die Anzahl der Container des Services beschrieben. Da nun mehrere Microservices zwar als Bausteine definiert werden, jedoch miteinander interagieren können um ein ganzes Konstrukt zu bilden, gibt es die sogenannten Networks. Über diese können Tasks, wie Containerübergreifende Datenkommunikation, realisiert werden. So sieht eine `compose.yml`-Datei grundelegend aus: [@docker-compose]
 
 ```{caption="Beispiel eines docker compose files" .yml}
 services:
@@ -173,12 +171,12 @@ networks:
   back-tier: {}
 ```
 
-Ein weitere Funktionalität von Docker ist Docker Swarm. Mit diesem Tool wird eine Orchestrierungsmöglichkeit für Anwendungen mit mehr als einem Host angeboten. Hierbei kann man die Anzahl der Container per Host angeben, wo welcher Container laufen soll und vieles mehr. Beschrieben wird das Verhalten des Swarms über eine leicht anders funktionierende Version der `compose.yml`. Jedoch ist anzumerken, dass Docker Swarm nicht so ausgereift und mehr so etwas in der Art wie ein Notbehelf aufgrund der Nachfrage ist. Für kontrollierte und ausführliche Ochestrierung wird ein explizit dafür ausgelegtes Framework, wie Kubernetes, empfohlen.
+Eine weitere Funktionalität von Docker ist Docker Swarm. Mit diesem Tool wird eine Orchestrierungsmöglichkeit für Anwendungen mit mehr als einem Host angeboten. Hierbei kann man die Anzahl der Container pro Host angeben, wo welcher Container laufen soll und vieles mehr. Das Verhalten des Swarms wird über eine leicht anders funktionierende Version der `compose.yml` beschrieben. Jedoch ist anzumerken, dass Docker Swarm nicht so ausgereift ist und eher wie ein Notbehelf aufgrund der Nachfrage wirkt. Für kontrollierte und ausführliche Orchestrierung wird ein explizit dafür ausgelegtes Framework, wie Kubernetes, empfohlen.
 [@docker-swarm] [@circleci-blog]
 
 #### Pipeline
 
-Wie oben angedeuted, nehmen Pipelines dem Programmierer sehr viel arbeit ab. Verschiedene Plattformen haben verschiedene Möglichkeiten Pipelines zu benutzen, definieren und auszuführen. Beispiele wären Jenkins oder so wie es in dieser Ausarbeitung verwendet worden ist: GitHub. GitHub bietet GitHub Actions an. Hierbei schreibt man eine YAML-Datei in der steht, was wann wie geschehen soll und legt sie im Verzeichnis `.github/workflows` in seinem Repository ab. Wenn die Action ausgelöst wird, startet GitHub eine VM mit dem unter dem Tag `runs-on` definierten Betriebsystem, welche die weiteren definierten Tasks ausführt.
+Wie oben angedeutet, nehmen Pipelines dem Programmierer sehr viel Arbeit ab. Verschiedene Plattformen haben verschiedene Möglichkeiten Pipelines zu benutzen, definieren und auszuführen. Beispiele wären Jenkins, oder so wie es in dieser Ausarbeitung verwendet worden ist: GitHub. GitHub bietet GitHub Actions an. Hierbei schreibt man eine YAML-Datei, in der steht, was wann wie geschehen soll und legt sie im Verzeichnis `.github/workflows` in seinem Repository ab. Wenn die Action ausgelöst wird, startet GitHub eine VM mit dem unter dem Tag `runs-on` definierten Betriebssystem, welche die weiteren Tasks ausführt.
 
 Eine GitHub Action besteht aus folgenden Komponenten:
 
@@ -225,20 +223,19 @@ jobs:
         run: mvn clean test
 ```
 
-Weitere mögliche automatisierte Anwengungsfälle sind:
+Weitere mögliche automatisierte Anwendungsfälle sind:
 
 - Einen Release bei Softwareänderungen erstellen
-  - Eine App auf dem Google / Apple Store hochladen
+  - Eine App auf dem Google- bzw. Apple Store hochladen
 - Den geänderten Code auf dem Produktivsystem updaten
   - Docker Images updaten und hochladen
   - Pullen der neuen Images auf dem Server
 
 ### REST API
 
-Eine API^[Application Programming Interface] ist Programmierschnittstelle, die dafür entworfen worden ist, um autonomen Anwendungen das Kommunizieren und den Austausch von Daten zu erleichtern und zwischen ihnen zu standardisieren. REST^[Representational State Transfer] ist ein Prinzip, welches verschieden umgesetzt werden kann, als Zwischendienst zwischen dem Client und dem Backend dient und als Schnitstelle zum Abrufen von Ressourcen vom Client and den Server verwendet wird. Hierbei nutzt man URIs^[Uniform Resource Identifier]. Ein Uniform Resource Identifier ist dafür da, eine Ressource eindeutig zu identifizieren. [vgl. @REST-API-Design-Rulebook, S. 11]
+Eine API^[Application Programming Interface] ist eine Programmierschnittstelle, die dafür entworfen wurde, um autonomen Anwendungen das Kommunizieren und den Austausch von Daten zu erleichtern und zwischen ihnen zu standardisieren. REST^[Representational State Transfer] ist ein Prinzip, das verschieden umgesetzt werden kann, als Zwischendienst zwischen dem Client und dem Backend dient und als Schnittstelle zum Abrufen von Ressourcen vom Client an den Server verwendet wird. Hierbei nutzt man URIs^[Uniform Resource Identifier]. Ein Uniform Resource Identifier dient dazu, eine Ressource eindeutig zu identifizieren. [vgl. @REST-API-Design-Rulebook, S. 11]
 
-Bei RESTful APIs sendet der Client eine Anfrage über HTTP^[Hypertext Transfer Protocol] an eine URI und bekommt daraufhin seine Antwort. [@redhat-rest]
-Die möglichen Anfragearten des Clients nennt man HTTP-Methodes und diese sind: [@mozilla-rest]
+Bei RESTful APIs sendet der Client eine Anfrage über HTTP^[Hypertext Transfer Protocol] an eine URI und erhält daraufhin seine Antwort. [@redhat-rest] Die möglichen Anfragearten des Clients nennt man HTTP-Methoden und diese sind: [@mozilla-rest]
 
 - GET
   - Ruft eine Ressource vom Server ab, ohne den Zustand der Ressource zu verändern.
@@ -260,7 +257,7 @@ Die möglichen Anfragearten des Clients nennt man HTTP-Methodes und diese sind: 
 
 #### Design
 
-Es gibt zwar verschiedene Ansätze so eine API umzusetzen, jedoch gibt es Richtlinien und Best-Practices. Die Antwort des Servers and den Client sollte in JSON verfasst sein. Um die Skalierbarkeit der Anwendungen zu garantieren, ist eine Server nicht dazu verpflichtet, den Status einer Ressource sich zu merken. Diese Aufgabe obligt rein dem Client.
+Es gibt zwar verschiedene Ansätze so eine API umzusetzen, jedoch gibt es Richtlinien und Best-Practices. Die Antwort des Servers an den Client sollte in JSON verfasst sein. Um die Skalierbarkeit der Anwendungen zu garantieren, ist eine Server nicht dazu verpflichtet, den Status einer Ressource sich zu merken. Diese Aufgabe obliegt ausschließlich dem Client.
 [vgl. @REST-API-Design-Rulebook, S. 3 f.]
 
 Eine URI soll klar verständlich und strukturell aufklärend designed sein. Wenn man die URI begutachtet, soll genau ersichtlich sein, welche Ressource man bei Aufruf erhält. Der Aufbau ist in der RFC 3986 beschrieben unter dem Format:
@@ -269,22 +266,22 @@ Eine URI soll klar verständlich und strukturell aufklärend designed sein. Wenn
 
 **URI Namensregeln**:
 
-- Ein / wird für hierachische Abhängikeiten benutzt
-  - Ein / darf nicht am Ende einer URI stehen, da es sonst zu Verwirrung führen kann, ob eine neue Ressource anfängt oder nicht
+- Ein Schrägstrich wird für hierarchische Abhängigkeiten benutzt
+  - Ein Schrägstrich darf nicht am Ende einer URI stehen, da es sonst zu Verwirrung führen kann, ob eine neue Ressource anfängt oder nicht
 - Zusammengesetzte Wörter sind mittels - zu trennen
-  - Ein _ als Trennzeichen ist aufgrund der erschwerte Lesbarkeit zu vermeiden
+  - Ein Unterstrich als Trennzeichen ist aufgrund der erschwerten Lesbarkeit zu vermeiden
 - Groß- und Kleinschreibung
   - In Schema und Authority wird sie ignoriert
   - Im Path wird sie berücksichtigt
   - Um unnötige Probleme zu vermeiden soll die gesamte URI klein geschrieben werden
 - File extensions dürfen nicht in in der URI vorkommen
-- Widerspruchsfreie Namen für Subdomains.
-- CRUD^[Create, Read, Update, Delete] Namen dürfen in keinem Part der URI verwendet werden.
+- Widerspruchsfreie Namen für Subdomains
+- CRUD^[Create, Read, Update, Delete] Bezeichner dürfen in keinem Teil der URI verwendet werden.
 [vgl. @REST-API-Design-Rulebook, S. 11 - 13]
 
 **URI Designregeln**:
 
-- Jeder neue / bedeutet einen neuen Path und somit eine neue abfragbare Ressource.
+- Jeder neue Schrägstrich bedeutet einen neuen Path und somit eine neue abfragbare Ressource.
   - Jeder einzelne Path beinhaltet eine abfragbare Ressource.
   - Paths sind mit Nomen zu benennen.
   - Paths bei denen nur ein Datenpunkt übermittelt wird, sind im Singular zu benennen.
@@ -310,29 +307,29 @@ Eine URI soll klar verständlich und strukturell aufklärend designed sein. Wenn
   - Sie dienen meistens zum Suchen / Filtern der Daten aus einer Ressource.
 [vgl. @REST-API-Design-Rulebook, S. 19 f.]
 - Fragemnts werden nach Queries angegeben und geben eine spezifische Sektion oder ein Element in der URI an.
-  - Sie sind bei der Navigation auf der Webpage hilfreichn
-  - Sie können die Status einer Webpage angeben / ändern  ohne diese neu laden zu müssen.
+  - Sie sind bei der Navigation auf der Webseite hilfreich
+  - Sie können die Status einer Webseite angeben / ändern  ohne diese neu laden zu müssen.
 [@medium-uri-fragment]
 
 Beispiele von URIs nach besprochenem Konzepten sind `https://api.contrude.eu/sensors/42/7/temperature?latest=true` oder `https://contrude.eu/ships?user=123#page2`.
 
 #### JavaScript
 
-Mit Frameworks wie Node.js kann auch eine frontendorientierte Sprache wie JavaScript fürs Backend genutzt werden. Ein großer Vorteil von Node.js, welcher es auch attraktiv für API-Design macht, ist seine ereignisgesteuerte, nicht-blockierende Umsetzung. Dieses mächtige Framework bietet sehr viele Packages an, was auch die Entwicklung sehr modular gestaltet. Express ist ein Modul, welches den Prozess des API Programmierens erleichtert. Anzumerken ist jedoch, dass Express keine wirkliche Funktionalität für REST-Services anbietet, sondern nur das Erstellen von Routes (path + query + fragment) ermöglicht. In die Routes muss man die selbst progammierte Middleware einbinden, welche dann als Backend fungiert, weitere Funktionen aufruft, Prozesse startet oder direkt mit Datenbanken kommuniziert.
+Mit Frameworks wie Node.js kann auch eine frontendorientierte Sprache wie JavaScript fürs Backend genutzt werden. Ein großer Vorteil von Node.js, welcher es auch attraktiv für API-Design macht, ist seine ereignisgesteuerte, nicht-blockierende Umsetzung. Dieses mächtige Framework bietet sehr viele Packages an, was auch die Entwicklung sehr modular gestaltet. Express ist ein Modul, welches den Prozess des API Programmierens erleichtert. Anzumerken ist jedoch, dass Express keine tatsächliche Funktionalität für REST-Services anbietet, sondern nur das Erstellen von Routes (path + query + fragment) ermöglicht. In die Routes muss man die selbst programmierte Middleware einbinden, welche dann als Backend fungiert, weitere Funktionen aufruft, Prozesse startet oder direkt mit Datenbanken kommuniziert.
 
-Um eine Node.js REST-Appp zu erstellen, muss man als erstes einen Ordner seiner Wahl als ein Node.js project initialisieren. Als Package-Manager wird hier NPM verwendet.
+Um eine Node.js REST-App zu erstellen, muss man als erstes einen Ordner seiner Wahl als ein Node.js project initialisieren. Als Package-Manager wird hier NPM^[Node Package Manager] verwendet.
 
 ```{caption="Initialisieren eines Node.js Projekts" .cmd}
   npm init
 ```
 
-Danach können benötigte Packages installiert werden. In unserem fall Express.
+Danach können benötigte Packages installiert werden. In unserem Fall Express.
 
 ```{caption="Installieren vom Express package" .cmd}
 npm install express
 ```
 
-Eine JS Datei mit folgendem Inhalt muss noch erstellt werden um einen REST-Express Server in der Node.js Anwendung zu starten:
+Eine JS^[JavaScript]-Datei mit folgendem Inhalt muss noch erstellt werden, um einen REST-Express-Server in der Node.js Anwendung zu starten:
 
 ```{caption="Beispiel für eine REST Schnitstelle in Node.js" .js}
 import express from "express";
@@ -361,7 +358,7 @@ Mit dem letzten Befehl
 node app.js
 ```
 
-wird die Applikation gestarted und kann auf `http://localhost:80/hello` oder mittels cURL und `curl localhost/hello` aufgerufen werden. [@medium-rest-api]
+wird die Applikation gestartet und kann auf `http://localhost:80/hello` oder mittels cURL und `curl localhost/hello` aufgerufen werden. [@medium-rest-api]
 
 Das JSON, welches beim aufrufen des Endpoints ausgegeben wird, sieht so aus:
 
@@ -379,7 +376,7 @@ Das JSON, welches beim aufrufen des Endpoints ausgegeben wird, sieht so aus:
 
 MySQL ist ein Open-Source RDBMS, welches von Oracle verwaltet wird. Diese DB wird stetig weiterentwickelt und ist sogar optimal in der Cloud hostbar. [@talend-mysql]
 
-MySQL verwendet zwar keine Schemas wie andere DBMS, trotzdem kann man mehrere Datenbanken innerhalb einer MySQL Instanz erstellen und somit dieses Verhalten simulieren. Irreführend ist hierbei, dass man trotzdem eine **DATABASE** und **SCHEMA** erstellen kann, obwohl sie gleich behandelt werden. [@mysql-glosar] Um möglichst lange Support-Updates mittels LTS^[Long Term Support] Versionen zu erhalten, wurde hier die MySQL 8 Version verwendet, obwohl sie offiziell noch nicht fertig ausprogrammiert ist. [@mysql-lts]
+MySQL verwendet zwar keine Schemas wie andere DBMS, jedoch kann man innerhalb einer MySQL-Instanz mehrere Datenbanken erstellen, was ein ähnliches Verhalten wie bei anderen DBMS erzielt. Irreführend ist hierbei, dass man trotzdem eine **DATABASE** und **SCHEMA** erstellen kann, obwohl sie gleich behandelt werden. [@mysql-glosar] Um möglichst lange Support-Updates mittels LTS^[Long Term Support] Versionen zu erhalten, wurde hier die MySQL 8 Version verwendet, obwohl sie offiziell noch nicht fertig ausprogrammiert ist. [@mysql-lts]
 
 Um die in diesem Projekt verwendeten Datenbanken zu erstellen, wurden SQL-init-scripts geschrieben, welche die MySQL Instanz mit den notwendigen Tabellen initialisieren, User anlegen und Dummy Daten einfügen. Hierbei ist der Aufbau immer der gleiche:
 
@@ -430,7 +427,7 @@ CREATE USER IF NOT EXISTS 'rest'@'%'
     PASSWORD HISTORY 5;
 ```
 
-Um diesen Usern auch noch Rechte auf dem DBMS zu geben, gibt es die `GrantPriveleges.sql` Datei. Diese variiert pro Datenbank, da sie jeder Benutzergruppe ihre Rechte auf verschiedene Tabellen gibt. Doch der Anfangsteil ist immer der gleiche. Admins sollten vollen Zugriff erhalten und andere User erstellen und Rechte verteilen können, *ALL PRIVILEGES*, ebenso wie die Developer. Der einzige Unterschied ist jedoch, den Developern wird der Zugriff auf die Systeminterne DB, *sys*, verweigert. Der API sollen minimale Rechte für spezifische DBs gegeben werden.
+Um diesen Usern auch noch Rechte im DBMS zu geben, gibt es die `GrantPrivileges.sql` Datei. Diese variiert je nach Datenbank, da sie jeder Benutzergruppe ihre Rechte auf verschiedene Tabellen gibt, doch der Anfangsteil ist immer der gleiche. Die Admins sollten vollen Zugriff erhalten und andere User erstellen und Rechte verteilen können, *ALL PRIVILEGES*, ebenso wie die Developer. Der einzige Unterschied ist jedoch, den Developern wird der Zugriff auf die systeminterne DB, *sys*, verweigert. Der API sollen minimale Rechte für spezifische DBs gegeben werden.
 
 ```{caption="Zuweisen von Rollen zu Benutzergruppen in MySQL" .sql}
 GRANT ALL PRIVILEGES ON *.* TO 'admin' WITH GRANT OPTION;
@@ -440,7 +437,7 @@ GRANT ALL PRIVILEGES ON database.* TO 'developer';
 FLUSH PRIVILEGES;
 ```
 
-Es gibt verschiedene Sprachen auf der Welt. Jeder Sprache beinhaltet verschiedene Zeichen, die nicht immer mit jeden Character-Set kompatibel sind. Um auch diese Daten ordnungsgemäß zu persistieren, kann man die Character-Sets einer jeden Datenbank und sogar jeder Tabelle anpassen. Außerdem gibt es die Möglichkeit, dass man die Art und Weise, wie das System Daten miteinander vergleicht, beeinflusst. Dies wird Collation genannt. Hierbei beeinflusst man z.B. das Verhalten einer WHERE Klausel, in dem man sagt, er soll den zu vergleichenden Text case sensitive vergleichen. [@DB-character-set] Da Schiffe, die darauf gelagerten Container und deren Firmen aus verschiedenen Ländern kommen, wurde hier entschieden, das utf8mb4 (eine Erweiterung von UTF-8) Character Set und die dazugehörige Collation utf8mb4_0900_bin (0900 = Unicode Collation Algorithmus, bin = Bitweises vergleichen) zu verwenden. [@mysql-character-set] Dies sieht dann wie folgt aus:
+Es gibt verschiedene Sprachen auf der Welt. Jede Sprache beinhaltet verschiedene Zeichen, die nicht immer mit jedem Character-Set kompatibel sind. Um auch diese Daten ordnungsgemäß zu persistieren, kann man die Character-Sets jeder Datenbank und sogar jeder Tabelle anpassen. Außerdem gibt es die Möglichkeit, dass man die Art und Weise, wie das System Daten miteinander vergleicht, beeinflusst. Dies wird Collation genannt. Hierbei beeinflusst man z.B. das Verhalten einer WHERE-Klausel, in dem man sagt, er soll den zu vergleichenden Text unter Beachtung der Groß- und Kleinschreibung (= case sensitive) vergleichen. [@DB-character-set] Da Schiffe, die darauf gelagerten Container und deren Firmen aus verschiedenen Ländern stammen, wurde hier entschieden, das utf8mb4 (eine Erweiterung von UTF-8) Character Set und die dazugehörige Collation utf8mb4_0900_bin (0900 = Unicode Collation Algorithmus, bin = bitweises vergleichen) zu verwenden. [@mysql-character-set] Dies sieht dann wie folgt aus:
 
 ```{caption="Erstellen einer MySQL Datenbank mit abgeänderten Character Set und Collation" .sql}
 CREATE DATABASE IF NOT EXISTS database DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_bin;
@@ -449,11 +446,11 @@ CREATE SCHEMA IF NOT EXISTS schema DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4
 
 ##### Schiff
 
-Jeder Container wird auf einem Schiff transportiert. Da ein Container im laufe seines Transports auf verschiedenen Schiffen sein kann und dementsprechend auch bewegt wird und auf verschiedenen Stellplätzen landet, ist es wichtig, nachzuvervolfgen, auf welchen Schiffen der Container war. In der hier gestalteten Datenbank wurden Schema für allgemeine Schiffdaten (`ship`), Zertifikate die das Schiff haben muss (`certificate`) und für die Herkunft des Transportmittels (`corporation`), angefertigt.
+Jeder Container wird auf einem Schiff transportiert. Da ein Container im Laufe seines Transports auf verschiedenen Schiffen sein kann und dementsprechend auch bewegt wird und auf verschiedenen Stellplätzen landet, ist es wichtig, nachzuverfolgen, auf welchen Schiffen der Container sich befunden hat. In der hier gestalteten Datenbank wurden Schema für allgemeine Schiffdaten (`ship`), Zertifikate die das Schiff haben muss (`certificate`) und für die Herkunft des Transportmittels (`corporation`), angefertigt.
 
 ![ERD der Schiffdatenbank](img/Schrempf/ship-erd.png){width=100%}
 
-Ein Schiff hat sehr viele Attribute wie seine Länge, Breite und Gewicht, aber auch rechtlich verbindliche Angaben wie sein Typ oder verschiedene Zertifikate die auf ihn zutreffen. In dieser Ausarbeitung ist die Schiffsdatenbank nur ein unweigerliches Nebenprodukt der Gesamtarbeit. Aufgrund dessen wurden nicht alle Zertifizierungen die ein Schiff haben kann und manch andere Eigenschaften umgesetzt, sondern es wurde nur auf das Nötigste begrenzt. Die hier implementierten Urkunden beschränken sich auf:
+Ein Schiff hat sehr viele Attribute wie zum Beispiel seine Länge, Breite und Gewicht, aber auch rechtlich verbindliche Angaben wie sein Typ oder verschiedene Zertifikate, die auf ihn zutreffen. In dieser Ausarbeitung ist die Schiffsdatenbank nur ein unvermeidliches Nebenprodukt der Gesamtarbeit. Aufgrund dessen wurden nicht alle Zertifizierungen die ein Schiff haben kann und manche andere Eigenschaften umgesetzt, sondern es wurde nur auf das Nötigste begrenzt. Die hier implementierten Dokumente beschränken sich auf:
 
 - ILLC^[International Load Line Certificate] [@imo]
 - IOPP^[International Oil Pollution Prevention Certificate]
@@ -465,36 +462,37 @@ Ein Schiff hat sehr viele Attribute wie seine Länge, Breite und Gewicht, aber a
 
 ##### Container
 
-Jeder Container besitzt verschieden Parameter, welche ihn ausmachen. Nicht nur seine Größe, sondern auch seine Materialbeschaffenheiten, Tragfähigkeiten und Zulassungen sind ausschalggebend. In der hier gestalteten Datenbank wurden Schema für allgemeine Containerdaten (`container`), Größenklassifikationen des Containers (`dimension`), Zertifikate die der Container haben muss (`certificate`) und für die Herkunft des Behälters (`corporation`), angefertigt.
+Jeder Container besitzt verschiedene Parameter, welche ihn ausmachen. Nicht nur seine Größe, sondern auch seine Materialbeschaffenheiten, Tragfähigkeiten und Zulassungen sind ausschlaggebend. In der hier gestalteten Datenbank wurden Schema für allgemeine Containerdaten (`container`), G
+Containergrößenklassifikationen (`dimension`), Zertifikate, die der Container haben muss (`certificate`) und für die Herkunft des Behälters (`corporation`), angefertigt.
 
 ![ERD der Containerdatenbank](img/Schrempf/container-erd.png){width=100%}
 
-Der Hauptfokus dieser Ausarbeitung liegt auf den Schiffcontainern. Diese haben simple Attribute wie deren Abmessungen, Seriennummern und die Firmen die sie hergestellt haben und besitzen. [@bic-code] [@icecargo] Doch wie bei den Schiffen gibt es Zertifikate, die solch eine Transporteinheit standardisieren. Dazu zählen:
+Der Hauptfokus dieser Ausarbeitung liegt auf den Schiffcontainern. Diese haben simple Attribute wie deren Abmessungen, Seriennummern und die Firmen, die sie hergestellt haben und besitzen. [@bic-code] [@icecargo] Doch wie bei den Schiffen gibt es Zertifikate, die solch eine Transporteinheit standardisieren. Dazu zählen:
 
-- CSC^[International Convention for Save Containers]
+- CSC^[International Convention for Safe Containers]
   - Vertrag der Vereinigten Nationen und der Internationalen Seefahrtsorganisation um standardisierte Regulationen bei Containern einzuführen. [@bic-code-csc]
 - CCC^[Container Construction Certificate]
-  - Ist eine Zollplakette, in welcher die für diese Transporteinheit geltende Zollbestimmungen festgehalten sind. [@bic-code-csc]
+  - Ist eine Zollplakette, in welcher die für diese Transporteinheit geltenden Zollbestimmungen festgehalten sind. [@bic-code-csc]
 - TCT^[Timber Component Treatment]
-  - Gemacht von der australischen Regierung um die konforme Beschichtung und Materialbeschaffenheit der Containerböden und Vermeidung eines möglichen Schädlingsbefalls durch in dem Holzboden übergebliebenen Parasiten sicherzustellen. [@tct]
+  - Gemacht von der australischen Regierung um die konforme Beschichtung und Materialbeschaffenheit der Containerböden und Vermeidung eines möglichen Schädlingsbefalls durch die in dem Holzboden übergebliebenen Parasiten sicherzustellen. [@tct]
 - IC^[InterContainer Codes]
-  - Diese Zertifizierung bescheinigt einen Container zum Transport auf der Schiene. [@ic-codes]
+  - Diese Zertifizierung bescheinigt einen Container zum Transport auf Schienen. [@ic-codes]
 
 ##### Grenzwerte
 
-In dieser Ausarbeitung geht es um die Überwachung eines Containers. Diese Datenbank dient dem Zweck, um nicht nur dessen Messwerte auszulesen, sondern auch um zu definieren, wann ein kritischer Wert erreicht worden ist. In der hier gestalteten DB wurde ein Schema für die Grenzwerte (`threshold`) angefertigt. Ein Grenzwert wird mit seinem Bereich in dem er gültig ist, seinem Erwartungswert, in welchen Bereich um den Erwartungswert der gelieferte Wert sein soll und die Priorität des angegebenen Limits definiert.
+In dieser Ausarbeitung geht es um die Überwachung eines Containers. Diese Datenbank dient dem Zweck, um nicht nur dessen Messwerte auszulesen, sondern auch um zu definieren, wann ein kritischer Wert erreicht worden ist. In der hier gestalteten DB wurde ein Schema für die Grenzwerte (`threshold`) angefertigt. Ein Grenzwert wird mit seinem Bereich in welchem er gültig ist, seinem Erwartungswert, in welchen Bereich um den Erwartungswert der gelieferte Wert sein soll und die Priorität des Limits definiert.
 
 ![ERD der Grenzwertdatenbank](img/Schrempf/threshold-erd.png){width=50%}
 
 ##### User
 
-Um ein praktikable UI^[user interface = Benutzeroberfläche] bieten zu können, muss diese eine Login-Funktion beinhalten. Userdetails müssen persistiert werden und die Datenbank dazu hat Schema für allgemeine Userdaten und dessen Tokens (`user`), Organisationsdaten des Benutzers (`corporation`) und die Rechte die der Anwender in der Applikation hat (`privilege`). Wenn ein Benutzer sich erfolgreich angemeldet hat, wernde zwei Tokens, Access und Refresh, vom Server erstellt. Wie dies geschieht wird später weiter erläutert. Im nachstehenden ERD^[Entity-Relationship-Modell] ist zu bemerken, dass die Tabelle der User-Tokens keine Verbindung zu anderen Tabellen hat und somit auch mit keinen anderen Daten verknüpft ist, zumindest scheint es so. Im Token selbst wird die Information, welchen Benutzer dieser Token gehört, welche Rechte damit verbunden sind und wie lange er gültig ist, eingebettet.
+Um ein praktikable UI^[user interface = Benutzeroberfläche] bieten zu können, muss diese eine Login-Funktion beinhalten. Userdetails müssen persistiert werden und die Datenbank dazu hat Schema für allgemeine Userdaten und dessen Tokens (`user`), Organisationsdaten des Benutzers (`corporation`) und die Rechte die der Anwender in der Applikation hat (`privilege`). Wenn ein Benutzer sich erfolgreich angemeldet hat, werden zwei Tokens, Access und Refresh, vom Server erstellt. Wie dies geschieht wird später weiter erläutert. Im nachstehenden ERD^[Entity-Relationship-Modell] ist zu bemerken, dass die Tabelle der User-Tokens keine Verbindung zu anderen Tabellen hat und somit auch mit keinen anderen Daten verknüpft ist, zumindest scheint es so. Im Token selbst wird die Information, welchem Benutzer dieser Token gehört, welche Rechte damit verbunden sind und wie lange er gültig ist, eingebettet.
 
 ![ERD der Benutzerdatenbank](img/Schrempf/user-erd.png){width=100%}
 
 #### InfluxDB
 
-Wir verwenden MQTT um Daten vom Prototyp zum Server zu bekommen. Das von uns entworfene Gerät sendet seine Messwerte an einen MQTT Broker. In unserem Fall ist der Publisher der Hardware-Prototyp und der Subsciber ist Telegraf. Telegraf ist ein Client, in dieser speziellen Variante auch Scraper genannt, welcher von InfluxDB entworfen wurde um aktiv Datenquellen anzuzapfen und die mittels einer Konfigurationsdatei definierten Filter auf die Ursprünge anzuwenden und die dadurch extrahierten Werte an eine beliebige Applikation weiterzuleiten. Telegraf ist in der Programmiersprache Go verfasst und bietet unzählige Plugins zum empfangen, verarbeiten, aufbereiten und weitersenden der Daten an. Die Konfigurationen werden im TOML^[Tom's Obvious, Minimal Language]-Syntax geschrieben. Hier wurden die Erweiterung für MQTT, RegEx^[regular expression] zum Topic-Struktur-Filtern und InfluxDBv2 verwendet. Das Filtern der Topics hat den Sinn, dass man nur die nötigsten Daten bekommt, Overhead reduziert und auch die einzelnen Werte exakt zuweisen kann. Als erstes wird nach einem groben Gesamttopic gefiltert und temporäre Tags zum weiterverarbeiten erstellt.
+Wir verwenden MQTT, um Daten vom Prototyp zum Server zu bekommen. Das von uns entworfene Gerät sendet seine Messwerte an den MQTT Broker. In unserem Fall ist der Publisher der Hardware-Prototyp und der Subscriber ist Telegraf. Telegraf ist ein Client, in dieser speziellen Variante auch Scraper genannt, der von InfluxDB entworfen wurde, um aktiv Datenquellen anzuzapfen und die mittels einer Konfigurationsdatei definierten Filter auf die Ursprünge anzuwenden und die dadurch extrahierten Werte an eine beliebige Applikation weiterzuleiten. Telegraf ist in der Programmiersprache Go verfasst und bietet unzählige Plugins zum Empfangen, verarbeiten, aufbereiten und weitersenden der Daten an. Die Konfigurationen werden im TOML^[Tom's Obvious, Minimal Language]-Syntax geschrieben. Hier wurden die Erweiterungen für MQTT, RegEx^[regular expression] zum Topic-Struktur-Filtern und InfluxDBv2 verwendet. Das Filtern der Topics hat den Sinn, dass man nur die nötigsten Daten bekommt, den Overhead reduziert und die einzelnen Werte exakt zuweisen kann. Als erstes wird nach einem groben Gesamttopic gefiltert und temporäre Tags zum Weiterverarbeiten erstellt.
 
 ```{caption="Filtern der Topics in Telegraf mittels Regex" .toml}
 [[processors.regex]]
@@ -504,7 +502,7 @@ Wir verwenden MQTT um Daten vom Prototyp zum Server zu bekommen. Das von uns ent
     replacement = "$1,$2,$3"
 ```
 
-Nur wird jeder temporäre Tag mit einem real-funcktionalen Tag ausgewechselt. Dieser Prozess passiert drei mal. Für Schiff, Container und der Art des Sensors. Hier wird beispielhaftg nur der Schiffstag angeheftet. [@gpt-telegraf-regex]
+Nur wird jeder temporäre Tag mit einem real-funktionalen Tag ausgewechselt. Dieser Prozess passiert dreimal. Für Schiff, Container und der Art des Sensors. Hier wird beispielhaft nur der Schiffstag angeheftet. [@gpt-telegraf-regex]
 
 ```{caption="Ersetzen der temporären Topic-Tags durch funcktionale Tags" .toml}
 [[processors.regex]]
@@ -530,7 +528,7 @@ Zum Schluss wird der transformierte Datensatz in die Datenbank eingespeist. Hier
     sensor = ["${TEMPERATURE_TAGPASS}"]
 ```
 
-InfluxDB ist ein zeitreihenbasierte Datenbankmanagementsystem, in welchem eine Datenbank Bucket heißt. In diesem hier benötigten Anwendungsfall gibt es für jeden einzelnen Messwert jeweils einen Bucket. Diese wären:
+InfluxDB ist ein zeitreihenbasiertes Datenbankmanagementsystem, in welchem eine Datenbank Bucket heißt. In diesem hier benötigten Anwendungsfall gibt es für jeden einzelnen Messwert einen Bucket. Diese wären:
 
 - temperature = Temperatur
 - humidity = Luftfeuchtigkeit
@@ -540,13 +538,13 @@ InfluxDB ist ein zeitreihenbasierte Datenbankmanagementsystem, in welchem eine D
 - latitude = Breitengrad
 - altitude = Seehöhe
 
-Außerdem gibt es InfluxDBv1 und InfluxDBv2. Bei V1 muss man für API-Zugriffe Benutzername und Passwort angeben, was unter Umständen eine Sicherheitslücke sein kann. Bei V2 wird der Gesamte API-Verkehr über Tokens geregelt. Ein entscheidender Unterschied ist auch die Abfragesprache. V1 verwendet normales SQL, V2 hingegen verwendet Flux. Dies führte zu einer erheblichen Perfomancesteigerung. [@influx-v1-vs-v2] Flux ist eine SQL ähliche Query-Sprache, jedoch sehr stark auf das Abfragen von Zeitreihen optimiert. [@flux]
+Außerdem gibt es InfluxDBv1 und InfluxDBv2. Bei V1 muss man für API-Zugriffe Benutzername und Passwort angeben, was unter Umständen eine Sicherheitslücke sein kann. Bei V2 wird der Gesamte API-Verkehr über Tokens geregelt. Ein entscheidender Unterschied ist auch die Abfragesprache. V1 verwendet normales SQL, V2 hingegen Flux. Dies führte zu einer erheblichen Performancesteigerung. [@influx-v1-vs-v2] Flux ist eine SQL ähnliche Query-Sprache, jedoch stark auf das Abfragen von Zeitreihen optimiert. [@flux]
 
 #### Grafana
 
-Grafana ist ein Open-Source-Monitoring-Tool. Sprich, man kann es zur Datenvisualisierung verschiedenster Quellen und Eingabearten verwenden und sogar Alarme ausgeben lassen, wenn gewisse Events auftreten oder Werte aus der Reihe tanzen. Somit bietet Grafana nicht nur Visualisierungsmöglichkeiten der beliebtesten Datenquellen an, sondern auch ein Benachrichtigungsystem, welche es in Summe auch zu einem bekannten Industriestandard gemacht haben. In Grafana werden Dashboard erstellt und darin Panels. Ein Panel ist eine Art der Visualisierung. Zum Beispiel Histogramme, Heatmaps oder Balkendiagramme. [@grafana-general] Außerdem bietet es den großen Vorteil, dass Dashboards und Panels als JSON abrufbar sind und somit sehr einfach importiert / exportiert werden können.
+Grafana ist ein Open-Source-Monitoring-Tool. Sprich, man kann es zur Datenvisualisierung verschiedenster Quellen und Eingabearten verwenden und sogar Alarme ausgeben lassen, wenn gewisse Events auftreten oder Werte aus der Reihe tanzen. Somit bietet Grafana nicht nur Visualisierungsmöglichkeiten der beliebtesten Datenquellen an, sondern auch ein Benachrichtigungssystem, das es in Summe auch zu einem bekannten Industriestandard gemacht haben. In Grafana werden Dashboards erstellt und darin Panels. Ein Panel ist eine Art der Visualisierung. Zum Beispiel Histogramme, Heatmaps oder Balkendiagramme. [@grafana-general] Außerdem bietet es den großen Vorteil, dass Dashboards und Panels als JSON abrufbar sind und somit sehr einfach importiert und exportiert werden können.
 
-Um eine Visualisierung hinzuzufügen, muss man ein neues Dashboard und darin eine neue Visualisierung erstellen. Nun wird man gefragt, die Datenquelle zu konfigurieren. Hierfür wird das Plugin für InfluxDB verwendet und eine neue Connection zu unserer Datenbank aufgebaut. Bei den Dashboardeinstellungen kann man Variablen erstellen. Diese werden hier in weiterer Folge als Platzhalter für die Schiff- und Container IDs verwendet. Die Variablen bestehen jeweils aus einer Query, welche nur die Werte mit den angegebenen Tags herausfiltern. Dies kann nur dann geschehen, wenn die in InlfuxDB gespeicherten Werte überhaupt diese Informationen als Tags bekommen haben.
+Um eine Visualisierung hinzuzufügen, muss man ein neues Dashboard und darin eine neue Visualisierung erstellen. Nun wird man gefragt, die Datenquelle zu konfigurieren. Hierfür wird das Plugin für InfluxDB verwendet und eine neue Verbindung zu der Datenbank aufgebaut. Bei den Dashboardeinstellungen kann man Variablen erstellen. Diese werden hier in weiterer Folge als Platzhalter für die Schiff- und Container IDs verwendet. Die Variablen bestehen jeweils aus einer Query, welche nur die Werte mit den angegebenen Tags herausfiltern. Dies kann nur dann geschehen, wenn die in InfluxDB gespeicherten Werte überhaupt diese Informationen als Tags bekommen haben.
 
 ![Grafana Variablen für Schiffe und Container [@grafana-variables]](img/Schrempf/grafana-variables.png){width=100%}
 
@@ -554,7 +552,7 @@ Nun sieht die leere Visualisierung (Panel) so aus:
 
 ![Leeres Grafana Panel](img/Schrempf/grafana-empty-panel.png){width=100%}
 
-Im unteren Teil kann man sehen, dass die zuvor ausgewählte Datensourse da ist und das man diese mittels Flux-Queries abfragen kann. Um ein Panel zur Temperaturvisualisierung zu gestalten, kann man die unten angegebene Query verwenden. Der Zeitraum wird im Panel selbst definiert und die Variablen können mittels einem Dropdownmenüs angepasst werden.
+Im unteren Teil kann man sehen, dass die zuvor ausgewählte Datensource da ist und dass man diese mittels Flux-Queries abfragen kann. Um ein Panel zur Temperaturvisualisierung zu gestalten, kann man die unten angegebene Query verwenden. Der Zeitraum wird im Panel selbst definiert und die Variablen können mittels eines Dropdown-Menüs angepasst werden.
 
 ```{caption="Flux-Query für Temperaturwerte in Grafana" .flux}
 from(bucket: "temperature")
@@ -575,7 +573,7 @@ Nach weiteren Anpassungen wie Achsenbeschriftung, Diagrammtyp, Diagrammtitel, Ei
 
 #### Docker
 
-In einer sich immer schneller ändernden Welt ist eine modulare Software unausweichlich um Patches rasch einzuspielen, Sicherheitslücken zu fixen und neue Features implementieren zu können. Da es leichter ist so ein System einmal zu entwerfen und dann zu erweitern als ein bestehendes Konstrukt umzugestalten, wurde hier vom Anfang an Docker verwendet um genau so eine Architektur zu erzielen. Die gesamte Software ist in Microservices unterteilt und kann theoretisch seperat betrieben werden. Ausnahmen hinsichtlich der Abhängigkeit/Modularität bestehen nur bei Anwendungen, die eine Andere voraussetzen z.B. ein Server eine Datenbank. Anfangs wurde überlegt, für jeden einzelnen Service ein Dockerfile zu schreiben. Ein Problem welches sich nicht lange darauf einstellte war, wie man denn all die Anwendungen gleichzeitig hochfahren könne. Eine Lösung bot hierbei Docker Compose. Nun kann man mehrere Services in einer Datei definieren und mit einem Befehl hochfahren: `docker compose up`. Da man in Docker Compose zwar einen Service aus einem Image, welches in einem eigenen Dockerfile beschrieben wurde, erstellen kann, dies jedoch bei uns keinen Sinn hatte, wurde die Strategie dahin gehend verändert, dass nur noch das Base-Image vom Docker-Hub verwendet und im gebotenen Rahmen abgewandelt wurde. Wir haben uns für die zweite Version entschieden, da wird die Base-Images nicht wirklich verändern, sondern eher Konfigurationen an ihnen durchführen. Beispiele dafür sind Volume-Mounts, Entrypoints anpassen oder Umgebungsvariablen setzen. Zusätzlich erspart das, das schreiben unzähliger Dockerfiles und man kann alles übersichtlich in einer Datei behalten. [@gpt-server-structure] Ein guter Vergleich für das gelingen unseres Ansetzes ist, dass zu Anfang nur drei Services im Einsatz waren und nun sind wir bei zwölf, welche über den Lauf der Zeit ihren Weg in unsere Anwendung gefunden haben und auch leicht einzugliedern waren. Folgende Services sind final im Einsatz:
+In einer sich immer schneller ändernden Welt ist eine modulare Software unausweichlich, um Patches rasch einzuspielen, Sicherheitslücken zu fixen und neue Features implementieren zu können. Da es leichter ist, so ein System einmal zu entwerfen und dann zu erweitern als ein bestehendes Konstrukt umzugestalten, wurde hier von Anfang an Docker verwendet um genau so eine Architektur zu erzielen. Die gesamte Software ist in Microservices unterteilt und kann theoretisch separat betrieben werden. Ausnahmen hinsichtlich der Abhängigkeit/Modularität bestehen nur bei Anwendungen, die eine andere voraussetzen, z.B. ein Server eine Datenbank. Anfangs wurde überlegt, für jeden einzelnen Service ein Dockerfile zu schreiben. Ein Problem, das sich nicht lange darauf einstellte war, wie man denn all die Anwendungen gleichzeitig hochfahren kann. Eine Lösung bot hierbei Docker Compose. Nun kann man mehrere Services in einer Datei definieren und mit einem Befehl hochfahren: `docker compose up`. Da man in Docker Compose zwar einen Service aus einem Image, welches in einem eigenen Dockerfile beschrieben wurde, erstellen kann, dies jedoch bei uns keinen Sinn hatte, wurde die Strategie dahin gehend verändert, dass nur noch das Base-Image vom Docker-Hub verwendet und im gebotenen Rahmen abgewandelt wurde. Wir haben uns für die zweite Version entschieden, da wir die Base-Images nicht wirklich verändern, sondern eher Konfigurationen an ihnen durchführen. Beispiele dafür sind Volume-Mounts, Entrypoints anpassen oder Umgebungsvariablen setzen. Zusätzlich erspart dies, das Schreiben unzähliger Dockerfiles und man kann alles übersichtlich in einer Datei behalten. [@gpt-server-structure] Ein guter Vergleich für das Gelingen unseres Ansetzes ist, dass zu Anfang nur drei Services im Einsatz waren und nun sind wir bei zwölf, welche im Laufe der Zeit ihren Weg in unsere Anwendung gefunden haben und auch leicht einzugliedern waren. Folgende Services sind final im Einsatz:
 
 | Image | Usage | Services | Scope |
 |--|--|--|--|
@@ -589,7 +587,7 @@ In einer sich immer schneller ändernden Welt ist eine modulare Software unauswe
 
 : Welche Images werden für welche Services verwendet
 
-Da gewisse Anwendungen vertrauliche Informationen benötigen wie Passwörter, Tokens und Webaddressen wurden diese in Envirnoment-Variable-Files gespeichert. Diese Datei wird in dem Docker Compose Abschnitt `env_file` angegeben. Zu jedem Service der sensible Umgebungsvariablen benötigt, gibt es eine `.env.template` Datei. Diese Datei spezifiziert welche Environments gesetzt gehören und fungiert somit als Template. Hier werden noch keine sensiblen Informationen angegeben und somit kann sie in das VCS hochgeladen werden. Nicht nur sensibles kann hier mitgegeben werden, sondern es wird auch eine Differenzierung zwischen Produktiv- und Entwicklungsumgebungen ermöglicht.
+Da gewisse Anwendungen vertrauliche Informationen benötigen, wie Passwörter, Tokens und Webaddressen wurden diese in Environment-Variable-Files gespeichert. Diese Datei wird im Docker Compose Abschnitt `env_file` angegeben. Zu jedem Service der sensible Umgebungsvariablen benötigt, gibt es eine `.env.template` Datei. Dieses File spezifiziert, welche Environments gesetzt gehören und fungiert somit als Template. Hier werden noch keine sensiblen Informationen angegeben und somit kann sie in das VCS hochgeladen werden. Nicht nur Sensibles kann hier mitgegeben werden, sondern es wird auch eine Differenzierung zwischen Produktiv- und Entwicklungsumgebungen ermöglicht.
 
 ```{caption="Definition einer Entwicklungsumgebung mittels Umgebungsvariablen" .env}
 TRAEFIK_DOMAIN=traefik.localhost
@@ -603,11 +601,11 @@ API_DOMAIN=api.contrude.eu
 WEB_DOMAIN=www.contrude.eu
 ```
 
-Alle Services haben die gleiche Struktur und gewisse Ähnlichkeiten im Aufbau. Bei jedem Service wird das Attribut `restart` auf `unless-stopped` gesetzt. Dies bewirkt, dass bei einem schwerwiegenden Fehler, welcher den Container zum Absturz bringt, sich ein neuer Container hochfährt und Anfragen weitherin entgegengenommen werden können. Somit ist der Grundstein für eine Self-Healing-Architecture gelegt. Wenn Volumes gemounted werden, wird zur besseren Kontrolle auch spezifiziert, ob dieser Mount Read-Only oder Read-Write Rechte im Container selbst haben soll. Die Sektion `deploy` ist noch ein überbleibes aus der Phase des Projekts, als wir Docker Swarm verwendet haben, wird aber auch unter der alleinigen Nutzung von Docke Compose, zwar weniger effektiv aber doch, verwendet.
+Alle Services haben die gleiche Struktur und gewisse Ähnlichkeiten im Aufbau. Bei jedem Service wird das Attribut `restart` auf `unless-stopped` gesetzt. Dies bewirkt, dass bei einem schwerwiegenden Fehler, welcher den Container zum Absturz bringt, sich ein neuer Container hochfährt und Anfragen weiterhin entgegengenommen werden können. Somit ist der Grundstein für eine Self-Healing-Architecture gelegt. Wenn Volumes gemountet werden, wird zur besseren Kontrolle auch spezifiziert, ob dieser Mount Read-Only oder Read-Write Rechte im Container selbst haben soll. Die Sektion `deploy` ist noch ein Überbleibsel aus der Phase des Projekts, als wir Docker Swarm verwendet haben, wird aber auch unter der alleinigen Nutzung von Docker Compose, zwar weniger effektiv, aber doch, verwendet.
 
 ##### MySQL
 
-Die MySQL Datenbank Services sind so konfiguriert, dass sie alle das selbe Admin (root) Passwort, welches nach der Erstanmeldung geändert werden muss, haben. Dies dient zur leichteren Erstkonfiguration und bringt aufgrund des Einmalpassworts einen gewissen Sicherheitsfaktor mit. Es werden immer zwei Volumemounts vollzogen. Einmal die Datenbank selbst, welche im Container unter dem Pfad `/var/lib/mysql` erreichbar ist, und als zweites die Datenbankscripts zum initialisieren der DB. Der Standardport einer MySQL Instanz ist 3306, aber aufgrund dessen, dass bei uns davon vier verschiedene Stück exesiteren, wurden die Ports inkremental geändert. Hier ein Beispiel der Container DB:
+Die MySQL Datenbank Services sind so konfiguriert, dass sie alle dasselbe Admin (root) Passwort, welches nach der Erstanmeldung geändert werden muss, haben. Dies dient zur leichteren Erstkonfiguration und bringt aufgrund des Einmalpassworts einen gewissen Sicherheitsfaktor mit. Es werden immer zwei Volume-Mounts vollzogen. Einmal die Datenbank selbst, welche im Container unter dem Pfad `/var/lib/mysql` erreichbar ist und zum anderen die Datenbankskripte zur Initialisierung der DB. Der Standardport einer MySQL Instanz ist 3306, aber da bei uns davon vier verschiedene Instanzen exesiteren, wurden die Ports inkremental geändert. Hier ein Beispiel der Container DB:
 
 ```{caption="Definition eines MySQL Services" .yml}
 db_container:
@@ -627,15 +625,15 @@ db_container:
 
 ##### Node.js
 
-In Docker Compose gibt es ein Attribut `command`, in dem man Shell Commands angeben kann, die beim Starten des Containers ausgeführt werden sollen. Node.js benötigt viele Packages im Hintergrund, welche im Ordner `node_modules` geladen werden. Die Packages können sich aber je nach Betriebsystem und / oder Kernel unterscheiden. Somit ist es am sinnvollsten, wenn man sie jedes mal frisch installiert. Dies kann mit dem Command `sh -c 'npm install && npm run build && npm run dev -- --host'` erzielt werden.
+In Docker Compose gibt es ein Attribut `command`, in dem man Shell-Commands angeben kann, die beim Starten des Containers ausgeführt werden sollen. Node.js benötigt viele Packages im Hintergrund, welche im Ordner `node_modules` geladen werden. Die Packages können sich aber je nach Betriebssystem und/oder Kernel unterscheiden. Somit ist es am sinnvollsten, wenn man sie jedes Mal frisch installiert. Dies kann mit dem Command `sh -c 'npm install && npm run build && npm run dev -- --host'` erzielt werden.
 
 ##### Traefik
 
-Traefik ist ein Open-Source Reverse Proxy und Load Balancer. Ein großer Vorteil von Traefik zu anderen Konkurenten ist, dass man nicht viel konfigurieren muss, da es aufgrund eines eigenen Service Discorvery Modus die zu routenden Anwendungen automatisch erkennt. Außerdem muss man sich nicht mehr mühselig SSL-Zertifikate kaufen, sondern kann diese sich generieren lassen. Ein kleines Kontra bringt dieses Feature aber mit sich: Da die Zertifikate nicht von einer offiziellen Autorität ausgestellt werden, werden diese in den Browsern und von manchen Libraries als unsicher geflaggt. [@traefik-overview]
+Traefik ist ein Open-Source Reverse Proxy und Load Balancer. Ein großer Vorteil von Traefik zu anderen Konkurrenten ist, dass man nicht viel konfigurieren muss, da es aufgrund eines eigenen Service-Discovery-Modus die zu routenden Anwendungen automatisch erkennt. Außerdem muss man sich nicht mehr mühselig SSL-Zertifikate kaufen, sondern kann diese sich generieren lassen. Ein kleines Kontra bringt dieses Feature aber mit sich: Da die Zertifikate nicht von einer offiziellen Autorität ausgestellt werden, werden diese in den Browsern und von manchen Libraries als unsicher geflaggt. [@traefik-overview]
 
 ![Traefik Übersicht [@traefik-overview]](img/Schrempf/traefik-overview.png){width=100%}
 
-Um unsere Services sicher im Internet freizuschalten, verwenden wir die automatisierte Generierung von TLS Zertifikaten von Traefik, welches mit Let's Encrypt, einer Zertifizierungsauthorität, interagiert. Somit upgraden wir von HTTP zu HTTPS auf. [@traefik-lets-encrypt] Des Weiteren haben wir Traefik so konfiguriert, dass jeglicher HTTP traffic auf HTTPS umgeleitet wird. Dem Benutzer wird faktisch ein verschlüsselter Datentransfer im Sinne des größeren Wohls aufgezwungen. Außerdem wird zur Sicherheitssteigerung auch noch konfiguriert, dass nicht jeder Service ins Web geschaltet werden soll, sondern nur jene, welche expliziert erwähnt werden. Zusätzlich bietet Traefik ein Web-Dashboard an, mit welchem man eine gute Übersicht über die verwalteten Services erhält. Wir haben zwei API-Server. Einen zur Authentifizierung und einen um die Daten der Schiffe, Container, Grenz- und Messwerte zu erhalten. Um eine logische und (sicherheits-) technische Abgrenzung zu ermöglichen, werden diese zwei seprat von einander betrieben. Um auch einen Unterschied beim Aufrufen dieser im WWW^[World Wide Web] zu ermöglichen, gibt es eine Domain, aber verschiede Path-Prefixes unter denen man die Services erreichen kann. Der Prefix für die Authentifiziernungstelle lautet `/auth` und für die restlichen Angelegenheiten `/rest`. Da es mit der internen API Struktur der Server beim weiterrouten der Anfragen Probleme gibt wenn davor etwas steht, was aber nicht im API-Server selbst angegeben wurde, wird nach der Verarbeitung der Anfrage durch Traefik der Path-Prefix wieder weggeschnitten. [@gpt-traefik] Wichtig anzumerken ist auch noch, dass wenn man Environment-Files für Traefik verwendet, diese im exakt selben Ordner sein müssen wie die Docker Compose Datei in welcher Traefik definiert ist, da ansonsten der Service die Datei nicht lesen/interpretieren kann. Dies ist ein Sonderfall und trifft nur auf den hier behandelten Dienst zu.
+Um unsere Services sicher im Internet freizuschalten, verwenden wir die automatisierte Generierung von TLS Zertifikaten von Traefik, welches mit Let's Encrypt, einer Zertifizierungsauthorität, interagiert. Somit upgraden wir von HTTP zu HTTPS. [@traefik-lets-encrypt] Des Weiteren haben wir Traefik so konfiguriert, dass jeglicher HTTP-Traffic auf HTTPS umgeleitet wird. Dem Benutzer wird faktisch ein verschlüsselter Datentransfer im Sinne des größeren Wohls aufgezwungen. Außerdem wird zur Sicherheitssteigerung auch noch konfiguriert, dass nicht jeder Service ins Web geschaltet werden soll, sondern nur jene, welche explizit erwähnt werden. Zusätzlich bietet Traefik ein Web-Dashboard an, mit welchem man eine gute Übersicht über die verwalteten Services erhält. Wir haben zwei API-Server. Einen zur Authentifizierung und einen, um die Daten der Schiffe, Container, Grenz- und Messwerte zu erhalten. Um eine logische und (sicherheits-) technische Abgrenzung zu ermöglichen, werden diese zwei seprat von einander betrieben. Um auch einen Unterschied beim Aufrufen dieser im WWW^[World Wide Web] zu ermöglichen, gibt es eine Domain, aber verschiedene Path-Prefixes unter denen man die Services erreichen kann. Der Prefix für die Authentifizierungsstelle lautet `/auth` und für die restlichen Angelegenheiten `/rest`. Da es mit der internen API Struktur der Server beim weiterleiten der Anfragen Probleme gibt, wenn davor etwas steht, was aber nicht im API-Server selbst angegeben wurde, wird nach der Verarbeitung der Anfrage durch Traefik der Path-Prefix wieder weggeschnitten. [@gpt-traefik] Wichtig anzumerken ist auch noch, dass wenn man Environment-Files für Traefik verwendet, diese im exakt gleichen Ordner sein müssen wie die Docker-Compose-Datei in welcher Traefik definiert ist, da ansonsten der Service die Datei nicht lesen/interpretieren kann. Dies ist ein Sonderfall und trifft nur auf den hier behandelten Dienst zu.
 
 ```{caption="Definition eines Traefik Services" .yml}
 traefik:
@@ -682,17 +680,17 @@ traefik.http.routers.web.tls.certresolver: myresolver
 
 #### Server
 
-Um unsere Services öffentlich zugänglich machen zu können, wurde ein simpler headless Ubuntu Server mit der Version 24.04 auf einem Rasperry Pi Model B mit 4GB RAM aufgesetzt. Dieses Gerät wurde dann mittels einer öffentlichen IP^[Internet Protocol] Addresse und einer damit assoziierten Domain im Internet zugänglich gemacht. Ein verlässlicher Remotezuugriff wird mithilfe der Installation von SSH^[Secure Shell] ermöglicht. Da unsere gesamte Architektur auf Docker aufbaut, wurde auch diese Software dort installiert.
+Um unsere Services öffentlich zugänglich machen zu können, wurde ein simpler headless Ubuntu Server mit der Version 24.04 auf einem Raspberry Pi Model B mit 4GB RAM aufgesetzt. Dieses Gerät wurde dann mittels einer öffentlichen IP^[Internet Protocol]-Adresse und einer damit assoziierten Domain im Internet zugänglich gemacht. Ein verlässlicher Remotezugriff wird mithilfe der Installation von SSH^[Secure Shell] ermöglicht. Da unsere gesamte Architektur auf Docker basiert, wurde auch diese Software dort installiert.
 
 ![Server auf einem Raspberry Pi](img/Schrempf/physical-server.png){width=100%}
 
 #### GitHub Action
 
-Wir verwenden GitHub als VCS. Die durch diese Entscheidung möglich gewordenen Automatisierungsmöglichkeiten haben wir sehr zu unserem Vorteil genutzt. Es existieren zwei verschiedene Workflows um unser Leben zu erleichtern.
+Wir verwenden GitHub als VCS. Die durch diese Entscheidung ermöglichten Automatisierungsmöglichkeiten haben wir sehr zu unserem Vorteil genutzt. Es existieren zwei verschiedene Workflows, um unser Leben zu erleichtern.
 
 ##### Server deploy
 
-Da sämtliche Anwendungen ihren eigenen Docker Container bzw. Eintrag im Docker Compose haben, fällt es sehr leicht, unsere Arbeit zu deployen. Es gibt verschiedene Ansätze solch eine Aufgabe zu realisieren, doch wir haben uns dafür entschieden, eine SSH Verbindung zu unserem Server aufzubauen, den geänderten Code von dort aus zu pullen und um sicherzustellen das alle Dienste up to date sind die Docker Container komplett herunter- und wieder hochzufahren. Dies bringt, eine für uns vernachlässigbare, Downtime von 30s mit sich. Der angegebene Prozess muss seitens Docker so ablaufen, da Codeänderungen sonst nicht direkt im Container übernommen werden würden. Außerdem muss noch eine Änderung beim Server vorgenommen werden, um diese Art des deployens zu ermöglichen. Wenn man Docker Container auf Ubuntu starten bzw. stoppen will, muss man dies mit erhöten Rechten, sprich `sudo`, machen, was das eingeben eines Passworts voraussetzt. Dieser Prozess beinhaltet eine Benutzerinteraktion und lässt sich sehr schwer automatisieren. Das Benuzten einer GitHub Action wird erschwert. Um das Problem zu umgehen, nutzen wir eine Datei des Linuxsystems welche ermöglicht, gewisse Befehle ohne Sudo-Rechte auszuführen. Sie befindet sich in `/etc/sudoers` und man muss folgende Zeile anfügen, um ein Docker Compose Script ohne Adminrechte ausführen zu können, wobei `pi` der ausführende Benutzer ist: `pi ALL=(ALL) NOPASSWD: /usr/bin/docker compose up -d, /usr/bin/docker compose down`. [@sudo-no-pass] Der vollständige Workflow besteht aus zwei Teilen, welche jeweils die korrespondierenden Shellanweisungen ausführen.
+Da sämtliche Anwendungen ihren eigenen Docker Container bzw. Eintrag im Docker Compose haben, fällt es sehr leicht, unsere Arbeit zu deployen. Es gibt verschiedene Ansätze solch eine Aufgabe zu realisieren, doch wir haben uns dafür entschieden, eine SSH Verbindung zu unserem Server aufzubauen, den geänderten Code von dort aus zu pullen und um sicherzustellen, dass alle Dienste up to date sind die Docker Container komplett herunter- und wieder hochzufahren. Dies bringt eine für uns vernachlässigbare Downtime von 30 Sekunden mit sich. Der angegebene Prozess muss seitens Docker so ablaufen, da Codeänderungen sonst nicht direkt im Container übernommen werden würden. Außerdem muss noch eine Änderung beim Server vorgenommen werden, um diese Art des deployens zu ermöglichen. Wenn man Docker Container auf Ubuntu starten bzw. stoppen will, muss man dies mit erhöten Rechten, sprich `sudo`, machen, was das eingeben eines Passworts voraussetzt. Dieser Prozess beinhaltet eine Benutzerinteraktion und lässt sich sehr schwer automatisieren. Das Benutzen einer GitHub Action wird erschwert. Um das Problem zu umgehen, nutzen wir eine Datei des Linuxsystems die es ermöglicht, gewisse Befehle ohne Sudo-Rechte auszuführen. Sie befindet sich in `/etc/sudoers` und man muss folgende Zeile anfügen, um ein Docker Compose Skript ohne Adminrechte ausführen zu können, wobei `pi` der ausführende Benutzer ist: `pi ALL=(ALL) NOPASSWD: /usr/bin/docker compose up -d, /usr/bin/docker compose down`. [@sudo-no-pass] Der vollständige Workflow besteht aus zwei Teilen, die jeweils die entsprechenden Shellanweisungen ausführen..
 
 1. Das SSH Zertifikat des Servers zu den trusted Hosts in der GitHub Action VM hinzufügen.
 2. Sich in den Server mittels SSH einloggen, den aktuellsten Stand pullen und die Docker Container herunter- und hochfahren.
@@ -709,7 +707,7 @@ ENDSSH
 
 ##### Super-Linter
 
-Ein Linter ist eine Software, welche deinen Code analysiert und dich auf Formatierungsfehler und Codekonsistenz hinweist. Seine Aufgabe ist es, dich bei der Implementierung von Best-Practice Strategien zu unterstützen und Programmfehler vorzubeugen. Für verschiedene Programmiersprachen gibt es unterschiedliche Linter. Ein Super-Linter ist nun eine Sammlung von Lintern und dient als Gesamtpacket. Somit muss man nicht mehr für jede verwendete Programmiersprache einen implementieren, sondern kann diese Collection verwenden um gleichzeitig mehrere Sprachen abzudecken. Die zugehörige GitHub Action ist sehr simpel und sieht folgendermaßen aus: [@superlinter]
+Ein Linter ist eine Software, die deinen Code analysiert und dich auf Formatierungsfehler und Codekonsistenz hinweist. Seine Aufgabe ist es, dich bei der Implementierung von Best-Practice-Strategien zu unterstützen und Programmfehler vorzubeugen. Für verschiedene Programmiersprachen gibt es spezialisierte Linter. Ein Super-Linter ist nun eine Sammlung von Lintern und dient als Gesamtpaket. Somit muss man nicht mehr für jede verwendete Programmiersprache einen implementieren, sondern kann diese Collection verwenden, um gleichzeitig mehrere Sprachen abzudecken. Die zugehörige GitHub Action ist sehr simpel und sieht folgendermaßen aus: [@superlinter]
 
 ```{caption="GitHub Superlinter" .yml}
 name: Super-Linter
@@ -734,38 +732,39 @@ jobs:
 
 ### REST API
 
-Bei der Umsetzung der Backend Server haben wir uns für eine Trennung der Authentifizierung und der Datenabfrage entschieden, da bei einer Komprimierung einer dieser Komponenten die jeweils andere funktionsfähig bleibt und sie auch getrennt von einander betrieben werden können, was eine zusätzliche Sicherheitskomponente einführt. Außerdem wird JavaScript als Programmiersprache und Node.js verwendet, da es unzählige, für uns sehr nützliche, Libraries anbietet. Trotz der logischen Trennung sind beide jedoch gleich aufgebaut: [@medium-rest-api]
+Bei der Umsetzung der Backend-Server haben wir uns für eine Trennung der Authentifizierung und der Datenabfrage entschieden, da bei einer Kompromittierung einer dieser Komponenten die jeweils andere funktionsfähig bleibt und sie auch getrennt von einander betrieben werden können, was eine zusätzliche Sicherheitskomponente einführt. Außerdem verwenden wir JavaScript als Programmiersprache und Node.js, da es zahlreiche für uns sehr nützliche Libraries bietet. Trotz der logischen Trennung sind beide gleich aufgebaut: [@medium-rest-api]
 
 \dirtree{%
-.1 src.
-.2 db.
-.3 connect.js.
-.3 helper.js.
-.2 errors.
-.3 customErrors.js.
-.2 middlewares.
-.3 handleError.js.
-.3 notFound.js.
-.3 tryCatchWrapper.js.
-.3 validateRouteParameter.js.
-.2 resources.
+.1 rest.
+.2 src.
 .3 db.
-.4 controller.js.
+.4 connect.js.
 .4 helper.js.
-.4 routes.js.
-.1 ssl.
-.1 .env.
-.1 app.js.
-.1 package.json.
+.3 errors.
+.4 customErrors.js.
+.3 middlewares.
+.4 handleError.js.
+.4 notFound.js.
+.4 tryCatchWrapper.js.
+.4 validateRouteParameter.js.
+.3 resources.
+.4 db.
+.5 controller.js.
+.5 helper.js.
+.5 routes.js.
+.2 ssl.
+.2 .env.
+.2 app.js.
+.2 package.json.
 }
 
-In `package.json` werden die Grundzüge des Projekts beschrieben. Welche Packages verwendet werden, welche Metadaten vorhanden sind und der Einsprungspunkt. Da, aufgrund der besseren Lesbarkeit, entschieden wurde, modular JavaScript (ES Module) zu verwenden und dies auch spezifiziert werden muss, wurde `'type': 'module'` in der oben angesprochenen Datei eingegeben. Dies ermöglicht nun z.B. `import` anstatt der CommonJS Variante `require()` zu verwenden.
+In der Datei `package.json` werden die Grundzüge des Projekts beschrieben, wie z.B. die verwendeten Packages, die Metadaten und der Einsprungspunkt. Da, aufgrund der besseren Lesbarkeit, entschieden wurde, modular JavaScript (ES Module) zu verwenden und dies auch spezifiziert werden muss, wurde `'type': 'module'` in der oben angesprochenen Datei eingegeben. Dies ermöglicht nun z.B. `import` anstatt der CommonJS Variante `require()` zu nutzen.
 
-`app.js` ist der Einsprungspunkt der Applikation. In ihr werden alle Routes importiert und Express mitgeteilt, auch diese zu benutzten. Außerdem werden die Standard-Error-Handler für die HTTP Codes 404 und 500 initialisiert und der Server auf dem Port 80 gestartet.
+`app.js` ist der Einstiegspunkt der Applikation. In ihr werden alle Routen importiert und Express mitgeteilt, diese zu benutzten. Zusätzlich werden die Standard-Error-Handler für die HTTP-Codes 404 und 500 initialisiert, und der Server wird auf Port 80 gestartet.
 
 #### Datenbanken
 
-Im Ordner `db` werden die Connection-Pools zu den jeweiligen Datenbanken definiert. Ab der MySQL Version 8.0.16 sind SSL-Zertifikate Pflicht zum Angeben beim Verbinden zur DB. Die Zertifikate werden im gleichnamigen Ordner `ssl/db` aufbewahrt. Dies im Hinterkopf behaltend sieht ein Connection-Pool mit maximal 100 Connections gelichzeitig folgendermaßen aus: [@medium-rest-api]
+Im Ordner `db` werden die Connection-Pools zu den jeweiligen Datenbanken definiert. Ab der MySQL Version 8.0.16 sind SSL-Zertifikate Pflicht zum Angeben beim Verbinden zur DB. Die Zertifikate werden im gleichnamigen Ordner `ssl/db` aufbewahrt. Mit diesen Informationen im Hinterkopf, sieht ein Connection-Pool mit maximal 100 gleichzeitigen Verbindungen wie folgt aus: [@medium-rest-api]
 
 ```{caption="MySQL Connection Pool für die Container DB" .js}
 export const container = mysql
@@ -795,7 +794,7 @@ Hingegen solch eines Connection-Pools ist das Prozedere um einen für eine Influ
 export const sensor = new InfluxDB({url: process.env.DB_SENSOR_URL, token: process.env.DB_SENSOR_TOKEN});
 ```
 
-Alle Connection-Pools werden in der `helper.js` genutzt werden. Dort sind Methoden definiert, welche einmal pro Datenbankanfrage aufgerufen werden, sich für die Dauer der Anfrage eine Connection aus dem Pool holen und nach Beendigung der Aufgabe diese wieder freigeben. Folgendes Prinzip kann für alle SQL Datenbanken verwendet und erweitert werden. Man erstellt eine Map aus den Namen, Datentyp String, der Datenbanken in Kombination mit den Imports der jeweiigen Datenbanken. In einer Funktion stellt man die Verbindung zur DB her, formatiert mögliche Eingabeparameter des SQL Statements, führt dieses in der Zugeteilten Datenbank aus und schließt die Connection. Somit hat man einen Session Manager.
+Alle Connection-Pools werden in der `helper.js` genutzt. Dort sind Methoden definiert, welche einmal pro Datenbankanfrage aufgerufen werden, sich für die Dauer der Anfrage eine Connection aus dem Pool holen und nach Beendigung der Aufgabe diese wieder freigeben. Dieses Prinzip kann für alle SQL-Datenbanken verwendet und bei Bedarf erweitert werden. Man erstellt eine Map aus den Namen, Datentyp String, der Datenbanken in Kombination mit den Imports der jeweiigen Datenbanken. In einer Funktion stellt man die Verbindung zur DB her, formatiert mögliche Eingabeparameter des SQL Statements, führt dieses in der Zugeteilten Datenbank aus und schließt die Connection. Auf diese Weise erhält man einen Session Manager.
 
 ```{caption="SQL Session Manager" .js}
 import { container } from "./connect.js";
@@ -821,7 +820,7 @@ export const container_session = async function(sql, params) {
 };
 ```
 
-Eine No-SQL Datenbank kann weniger leicht generalisiert werden und muss bis zu einem gewissen Grad spezifisch bleiben. Der Ansatz bleibt aber wieder der Gleiche. Man übergiebt die auszuführende Query und bekommt die Daten zurück. In InfluxDB gibt es pro Datensatz mehrere Spalten mit verschiedensten Informationen. Jedoch werden nicht alle davon benötigt und können der einfachheit halber nicht übernommen werden. Außerdem können Daten in InfluxDB auch wieder über eine REST Schnitstelle abgefragt werden, welche eine vorteilhafte Ebene an Abstraktion mti sich bringt. In folgendem Beispiel wurde die Session auch gleich dazu genutzt, Timestamps auf das richtige Format zu kriegen und gewisse Datafields noch zu manipulieren / umzubenennen.
+Eine No-SQL-Datenbank ist schwieriger zu generalisieren und erfordert oft eine spezifische Anpassung an den jeweiligen Anwendungsfall. Der grundlegende Ansatz bleibt aber der Gleiche. Man übergiebt die auszuführende Query und bekommt die Daten zurück. In InfluxDB gibt es pro Datensatz mehrere Spalten mit verschiedensten Informationen. Jedoch werden nicht alle davon benötigt und können der einfachheit halber nicht übernommen werden. Außerdem können Daten in InfluxDB auch wieder über eine REST-Schnittstelle abgefragt werden, welche eine vorteilhafte Ebene an Abstraktion mti sich bringt. In folgendem Beispiel wurde die Session auch gleich dazu genutzt, Timestamps auf das richtige Format zu kriegen und gewisse Datafields noch zu manipulieren/umzubenennen.
 
 ```{caption="Flux Session Manager" .js}
 export const sensor_session = async function(flux) {
@@ -871,7 +870,7 @@ export const sensor_session = async function(flux) {
 
 #### Middleware
 
-Eine Middleware ist prinzipiell dafür konzipiert, Daten zu transformieren, überprüfen oder Fehler zu beheben oder zu werfen. Im `middlewares` Ordner wird primär Error handling und parameter checking betrieben. Mit `handleError.js` wird eine Möglichkeit geboten, indiviudelle Fehlermeldungen mit den korrespondierenden HTTP-Codes zu werfen. Dies wird mit der Klasse `CustomError` realisiert. Der `tryCatchWrapper.js` ist eine Funktion, die einen try-catch Block beinhaltet und als Argument eine auszuführende Funktion bietet. Wenn in der auszuführenden Funktion Fehler geworfen werden, die dort nicht schon behandelt werden, schafft diese Funktion sozusagen ein Schutzgitter, welches selbst bei critical Errors die weitere Exekution des Programms ermöglicht. Es wird als Wrapper angewandt. [@medium-rest-api] URIs können Variablen in ihren Pathsegmenten beinhalten. Wenn solche vom REST Endpoint benötigt werden, kann es zu schwerwiegenden Problemen führen, wenn diese Variablen nicht gesetzt sind. Um dies vorzubeugen, wurde `validateRouteParameter.js` geschrieben. Es bietet eine Funktion, welche bei der Routendefinition als Middleware eingespeist werden kann, um im Vorhinein zu überprüfen, ob die Variablen gesetzt sind und wenn nicht, die Anfrage vorzeitig zu beenden. Queryparameter und Routebodies muss man jedoch in der von der Routedefinition aufgerufenen Funktion selbst nach Vorhandenheit prüfen.
+Eine Middleware ist prinzipiell dafür konzipiert, Daten zu transformieren, überprüfen oder Fehler zu beheben oder zu werfen. Im `middlewares` Ordner wird primär Error handling und parameter checking betrieben. Mit `handleError.js` wird eine Möglichkeit geboten, individuelle Fehlermeldungen mit den korrespondierenden HTTP-Codes zu werfen. Dies wird mit der Klasse `CustomError` realisiert. Der `tryCatchWrapper.js` ist eine Funktion, die einen try-catch Block beinhaltet und als Argument eine auszuführende Funktion bietet. Wenn in der auszuführenden Funktion Fehler geworfen werden, die dort nicht schon behandelt werden, schafft diese Funktion sozusagen ein Schutzgitter, welches selbst bei critical Errors die weitere Exekution des Programms ermöglicht. Es wird als Wrapper um die auszuführende Funktion angewendet. [@medium-rest-api] URIs können Variablen in ihren Pathsegmenten beinhalten. Wenn solche vom REST Endpoint benötigt werden, kann es zu schwerwiegenden Problemen führen, wenn diese Variablen nicht gesetzt sind. Um dies vorzubeugen, wurde `validateRouteParameter.js` geschrieben. Es bietet eine Funktion, welche bei der Routendefinition als Middleware eingespeist werden kann, um im Vorhinein zu überprüfen, ob die Variablen gesetzt sind und wenn nicht, die Anfrage vorzeitig zu beenden. Queryparameter und Routebodies muss man jedoch in der von der Routedefinition aufgerufenen Funktion selbst nach Vorhandenheit prüfen.
 
 ```{caption="Erstellen einer individuellen Error Klasse" .js}
 export class CustomError extends Error {
@@ -901,7 +900,7 @@ const validateRouteParams = function(req, res, next) {
 
 #### Routing
 
-Endpoints werden mittels Express in dem File `routes.js` angefertigt. In dieser Dateie werden alle von den Routen benötigten Funktionen von `controller.js` importiert. In Letzterer wird beschrieben, was welche Route machen soll bzw. die Funktion welche hinter dieser Route steht. In der Ersten hingegen werden rein nur die Routendefinitionen vorgenommen. Anzumerken ist hierbei, dass Pathvariablen mit einem Dopppelpunkt und dem darauffolgenden Variablennamen gekennzeichnet werden. Man kann auch direkt im Pathnamen RegEx Ausdrücke anwenden.
+Endpoints werden mittels Express in dem File `routes.js` angefertigt. In dieser Datei werden alle von den Routen benötigten Funktionen von `controller.js` importiert. In Letzterer wird beschrieben, was die jeweiligen Route auführen soll. In `routes.js` erfolgt hingegen ausschließlich die Definition der Routen. Anzumerken ist hierbei, dass Pathvariablen mit einem Dopppelpunkt und dem darauffolgenden Variablennamen gekennzeichnet werden. Man kann auch direkt im Pathnamen RegEx Ausdrücke anwenden.
 
 ```{caption="Routing mittels Express" .js}
 import express from "express";
@@ -922,9 +921,9 @@ export default router;
 
 #### Authentifizierung
 
-Es gibt verschiedene Möglichkeiten eine API zugänglich zu machen. Sie kann entweder für alle oder eingeschränkt verfügbar sein. Da in unserem Anwendungsfall auch sensible Daten verarbeitet werden, haben wir uns für eine beschränkte API entschieden. Wie schützt man sie nun? Mittels Tokens. Was sind Tokens? Tokens sind zufällig generierte Schlüsselpaare, welche Nutzerinformationen beinhalten. Diese darin gespeicherten Informationen können nur dann ausgelesen werden, wenn man den Schlüssel dekodieren kann. Deswegen ist es essenziell, um die Integrität des Systems zu bewahren, dass man eine gute Verschlüsselung verwendet. In diesem Fall hier werden die Libraries `bcryptjs` zur Hash Erstellung und `jsonwebtoken` zur Token Erstellung verwendet. Prinzipiell kann man auch nur einen JWT benutzen, doch hier wird ein Access und Refresh Prinzip verfolgt. Es gibt nun zwei Tokens. Einer, welcher jemanden Zugriff zu den Ressourcen ermöglicht und einen welcher den Access Token nach Ablauf verlängern kann. Somit kann ein Auto-Logout System implementiert werden. In dieser Ausarbeitung ist der Access Token 15 min und der Refresh Token 20 min gültig. Solang eine Aktivität des Benutzers verzeichnet wird, werden immer wieder neue Tokenpaare generiert. Doch nach 20 min Inaktivität verliet der Benutzer seinen Zugang und muss sich neu einloggen. Pro Tokenart gibt es verschiedene Salts, welche mittels `require("crypto").randomBytes(64).toString("hex")` in Node.js generiert werden können. Die Passwörter der Benutzer werden natürlich nicht im Reintext in den Datenbanken persitiert, sondern von `bcryptjs` gehasht. [@medium-auth-simple] Die Funktoin `bcryptjs.hash(input, n)` nimmt zwei Parameter an. Den zu hashenden Inputstring und die Anzahl der Hashdurchläufe n. In dieser Ausarbeitung wurden zehn Durchläufe festgelegt. Es gibt auch die Möglichkeit, einen Input mittels der `bcryptjs.compare(input, hashedInput)` Funktion zu prüfen, ob er gleich dem zweiten schon gehashten Input ist. Die wichtigsten Funktionen beim Authentifizierungssystem sind Login, Validate Token, Refresh Token und Logout.
+Es gibt verschiedene Möglichkeiten eine API zugänglich zu machen. Sie kann entweder für alle oder eingeschränkt verfügbar sein. Da in unserem Anwendungsfall auch sensible Daten verarbeitet werden, haben wir uns für eine beschränkte API entschieden. Wie schützt man sie nun? Mittels Tokens. Was sind Tokens? Tokens sind zufällig generierte Schlüsselpaare, welche Nutzerinformationen beinhalten. Diese darin gespeicherten Informationen können nur dann ausgelesen werden, wenn man den Schlüssel dekodieren kann. Deswegen ist es essenziell, um die Integrität des Systems zu bewahren, dass man eine gute Verschlüsselung verwendet. In diesem Fall hier werden die Libraries `bcryptjs` zur Hash Erstellung und `jsonwebtoken` zur Token Erstellung verwendet. Prinzipiell kann man auch nur einen JWT benutzen, doch hier wird ein Zugriff- und Aktualisierungsprinzip verfolgt. Es gibt nun zwei Token. Einer, welcher jemanden Zugriff zu den Ressourcen ermöglicht und einen, welcher den Access Token nach Ablauf verlängern kann. Somit kann ein Auto-Logout System implementiert werden. In dieser Ausarbeitung ist der Access Token 15 Minuten und der Refresh Token 20 Minuten gültig. Solang eine Aktivität des Benutzers festgestellt wird, werden immer wieder neue Tokenpaare generiert. Doch nach 20 Minuten Inaktivität verliert der Benutzer seinen Zugang und muss sich neu einloggen. Pro Tokenart gibt es verschiedene Salts, welche mittels `require("crypto").randomBytes(64).toString("hex")` in Node.js generiert werden können. Die Passwörter der Benutzer werden natürlich nicht im Reintext in den Datenbanken persistiert, sondern von `bcryptjs` gehasht. [@medium-auth-simple] Die Funktion `bcryptjs.hash(input, n)` nimmt zwei Parameter an. Den zu hashenden Inputstring und die Anzahl der Hashdurchläufe n. In dieser Ausarbeitung wurden zehn Durchläufe festgelegt. Es gibt auch die Möglichkeit, einen Input mittels der `bcryptjs.compare(input, hashedInput)` Funktion zu prüfen, ob er gleich dem zweiten schon gehashten Input ist. Die wichtigsten Funktionen beim Authentifizierungssystem sind Login, Validate Token, Refresh Token und Logout.
 
-Die Login Funktion gibt einen Access- und Refresh Token als Response zurück und nimmt im Routebody die ID des Benutzers und dessen Passwort entgegen. Sie checkt in der Datenbank gegen, ob der Benutzer überhaupt existiert, dann vergleicht sie das angegebene Passwort und das aus der DB und speist schließendlich die Token mit den Benutzerdaten ein. [@medium-auth-mysql]
+Die Login-Funktion gibt einen Access- und Refresh Token als Response zurück und nimmt im Route-Body die ID des Benutzers und dessen Passwort entgegen. Sie überprüft in der Datenbank, ob der Benutzer überhaupt existiert, dann vergleicht sie anschließend das angegebene Passwort und das aus der DB und speist schließlich die Token mit den Benutzerdaten ein. [@medium-auth-mysql]
 
 ```{caption="Login Funktion" .js}
 export const login = tryCatchWrapper(async function (req, res, next) {
@@ -962,21 +961,21 @@ export const login = tryCatchWrapper(async function (req, res, next) {
 });
 ```
 
-```{caption="Access Token Generierung" .js}
+```{caption="Access-Token Generierung" .js}
 export const generateAccessToken = function(user, role) {
     return jwt.sign({user, role}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15m"})
 };
 ```
 
-```{caption="Refresh Token Generierung" .js}
+```{caption="Refresh-Token Generierung" .js}
 export const generateRefreshToken = function(user, role) {
     return jwt.sign({user, role}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "20m"})
 };
 ```
 
-Die `validateToken` Funktion prüft, ob ein Token, welcher im Authorization-Header mitgeführt wird, valide ist. Dies beinhaltet, das nachschauen, ob der Token in der Datenbank vorhanden ist, ob er noch eine zeitliche Gültigkeit aufweist und das Überprufen, dass der Benutzer die für die Ressource benötigten Rechte aufweist und auch nicht gesperrt ist. Ein zusätzlicher Parameter `isMiddleware` wird aufgrund der Rückgabewerte benötigt, um zu unterscheiden, ob die Funktion innerhalb des Authentifizierungsservers oder von einer REST Abfrage aufgerufen wird. Als Routeparameter nimmt sie die benötigte Rechtsstufe entgegen und gibt entweder die HTTP-Codes 200 für valide (Zugriff gewährt) oder 403 (Zugriff verweigert) zurück.
+Die `validateToken` Funktion prüft, ob ein Token, der im Authorization-Header mitgeführt wird, valide ist. Dies beinhaltet, das Nachschauen, ob der Token in der Datenbank vorhanden ist, ob er noch eine zeitliche Gültigkeit aufweist und das Überprüfen, dass der Benutzer die für die Ressource benötigten Rechte besitzt und auch nicht gesperrt ist. Ein zusätzlicher Parameter `isMiddleware` wird aufgrund der Rückgabewerte benötigt, um zu unterscheiden, ob die Funktion innerhalb des Authentifizierungsservers oder durch eine REST-Abfrage aufgerufen wird. Als Route-Parameter nimmt sie die benötigte Rechtsstufe entgegen und gibt entweder die HTTP-Codes 200 für valide (Zugriff gewährt) oder 403 (Zugriff verweigert) zurück.
 
-```{caption="Validate Token Funktion" .js}
+```{caption="Token-Verifizierung Funktion" .js}
 export const validateToken = (requiredPermission, isMiddleware = true) => {
   return tryCatchWrapper(async (req, res, next) => {
     // retrieve token from authorization header
@@ -1032,9 +1031,9 @@ export const validateToken = (requiredPermission, isMiddleware = true) => {
 };
 ```
 
-Die `refreshToken` Funktion ist dafür gedacht, dass man ihr im Routebody den Refresht Token übergibt und wenn dieser noch nicht abgelaufen ist, wird einem ein neues Paar an Access- und Refresh Tokens übergeben und das alte Paar aus der Datenbank entfernt.
+Die `refreshToken`-Funktion ist dafür gedacht, dass man ihr im Route-Body den Refresh-Token übergibt und wenn dieser noch nicht abgelaufen ist, wird einem ein neues Paar an Access- und Refresh-Tokens übergeben und das alte Paar aus der Datenbank entfernt.
 
-```{caption="Refresh Token Funktion" .js}
+```{caption="Refresh-Token Funktion" .js}
 export const refreshToken = tryCatchWrapper(async function (req, res, next) {
   // extract data from request body
   const refreshTokenOld = req.body.refreshToken;
@@ -1074,7 +1073,7 @@ export const refreshToken = tryCatchWrapper(async function (req, res, next) {
 });
 ```
 
-Um den Prozess der Benutzerabwicklung zu vervollständigen, gibt es noch den Logout. Hier wird im Routebody wieder der Refresh Token übergeben und die Tokenpaare des Nutzers aus der Datenbank entfernt.
+Um den Prozess der Benutzerabwicklung zu vervollständigen, existiert noch der Logout. Hier wird im Route-Body wieder der Refresh-Token übergeben und die Token-Paare des Nutzers aus der Datenbank entfernt.
 
 ```{caption="Logout Funktion" .js}
 export const logout = tryCatchWrapper(async function (req, res, next) {
@@ -1114,7 +1113,7 @@ router.route("/token/refresh").post(refreshToken);
 
 #### Datenabfrage
 
-Im Vergleich zur allgemeinen Struktur gibt es beim Datenabfrageserver noch eine weitere Datei namens `middlewares/validateToken.js`. Diese bietet eine Schnittstelle zum Authentifizierungsserver um die in den Header mitgeführten Token zu prüfen. Sie leitet einfach die Anfrage weiter und verarbeitet sie erst dann, wenn von `auth/token/:permission` ein Statuscode 200 zurückgegeben wird. Die Struktur bleibt aber ansonten aufrecht. Damit ist gemeint, dass in `ressources` nun weitere Ordner für die jeweiligen Datenbanken gemacht wurden.
+Im Vergleich zur allgemeinen Struktur gibt es beim Datenabfrageserver noch eine weitere Datei namens `middlewares/validateToken.js`. Diese bietet eine Schnittstelle zum Authentifizierungsserver, um die im Header mitgeführten Token zu prüfen. Sie leitet einfach die Anfrage weiter und verarbeitet sie erst dann, wenn von `auth/token/:permission` ein Statuscode 200 zurückgegeben wird. Die Struktur bleibt aber ansonten erhalten. Damit ist gemeint, dass in `resources` nun weitere Ordner für die jeweiligen Datenbanken gemacht wurden.
 
 \dirtree{%
 .1 resources.
@@ -1124,7 +1123,7 @@ Im Vergleich zur allgemeinen Struktur gibt es beim Datenabfrageserver noch eine 
 .2 threshold.
 }
 
-Vom Aufbau und der Funktionsweise gibt es kaum Unterschiede. Das einzige was hier verschieden ist, ist die Sensordatenbank, welche mit InfluxDB funktioniert. In `helper.js` wurden die Methoden `fluxQueryTimeRange` für Sensordaten in einem speziellen Zeitraum, `fluxQueryLatest` für die neuesten Sensordaten und `checkParams` zum Überprüfen der richtigen Zeitstempeleinheit (ISO 8601, UTC) definiert. Im Controller ist eine Map definiert, welche den Sensortypen ihren Bucket zuweist.  Ein Sensortyp kann z.B. Temperatur (temperature) oder Luftfeuchtigkeit (humidity) sein. Mit dieser Map wird eine signifikante Codereduzierung ermöglicht, da man nur noch eine `getSensorData(sensorType)` Funktion mit dem Sensortyp als Attribut haben kann. Als Pathvariablen werden die IDs des Containers und dessen aktuelles Schiffes angegeben. Als Queryparameter fungieren die Start- und Stopzeit und ein Boolean, ob man nur den neuesten Wert des Sensors haben will.
+Vom Aufbau und der Funktionsweise gibt es kaum Unterschiede. Das Einzige, was hier verschieden ist, ist die Sensordatenbank, die mit InfluxDB funktioniert. In `helper.js` wurden die Methoden `fluxQueryTimeRange` für Sensordaten in einem bestimmten Zeitraum, `fluxQueryLatest` für die neuesten Sensordaten und `checkParams` zum Überprüfen der richtigen Zeitstempeleinheit (ISO 8601, UTC) definiert. Im Controller ist eine Map definiert, welche den Sensortypen ihren Bucket zuweist.  Ein Sensortyp kann z.B. Temperatur (temperature) oder Luftfeuchtigkeit (humidity) sein. Mit dieser Map wird der Code signifikant reduziert, da man nur noch eine `getSensorData(sensorType)` Funktion mit dem Sensortyp als Parameter haben muss. Als Pathvariablen werden die IDs des Containers und seines aktuellen Schiffes angegeben. Als Queryparameter fungieren die Start- und Stopzeit sowie ein boolscher Wert, der angibt, ob nur der neueste Wert des Sensors ausgegeben werden soll.
 
 ```{caption="Allgemeine Sensordaten Funktion" .js}
 export const getSensorData = (sensorType) => {
@@ -1165,7 +1164,7 @@ export const getSensorData = (sensorType) => {
 };
 ```
 
-Um eine erhöhte Praktikabilität bieten zu können, gibt es auch die Möglichkeit, alle neuesten Sensorwerte eines gesamten Containers aufzurufen. Hierbei werden nur die Schiff und Container ID als Pathvariable benötigt.
+Um eine erhöhte Praktikabilität bieten zu können, gibt es auch die Möglichkeit, alle neuesten Sensorwerte eines gesamten Containers aufzurufen. Hierbei werden nur die Schiffs- und Container-ID als Pathvariable benötigt.
 
 ```{caption="Funktion um alle Sensordaten eines Container zu bekommen" .js}
 export const getAllSensorDataPerContainer = tryCatchWrapper(async function (req, res, next) {
