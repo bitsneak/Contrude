@@ -463,7 +463,7 @@ Diese Klasse ist eine etwas modifizierte POJO (Plain Old Java Object) Klasse mit
 - List\<Container> `adjacentContainers`(ArrayList)
 - double `signalMinimum`
 
-Die `name`-Variable aller Container ist gleich aufgebaut: "cont#", wobei # für eine beliebige Nummer steht. Dies macht die Namen nicht unnötig kompliziert und hat auch innerhalb der Konsolen-Interaktion mit dem User seinen Vorteil. In `adjacentContainers` werden alle benachbarten Container, also jene, zu welchen der ausgewählte Container eine Verbindung hat bzw. welche in seiner Nähe sind, abgespeichert. Die Variable `signalMinimum` ist eine mithilfe von `ThreadLocalRandom.current()` erstellte zufällige Double-Variable, welche für das generieren der Verbindung zwischen der einzelnen Container noch wichtig wird. `ThreadLocalRandom` wird eigentlich eher für Multithreading-Anwendungen benutzt [vgl. @Baeldung-JavaRandom], jedoch ist der Syntax um eine Zufallszahl mit "von-bis" zu generieren etwas angenehmer zu lesen:
+Die `name`-Variable aller Container ist gleich aufgebaut: "cont#", wobei # für eine beliebige Nummer steht. Dies macht die Namen nicht unnötig kompliziert und hat auch innerhalb der Konsolen-Interaktion mit dem User seinen Vorteil. In `adjacentContainers` werden alle benachbarten Container, also jene, zu welchen der ausgewählte Container eine Verbindung hat bzw. welche in seiner Nähe sind, abgespeichert. Die Variable `signalMinimum` ist eine mithilfe von `ThreadLocalRandom.current()` erstellte zufällige Double-Variable, welche für das Generieren der Verbindung zwischen den einzelnen Containern noch wichtig wird. `ThreadLocalRandom` wird eigentlich eher für Multithreading-Anwendungen benutzt [vgl. @Baeldung-JavaRandom], jedoch ist die Syntax, um eine Zufallszahl mit "von-bis" zu generieren, etwas angenehmer zu lesen:
 ```{caption="Zufällige Nummer mit .math und ThreadLocalRandom" .java}
 // Mit Math.random
 this.signalMinimum = 10 + (25 - 10) * Math.random();
@@ -471,9 +471,9 @@ this.signalMinimum = 10 + (25 - 10) * Math.random();
 // Mit ThreadLocalRandom
 this.signalMinimum = ThreadLocalRandom.current().nextDouble(10, 25);
 ```
-Der Grund hierfür ist, da `Math.random` nur eine Zahl zwischen 0 & 1 generiert, während man bei `ThreadLocalRandom` den Minimalen und Maximalen Wert einfach angeben kann.
+Der Grund hierfür ist, da `Math.random` nur eine Zahl zwischen 0 & 1 generiert, während man bei `ThreadLocalRandom` den minimalen und maximalen Wert einfach angeben kann.
 
-Bezüglich Methoden hat `Container` für alle Variablen Getter und Setter und einen Konstruktor, mit welchem `name` und `signalMinimum` gesetzt werden. Mithilfe von `void addDestination(Container con)` kann ein benachbarter Container zur Liste hinzugefügt werden (die Liste wird außerhalb des Konstruktors initialisiert . Auch die `toString` wurde etwas angepasst, um die Ausgabe in der Konsole etwas besser aussehen zu lassen:
+Bezüglich Methoden hat `Container` für alle Variablen Getter und Setter und einen Konstruktor, mit welchem `name` und `signalMinimum` gesetzt werden. Mithilfe von `void addDestination(Container con)` kann ein benachbarter Container zur Liste hinzugefügt werden (die Liste wird außerhalb des Konstruktors initialisiert. Auch die `toString` wurde etwas angepasst, um die Ausgabe in der Konsole etwas besser aussehen zu lassen:
 ```{caption="Überarbeitung der .toString Methode von Container" .java}
 @Override
 public String toString() {
@@ -493,6 +493,7 @@ Entspricht:
 ```{caption="Ausgabe mittels toString von Container" .txt}
 Container{name='cont1', adjacentContainers=cont0, , signalMinimum=10.753991237010691}
 ```
+
 ##### Ship
 Dies ist die zweite Klasse, in welcher alle für den Simulator notwendigen Funktionen implementiert sind. Die Klasse selbst verwaltet drei Variablen:
 
@@ -500,12 +501,12 @@ Dies ist die zweite Klasse, in welcher alle für den Simulator notwendigen Funkt
 - ArrayList\<String> `contConList`
 - int[][] `adjMatrix`
 
-In dem HashSet werden alle in der Main Klasse generierten Container abgespeichert. In der `contConList` werden alle Verbindungen zeischen Containern im Format "A;B" abgespeichert, wobei A für Container (= Knoten im Graphen) und das Semicolon für die Verbindung (=Kante im Graphen) stehen. Das 2d-Array repräsentiert eine Adjazenzmatrix, welche u.a für das schreiben in JSON Files benötigt wird.
+In dem HashSet werden alle in der Main Klasse generierten Container abgespeichert. In der `contConList` werden alle Verbindungen zwischen Containern im Format "A;B" abgespeichert, wobei A für Container (= Knoten im Graphen) und das Semikolon für die Verbindung (=Kante im Graphen) stehen. Das 2d-Array repräsentiert eine Adjazenzmatrix, welche u.a. für das Schreiben in JSON Files benötigt wird.
 
-Mit `void addContainer (Container con)` können Container in das Set hinzugefügt werden. Weitere Methoden sind diejenigen zum Schreiben in JSON Files oder jene, welche für das Konsolen-Programm benötigt werden (z.B. `printAdjMatrix` zum Schreiben der Adjazenz Matrix). Außerdem erledigt die die Aufgabe der Erstellung der Verbindungen zwischen den einzelnen Container-Objekten.
+Mit `void addContainer (Container con)` können Container in das Set hinzugefügt werden. Weitere Methoden sind diejenigen zum Schreiben in JSON Files oder jene, welche für das Konsolen-Programm benötigt werden (z.B. `printAdjMatrix` zum Schreiben der Adjazenz Matrix). Außerdem erledigt sie die Aufgabe der Erstellung der Verbindungen zwischen den einzelnen Container-Objekten.
 
 ##### Main
-Der Container Simulator ist an und für sich ein Konsolen-Programm. Die Interaktion zwischen dem User und dem Simulator passiert also (fast) rein in der Konsole. Die `Main`-Klasse regelt diese. Sie erstellt die Container, basierend auf der vom User eingegebenen Menge und übergibt diese an die ebenfalls von ihr erstellten `Ship`-Klasse. Die User-Interaktion wird dann innerhalb einer `while`-Schleife fortgesetzt. Hier kann der User mehrere Buchstaben eingeben, welche für verschiedene Aktionen stehen:
+Der Container Simulator ist an und für sich ein Konsolen-Programm. Die Interaktion zwischen dem User und dem Simulator passiert also (fast) rein in der Konsole. Die `Main`-Klasse regelt diese. Sie erstellt die Container, basierend auf der vom User eingegebenen Menge, und übergibt diese an die ebenfalls von ihr erstellten `Ship`-Klasse. Die User-Interaktion wird dann innerhalb einer `while`-Schleife fortgesetzt. Hier kann der User mehrere Buchstaben eingeben, welche für verschiedene Aktionen stehen:
 ```{caption="Auswahlmöglichkeiten des Simulators" .java}
 System.out.println("\nChoose an option:\n" +
         "(a) View single Container\n" +
@@ -516,18 +517,18 @@ System.out.println("\nChoose an option:\n" +
         "(q) Quit Simulator");
 in = sc.nextLine();
 ```
-Über einen `Scanner` wird diese Eingabe dann geprüft. Das Ausführen der passenden Aktionen regelt ein `switch-case`, wobei auf ein `default` gesetzt ist, sollte die User-Eingabe inkorrekt sein. Sobald der User "q" eingibt bricht die `while`-Schleife ab, dies wird durch folgenden Ausdruck ermöglich:
+Über einen `Scanner` wird diese Eingabe dann geprüft. Das Ausführen der passenden Aktionen regelt ein `switch-case`, wobei auf ein `default` gesetzt ist, sollte die User-Eingabe inkorrekt sein. Sobald der User "q" eingibt, bricht die `while`-Schleife ab, dies wird durch folgenden Ausdruck ermöglich:
 ```{caption="While Schleife in welcher die Main läuft" .java}
 while(!in.equals("q")){}
 ```
 #### Wie die Dummy-Daten + Verbindungen generiert werden
- Startet man das Programm so wird man als erstes zu folgendem aufgefordert:
+ Startet man das Programm, so wird man als Erstes zu folgendem aufgefordert:
 
 ![Anfangs-Konsolenausgabe des Simulators](img/Gekle/SimulatorConsole1.png)
 
-Der User bestimmt also, wie viele Container für die Simulation erstellt werden sollen. ">=2" wurde deshalb als Bedingung eingeführt, da ein Simuliertes Schiff mit nur einem Container keinen Graph mit Knoten und Kanten entsprechen würde. Da es ja das Ziel ist, die Kommunikationsstruktur mit Kanten darzustellen, mach die Auswahl 1 wenig Sinn.
+Der User bestimmt also, wie viele Container für die Simulation erstellt werden sollen. ">=2" wurde deshalb als Bedingung eingeführt, da ein simuliertes Schiff mit nur einem Container keinem Graph mit Knoten und Kanten entsprechen würde. Da es ja das Ziel ist, die Kommunikationsstruktur mit Kanten darzustellen, macht die Auswahl 1 wenig Sinn.
 
-Bestätigt der User seine Eingabe mit Enter, so wird ein `Ship` Objekt erstellt. Dieses hat als Zentrale Variable ein `Container`-Set namens `containers`, worin alle Container gespeichert werden. Das Erstellen und Speichern der Container selbst passiert in der `Main` mit folgendem Code:
+Bestätigt der User seine Eingabe mit Enter, so wird ein `Ship` Objekt erstellt. Dieses hat als zentrale Variable ein `Container`-Set namens `containers`, worin alle Container gespeichert werden. Das Erstellen und Speichern der Container selbst passiert in der `Main` mit folgendem Code:
 ```{caption="Code zum Erstellen der Container" .java}
 for(int i = 0; i < count; i++){
     String containerName = "cont" + i;
@@ -536,7 +537,7 @@ for(int i = 0; i < count; i++){
 ```
 Die `count` Variable ist zu Beginn auf -1 gesetzt. Dies hat den Hintergrund, da die Namen der Container bei 0 anfangen (also mit "cont0"), der User aber die tatsächliche Anzahl eingeben soll (z.B.: Eingabe = 7 --> Container Namen: cont0 bis cont6 = 7 Stk). Wichtig ist auch anzumerken, dass nur der Container Name in `ship` gespeichert wird, da `signalMinimum` einfach dann von den Methoden selbst geholt wird, welche diese brauchen.
 
-Nachdem die Container erstellt sind müssen noch die Verbindungen bzw. Nachbarschaften der Container bestimmt werden. Dies übernimmt folgende Methode:
+Nachdem die Container erstellt sind, müssen noch die Verbindungen bzw. Nachbarschaften der Container bestimmt werden. Dies übernimmt folgende Methode:
 ```{caption="Methode welche die Verbindungen zwischen einzelnen Containern erstellt" .java}
 public void sendSetSignals(Container container){
     double signal = 15;
@@ -563,9 +564,9 @@ public void sendSetSignals(Container container){
     redoAllMinSignals();
 }
 ```
-Als Basis-Signal wurde willkürlich 15 hergenommen, dieser Wert wird dann um einen zufälligen Wert zwischen 0.1 und 1 ebenfalls zufällig verkleinert oder vergrößert. Dann wird der momentan übergebene Container (z.B. cont5) auf `origin` gesetzt. Innerhalb der `for`-Schleife wird dann solange werden dann alle Container durchgegangen. Entspricht `cont` nicht `origin`, so wird geprüft ob das abgewandelte `signal` kleiner-gleich dem Minimum-Signal von `cont` ist. Sollte dies der Fall sein und besteht noch keine Verbindung zwischen den beiden (`checkContConList`), so gilt `cont` als Nachbar von `origin` und wird dementsprechend auch als solcher festgehalten. Es ist wichtig anzumerken, dass diese Methode von der `main` innerhalb einer `for-each` Schleife aufgerufen wird, also jeder erstellte Container einmal `origin` ist.
+Als Basis-Signal wurde willkürlich 15 hergenommen, dieser Wert wird dann um einen zufälligen Wert zwischen 0.1 und 1 ebenfalls zufällig verkleinert oder vergrößert. Dann wird der momentan übergebene Container (z.B. cont5) auf `origin` gesetzt. Innerhalb der `for`-Schleife werden dann alle Container durchgegangen. Entspricht `cont` nicht `origin`, so wird geprüft, ob das abgewandelte `signal` kleiner-gleich dem Minimum-Signal von `cont` ist. Sollte dies der Fall sein und besteht noch keine Verbindung zwischen den beiden (`checkContConList`), so gilt `cont` als Nachbar von `origin` und wird dementsprechend auch als solcher festgehalten. Es ist wichtig anzumerken, dass diese Methode von der `main` innerhalb einer `for-each` Schleife aufgerufen wird, also jeder erstellte Container einmal `origin` ist.
 
-Was würde es nun bewirken, wenn `randomNum` weiter verstreut wird (z.B, 0.1 bis 10)? Würde man diese Umstellung im Simulator umsetzten, dann steigt der Wert um welchen das Basis-Signal (15) erhöht werden KANN (auch eine Verringerung ist natürlich möglich). Dies bedeutet, dass der Wahrscheinlichkeit, dass folgender Fall entritt: `cont.getSignalMinimum() <= signal => TRUE` steigt, was wiederum bedeutet, dass die Vernetzung zwischen den Containern dichter wird. Anders sinkt die Eintritts-Wahrscheinlichkeit des Ausdrucks, wenn `randomNum` verringert wird (z.B. auf 0.01 bis 0.1).
+Was würde es nun bewirken, wenn `randomNum` weiter verstreut wird (z. B., 0.1 bis 10)? Würde man diese Umstellung im Simulator umsetzen, dann steigt der Wert, um welchen das Basis-Signal (15) erhöht werden KANN (auch eine Verringerung ist natürlich möglich). Dies bedeutet, dass der Wahrscheinlichkeit, dass folgender Fall eintrifft: `cont.getSignalMinimum() <= signal => TRUE` steigt, was wiederum bedeutet, dass die Vernetzung zwischen den Containern dichter wird. Anders sinkt die Eintritts-Wahrscheinlichkeit des Ausdrucks, wenn `randomNum` verringert wird (z.B. auf 0.01 bis 0.1).
 
 #### Verwendung der Daten (Funktionen des Simulators)
 Ist die Anzahl der Container erst einmal eingegeben, so wird der User mit folgendem konfrontiert:
@@ -575,18 +576,18 @@ Ist die Anzahl der Container erst einmal eingegeben, so wird der User mit folgen
 Der User hat nun also die Wahl zwischen sechs verschiedenen Funktionalitäten des Containers.
 
 ##### View single Container
-Möchte man zu einem Container die Details einsehen, wie etwa welche Nachbar-Container dieser besitzt kann mit (a) dies gemacht werden. Der User wird gefragt, welchen Container er einsehen möchte, hierbei wird auch deutlich gemacht, dass die Eingabe des Users `cont#` sein sollte wobei der Hashtag für eine Zahl steht. Der Eingelesene Name wird dann mit der `checkIfContainerWithNameExists`-Methode des `ship` überprüft, gibt diese NULL zurück, so wird dem User mitgeteilt, dass für den eingegebenen Namen kein Container existiert, ansonsten wird wird über die `getSingleContainer` (ebenfalls von `ship`) das gesamte Container Objekt zurückgegeben und mithilfe der Veränderten `.toString` ausgegeben.
+Möchte man zu einem Container die Details einsehen, wie etwa welche Nachbar-Container dieser besitzt, kann mit (a) dies gemacht werden. Der User wird gefragt, welchen Container er einsehen möchte, hierbei wird auch deutlich gemacht, dass die Eingabe des Users `cont#` sein sollte, wobei der Hashtag für eine Zahl steht. Der eingelesene Name wird dann mit der `checkIfContainerWithNameExists`-Methode des `ship` überprüft, gibt diese NULL zurück, so wird dem User mitgeteilt, dass für den eingegebenen Namen kein Container existiert, ansonsten wird wird über die `getSingleContainer` (ebenfalls von `ship`) das gesamte Container-Objekt zurückgegeben und mithilfe der Veränderten `.toString` ausgegeben.
 
 ##### View Matrix
 Teil des `ship` ist ebenfalls eine Adjazenzmatrix, welche nach dem Erstellen der Container und deren Vernetzungen in der `void fillAdjMatrix()` von `ship` angelegt wird. Dies geschieht durch zwei `for-each`-Schleifen:
 
 - Die Erste geht alle Container der `containers`-Set durch (=`origin`)
-- Die Zweite geht alle benachbarten Container von `origin` durch, welche mittels dem Getter von `adjacentContainers` hergeholt werden (=`destination`)
+- Die Zweite geht alle benachbarten Container von `origin` durch, welche mittels des Getter von `adjacentContainers` hergeholt werden (=`destination`)
 
-Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \[ID-origin]\[ID-destination]gespeichert. Was ist die ID? Die ID ist jene Zahl, welche nach dem "cont" des Namens steht (z.B: name="cont2"; ID = 2). Dies wird über eine separate Methode namens `extractID` gemacht. 
+Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \[ID-origin]\[ID-destination]gespeichert. Was ist die ID? Die ID ist jene Zahl, welche nach dem "cont" des Namens steht (z. B.: name="cont2"; ID = 2). Dies wird über eine separate Methode namens `extractID` gemacht. 
 [vgl. @gpt-IdExtractor] 
 
-Wählt der User nun "View Matrix" aus so wird sie folgendermaßen ausgegeben:
+Wählt der User nun "View Matrix" aus, so wird sie folgendermaßen ausgegeben:
 ```{caption="Ausgabe der Adjazenzmatrix in der Konsole" .txt}
 c  0  1  2  3
 0  0  1  0  0 
@@ -596,10 +597,10 @@ c  0  1  2  3
 ```
 (Beispiel mit 4 Containern)
 
-Für diese Ausgabe ist eine weitere Methode von `ship` verantwortlich: `void printAdjMatrix()`. Diese gibt zuerst die erste Zeile beginnend mit dem "c" aus, wobei die Länge der `for`-Schleife in welcher dies passiert, auf `containers.size()` beschränkt ist. Danach geht eine verschachtelte `for`-Schleife das 2d-Array der Adjazenzmatrix durch und gibt entwerder 0 (keine Verbindung) oder 1 (Verbindung) aus.
+Für diese Ausgabe ist eine weitere Methode von `ship` verantwortlich: `void printAdjMatrix()`. Diese gibt zuerst die erste Zeile beginnend mit dem "c" aus, wobei die Länge der `for`-Schleife in welcher dies passiert, auf `containers.size()` beschränkt ist. Danach geht eine verschachtelte `for`-Schleife das 2d-Array der Adjazenzmatrix durch und gibt entweder 0 (keine Verbindung) oder 1 (Verbindung) aus.
 
 ##### Print Connection List
-Möchte der User sich über die "primitivste" Weiße, alle Verbindungen zwischen den Containern haben, so kann er sich die `contConList` von `ship` ausgeben lassen. Dies passiert über die Methode `void printContConList()`, welch die eben erwähnte Variable mit einer `for`-Schleife durchgeht und printet. Dies könnte in etwa so aussehen:
+Möchte der User sich über die "primitivste" Weise, alle Verbindungen zwischen den Containern haben, so kann er sich die `contConList` von `ship` ausgeben lassen. Dies passiert über die Methode `void printContConList()`, welche die eben erwähnte Variable mit einer `for`-Schleife durchgeht und printet. Dies könnte in etwa so aussehen:
 ```{caption="Ausgabe der contConList in der Konsole" .txt}
 cont0;cont1
 cont0;cont3
@@ -608,7 +609,7 @@ cont2;cont0
 ```
 (Beispiel mit 4 Containern)
 
-Besonders aber in der Entwicklungsphase des Simulators war dies sehr nützlich um schnell zu sehen welcher Container von sich aus die meisten Verbindungen hatte. Dies war besonders später beim Erstellen der Dragable Graphs sehr nützlich, da dieser immer einen Container als Ausgangspunkt nimmt. Die Liste ist auch bis zu einem gewissen Grad sortiert, da beim Muster "A;B" A sich erste ändert, wenn alle Bs durch sind.
+Besonders aber in der Entwicklungsphase des Simulators war dies sehr hilfreich, um schnell zu sehen, welcher Container von sich aus die meisten Verbindungen hatte. Dies war später beim Erstellen der Dragable Graphs sehr nützlich, da dieser immer einen Container als Ausgangspunkt nahm. Die Liste ist auch bis zu einem gewissen Grad sortiert, da beim Muster "A;B" A sich erst ändert, wenn alle Bs durch sind.
 
 #### Exportieren in JSON files
  Es gibt zwei mögliche JSON Files, welche erstellt werden können:
@@ -641,7 +642,7 @@ public JSONObject parseAllContainersToJSON(){
 }
 ```
 
-Diese Methode iteriert über alle bereits bestehenden Container. Es wird jeweils ein neues `JSONObject` erstellt und mit `.put` der Name des momentanen Containers zusammen mit "contId" in das neu erstellte JSON-Objekt hinzugefügt. Nun kommt die `getAllSubs`-Methode in das Spiel: Dieser wird der aktuelle Container übergeben und sie checkt dann anhand der **Adjazenz-Matrix**, ob es "1", also Verbindungen zu anderen Container gibt. Ist dies der Fall, gibt sie ein `JSONArray` zurück, ist dies nicht der Fall, NULL. Im Fall, ein `JSON`-Array vorhanden ist, fügt die `parseAllContainersToJSON`-Methode dieses mit dem Key "subs" (Sub-Container = benachbarte Container) ebenfalls zum JSON-Objekt hinzu , bevor dieses dann selbst in das `containersJSON`-Array hinzugefügt wird. Da die Methode ein `JSONObject` zurückgeben soll (Grund: da die Export-Methode dies verlangt), wird ein abschließendes `JSONObject` erstellt, welches das Array mit dem key "containers" abspeicher.
+Diese Methode iteriert über alle bereits bestehenden Container. Es wird jeweils ein neues `JSONObject` erstellt und mit `.put` der Name des momentanen Containers zusammen mit "contId" in das neu erstellte JSON-Objekt hinzugefügt. Nun kommt die `getAllSubs`-Methode in das Spiel: Dieser wird der aktuelle Container übergeben und sie checkt dann anhand der **Adjazenz-Matrix**, ob es "1", also Verbindungen zu anderen Containern gibt. Ist dies der Fall, gibt sie ein `JSONArray` zurück, ist dies nicht der Fall, NULL. Im Fall, ein `JSON`-Array vorhanden ist, fügt die `parseAllContainersToJSON`-Methode dieses mit dem Key "subs" (Sub-Container = benachbarte Container) ebenfalls zum JSON-Objekt hinzu , bevor dieses dann selbst in das `containersJSON`-Array hinzugefügt wird. Da die Methode ein `JSONObject` zurückgeben soll (Grund: da die Export-Methode dies verlangt), wird ein abschließendes `JSONObject` erstellt, welches das Array mit dem key "containers" abspeichert.
 [vgl. @HowToDoInJava-JSON & @MavenRepository-JSON]
 
 Das zweite File, entstammt einer anderen Funktion namens `parseSpecificToJSON`:
@@ -670,9 +671,9 @@ public JSONObject parseSpecificToJSON(Container origin, int depth){
 ```
 [vgl. @gpt-SpecificJson]
 
-Diese Methode übernimmt einen Ausgangscontainer `origin` und eine Tiefe `depth`. Zeil dieser Methode ist es, bis zu einer gewissen Tiefe die Sub-Container eines Ausgangscontainers in ein JSON-Objekt zu schreiben. Angenommen der Ausgangscontainer ist "cont0" und die Tiefe ist 3, dann wird der Ausgangscontainer (Tiefe 0), seine Verbindungs-Container (Tiefe 1) und deren Verbindungs-Container (Tiefe 2) in ein JSON-File geschrieben. Es ist diese Methode, welches die Grundlage für das JSON File liefert, welches später im Dragable Graph ebenfalls verwendet wird.
+Diese Methode übernimmt einen Ausgangscontainer `origin` und eine Tiefe `depth`. Ziel dieser Methode ist es, bis zu einer gewissen Tiefe die Sub-Container eines Ausgangscontainers in ein JSON-Objekt zu schreiben. Angenommen der Ausgangscontainer ist "cont0" und die Tiefe ist 3, dann wird der Ausgangscontainer (Tiefe 0), seine Verbindungs-Container (Tiefe 1) und deren Verbindungs-Container (Tiefe 2) in ein JSON-File geschrieben. Es ist diese Methode, welche die Grundlage für das JSON File liefert, welches später im Dragable Graph ebenfalls verwendet wird.
 
-Zur  Erklärung dieser Methode: Sollte eine passende Tiefe (>0) übergeben worden sein und besitzt der Ausgangs-Container Verbindungen zu Anderen, so wird eine `For`-Schleife ausgelöst, welche alle Sub-Container des `origin` durchgeht. Jedes dieser "sub Objects" wird dann in ein `JSOBObject` gecastet und daraufhin mit einer Hilfsmethode (=`convertJSONToContainer` [vgl. @gpt-SpecificJson]) in ein `Container`-Objekt umgewandelt. Nun beginnt das rekursive Aufrufen der Methode, wobei `depth` immer um eins verringert wird. Durch dieses rekursive Aufrufen wird immer einer der `subs` von dem ursprünglichen `origin`, das neue `origin` bis eben die Tiefe 0 erreicht hat und die Methode zu Ende ist. 
+Zur  Erklärung dieser Methode: Sollte eine passende Tiefe (>0) übergeben worden sein und besitzt der Ausgangs-Container Verbindungen zu anderen, so wird eine `For`-Schleife ausgelöst, welche alle Sub-Container des `origin` durchgeht. Jedes dieser "sub Objects" wird dann in ein `JSOBObject` gecastet und daraufhin mit einer Hilfsmethode (=`convertJSONToContainer` [vgl. @gpt-SpecificJson]) in ein `Container`-Objekt umgewandelt. Nun beginnt das rekursive Aufrufen der Methode, wobei `depth` immer um eins verringert wird. Durch dieses rekursive Aufrufen wird immer einer der `subs` von dem ursprünglichen `origin`, das neue `origin` bis eben die Tiefe 0 erreicht hat und die Methode zu Ende ist. 
 
 Das eigentliche Schreiben in die jeweiligen JSON Files übernimmt die Methode `exportToJsonFile` ([vgl. @gpt-SpecificJson]), welche folgende drei Variablen übernimmt:
 
@@ -737,7 +738,7 @@ Tiefe = 2
 ```
 
 #### Zustandekommen des Dragable Graphs
-Die Erstellung des Graphen erfolgt über die JavaScript Bibliothek D3.js, welche für ihre dynamischen Visualisierungen von Graphen berühmt ist. Das Skript übernimmt die `graphSpecific.json` und teilt den Inhalt in zwei Arrays `nodes` (=Knoten) und `links` (=Kanten) auf, wobei mit einem Hilfsobjekt gesichert wird, dass kein Container doppelt vor kommt. [vgl. @gpt-D3jsDGScript]
+Die Erstellung des Graphen erfolgt über die JavaScript-Bibliothek D3.js, welche für ihre dynamischen Visualisierungen von Graphen berühmt ist. Das Skript übernimmt die `graphSpecific.json` und teilt den Inhalt in zwei Arrays `nodes` (=Knoten) und `links` (=Kanten) auf, wobei mit einem Hilfsobjekt gesichert wird, dass kein Container doppelt vorkommt. [vgl. @gpt-D3jsDGScript]
 
 > D3s Kraft-gestützte Simulation (forceSimulation) berechnet die Positionen der Knoten basierend auf folgenden Kräften:
 > - forceLink: Verbindet Knoten basierend auf den Links.
@@ -756,7 +757,7 @@ const simulation = d3.forceSimulation(nodes)
 ```
 [vgl. @gpt-D3jsDGScript]
 
-Wie bereits erwähnt entstammen die Kanten aus dem `links`-Array. Die Container selbst, erscheinen in Form eines Kreises (mit ihrem Namen) als Knoten. Das Hin- und Herziehen dieser Knoten wird über die D3s Dragging-API umgesetzt. Zieht der User den Knoten von A nach B, so wird die Simulation neu gestartet, um die Position dynamisch anzupassen. Ist die Drag-Geste vollendet, so wird die Simulation wieder gestoppt und der Knoten verbleibt an seiner Position. [vgl. @gpt-D3jsDGScript]
+Wie bereits erwähnt, stammen die Kanten aus dem `links`-Array. Die Container selbst, erscheinen in Form eines Kreises (mit ihrem Namen) als Knoten. Das Hin- und Herziehen dieser Knoten wird über die D3s Dragging-API umgesetzt. Zieht der User den Knoten von A nach B, so wird die Simulation neu gestartet, um die Position dynamisch anzupassen. Ist die Drag-Geste vollendet, so wird die Simulation wieder gestoppt und der Knoten verbleibt an seiner Position. [vgl. @gpt-D3jsDGScript]
 
 Zusätzlich wird durch das Einfärben der Komponente des Graphen, der Knoten (blau) mit seinen Verbindungen (orange) zu anderen Containern (grün) hervorgehoben. Damit direkt beim Aufrufen des Graphen bereits ein Knoten automatisch markiert ist, wird der Name des Knoten bzw. Containers, den man eingefärbt haben will, in die URL geschrieben:
 
@@ -764,7 +765,7 @@ Zusätzlich wird durch das Einfärben der Komponente des Graphen, der Knoten (bl
 https://www.contrude.eu/graphs/1.html?highlight=OBBU1000011
 ````
 
-Wichtig ist hier das `?highlight=OBBU1000011` (gibt Name des Knoten an), da das Script überprüft ob ein solcher vorhanden ist. Ist dies der Fall, dann wird die `applyHighlight` Funktion aufgerufen, welche dafür sorgt, dass der richtige Knoten und seine Nachbarn farblich markiert werden: [vgl. @gpt-D3jsDGScript-Erweiterung]
+Wichtig ist hier das `?highlight=OBBU1000011` (gibt Name des Knotens an), da das Script überprüft, ob ein solcher vorhanden ist. Ist dies der Fall, dann wird die `applyHighlight` Funktion aufgerufen, welche dafür sorgt, dass der richtige Knoten und seine Nachbarn farblich markiert werden: [vgl. @gpt-D3jsDGScript-Erweiterung]
 
 
 ```{caption="Farbsteuerung des Graphen" .js}
@@ -794,12 +795,12 @@ function applyHighlight(nodeId) {
 ```
 [vgl. @gpt-D3jsDGScript-Erweiterung]
 
-Natürlich ist es auch möglich, per Klick einen anderen Container auszuwählen. Dies ist möglich, da die Knoten über `.on('click', highlightNode)` die `highLightNode` Methode aufruft, welche die ID des angeklickten Knoten übernimmt und an die oben angeführte `applyHighlight` weitergibt. [vgl. @gpt-D3jsDGScript-Erweiterung]
+Natürlich ist es auch möglich, per Klick einen anderen Container auszuwählen. Dies ist möglich, da die Knoten über `.on('click', highlightNode)` die `highLightNode` Methode aufruft, welche die ID des angeklickten Knotens übernimmt und an die oben angeführte `applyHighlight` weitergibt. [vgl. @gpt-D3jsDGScript-Erweiterung]
 
 
 Basierend auf dem `graphSpecific.json` aus dem Kapitel *Exportieren in JSON Files* würde als Ergebnis des Dragable-Graph-Skripts folgender Graph entstehen:
 
-![Dragable Graph basierend auf graphSpecific aus vorhergehenden Kapitel](img/Gekle/DG-Example.png)
+![Dragable Graph basierend auf graphSpecific aus vorhergehendem Kapitel](img/Gekle/DG-Example.png)
 
 Ein umfangreicherer Graph, welcher aus einer Simulation mit 16 Containern entstammt und folgende Daten hat...
 
@@ -810,7 +811,7 @@ Ein umfangreicherer Graph, welcher aus einer Simulation mit 16 Containern entsta
 
 ![Umfangreicherer Dragable Graph in zwei Positionen](img/Gekle/DG-Extended.png)
 
-(link... Position 1; recht... Position 2 nach Drag-and-Drpü)
+(link... Position 1; recht... Position 2 nach Drag-and-Drop)
 
 ### Website
 
@@ -823,37 +824,37 @@ Die Website wurde primär auf 3 Seiten aufgeteilt:
 - Detail Page
 
 ##### Login Page
-Die Login Page ist selbstverständlich für die Anmeldung des Users verantwortlich. Im Rahmen der Diplomarbeit beschränkt sich diese aber wirklich nur auf das Anmelden und bietet daher keine Funktion zum anlegen/ registrieren eines neuen Users. Des weiteren sollte die "vollumfangende" Version des Logos, welches ebenfalls in Adobe Illustrator erstellt wurde zu sehen sein.
+Die Login Page ist selbstverständlich für die Anmeldung des Users verantwortlich. Im Rahmen der Diplomarbeit beschränkt sich diese aber wirklich nur auf das Anmelden und bietet daher keine Funktion zum Anlegen/ Registrierung eines neuen Users. Des Weiteren sollte die "voll-umfangende" Version des Logos, welches ebenfalls in Adobe Illustrator erstellt wurde, zu sehen sein.
 
-![Alle Versionen des Logos; 1:Nur-Text 2:Symbole 3:Normal 4:Vollumfassend](img/Gekle/Contrude-All-Logos.png)
+![Alle Versionen des Logos; 1: Nur-Text 2: Symbole 3: Normal 4: Voll umfassend](img/Gekle/Contrude-All-Logos.png)
 
 ##### Main Page
-Hat der User sich erfolgreich eingeloggt so kommt er auf die Hauptseite oder Main Page. Hier liegt der Fokus voll und ganz auf der Visualisierung und Bereitstellung des zentralen Elements der Diplomarbeit, den Containern. Die Idee war, dass man über ein Dropdown Menu ein Grid einstellen kann. Je nachdem welches Grid ausgewählt wurde (z.B. 2x2) werden so viele Container angezeigt (im Beispiel: 4 Container, 2 oben 2 unten). Diese Container können aber mehrere Container repräsentieren. 
+Hat der User sich erfolgreich eingeloggt, so kommt er auf die Hauptseite oder Main Page. Hier liegt der Fokus voll und ganz auf der Visualisierung und Bereitstellung des zentralen Elements der Diplomarbeit, den Containern. Die Idee war, dass man über ein Dropdown-Menü ein Grid einstellen kann. Je nachdem welches Grid ausgewählt wurde (z.B. 2x2) werden so viele Container angezeigt (im Beispiel: 4 Container, 2 oben, 2 unten). Diese Container können aber mehrere Container repräsentieren. 
 
 ##### Detail Page
-Klickt der User auf einen dieser auf einen Container so wird er auf die Detail Page weitergeleitet. Diese beinhält das zweite Zentrale Komponente der Diplomarbeit, die Umweltdaten. Tabellarisch werden passend zu dem ausgewählten Container die Daten angezeigt (inkl. Seriennummer). Die Tabelle selbst besteht aus folgenden Spalten: 
+Klickt der User auf einen dieser Container, so wird er auf die Detail Page weitergeleitet. Diese beinhaltet die zweite zentrale Komponente der Diplomarbeit, die Umweltdaten. Tabellarisch werden passend zu dem ausgewählten Container die Daten angezeigt (inkl. Seriennummer). Die Tabelle selbst besteht aus folgenden Spalten: 
 
 - Umweltdaten
 - Wert
 - Einheit
 - ausgelöste Threshholds
 
-Die letzte dient dazu, dass wenn z.B. ein Container zu heiß ist, dies auch symbolisiert und beschrieben wird. 
+Die letzte dient dazu, dass, wenn z.B. ein Container zu heiß ist, dies auch symbolisiert und beschrieben wird. 
 
 Der Erstentwurf der Website sah dann folgendermaßen aus:
 
-![Erste Version des Website Designs](img/Gekle/DesignV1.png)
+![Erste Version des Website-Designs](img/Gekle/DesignV1.png)
 
 (1... Login Page, 2... Main Page, 3... Detail Page)
 
 ##### Weiterentwicklung der Website
-Der Erstentwurf wurde dann von den an der Diplomarbeit Beteiligten analysiert. Dies hatte das Ziel Schwächen, schlechte Design Entscheidungen und fehlende Komponente der Website aufzuzeigen. Basierend auf dem Feedback wurde dann im Rahmen einer Gruppenarbeit entschieden, welche Änderungsvorschläge tatsächlich umgesetzt werden und welche nicht.
+Der Erstentwurf wurde dann von den an der Diplomarbeit Beteiligten analysiert. Dies hatte das Ziel, Schwächen, schlechte Design-Entscheidungen und fehlende Komponenten der Website aufzuzeigen. Basierend auf dem Feedback wurde dann im Rahmen einer Gruppenarbeit entschieden, welche Änderungsvorschläge tatsächlich umgesetzt werden und welche nicht.
 
-In der Login Page wurde mittels eines Hyperlinks die Möglichkeit bereitgestellt, auf eine Impressum & Kontakt Seite zu gelangen. Die Detailpage wurde um eine Notizenfunktion erweitert, mit welcher der Usereigene Notizen zu den jeweiligen Containern verschriftlichen kann. Diese wird links neben der Tabelle zu sehen sein. 
+In der Login Page wurde mittels eines Hyperlinks die Möglichkeit bereitgestellt, auf eine Impressum & Kontakt-Seite zu gelangen. Die Detailpage wurde um eine Notizfunktion erweitert, mit welcher der User eigene Notizen zu den jeweiligen Containern verschriftlichen kann. Diese wird links neben der Tabelle zu sehen sein. 
 
-Die Main Page wurde mit großem Abstand am stärksten verändert. Bei der Containerzoom-Funktion wurde der Button von links nach rechts verschoben, wo sie die Vor- und Zurückfunktion ersetzten. Daneben eine Anzeige des aktuellen Zooms hinzugefügt. Anstelle des Zoom Button wurde auf der linken Seite ein "ShipSelect" Button eingeführt, welcher das Wechseln des Schiffs ermöglicht. Auch wurde das Design allgemein verbessert.
+Die Main Page wurde mit großem Abstand am stärksten verändert. Bei der Containerzoom-Funktion wurde der Button von links nach rechts verschoben, wo sie die Vor- und Zurückfunktion ersetzte. Daneben wurde eine Anzeige des aktuellen Zooms hinzugefügt. Anstelle des Zoom Button wurde auf der linken Seite ein "ShipSelect" Button eingeführt, welcher das Wechseln des Schiffs ermöglicht. Auch wurde das Design allgemein verbessert.
 
-Ein völlig neues Komponente war der ShipChooser-Dialog. Dieser wird aufgerufen, wenn auf einen durch das Grid angezeigten Containers geklickt wird. Angenommen ein Container repräsentiert zehn Container, dann kann über den Dialog noch ausgewählt werden, welchen Container man genau haben möchte und man wird dann zu der passenden Detail Page weitergeleitet. Das Design dieses Dialogs, wurde auch für weitere spätere Dialoge verwendet. 
+Eine völlig neue Komponente war der ShipChooser-Dialog. Dieser wird aufgerufen, wenn auf einen durch das Grid angezeigten Container geklickt wird. Angenommen ein Container repräsentiert zehn Container, dann kann über den Dialog noch ausgewählt werden, welchen Container man genau haben möchte und man wird dann zu der passenden Detail Page weitergeleitet. Das Design dieses Dialogs, wurde auch für weitere spätere Dialoge verwendet. 
 
 #### Projektspezifische Struktur des React Projekts
 Alle wichtigen Folder & Files befinden sich innerhalb des `src`-Folders:
@@ -872,14 +873,14 @@ Alle wichtigen Folder & Files befinden sich innerhalb des `src`-Folders:
 .2 util.
 }
 
-`App.jsx` bildet auch hier den "Grundpfeiler" des React-Projekts, da es als Hauptkomponent dient und etwa dafür verantwortlich ist, die Routes der Website zu definieren.
+`App.jsx` bildet auch hier den "Grundpfeiler" des React-Projekts, da es als Hauptkomponente dient und etwa dafür verantwortlich ist, die Routes der Website zu definieren.
 
-Alle weiteren Files, welche die Website umfasst sind in Folder untergeordnet und werden via Imports mit dem korrekten Pfad dort importiert, wo sie benötigt werden. Diese Folder inkludieren:
+Alle weiteren Files, welche die Website umfasst, sind in Folder untergeordnet und werden via Imports mit dem korrekten Pfad dort importiert, wo sie benötigt werden. Diese Folder inkludieren:
 
 - api --> enthält die Axios-Instanz
-- components --> enthält alle funktionellen Komponente, welchne nicht "Pages" oder "Dialoge" sind (z.B. `LoginField`)
+- components --> enthält alle funktionellen Komponenten, welche nicht "Pages" oder "Dialoge" sind (z.B. `LoginField`)
 - dialogs --> enthält alle Dialog-Komponenten (z.B. `ContainerChooser`)
-- icons --> entält die SVG-Dateien der Icons (z.B. `ShipIcon`)
+- icons --> enthält die SVG-Dateien der Icons (z.B. `ShipIcon`)
 - img --> enthält die Bild-Dateien (png/jpg/svg) welche nicht Icons sind (z.B. Logo)
 - pages --> enthält die 3 Page-Komponenten (`LoginPage`, `MainPage`, `DetailPage`)
 - util --> enthält die Scripts, welche erweiterte Funktionen übernehmen (z.B. `ContainerDistributor`)
@@ -897,10 +898,10 @@ Die MainPage selbst besteht aus 3 großen "Parent-Komponenten", welche wiederum 
 
 ![Struktur der Main Page](img/Gekle/MainPageStructure.png)
 
-Zu den Funktionen, welche von der MainPage als ganzes übernommen werden zählen das Anzeigen eines oder mehrerer Sammel-Container(s) im `Workspace` basierend auf der Grid-Einstellung aus der `Topbar`. Auch das Suchen von spezifischen Containern und das wechseln des Schiffes werden über die `Topbar` ermöglicht.
+Zu den Funktionen, welche von der MainPage als ganzes übernommen werden, zählen das Anzeigen eines oder mehrerer Sammel-Container(s) im `Workspace` basierend auf der Grid-Einstellung aus der `Topbar`. Auch das Suchen von spezifischen Containern und das Wechseln des Schiffes werden über die `Topbar` ermöglicht.
 
 ##### Aufbau DetailPage
-Wie auch die MainPage unterteilt sich die Detail Page in 3 große Komponente:
+Wie auch die MainPage unterteilt sich die Detail Page in 3 große Komponenten:
 
 - Detailspace (vgl. mit Workspace der MainPage)
 - Topbar
@@ -908,11 +909,11 @@ Wie auch die MainPage unterteilt sich die Detail Page in 3 große Komponente:
 
 ![Struktur der Detail Page](img/Gekle/DetailPageStructure.png)
 
-Die `Detailspace`-Komponente ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit Notizen, welche auch gespeichert werden, hinzuzufügen zählt ebenfalls zu den Aufgaben der `DetailSpace`. Der Button unterhalb der Tabelle öffnet in einem neuen Browser-Tab einen Graphen, welcher das ausgewählte Schiff mit seinen Containern repsäsentiert. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Threshholds und Zurückgehen zur MainPage bietet.
+Die `Detailspace`-Komponente ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit, Notizen, welche auch gespeichert werden, hinzuzufügen, zählt ebenfalls zu den Aufgaben der `DetailSpace`. Der Button unterhalb der Tabelle öffnet in einem neuen Browser-Tab einen Graphen, welcher das ausgewählte Schiff mit seinen Containern repräsentiert. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Threshholds und Zurückgehen zur MainPage bietet.
 
 #### Funktionsweise der Komponenten
 ##### LoginField der LoginPage
-Die Login Page verwaltet zwei `useState`-Variablen: `username` und `password`. Für beide dieser Daten muss ein Feld zur Verfügung gestellt werden, in welches der User schreiben kann. Diese beiden Felder sind sogenannte "**LoginFields**". Dieses Komponent verhaltet sich bei den beiden Daten etwas unterschiedlich:
+Die Login Page verwaltet zwei `useState`-Variablen: `username` und `password`. Für beide dieser Daten muss ein Feld zur Verfügung gestellt werden, in welches der User schreiben kann. Diese beiden Felder sind sogenannte "**LoginFields**". Dieses Komponent verhält sich bei den beiden Daten etwas unterschiedlich:
 ```{caption="Nutzung der LoginField Komponente" .js}
 <LoginField placeholder="User" value={username} onChange={(e) => setUsername(e.target.value)} />
 
@@ -921,10 +922,10 @@ Die Login Page verwaltet zwei `useState`-Variablen: `username` und `password`. F
 
 ![LoginFields (Gelb markiert)](img/Gekle/Loginfields.png){width=33%}
 
-Innerhalb des Komponents wird ein HTML `input`-Tag benutzt. Input kann verschiedene Typen annehmen wie hier etwa "text" und "password". Dem `LoginField` werden auch alle weiteren wichtigen Daten für das Input übergeben wie etwa den Placeholder und den Wert (Value) den der User eingibt. Die Variable `isPassword` bestimmt ob "text" oder "password" als Passwort angenommen wird und in Folge dessen, ob der Text im `LoginField` als Plaintext oder ob der Text maskiert wird. [vgl. @GeeksForGeeks-HTMLInputTag]. Wird `onChange` innerhalb verändert, sprich der User gibt etwas neues ein oder editiert bereits eingegebenes, dann gibt das `LoginField` den neuen Wert an die Login Page zurück, wo sie dann mit `setPassword/ setUsername` des `useState` auch wieder verändert werden.
+Innerhalb der Komponente wird ein HTML `input`-Tag benutzt. Input kann verschiedene Typen annehmen, wie hier etwa "text" und "password". Dem `LoginField` werden auch alle weiteren wichtigen Daten für das Input übergeben, wie etwa den Placeholder und den Wert (Value) den der User eingibt. Die Variable `isPassword` bestimmt, ob "text" oder "password" als Passwort angenommen wird und infolgedessen, ob der Text im `LoginField` als Plaintext oder ob der Text maskiert wird. [vgl. @GeeksForGeeks-HTMLInputTag]. Wird `onChange` innerhalb verändert, sprich der User gibt etwas Neues ein oder editiert bereits eingegebenes, dann gibt das `LoginField` den neuen Wert an die Login Page zurück, wo sie dann mit `setPassword/ setUsername` des `useState` auch wieder verändert werden.
 
 ##### Workspace (MainPage)
-Die **Workspace** Komponente selbst übernimmt zwei Variablen aus der MainPage: `gridSize`, welche dem aktuell ausgewählte Grid entspricht und `selectedShip`, also das momentan ausgewählte Schiff. Die zentrale Aufgabe des Workspaces, das anzeigen der Container, wird von der **renderGrid**-Methode:
+Die **Workspace** Komponente selbst übernimmt zwei Variablen aus der MainPage: `gridSize`, welche dem aktuell ausgewählte Grid entspricht und `selectedShip`, also das momentan ausgewählte Schiff. Die zentrale Aufgabe des Workspace, das Anzeigen der Container, wird von der **renderGrid**-Methode:
 
 ```{caption="renderGrid Methode" .js}
 const renderGrid = () => {
@@ -981,7 +982,7 @@ const renderGrid = () => {
 ```
 [vgl. @gpt-renderGrid]
 
-Unter der Vorrausetzung, dass die `ContainerDistribution useState` (ein Array) nicht 0 lang ist, sprich dass die Aufteilung aller **realen Container** auf die "**Sammel-Container**" (die angezeigten Container welche für mehrere stehen) von dem **ContainerDistributor** Script abgeschlossen ist, wird die Darstellung der Sammel-Container im Grid ermöglicht. Dieses Script errechnet mathematisch wie viele reale Container eines Schiffes je nach GridSize pro Sammel-Container repräsentiert werden sollen und gibt dies in einem (2)d-Array zurück. Um dies zu verdeutlichen:
+Unter der Voraussetzung, dass die `ContainerDistribution useState` (ein Array) nicht 0 lang ist, sprich, dass die Aufteilung aller **realen Container** auf die "**Sammel-Container**" (die angezeigten Container, welche für mehrere stehen) von dem **ContainerDistributor** Script abgeschlossen ist, wird die Darstellung der Sammel-Container im Grid ermöglicht. Dieses Script errechnet mathematisch, wie viele reale Container eines Schiffes je nach GridSize pro Sammel-Container repräsentiert werden sollen und gibt dies in einem (2)d-Array zurück. Um dies zu verdeutlichen:
 ```{caption="Beispiel für die Funktionalität des ContainerDistributor" .txt}
 Grid = 2x2
 Anzahl reale Container = 9
@@ -997,7 +998,7 @@ Rückgabe = [[3, 2] [2, 2]]
 
 ![Wie das 2x2 Grid laut obigen Angaben auf der Website aussieht](img/Gekle/GridExample.PNG)
 
-Dies erfolgt so, dass zuerst errechnet wird, wie viele Reale Container jedem Sammel-Container anfänglich zugewiesen werden sollen, indem die Anzahl der realen Container durch die Grid-Anzahl (z.B. 2x2 Grid = 4) dividiert und abgerundet wird. Danach werden die verbleibenden realen Container auf die Sammel-Container verteilt und mithilfe einer doppelten For-Schleife das Array erstellt:
+Dies erfolgt so, dass zuerst errechnet wird, wie viele reale Container jedem Sammel-Container anfänglich zugewiesen werden sollen, indem die Anzahl der realen Container durch die Grid-Anzahl (z.B. 2x2 Grid = 4) dividiert und abgerundet wird. Danach werden die verbleibenden realen Container auf die Sammel-Container verteilt und mithilfe einer doppelten For-Schleife das Array erstellt:
 
 ```{caption="Code des ContainerDistributor Skripts" .js}
 function distributeValues(gridRows, gridCols, totalValues) {
@@ -1038,9 +1039,9 @@ export default distributeValues;
 ```
 [vgl. @gpt-ContainerDistributorScript]
 
-Wurde dies nun errechnet beginnt die eigentlich **renderGrid** Methode. Auch diese arbeitet mit einer verschachtelten `for`-Schleife um durch die einzelnen Grid-Spots durch zu iterieren. Hierbei ist auch das Array des ``ContainerDistributer`` wichtig, da es bestimmt wie lange die Schleifen anhalten soll. Pro Spot wird dann ein HTML-`div` zu einem Array hinzugefügt (mit `.push(<div\> <\/div>)`). Jedes dieser Divs hat durch die Rechnung $Row - Column$ (aus den For Schleifen) eine eindeutige ID welche etwa dafür wichtig ist, dass wenn man über das jeweilige Div hovert nur dieses eine hervorgehoben wird. Außerdem wird über `onClick` bestimmt, dass im Falle des klickens auf ein `div` die `handleOpenDialog` aufgerufen wird, mit welcher der Dialog zum aussuchen des richtigen realen Containers geöffnet wird.
+Wurde dies nun errechnet, beginnt die eigentliche **renderGrid** Methode. Auch diese arbeitet mit einer verschachtelten `for`-Schleife, um durch die einzelnen Grid-Spots durchzuiterieren. Hierbei ist auch das Array des ``ContainerDistributer`` wichtig, da es bestimmt, wie lange die Schleifen anhalten sollen. Pro Spot wird dann ein HTML-`div` zu einem Array hinzugefügt (mit `.push(<div\> <\/div>)`). Jedes dieser Divs hat durch die Rechnung $Row - Column$ (aus den For Schleifen) eine eindeutige Id welche etwa dafür wichtig ist, dass wenn man über das jeweilige Div hovert nur dieses eine hervorgehoben wird. Außerdem wird über `onClick` bestimmt, dass im Falle des klicken auf ein `div` die `handleOpenDialog` aufgerufen wird, mit welcher der Dialog zum Aussuchen des richtigen realen Containers geöffnet wird.
 
-Die zweite wichtige Methode ist also die **handleOpenDialog** Methode, welche den eben erwähnte Dialog öffnet. Sie liest mit der eindeutigen Id der Sammel-Container aus einer in einem `useEffect` erstellten Map. Diese ordnet jedem Sammel-Container mithilfe ihrer eindeutigen Id die realen Container Ids (Mehrzahl!!) zu. Die realen Ids waren zuvor in dem `useState` Array `containerIds` in zufälliger Reihenfolge gespeichert und nun werden nur die passenden in die `dialogValues useState` gespeichert. Zusätzlich wird mithilfe der `isDialogOpen useState` der Dialog wird geöffnet. Das `ContainerChooser` Element (der Dialog) ist hier zu sehen:
+Die zweite wichtige Methode ist also die **handleOpenDialog** Methode, welche den eben erwähnten Dialog öffnet. Sie liest mit der eindeutigen Id der Sammel-Container aus einer in einem `useEffect` erstellten Map. Diese ordnet jedem Sammel-Container mithilfe ihrer eindeutigen Id die realen Container Ids (Mehrzahl!!) zu. Die realen Ids waren zuvor in dem `useState` Array `containerIds` in zufälliger Reihenfolge gespeichert und nun werden nur die passenden in die `dialogValues useState` gespeichert. Zusätzlich wird mithilfe der `isDialogOpen useState` der Dialog geöffnet. Das `ContainerChooser` Element (der Dialog) ist hier zu sehen:
 ```{caption="ContainerChooser Komponente Nutzung" .js}
 <ContainerChooser
 	open={isDialogOpen}
@@ -1050,7 +1051,7 @@ Die zweite wichtige Methode ist also die **handleOpenDialog** Methode, welche de
 />
 ```
 
-Der **ContainerChooser** Dialog selbst listet die zu den Ids passenden Seriennummern der realen Container auf. Klickt man auf eine dieser Nummern wird man auf die korrekte DetailPage weitergeleitet. Die Funktionsweise des Dialogs sieht genauer wie folgt aus:
+Der **ContainerChooser** Dialog selbst listet die zu den Ids passenden Seriennummern der realen Container auf. Klickt man auf eine dieser Nummern, wird man auf die korrekte DetailPage weitergeleitet. Die Funktionsweise des Dialogs sieht genauer wie folgt aus:
 
 1. Klickt der User auf den Close Button so wird durch `onClick={onClose}` (innerhalb des `ContainerChooser`) im Workspace `handleCloseDialog` ausgeführt, welches den Dialog schließt
 2. Klickt der User auf einen der angezeigten Seriennummern, so wird er durch `onSelect(id)` (ebenfalls innerhalb des `ContainerChooser`) so wird durch die MainPage auf die passende DetailPage weitergeleitet.
@@ -1067,16 +1068,16 @@ const handleSelect = (value) => {
 
 ![ContainerChooser Dialog mit 9 Containern](img/Gekle/ContainerChooserExample.png)
 
-Wichtig: auch wenn ein Sammel-Container (das `div`) nur einen oder gar keinen realen Container repräsentiert wird trotzdem der Dialog geöffnet. Sollte keiner vorhanden sein, so ist nur der Close-Button zu sehen.
+Wichtig: auch wenn ein Sammel-Container (das `div`) nur einen oder gar keinen realen Container repräsentiert, wird trotzdem der Dialog geöffnet. Sollte keiner vorhanden sein, so ist nur der Close-Button zu sehen.
 
 ##### Komponenten der Topbar der MainPage
 Der Nutzen der MainPage wird durch die `TopBar` sehr stark erweitert. Dies liegt vor allem an drei Dingen:
 
 1. Sie ermöglicht das Ändern des Grids (z.B. von 2x2 auf 1x1)
 2. Sie bietet eine Suchleiste, mit welcher man über die SerienNummer direkt den ContainerChooser Dialog geöffnet werden kann.
-3. Sie ermöglicht es das Schiff zu wechseln.
+3. Sie ermöglicht es, das Schiff zu wechseln.
 
-Die `Topbar` ist konfigurierbar, dass bedeutet man kann ihr je nach Anwendungszweck verschiedene weitere Komponente übergeben. Hierbei kann man zwischen "Left" und "Right" unterscheiden, also ob man die Komponente linksbündig oder rechtsbündig haben möchte. Hier etwa die Erstellung der Topbar für die Main Page:
+Die `Topbar` ist konfigurierbar, das bedeutet, man kann ihr je nach Anwendungszweck verschiedene weitere Komponenten übergeben. Hierbei kann man zwischen "Left" und "Right" unterscheiden, also ob man die Komponente linksbündig oder rechtsbündig haben möchte. Hier etwa die Erstellung der Topbar für die Main Page:
 
 ```{caption="Verschiedene Nutzung der Topbar Komponente in der MainPage" .js}
 <Topbar
@@ -1105,7 +1106,7 @@ Die `Topbar` ist konfigurierbar, dass bedeutet man kann ihr je nach Anwendungszw
 ```
 (Left... Searchbar & ShipButton; Right: GridDropDown)
 
-Innerhalb der `Topbar` werden die Items dann mittels dem CSS `Justify-Between` und `flex`-Tags nach links bzw. rechts gedrückt. [vgl. @DeveloperMozilla-JustifyContent] Mit Tailwind CSS wurde dies so umgesetzt:
+Innerhalb der `Topbar` werden die Items dann mittels des CSS `Justify-Between` und `flex`-Tags nach links bzw. rechts gedrückt. [vgl. @DeveloperMozilla-JustifyContent] Mit Tailwind CSS wurde dies so umgesetzt:
 
 ```{caption="Wie die Topbar die Komponente linksbündig und rechtsbündig plartziert werden" .html}
 <div className='h-24 flex items-center justify-between pt-3 pb-3 pl-12 pr-12'>
@@ -1119,7 +1120,7 @@ Innerhalb der `Topbar` werden die Items dann mittels dem CSS `Justify-Between` u
 </div>
 ```
 
-Im Kontext der MainPage ist die einzige rechts positionierte Komponente das **GridDropDown**, ein Dropdown Menü, über welches das Grid der Sammel-Container geändert werden kann. Es übernimmt die `gridSize` Variable aus der MainPage (=aktuelle Grid Einstellung) und ein `setGridSize` um diese zu ändern. Fünf verschiedene Grid Optionen werden zur Verfügung gestellt: 1x1, 2x2, 2x4, 3x4 und 4x4. Diese werden in einem Array gespeichert, indem ein `label`, `rows` und `cols` definiert wird (z.B.: {label:3x4, rows:3. cols:4}). Das erscheinen des DropDowns regelt wieder eine useState Variable namens `showDropDown`. Diese wird immer auf den gegenteiligen Status des aktuellen `showDropDown` gesetzt, also wenn sie aktuell FALSE ist wird sie auf TRUE gesetzt und vice versa. TRUE bedeutet hierbei, dass das DropDown Menü angezeigt werden soll und FALSE nicht. Dies erfolgt folgendermaßen:
+Im Kontext der MainPage ist die einzige rechts positionierte Komponente das **GridDropDown**, ein Dropdown Menü, über welches das Grid der Sammel-Container geändert werden kann. Es übernimmt die `gridSize` Variable aus der MainPage (=aktuelle Grid Einstellung) und ein `setGridSize` um diese zu ändern. Fünf verschiedene Grid Optionen werden zur Verfügung gestellt: 1x1, 2x2, 2x4, 3x4 und 4x4. Diese werden in einem Array gespeichert, indem ein `label`, `rows` und `cols` definiert wird (z.B.: {label:3x4, rows:3. cols:4}). Das Erscheinen des DropDowns regelt wieder eine useState Variable namens `showDropDown`. Diese wird immer auf den gegenteiligen Status des aktuellen `showDropDown` gesetzt, also wenn sie aktuell FALSE ist wird sie auf TRUE gesetzt und vice versa. TRUE bedeutet hierbei, dass das DropDown Menü angezeigt werden soll und FALSE nicht. Dies erfolgt folgendermaßen:
 
 ```{caption="Aufscheinen des Drop Down Menü basierend auf boolean showDropDown" .js}
 {showDropdown && (
@@ -1137,9 +1138,9 @@ Im Kontext der MainPage ist die einzige rechts positionierte Komponente das **Gr
 )}
 ```
 
-Ist `showDropDown` nun TRUE, kommt die `.map` Funktion zum Einsatz. Diese hilft dabei, durch jedes Objekt der `gridOptions` durch zu iterieren und pro Objekt (in diesem Fall `option`) wird ein neues HTML `List`-Item (\<li>) innerhalb einer Unordered List (\<ul>) angelegt. [vgl. @Ionos-JS-map] Jedes dieser List-Items repräsentiert eine Auswahlmöglichkeit des DropDown Menüs. Mithilfe des `labels` wird jedes eindeutig identifiziert und mittels `rows und cols` (aus dem `gridOptions` Array) wird dem User die dazu passende Grid Option angezeigt. Über `onClick` wird noch definiert, dass die `handleSelectGrid`-Methode aufgerufen werden soll, in welcher `showDropDown` wieder auf FALSE gesetzt und die `gridSize` Variable aus der MainPage über setGridSize, je nach User Auswahl neu gesetzt wird. Diese Änderung übernimmt, da es sich bei `gridSize` um eine useState-Variable handelt, dann auch die MainPage und in weiterer Folge der Workspace. Die Folge: das Grid wird neu gerendert. 
+Ist `showDropDown` nun TRUE, kommt die `.map` Funktion zum Einsatz. Diese hilft dabei, durch jedes Objekt der `gridOptions` durchzuiterieren, und pro Objekt (in diesem Fall `option`) wird ein neues HTML `List`-Item (\<li>) innerhalb einer Unordered List (\<ul>) angelegt. [vgl. @Ionos-JS-map] Jedes dieser List-Items repräsentiert eine Auswahlmöglichkeit des DropDown Menüs. Mithilfe des `labels` wird jedes eindeutig identifiziert und mittels `rows und cols` (aus dem `gridOptions` Array) wird dem User die dazu passende Grid Option angezeigt. Über `onClick` wird noch definiert, dass die `handleSelectGrid`-Methode aufgerufen werden soll, in welcher `showDropDown` wieder auf FALSE gesetzt und die `gridSize` Variable aus der MainPage über setGridSize, je nach User Auswahl neu gesetzt wird. Diese Änderung übernimmt, da es sich bei `gridSize` um eine useState-Variable handelt, dann auch die MainPage und in weiterer Folge der Workspace. Die Folge: das Grid wird neu gerendert. 
 
-Zusätzlich soll direkt neben dem `div`, welches das Zoom-Icon representiert, ein zweites `div` erstellt werden, welches den aktuellen Status von `gridSize.rows` und `gridSize.cols` anzeigt. Der Aufbau des GridDropDowns sieht also simpel dargestellt so aus:
+Zusätzlich soll direkt neben dem `div`, welches das Zoom-Icon repräsentiert, ein zweites `div` erstellt werden, welches den aktuellen Status von `gridSize.rows` und `gridSize.cols` anzeigt. Der Aufbau des GridDropDowns sieht also simpel dargestellt so aus:
 ```{caption="HTML Aufbau GridDropDown" .html}
 <div> Hier wird das ZoomIcon dargestellt </div>
 {showDropDown && (<ul> 
@@ -1148,15 +1149,15 @@ Hier werden die Optionen des DropDowns angezeigt, aber nur wenn showDropDown pos
 <div> Hier wird der aktuelle Stand von gridSize angezeigt</div>
 ```
 
-Das erste der beiden linken Komponenten ist das **ShipSelect** Dropdown Menü. Die Funktionsweiße dieses Drop Down Menüs ist ident zu dem Grid Drop Down Menü.[vgl. @Ionos-JS-map] Der Nutzen von dieser Komponente ist allerdings ein anderer. Hier wird es dem User ermöglicht, dass Schiff und damit die am Grid angezeigten Container zu wechseln. Anders als GridDropDown funktioniert aber die Anzeige des ausgewählten Schiffs. Dies wird nämlich auf die zweite, rechts befindende, Komponente verlagert.
+Das erste der beiden linken Komponenten ist das **ShipSelect** Dropdown Menü. Die Funktionsweiße dieses Drop Down Menüs ist ident zu dem Grid Drop Down Menü.[vgl. @Ionos-JS-map] Der Nutzen von dieser Komponente ist allerdings ein anderer. Hier wird es dem User ermöglicht, das Schiff und damit die am Grid angezeigten Container zu wechseln. Anders als GridDropDown funktioniert aber die Anzeige des ausgewählten Schiffs. Dies wird nämlich auf die zweite, rechts befindende, Komponente verlagert.
 
 Bei diesem handelt es sich um die Suchleiste, welche mithilfe der **Searchbar** Komponente dargestellt wird. Diese übernimmt das durch das `ShipSelect` ausgewählte Schiff aus der MainPage und setzt dieses neben dem HTML `input`-Tag ein, wodurch der Name des ausgewählten Schiffs angezeigt wird. Davor steht ein vordefinierter Text: "of container on Ship". Als Placeholder für das Eingabefeld wurde "Serial Number" gewählt, dadurch entsteht folgendes Design:
 
 ![Searchbar + ShipSelect Button](img/Gekle/Searchbar.png)
 
-Hier ist links neben der Suchleiste auch das `ShipSelect`-Icon und die damit verbundene Komponente zu sehen. Die `Searchbar` verändert ihre Länge dynamisch, da der Name eines Schiffes viel länger sein kann, als der eines anderen. Dies wird in Tailwind mithilfe des CSS Attributs `flex-grow` erreicht. [vgl. @TailwindCSS-Docs-FlexGrow]
+Hier ist links neben der Suchleiste auch das `ShipSelect`-Icon und die damit verbundene Komponente zu sehen. Die `Searchbar` verändert ihre Länge dynamisch, da der Name eines Schiffes viel länger sein kann, als der eines anderen. Dies wird in Tailwind mithilfe des CSS-Attributs `flex-grow` erreicht. [vgl. @TailwindCSS-Docs-FlexGrow]
 
-Der Kern der Suchleiste ist aber das Eingabefeld selbst. Dieses wurde unter der Beachtung erstellt, dass die Eingabe des Users maximal 11 Zeichen haben darf, da auch die Seriennummer in der Regel nur so lang ist. [vgl. @ContainerBasis-Containernummern] Aktiviert wird die Suche durch das Drücken der Enter Taste, was über das `onKeyDown`-Event des `input`-Tags erreicht wird:
+Der Kern der Suchleiste ist aber das Eingabefeld selbst. Dieses wurde unter der Beachtung erstellt, dass die Eingabe des Users maximal 11 Zeichen haben darf, da auch die Seriennummer in der Regel nur so lang ist. [vgl. @ContainerBasis-Containernummern] Aktiviert wird die Suche durch das Drücken der Enter-Taste, was über das `onKeyDown`-Event des `input`-Tags erreicht wird:
 ```{caption="Inout Tag der Searchbar" .js}
 <input
 	className="border-none outline-none flex-shrink-0 w-[108px]"
@@ -1169,7 +1170,7 @@ Der Kern der Suchleiste ist aber das Eingabefeld selbst. Dieses wurde unter der 
 ```
 [vgl. @Pluralsight-KeyboardEvents]
 
-Es wird geschaut, ob irgendeine zufällig Taste gedrückt wurde, ist das der Fall wird die `handleEventEnter`-Methode aufgerufen und ein Event-Objekt (`event`) übergeben. Dieses wird auf `event.key === Enter` überprüft, also ob die Taste Enter gedrückt wurde. Falls das so sein sollte, wird die `onSearchSubmit`-Methode aufgerufen, die die Eingabe des Users an das übergeordnete Element, also der MainPage übergibt, welche diese dann weiter diese dann weiter verarbeitet.
+Es wird geschaut, ob irgendeine zufällige Taste gedrückt wurde, ist das der Fall wird die `handleEventEnter`-Methode aufgerufen und ein Event-Objekt (`event`) übergeben. Dieses wird auf `event.key === Enter` überprüft, also ob die Taste Enter gedrückt wurde. Falls das so sein sollte, wird die `onSearchSubmit`-Methode aufgerufen, die die Eingabe des Users an das übergeordnete Element, also der MainPage übergibt, welche diese dann weiter diese dann weiter verarbeitet.
 
 ##### Detailspace (DetailPage)
 Den Kern der `Detailspace`-Komponente bildet ein `useState`-Array namens **TableData**. Dieses hat folgenden Aufbau:
@@ -1186,11 +1187,11 @@ const [tableData, setTableData] = useState([
 ]);
 ```
 
-Es besitzt denselben Aufbau wie die Tabelle (`table`), in welcher die Umweltdaten und Alerts der Threshholds angezeigt werden und baut daher auch auf dem Array auf:
+Es besitzt denselben Aufbau wie die Tabelle (`table`), in welcher die Umweltdaten und Alerts der Thresholds angezeigt werden und baut daher auch auf dem Array auf:
 
 ![Tabelle basierend auf dem tableData Array](img/Gekle/DetailspaceCloseup.png)
 
-Nachdem die Umweltdaten von dem Backend gefetcht wurden, wird `value` des Arrays für jedes `environment` überschrieben, was durch die `updateTableData` Methode geschieht. Diese übernimmt den gefetchten Wert und von welchen Sensor dieser kommt (z.B. temperatur):
+Nachdem die Umweltdaten von dem Backend gefetcht wurden, wird `value` des Arrays für jedes `environment` überschrieben, was durch die `updateTableData` Methode geschieht. Diese übernimmt den gefetchten Wert und von welchem Sensor dieser kommt (z.B. temperatur):
 
 ```{caption="updateTableData Methode" .js}
 const updateTableData = (newValue, sensor) => {
@@ -1216,11 +1217,11 @@ const updateTableData = (newValue, sensor) => {
 ```
 [vgl. @gpt-updateTableData]
 
-Es wird wieder mithilfe der `.map`-Funktion durch das Array iteriert und mittels eines `Switch/Case` geschaut, um welchen Sensor es sich handelt. Einmal das richtige Case gefunden wird eine Kopie von `item` erstellt und der richtige Wert verändert. Der Grund wieso eine Kopie erstellt werden muss ist folgender:
+Es wird wieder mithilfe der `.map`-Funktion durch das Array iteriert und mittels eines `Switch/Case` geschaut, um welchen Sensor es sich handelt. Einmal das richtige Case gefunden, wird eine Kopie von `item` erstellt und der richtige Wert verändert. Der Grund wieso eine Kopie erstellt werden muss, ist folgender:
 
 > Eine **Shallow Copy** muss returned werden, da React nur Änderungen erkennt, wenn der Verweis auf das Objekt oder Array geändert wird, was bei direkter Mutation des ursprünglichen Objekts/Arrays nicht der Fall ist. [vgl. @gpt-updateTableData]
 
-Wie im Bild oben auch zu sehen ist befindet sich unter der Tabelle noch ein Button mit der Bezeichnung "Show Position Diagram". Dieser ermöglicht es, dass die aus dem **Container Simulator** stammenden **Dragable Graphs** in einem seperaten Tab aufgerufen werden. In der Theorie wird zusätzlich immer die Seriennummer des aktuell ausgewählten Containers mit übergeben, wodurch dieser automatisch eingefärbt wird. Allerdings stammen die Graphen wie erwähnt aus dem Simulator, wodurch die Knoten nicht nach den Seriennummern benannt werden sondern mit "cont#" wobei "#" eine fortlaufende Zahl ist. Die Eigenschaft, dass dieser Graph in einem seperaten Tab geöffnet wird, kann dadurch ermöglicht werden, wenn das `button`-Element via `onClick` `window.open` mit `_blank` ausführt:
+Wie im Bild oben auch zu sehen ist, befindet sich unter der Tabelle noch ein Button mit der Bezeichnung "Show Position Diagram". Dieser ermöglicht es, dass die aus dem **Container Simulator** stammenden **Dragable Graphs** in einem separaten Tab aufgerufen werden. In der Theorie wird zusätzlich immer die Seriennummer des aktuell ausgewählten Containers mit übergeben, wodurch dieser automatisch eingefärbt wird. Allerdings stammen die Graphen wie erwähnt aus dem Simulator, wodurch die Knoten nicht nach den Seriennummern benannt werden, sondern mit "cont#" wobei "#" eine fortlaufende Zahl ist. Die Eigenschaft, dass dieser Graph in einem separaten Tab geöffnet wird, kann dadurch ermöglicht werden, wenn das `button`-Element via `onClick` `window.open` mit `_blank` ausführt:
 
 ````{caption="HTML Show Position Diagram Button" .html}
 <button className="border border-black px-2 mt-2" type="button" onClick={() => window.open(`/graphs/${shipId}.html?highlight=${combinedSerialNumber}`, '_blank')}>
@@ -1228,7 +1229,7 @@ Wie im Bild oben auch zu sehen ist befindet sich unter der Tabelle noch ein Butt
 </button>
 ````
 
-Der `Detailspace` bietet aber noch eine weitere Verlinkung. Sieht man sich den Body der zentrale Tabelle des Komponents in HTML an...:
+Der `Detailspace` bietet aber noch eine weitere Verlinkung. Sieht man sich den Body der zentralen Tabelle der Komponente in HTML an...:
 
 ````{caption="tbody HTML Element der Tabelle des Detailspaces" .html}
 <tbody>
@@ -1243,12 +1244,12 @@ Der `Detailspace` bietet aber noch eine weitere Verlinkung. Sieht man sich den B
 </tbody>
 ````
 
-... so kann man sehen, dass beim Klicken auf den jeweiligen Umweltdatenwert (z.B. Temperatur) die `handleSelectEnvironmentData`-Methode aufgerufen wird. Diese übernimmt die Bezeichnung des Umweltdatenwerts und ruft den dazu passenden **Grafana** Link auf.
+... so kann man sehen, dass beim klicken auf den jeweiligen Umweltdatenwert (z.B. Temperatur) die `handleSelectEnvironmentData`-Methode aufgerufen wird. Diese übernimmt die Bezeichnung des Umweltdatenwerts und ruft den dazu passenden **Grafana**-Link auf.
 
 Weiters werden die Notizen (ein HTML `TextArea`-Element) von `Detailspace` verwaltet. Hierzu kommen zwei Methoden ins Spiel:
 
-1. `handleBlur` --> um das Geschriebene zu speichern, sobald der User aus der `TextArea` rausklickt
-2. `handleNotesChange` --> um die `useState`-Variable `notes`, welche von `handleBlur` benutzt wird mit den neuen Notizen zu überschreiben 
+1. `handleBlur` --> um das Geschriebene zu speichern, sobald der User aus der `TextArea` heraus klickt
+2. `handleNotesChange` --> um die `useState`-Variable `notes`, welche von `handleBlur` benutzt wird, mit den neuen Notizen zu überschreiben 
 
 Das `TextArea`-Feld selbst sieht folgendermaßen aus:
 
@@ -1264,7 +1265,7 @@ Das `TextArea`-Feld selbst sieht folgendermaßen aus:
 />
 ```
 
-Die **handleBlur**-Methode wird wie der Name vermuten lässt über `onBlur` aufgerufen. Dieses Event aktiviert sich dann, wenn etwa eine `TextArea` Fokus verliert. [vgl. @GeeksForGeeks-onBlur] Der Sinn dahinter ist, dass ein dezidierter Button extra für das Speichern der Notizen nicht benötigt wird. Der User muss einfach aus dem Notizfeld rausklicken und darunter wird dann kurz ein Text erscheinen welcher entweder "Notes saved!" oder "Failed to save notes!" sagt. Für beide dieser Aussagen gibt es eine eigene `useState`-Variable welche auf TRUE gesetzt wird, wann auch immer das jeweilige Ereignis eintritt, werden die Notes abgespeichert oder aber nicht. Auch dies wird innerhalb der `handleBlur`-Methode entschieden: Dort wird der Container im Backend mit den neuen Notizen geupdatet und je nach Status Code seitens des Servers wird entschieden, ob das Sichern erfolgreich war oder nicht. 
+Die **handleBlur**-Methode wird, wie der Name vermuten lässt, über `onBlur` aufgerufen. Dieses Event aktiviert sich dann, wenn etwa eine `TextArea` Fokus verliert. [vgl. @GeeksForGeeks-onBlur] Der Sinn dahinter ist, dass ein dezidierter Button extra für das Speichern der Notizen nicht benötigt wird. Der User muss einfach aus dem Notizfeld heraus klicken und darunter wird dann kurz ein Text erscheinen, welcher entweder "Notes saved!" oder "Failed to save notes!" sagt. Für beide dieser Aussagen gibt es eine eigene `useState`-Variable welche auf TRUE gesetzt wird. Wann auch immer das jeweilige Ereignis eintritt, werden die Notes abgespeichert oder aber nicht. Auch dies wird innerhalb der `handleBlur`-Methode entschieden: Dort wird der Container im Backend mit den neuen Notizen upgedatet und je nach Status Code seitens des Servers wird entschieden, ob das Sichern erfolgreich war oder nicht. 
 
 Dieser Info-Text bleibt aber nur für zwei Sekunden sichtbar und verschwindet dann wieder. Das ermöglicht `setTimeout`, indem etwa gesagt wird, dass die `useState`-Variable, welche bestimmt, wann der Info-Text angezeigt wird, nach 2000 Millisekunden (=2 Sek) zurück auf FALSE gesetzt werden soll, was im Umkehrschluss bedeutet, dass der Text nach dieser Zeit verschwindet:
 
@@ -1291,14 +1292,14 @@ Die Topbar innerhalb der Detailpage ist nicht dieselbe, wie in der MainPage. Die
 
 **Detailcontrol** besteht aus folgenden 2 wichtigen Buttons:
 
-1. Button um festgelegte Threshholds des Containers sich ausgeben zu lassen
-2. Button um zur MainPage zurück zu gelangen
+1. Button um festgelegte Thresholds des Containers sich ausgeben zu lassen
+2. Button um zur MainPage zurückzugelangen
 
 ![Topbar der DetailPage](img/Gekle/SearchbarDetail.png)
 
-Die Retour Funktion nutzt wieder `useNavigate` von `react-router-dom`, indem durch das Klicken auf das `div`, welches hinter dem Retour-Icon liegt `navigate('/main')` ausgeführt wird. Dadurch gelangt der User zurück auf die MainPage.
+Die Retour Funktion nutzt wieder `useNavigate` von `react-router-dom`, indem durch das Klicken auf das `div`, welches hinter dem Retour-Icon liegt, `navigate('/main')` ausgeführt wird. Dadurch gelangt der User zurück auf die MainPage.
 
-Innerhalb von `DetailControl` versteckt sich hinter dem Alarm-Icon, welches den **Threshhold-Button** kennzeichnet, auch ein `div` in welchen `onClick={onGoAlertClick}`definiert ist. `onGoAlertClick` wird `DetailControl` von der DetailPage übergeben:
+Innerhalb von `DetailControl` versteckt sich hinter dem Alarm-Icon, welches den **Threshhold-Button** kennzeichnet, auch ein `div` in welchem `onClick={onGoAlertClick}`definiert ist. `onGoAlertClick` wird `DetailControl` von der DetailPage übergeben:
 
 ```{caption="Implementierung von DetailControl in der Topbar der DetailPage" .js}
 <DetailControl
@@ -1319,10 +1320,10 @@ Die Sidebar ist als Komponente in dem Sinn einzigartig, dass sie sowohl innerhal
 
 - Logo-div (10%) --> enthält Logo
 - Favoriten-div (32%) --> enthält die als Favoriten markierten Container-Seriennummern
-- Alarm-div (47%) --> enthält diejenigen Container deren Thresholds (nur "Critical", "High" und "Low") anschlagen
+- Alarm-div (47%) --> enthält diejenigen Container, deren Thresholds (nur "Critical", "High" und "Low") anschlagen
 - Button-div (5%) --> enthält 2 Buttons welche jeweils einen Dialog aufrufen (`Settings` & `UserProfile`)
 
-Zwischen dem ersten, zweiten und zweiten, dritten `div` befindet sich jeweils noch ein weiteres, welches 3% der Höhe einnimmt und anschreibt, worum es sich bei dem darunter liegenden `div` handelt (Favoriten oder Alarm). Bei dem Alarm- und Favoriten-div ist es zusätzlich möglich auf und ab zu scrollen, sollte sich die Anzahl der angezeigten Container-Nummern nicht ausgehen. Ihren Inhalt entnehmen die beiden aus `useStates` (`alerts` für die Alerts und `favoritesSerialNumbers` für die Favoriten), welche über `useEffects` die aktuellen Daten aus dem Backend speichern. 
+Zwischen dem ersten, zweiten und zweiten, dritten `div` befindet sich jeweils noch ein weiteres, welches 3% der Höhe einnimmt und anschreibt, worum es sich bei dem darunter liegenden `div` handelt (Favoriten oder Alarm). Bei dem Alarm- und Favoriten-div ist es zusätzlich möglich, auf und ab zu scrollen, sollte sich die Anzahl der angezeigten Container-Nummern nicht ausgehen. Ihren Inhalt entnehmen die beiden aus `useStates` (`alerts` für die Alerts und `favoritesSerialNumbers` für die Favoriten), welche über `useEffects` die aktuellen Daten aus dem Backend speichern. 
 
 ![Aufteilung der Sidebar in Prozenten](img/Gekle/SidebarPercentages.png){width=80%}
 
@@ -1331,7 +1332,7 @@ Die Dialoge, welche über Buttons am unteren Ende der Sidebar aufgerufen werden 
 #### REST Calls mit Axios
 
 ##### Axios Instanz
-Mit Ausnahme der LoginPage wird für das Abfragen von Daten immer ein "Access Token" benötigt und muss daher in die Abfrage eingefügt werden. Mit einer normalen Axios Instanz wie dieser:
+Mit Ausnahme der LoginPage wird für das Abfragen von Daten immer ein "Access Token" benötigt und muss daher in die Abfrage eingefügt werden. Mit einer normalen Axios-Instanz wie dieser:
 ```{caption="Grundbaustein der Axios Instanz" .js}
 const axiosInstance = axios.create({
   baseURL: 'https://api.contrude.eu',
@@ -1355,7 +1356,7 @@ const containerResponse = await axiosInstance.get(
 
 
 ```
-In den Header wird also immer der Access Token eingefügt. Allerdings lässt sich dies vermeiden indem in die Axios Instanz ein `interceptor` eingefügt wird, welcher bei jedem Aufruf der Instanz ausgeführt wird:
+In den Header wird also immer der Access Token eingefügt. Allerdings lässt sich dies vermeiden, indem in die Axios-Instanz ein `interceptor` eingefügt wird, welcher bei jedem Aufruf der Instanz ausgeführt wird:
 ```{caption="Erweiterung der Axios Instanz mit einem request-Interceptor" .js}
 // Add request interceptor to attach access token to headers
 axiosInstance.interceptors.request.use(
@@ -1371,12 +1372,12 @@ axiosInstance.interceptors.request.use(
 ```
 [vgl. @gpt-AxiosInterceptors]
 
-Hierbei handelt es sich um einen einen `request interceptor`. Dieser überprüft ob ein Access Token vorhanden ist. Ist dies der Fall wird der Authorization Header in die Abfrage eingefügt. Der Call von oben würde dann so aussehen:
+Hierbei handelt es sich um einen `request interceptor`. Dieser überprüft, ob ein Access Token vorhanden ist. Ist dies der Fall, wird der Authorization Header in die Abfrage eingefügt. Der Call von oben würde dann so aussehen:
 ```{caption="Rest Call mit der Axios Instanz + Interceptor" .js}
 const containerResponse = await axiosInstance.get(`/rest/container/${containerId}`);
 ```
 
-Weiters kümmert sich die Instanz um die Refresh Token, damit im Falle das der Access Token ausläuft ein neuer angefordert und mit dem Abgelaufen ersetzt wird. Auch hierfür wurde ein `interceptor` eingefügt:
+Weiters kümmert sich die Instanz um die Refresh Token, damit im Falle, dass der Access Token ausläuft, ein neuer angefordert und mit dem Abgelaufenen ersetzt wird. Auch hierfür wurde ein `interceptor` eingefügt:
 ```{caption="Erweiterung der Axios Instanz mit response-Interceptor" .js}
 // Add response interceptor to handle token refresh
 axiosInstance.interceptors.response.use(
@@ -1409,10 +1410,10 @@ axiosInstance.interceptors.response.use(
 ```
 [vgl. @gpt-AxiosInterceptors]
 
-Dieser reagiert auf `responses` also Antworten: Kommt ein Status-Code vom Server zurück, so versucht er den Access Token mithilfe des Refresh Tokens zu aktualisieren. Dies funktioniert nur dann, wenn ein valider Refresh Token vorhanden ist. Sollte dies nicht der Fall sein, dann bedeutet dass, dass der User ausgeloggt wurde.
+Dieser reagiert auf `responses` also Antworten: Kommt ein Status-Code vom Server zurück, so versucht er den Access Token mithilfe des Refresh Tokens zu aktualisieren. Dies funktioniert nur dann, wenn ein valider Refresh Token vorhanden ist. Sollte dies nicht der Fall sein, dann bedeutet das, dass der User ausgeloggt wurde.
 
 ##### LoginPage
-Die LoginPage ist einzigartig darin, dass die API-Calls hier nicht innerhalb eines `useEffect` , also  nicht nebenbei sondern ganz bewusst ausgeführt werden. Dies wird ausgelöst, wenn der User auf den Login Button klickt, woraufhin die vom User eingegebenen Daten benutzt werden um den Login durchzuführen. Zuerst muss der eingegeben Username in eine ID umgewandelt werden, da der eigentliche Login Call eine ID und das Passwort benötigt. Diese werden in eine Variable geschrieben. Ist der tatsächliche Call einmal ausgeführt, so wird der User mit `useNavigate()` [vgl. @GeeksForGeeks-useNavigate] an die MainPage weitergeleitet. Ist dies nicht der Fall wird fängt das `try/catch` den Fehler und der Login schlägt fehle:
+Die LoginPage ist einzigartig darin, dass die API-Calls hier nicht innerhalb eines `useEffect`, also nicht nebenbei sondern ganz bewusst ausgeführt werden. Dies wird ausgelöst, wenn der User auf den Login Button klickt, woraufhin die vom User eingegebenen Daten benutzt werden, um den Login durchzuführen. Zuerst muss der eingegeben Username in eine ID umgewandelt werden, da der eigentliche Login Call eine ID und das Passwort benötigt. Diese werden in eine Variable geschrieben. Ist der tatsächliche Call einmal ausgeführt, so wird der User mit `useNavigate()` [vgl. @GeeksForGeeks-useNavigate] an die MainPage weitergeleitet. Ist dies nicht der Fall, fängt das `try/catch` den Fehler und der Login schlägt fehl:
 ```{caption="Error-Handling in der LoginPage" .js}
 } catch (error) {
   console.log('Error', error);
@@ -1424,7 +1425,7 @@ Die LoginPage ist einzigartig darin, dass die API-Calls hier nicht innerhalb ein
 }
 
 ```
-Ist das Passwort falsch eingegeben, so übernimmt die Website die Antwort vom Server (falls nicht vorhanden einen vordefinierten Text) und zeigt diesen an. Handelt es sich um ein anderes Problem, so wird ein anderer Error-Text verwendet. Dieses Anzeigen erfolgt über eine `useState` Variable namens `error`, welche standardmäßig auf NULL gesetzt ist und nur durch den `catch` Block upgedatet und in weiterer Folge dieser Code ausgeführt wird, welcher die Fehlermessage anzeigt:
+Ist das Passwort falsch eingegeben, so übernimmt die Website die Antwort vom Server (falls nicht vorhanden, einen vordefinierten Text) und zeigt diesen an. Handelt es sich um ein anderes Problem, so wird ein anderer Error-Text verwendet. Dieses Anzeigen erfolgt über eine `useState` Variable namens `error`, welche standardmäßig auf NULL gesetzt ist und nur durch den `catch` Block upgedatet und in weiterer Folge dieser Code ausgeführt wird, welcher die Fehlermeldung anzeigt:
 ```{caption="Aufscheinen des Error Textes basierend auf boolean Variable error" .js}
 {error && (
   <div className="text-red-500 text-center mt-4">
@@ -1445,17 +1446,17 @@ useEffect(() => {
 }, [searchTerm]); // Kennzeichnung, dass bei Änderung der Variable das useEffect ausgeführt werden soll
 
 ```
-Hier wird die vom User in die Suchleiste eingegeben Seriennummer dem Server übergeben, welcher daraufhin die dazu passende Id zurückgibt. Mit dieser Id wird dann ein `ContainerChooser`-Dialog aufgemacht, welcher das weiterleiten auf die zur Id passenden DetailPage ermöglicht. 
+Hier wird die vom User in die Suchleiste eingegebene Seriennummer dem Server übergeben, welcher daraufhin die dazu passende Id zurückgibt. Mit dieser Id wird dann ein `ContainerChooser`-Dialog aufgemacht, welcher das Weiterleiten auf die zur Id passenden DetailPage ermöglicht. 
 
-Innerhalb der MainPage ist noch ein zweites `useEffect` definiert, welches mit Laden der Seite auslöst. Innerhalb von diesem werden alle verfügbaren Schiffe gefetcht. Zusätzlich wird überprüft, ob es sich bei der Antwort tatsächlich um ein Array handelt um dann mit `.length` (sofern es sich um ein Array handelt) zu überprüfen, ob es länger als null ist. Trifft auch dies zu, so wird automatisch das nullte Element als ausgewähltes Schiff (`selectedShip`) gesetzt. Dies ist wichtig, da viele weitere Komponente benötigt wird, um korrekt zu funktionieren. 
+Innerhalb der MainPage ist noch ein zweites `useEffect` definiert, welches mit Laden der Seite auslöst. Innerhalb dieses werden alle verfügbaren Schiffe gefetcht. Zusätzlich wird überprüft, ob es sich bei der Antwort tatsächlich um ein Array handelt, um dann mit `.length` (sofern es sich um ein Array handelt) zu überprüfen, ob es länger als null ist. Trifft auch dies zu, so wird automatisch das nullte Element als ausgewähltes Schiff (`selectedShip`) gesetzt. Dies ist wichtig, da viele weitere Komponenten benötigt werden, um korrekt zu funktionieren. 
 
-So etwa auch **Workspace**, dieses muss nämlich mithilfe der Id des ausgewählten Schiffes alle dazu passenden Container Ids fetchen. Um die Id des Schiffes zu bekommen wird kein eigener Call benötigt, da das `selectedShip` Objekt, welches innerhalb `Workspace` nur als `ship` betitelt wird, folgendermaßen aussieht:
+So etwa auch **Workspace**, dieses muss nämlich mithilfe der Id des ausgewählten Schiffes alle dazu passenden Container Ids fetchen. Um die Id des Schiffes zu bekommen, wird kein eigener Call benötigt, da das `selectedShip` Objekt, welches innerhalb `Workspace` nur als `ship` betitelt wird, folgendermaßen aussieht:
 
 ![Aus Backend überliefertes selectedShip Objekt](img/Gekle/ShipVar.png)
 
-Dadurch kann mit `ship.id` ganz einfach die Id herausgefunden werden welche dann innerhalb eines `useEffect` benutzt wird. Dieses `useEffect` (=UE1) wird durch die Änderung folgender 2 Variablen ausgelöst:
+Dadurch kann mit `ship.id` ganz einfach die Id herausgefunden werden, welche dann innerhalb eines `useEffect` benutzt wird. Dieses `useEffect` (=UE1) wird durch die Änderung folgender 2 Variablen ausgelöst:
 
-- `ship` (ausgewählte Schiff)
+- `ship` (ausgewähltes Schiff)
 - `gridSize` (ausgewählte Grid Größe)
 
 Der Grund, warum auch `gridSize` dies auslöst, liegt an Folgendem: Da ein weiteres `useEffect` (=UE2), welches mithilfe des `ContainerDistributor`-Skripts die `Map` erstellt, welche wiederum von der `renderGrid` Methode benötigt wird, als Auslöser die `useState`-Variable hat, die von UE1 befüllt wird:
@@ -1469,7 +1470,7 @@ Kurzum: Wäre `gridSize` nicht als Bedingung definiert, dann würde das Grid nie
 
 ##### DetailPage
 Innerhalb der DetailPage befinden sich alle REST API Calls in der **Detailspace** Komponente. 
-Zuerst werden alle Daten des Container, welchen man sich gerade ansieht, in das Frontend geholt, wobei vor allem die Notizen essenziell sind. Diese werden benötigt um das Notizfeld innerhalb des `Detailspace` zu füllen. Dieser Call wird dann aufgerufen, wann sich die Variable `ContainerId` verändert. 
+Zuerst werden alle Daten des Containers, welchen man sich gerade ansieht, in das Frontend geholt, wobei vor allem die Notizen essenziell sind. Diese werden benötigt, um das Notizfeld innerhalb des `Detailspace` zu füllen. Dieser Call wird dann aufgerufen, wenn sich die Variable `ContainerId` verändert. 
 
 Diese wird jedoch nicht von der MainPage übergeben, sondern mithilfe von `useParams` von `react-router-dom`. Dies erfolgt folgendermaßen:
 ```{caption="Verwendung von useParams()" .js}
@@ -1477,12 +1478,12 @@ const {shipId, containerId} = useParams();
 ```
 [vgl. @Refine-ReactRouter]
 
-...wobei die Route durch des Router in der `App.jsx` so definiert ist:
+...wobei die Route durch den Router in der `App.jsx` so definiert ist:
 `<Route path="detail/:shipId/:containerId" element={<DetailPage/>}></Route>`
 
-Wird also z.B. der auf Schiff 4 sich befindende Container mit ID 2 aufgerufen (`/detail/4/2`), so ändert sich auch die Variable in welcher die ID gespeichert wird, wodurch alle (mit Ausnahme von einem) `useEffect` aufgerufen werden. Diese ID wird dann auch dazu benutzt, um die zum Container gehörende, vollständige Seriennummer zu fetchen, welche als Name des Containers angezeigt wird.
+Wird also z.B. der auf Schiff 4 sich befindende Container mit ID 2 aufgerufen (`/detail/4/2`), so ändert sich auch die Variable, in welcher die ID gespeichert wird, wodurch alle (mit Ausnahme von einem) `useEffect` aufgerufen werden. Diese ID wird dann auch dazu benutzt, um die zum Container gehörende, vollständige Seriennummer zu fetchen, welche als Name des Containers angezeigt wird.
 
-Weiters wird die zentrale Aufgabe des Anzeigen der **Umweltdaten** erfüllt. Auch dieser Call befindet sich innerhalb eines `useEffect` welches auf Änderung der `containerID` aktiviert wird. 
+Weiters wird die zentrale Aufgabe des Anzeigens der **Umweltdaten** erfüllt. Auch dieser Call befindet sich innerhalb eines `useEffect` welches auf Änderung der `containerID` aktiviert wird. 
 ```{caption="Fetchen und speichern einer der sieben Umweltdaten" .js}
 const environmentDataResponse = await axiosInstance.get(`/rest/sensor/${shipId}/${containerId}`);
 // Temperatur
@@ -1492,13 +1493,13 @@ updateTableData(temperatureValue, temperatureSensor);
 ```
 Der Call liefert die zuletzt vom Prototyp selbst an das Backend gesendeten Daten zurück.
 
-Danach werden für alle sieben Umweltdaten-Typen (Temperatur, Luftdruck, Feuchtigkeit, Vibration, Höhe, Breitengrad und Längengrad) einerseits in `___Value` der tatsächliche Wert (z.B. 20$^\circ$C), andererseits in `___Sensor` der dazugehörige Sensor (z.B. temperature) gespeichert. Die beiden Variablen werden dann mithilfe von `updateTableData` in das `tableData` Array geschrieben, dessen Werte dann auch in einem Table angezeigt werden. Die drei letzten Zeilen von dem oben stehenden Code werden also insgesamt sechs Mal wiederholt, wobei jedes Mal ein anderes Environment geupdatet wird.
+Danach werden für alle sieben Umweltdaten-Typen (Temperatur, Luftdruck, Feuchtigkeit, Vibration, Höhe, Breitengrad und Längengrad) einerseits in `___Value` der tatsächliche Wert (z.B. 20$^\circ$C), andererseits in `___Sensor` der dazugehörige Sensor (z.B. temperature) gespeichert. Die beiden Variablen werden dann mithilfe von `updateTableData` in das `tableData` Array geschrieben, dessen Werte dann auch in einem Table angezeigt werden. Die drei letzten Zeilen von dem oben stehenden Code werden also insgesamt sechsmal wiederholt, wobei jedes Mal ein anderes Environment upgedatet wird.
 
-Nun sind die Daten für den Container schon fast vollständig, einzig die Anzeige, ob einer der Thresholds ausgelöst wurde fehlt noch (Gelb Markiert):
+Nun sind die Daten für den Container schon fast vollständig, einzig die Anzeige, ob einer der Thresholds ausgelöst wurde, fehlt noch (Gelb markiert):
 
 ![Aussehen des Detailspace](img/Gekle/DetailSpace.png)
 
-Um dies ebenfalls, wie im Bild, zu befüllen musste sichergestellt werden, dass alle Threshholds bereits geladen sind, damit sie gesammelt mit den Umweltdaten verglichen werden können. Diese Thresholds werden in Satzform (siehe *Komponenten der Topbar der DetailPage*) zuerst von dem `ThresholdViwer`-Dialog an die DetailPage und von dieser an `Detailspace` weitergegeben. Im Umkehrsinn heißt dies also, dass die Thresholds nur vorhanden sind, sofern sie von dem Dialog geladen werden. Um den gesamten Code, welcher die Thresholds in die Satzform bringt, nicht doppelt schreiben zu müssen, wurde die `useState`-Variable, welche das Öffnen des `Thresholdviewer` in der DetailPage regelt auf TRUE gesetzt. Dies bewirkt dass der Dialog bei Aufruf der DetailPage immer geöffnet wird, wodurch alle Thresholds (sofern diese vorhanden sind) auf jeden Fall geladen und an `Detailspace` weitergereicht werden. Doch warum werden die Thresholds nun in dieser "Satzform" benötigt?
+Um dies ebenfalls, wie im Bild, zu befüllen, musste sichergestellt werden, dass alle Threshholds bereits geladen sind, damit sie gesammelt mit den Umweltdaten verglichen werden können. Diese Thresholds werden in Satzform (siehe *Komponenten der Topbar der DetailPage*) zuerst von dem `ThresholdViwer`-Dialog an die DetailPage und von dieser an `Detailspace` weitergegeben. Im Umkehrsinn heißt dies also, dass die Thresholds nur vorhanden sind, sofern sie von dem Dialog geladen werden. Um den gesamten Code, welcher die Thresholds in die Satzform bringt, nicht doppelt schreiben zu müssen, wurde die `useState`-Variable, welche das Öffnen des `Thresholdviewer` in der DetailPage regelt, auf TRUE gesetzt. Dies bewirkt, dass der Dialog bei Aufruf der DetailPage immer geöffnet wird, wodurch alle Thresholds (sofern diese vorhanden sind) auf jeden Fall geladen und an `Detailspace` weitergereicht werden. Doch warum werden die Thresholds nun in dieser "Satzform" benötigt?
 
 Der Grund ist, dass das `tableData` Array und die dazugehörigen Thresholds (in Satzform) an ein Skript übergeben wird:
 ```{caption="checkConditions des ConditionChecker Skripts" .js}
@@ -1557,7 +1558,8 @@ export default checkConditions;
 > Das Script nimmt die Umweltdaten aus dem `tableData`-Array und prüft für jede Zeile, ob es einen passenden Satz aus der `sentences`-Liste gibt, basierend auf dem `environment`-Wert. Wenn ein passender Satz gefunden wird, wird die Bedingung aus dem Satz extrahiert (z. B. Vergleichsoperator und Grenzwert) und mit dem Wert aus `tableData` verglichen. Ist die Bedingung erfüllt, wird das Ergebnis (z. B. "Medium" oder "Low") in das `alert`-Feld der Zeile geschrieben. Wenn die Bedingung nicht erfüllt ist oder kein passender Satz gefunden wird, bleibt das `alert`-Feld leer. 
 [vgl. @gpt-ConditionsCheckerScript]
 
-Ist dies einmal abgeschlossen, wird das `useState`-Array `tableData` mit `setTableData` mit dem durch das Skript geupdateten Array aktualisiert, was sich auch auf den Table, welchen der User sieht, auswirkt.
+Ist dies einmal abgeschlossen, wird das `useState`-Array `tableData` mit `setTableData` mit dem durch das Skript upgedatt Array aktualisiert, was sich auch auf den Table, welchen der User sieht, auswirkt.
+
 
 ##### Dialoge
 Dialoge sind vielseitig einsetzbar. Die beiden wichtigsten Dialoge der Website sind:
@@ -1565,11 +1567,11 @@ Dialoge sind vielseitig einsetzbar. Die beiden wichtigsten Dialoge der Website s
 - `ContainerChooser`
 - `ThresholdViewer`
 
-Der **ContainerChooser** übernimmt ein `values` Array, welches alle für das ausgewählte Schiff verfügbaren Container-Ids beinhält. Als Sicherheitsmaßnahme, dass es sich tatsächlich um ein Array handelt wird zuerst mit:
+Der **ContainerChooser** übernimmt ein `values` Array, welches alle für das ausgewählte Schiff verfügbaren Container-Ids beinhaltet. Als Sicherheitsmaßnahme, dass es sich tatsächlich um ein Array handelt, wird zuerst mit...:
 ```{caption="Überprüfung ob eine Variable tatsächlich ein Array ist" .js}
 const validValues = Array.isArray(values) ? values : []
 ```
-eine Kopie des Arrays erstellt und mit `isArray` die eben erwähnte Überprüfung durchgeführt. Dieses Array wird nun im Zuge des API Calls auch verwendet: Ziel ist es für alle Ids die passenden Seriennummer für die Container zu fetchen:
+...eine Kopie des Arrays erstellt und mit `isArray` die eben erwähnte Überprüfung durchgeführt. Dieses Array wird nun im Zuge des API Calls auch verwendet: Ziel ist es, für alle Ids die passenden Seriennummern der Container zu fetchen:
 ```{caption="Fetchen und speichern der Serien Nummern der Container" .js}
 const fetchedSerialNumbers = [];
 for (let i = 0; i < validValues.length; i++) {
@@ -1582,7 +1584,7 @@ for (let i = 0; i < validValues.length; i++) {
 setSerialNumbers(fetchedSerialNumbers);
 
 ```
-Dies geschieht indem mittels einer `for`-Schleife durch das neue Array iteriert wird und pro ID die passende Seriennummer geholt wird, welche dann in das `fetchedSerialNumbers` Array eingefügt werden. Ist die Schleife zu Ende wird das Seriennummer-Array mit `setSerialNumbers` in die `serialNumber useState` gesetzt. Diese Daten innerhalb des `useState` werden dann in einer unordered List mithilfe der .map Methode aufgelistet. (siehe *Komponenten der Top Bar der MainPage*). 
+Dies geschieht, indem mittels einer `for`-Schleife durch das neue Array iteriert wird und pro ID die passende Seriennummer geholt wird, welche dann in das `fetchedSerialNumbers` Array eingefügt werden. Ist die Schleife zu Ende, wird das Seriennummer-Array mit `setSerialNumbers` in die `serialNumber useState` gesetzt. Diese Daten innerhalb des `useState` werden dann in einer unordered List mithilfe der .map Methode aufgelistet. (siehe *Komponenten der Top Bar der MainPage*). 
 
 Der **ThresholdViewer** Dialog benötigt um seine Funktion, das Anzeigen aller für einen Container festgelegten Thresholds, zwei Calls:
 
@@ -1593,7 +1595,7 @@ Der Erste ist eher unkompliziert, da mithilfe der containerId (aus `useParams()`
 
 ![Form, in welcher die aus dem Backend gefetchten Thresholds sich befinden](img/Gekle/ThresholdsByBackend.png)
 
-Es werden also nur die Ids der einzelnen Bestandteile (parameter, level, rule) überliefert. Diese müssen im Rahmen eines zweiten `useEffect` einzeln übergeben werden woraufhin der tatsächlich sinnvolle Wert geliefert wird. Sind diese alle gefetcht werden sie mit dem vom ersten Call erhaltenen `value` in folgendes Format (=Satzform) gebracht:
+Es werden also nur die Ids der einzelnen Bestandteile (parameter, level, rule) überliefert. Diese müssen im Rahmen eines zweiten `useEffect` einzeln übergeben werden, woraufhin der tatsächlich sinnvolle Wert geliefert wird. Sind diese alle gefetcht werden sie mit dem vom ersten Call erhaltenen `value` in folgendes Format (=Satzform) gebracht:
 
 ```{caption="Verwandlung der Threshold Daten aus dem Backend in die Satzform" .js}
 Parameter Rule Value = Level
@@ -1627,7 +1629,7 @@ for (let i = 0; i < validThresholds[i].length; i++) {
 setThresholdSentences(sentences);
 onSentencesUpdate(sentences);
 ```
-Dieser Code läuft in einer `for`-Schleife, da ja mehrere Thresholds für den Container gesetzt sein können. `validThresholds` ist ein mit `isArray` geprüftes Duplikat jenes Arrays, welches im ersten API Call die Thresholds (in Id Form) abspeichert. Zum Schluss werden in der Variable `sentences` die gefetchten Daten zusammen mit `value` in die Satzform gebracht und im `sentences`-`useState`-Array abgespeichert. Es ist dieses Array, welches vom Dialog mit `onSentencesUpdate` an die DetailPage zurück geliefert wird. 
+Dieser Code läuft in einer `for`-Schleife, da ja mehrere Thresholds für den Container gesetzt sein können. `validThresholds` ist ein mit `isArray` geprüftes Duplikat jenes Arrays, welches im ersten API Call die Thresholds (in Id Form) abspeichert. Zum Schluss werden in der Variable `sentences` die gefetchten Daten zusammen mit `value` in die Satzform gebracht und im `sentences`-`useState`-Array abgespeichert. Es ist dieses Array, welches vom Dialog mit `onSentencesUpdate` an die DetailPage zurückgeliefert wird. 
 
 ##### Sidebar
 Rest Calls werden innerhalb der Sidebar-Komponente aufgrund dieser 2 Funktionalitäten benötigt:
