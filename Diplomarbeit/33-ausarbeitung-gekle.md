@@ -10,15 +10,15 @@ Ein zentraler Aspekt der Diplomarbeit ist das ungefähre Identifizieren der Posi
 
 Die Kapazität eines Schiffes wird in der Regel mit TEUs (Twenty Foot Equivalent Units) angegeben. Jeder Container ist also 20 Fuß (6,1 m) oder ca. 6 Meter lang. Containerschiffe können von weniger als tausend TEUs bis hin zu 24000 TEUs haben. [vgl. @Pfeiffer-Containerschiffe] [vgl. @IngenieurDE-Containershiffe]
 
-![Entwicklung von Container Schiffen [@IncoDocs-TEU]](img/Gekle/Evolution-Container-Schiffe.jpg){width=50%}
+![Entwicklung von Container-Schiffen [@IncoDocs-TEU]](img/Gekle/Evolution-Container-Schiffe.jpg){width=50%}
 
-Im Rahmen der Diplomarbeit werden aber nur 3 Prototypen angefertigt, welche einerseits die benötigten Umweltdaten liefern, andererseits aber auch miteinander kommunizieren. Die Komplexität eines "Containergeflechts" bestehend aus nur 3 Containern hält sich daher in Grenzen und um den vollen Umfang unserer Diplomarbeit zu veranschaulichen ist ein anderer Weg vonnöten. Dies ist, wo der Simulator ins Spiel kommt: Er übernimmt die Aufgabe, ein System an Containern ohne hunderten oder gar tausenden Prototypen darzustellen.
+Im Rahmen der Diplomarbeit werden aber nur 3 Prototypen angefertigt, welche einerseits die benötigten Umweltdaten liefern, andererseits aber auch miteinander kommunizieren. Die Komplexität eines "Containergeflechts" bestehend aus nur 3 Containern hält sich daher in Grenzen und um den vollen Umfang unserer Diplomarbeit zu veranschaulichen, ist ein anderer Weg vonnöten. Dies ist, wo der Simulator ins Spiel kommt: Er übernimmt die Aufgabe, ein System an Containern ohne hunderte oder gar tausende Prototypen darzustellen.
 
 #### Graphentheorie
 
-Das Endergebnis des Simulators sollt ein Graph sein, welcher dabei hilft, die Verbindungen zwischen den einzelnen Containern zu skizzieren. Die Graphentheorie, ein Teilgebiet der Mathematik, spielt hierbei eine essenzielle Rolle.
+Das Endergebnis des Simulators sollte ein Graph sein, welcher dabei hilft, die Verbindungen zwischen den einzelnen Containern zu skizzieren. Die Graphentheorie, ein Teilgebiet der Mathematik, spielt hierbei eine essenzielle Rolle.
 
-Allgemein gilt folgendes:
+Allgemein gilt Folgendes:
 
 >Ein **Graph** G besteht aus einer Menge V von **Knoten** und einer Menge E von Knotenpaaren, welche als **Kanten** bezeichnet werden. Die Notation für einen Graphen lautet G=(V,E)G=(V,E). E und V stehen dabei für _edges_ und _vertices_, also die englischen Begriffe für Kanten und Knoten. Eine Kante {u, v} ELEMENT E verbindet die Knoten u und v. [vgl. @Uni-Bremen-Graphentheorie]
 
@@ -26,28 +26,28 @@ Zusätzlich muss man innerhalb der Graphentheorie zwischen Ungerichteten und Ger
 Bei einem gerichteten Graph ist daher die Richtung der Kante/ Beziehung zu beachten. Gilt z.B. A -> B -> C mit V={A, B, C} und E={{A,B}, {B,C}}, dann ist es nicht erlaubt, etwa von C zu B zu gehen, sondern nur von B nach C. Bei einem ungerichteten Graph gilt diese Regel nicht. Selbiges Beispiel nur ungerichtet: A - B - C; hier darf man sowohl von B nach C als auch umgekehrt von C nach B gehen.
 
 Abschließend muss man noch auf den Zusammenhang der einzelnen Knoten schauen. Ein ungerichteter Graph ist dann zusammenhängend, wenn alle Knoten erreichbar, also es zu jedem Knoten einen Weg gibt. Ist dies nicht der Fall, gibt es sogenannte isolierte Knoten und der Graph ist nicht zusammenhängend. Bei gerichteten Graphen unterscheidet man zusätzlich zwischen schwach und stark zusammenhängenden Graphen. [vgl. @Studyflix-Graphentheorie] 
-In dem Beispiel A -> B mit V={A, B} und E={A,B}, ist der Knoten A nur erreichbar, wenn man die Richtung außer Acht lässt, man spricht von einem schwach zusammenhängenden Graph. Für einen stark zusammenhängenden Graph müsste zusätzlich noch eine Kante {B, A} bestehen.
+In dem Beispiel A -> B mit V={A, B} und E={A,B}, ist der Knoten A nur erreichbar, wenn man die Richtung außer Acht lässt, man spricht von einem schwach zusammenhängenden Graph. Für einen stark zusammenhängenden Graphen müsste zusätzlich noch eine Kante {B, A} bestehen.
 
-Der Containersimulator hat als Endergebnis einen **ungerichteten** Graphen wie im folgenden Bild zu sehen ist:
+Der Containersimulator hat als Endergebnis einen **ungerichteten** Graphen, wie im folgenden Bild zu sehen ist:
 
 ![Beispiel eines ungerichteten Graphen](img/Gekle/GraphExample.png)
 
-Anhand des beispielhaften Graphs, lässt sich also folgendes herauslesen:
+Anhand des beispielhaften Graphs lässt sich also folgendes herauslesen:
 
 - Es gibt insgesamt 4 Knoten: V = {con0, con1, con2, con3}
 - Es gibt insgesamt 4 Kanten: E = {{cont0, cont1}, {cont0, cont2}, {cont1, cont2}, {cont2, cont3}}
 
-Die Beziehungen der Knoten im ungerichteten Graphen zueinander werden mittels Adjazenzen und Inzidenzen beschrieben werden. Man spricht von inzident, wenn bei einem Knoten V und einer Kante E folgendes gilt: $V \in E$. In anderen Worten: Eine Kante E verbindet den Knoten V mit einem anderen Knoten im Graph. Zwei Knoten V und W sind miteinander adjazent bzw. benachbart, falls mit einer Kante $E \in {V, W}$ eine direkte Verbindung zwischen den beiden Knoten existiert. Auch Kanten können inzident sein, wenn sie beide zu einem gemeinsamen (benachbarten) Knoten gehören. [vgl. @Uni-Bremen-Graphentheorie]
+Die Beziehungen der Knoten im ungerichteten Graphen zueinander werden mittels Adjazenzen und Inzidenzen beschrieben. Man spricht von inzident, wenn bei einem Knoten V und einer Kante E folgendes gilt: $V \in E$. In anderen Worten: Eine Kante E verbindet den Knoten V mit einem anderen Knoten im Graphen. Zwei Knoten V und W sind miteinander adjazent bzw. benachbart, falls mit einer Kante $E \in {V, W}$ eine direkte Verbindung zwischen den beiden Knoten existiert. Auch Kanten können inzident sein, wenn sie beide zu einem gemeinsamen (benachbarten) Knoten gehören. [vgl. @Uni-Bremen-Graphentheorie]
 
 ##### Inzidenzmatrix
 
-Unter einer Inzidenzmatrix versteht man eine n x m Matrix (n... Anzahl der Knoten V und m... Anzahl der Kanten E). Durch die Erstellung der Inzidenzmatrix lassen sich die Inzidenzen abbilden, also man erkennt, ob der jeweilige Knoten an einer Kante anliegt oder nicht. [vgl. @BWL-Lexikon-Inzidenzmatrix]
+Unter einer Inzidenzmatrix versteht man eine n x m Matrix (n... Anzahl der Knoten V und m... Anzahl der Kanten E). Durch die Erstellung der Inzidenzmatrix lassen sich die Inzidenzen abbilden, also erkennt man, ob der jeweilige Knoten an einer Kante anliegt oder nicht. [vgl. @BWL-Lexikon-Inzidenzmatrix]
 
 Als Beispiel eine Erweiterung des Graphs von oben:
 
-![Nummerierung der Kanten des obrigen Graphen](img/Gekle/GraphExampleExtended.png)
+![Nummerierung der Kanten des obigen Graphen](img/Gekle/GraphExampleExtended.png)
 
-Hier wurden die Kanten durchnummeriert um die **Inzidenzmatrix** zu erstellen:
+Hier wurden die Kanten durchnummeriert, um die **Inzidenzmatrix** zu erstellen:
 
 | **V/ E**  | **1** | **2** | **3** | **4** |
 | --------- | ----- | ----- | ----- | ----- |
@@ -68,7 +68,7 @@ Wie für Inzidenzen gibt es auch für Adjazenzen eine Matrix, hierbei werden als
 
 [vgl. @BigDataInsider]
 
-Auch hier wird wieder das Beispiel aus dem Kapitel Indizenzmatrix verwendet und so folgende Adjazenzmatrix erstellt:
+Auch hier wird wieder das Beispiel aus dem Kapitel Inzidenzmatrix verwendet und so folgende Adjazenzmatrix erstellt:
 
 | V/ W      | cont0 | cont1 | cont2 | cont3 |
 | --------- | ----- | ----- | ----- | ----- |
@@ -79,14 +79,14 @@ Auch hier wird wieder das Beispiel aus dem Kapitel Indizenzmatrix verwendet und 
 
 (1... Verbindung; 0... keine Verbindung) (V... Knoten) (W... 2. Knoten)
 
-Wenn ein Knote V = Knote W ist, also bei einer Verbindung zu sich selbst wird 0 eingetragen. Dadurch entsteht in jeder Adjazenzmatrix eines ungerichteten Graph eine 0-Diagonale, welche oben auch gekennzeichnet wurde.
+Wenn ein Knote V = Knote W ist, also bei einer Verbindung zu sich selbst, wird 0 eingetragen. Dadurch entsteht in jeder Adjazenzmatrix eines ungerichteten Graphen eine 0-Diagonale, welche oben auch gekennzeichnet wurde.
 
 #### Visualisierung von Graphen
 
 ##### DOT
 
-Mithilfe der DOT Sprache, welche Teil von Graphviz [vgl. @Graphviz-Homepage] ist, lassen sich sehr einfach gerichtete und ungerichtete Graphen darstellen. Dies erfolgt mit sogenannten "edgeloops", wobei "->" für gerichtete und "--" für ungerichtete Graphen steht. Diese können innerhalb eines Graphen benutzt werden, welcher durch `graph{}` für einen ungerichtete oder `diagraph{}` für einen gerichteten gekennzeichnet wird. Fügt man davor ein `strict` hinzu (also z.B. `strict graph{}`) so kann man bestimmen, dass zwischen zwei Knoten immer nur eine Verbindung besteht. [vgl. @GraphViz-Documentation] 
-Basierend auf der Adjazenzmatrix kann man etwa so einen einfachen Graph erstellen:
+Mithilfe der DOT Sprache, welche Teil von Graphviz [vgl. @Graphviz-Homepage] ist, lassen sich sehr einfach gerichtete und ungerichtete Graphen darstellen. Dies erfolgt mit sogenannten "edgeloops", wobei "->" für gerichtete und "--" für ungerichtete Graphen steht. Diese können innerhalb eines Graphen benutzt werden, welcher durch `graph{}` für einen ungerichteten oder `diagraph{}` für einen gerichteten gekennzeichnet wird. Fügt man davor ein `strict` hinzu (also z.B. `strict graph{}`) so kann man bestimmen, dass zwischen zwei Knoten immer nur eine Verbindung besteht. [vgl. @GraphViz-Documentation] 
+Basierend auf der Adjazenzmatrix kann man etwa so einem einfachen Graph erstellen:
 
 ```{caption="Beispiel DOT Code"}
 strict graph G {
@@ -111,13 +111,13 @@ Dieser Code würde folgendem entsprechen:
 
 ##### Dragable Graph (DG)
 
-Der große Vorteil des Dragable Graphs besteht darin, dass er interaktiv ist. Ein User kann also mit dem Mauszeiger die einzelnen Knoten hin und her bewegen, wobei auch die Kanten sich mit bewegen. Dies hilft besonders bei der Benutzerfreundlichkeit, da sich der User den Graphen so richten kann, wie es ihm gefällt, wodurch sie sich sehr gut für Datenvisualisierung eignen. Eine JavaScript Bibliothek um so einem Graph zu ermöglichen ist z.B. D3.js. [vgl. @D3js-Homepage], welcher auch in der Diplomarbeit verwendet wurde. [vgl. @gpt-DragableGraph] Des weiteren ist es eine weitere Eigenschaft des DG, dass sich Knoten nicht übereinander lagern können, da sie sich von einander abstoßen. Durch diese Mechanik spannt sich der Graph automatisch auf und sorgt für eine übersichtliche Visualisierung der Contaiener (Knoten), ohne dass sie sich gegenseitig verdecken.
+Der große Vorteil des Dragable Graphs besteht darin, dass er interaktiv ist. Ein User kann also mit dem Mauszeiger die einzelnen Knoten hin und her bewegen, wobei auch die Kanten sich mit bewegen. Dies hilft besonders bei der Benutzerfreundlichkeit, da sich der User den Graphen so richten kann, wie es ihm gefällt, wodurch sie sich sehr gut für Datenvisualisierung eignen. Eine JavaScript-Bibliothek, um so einen Graphen zu ermöglichen, ist z.B. D3.js. [vgl. @D3js-Homepage], welcher auch in der Diplomarbeit verwendet wurde. [vgl. @gpt-DragableGraph] Des Weiteren ist es eine weitere Eigenschaft des DG, dass sich Knoten nicht übereinander lagern können, da sie sich voneinander abstoßen. Durch diese Mechanik spannt sich der Graph automatisch auf und sorgt für eine übersichtliche Visualisierung der Container (Knoten), ohne dass sie sich gegenseitig verdecken.
 
 ### Website
 
 #### React
 
-Bei React handelt es sich anders als bei z.B. Angular nicht tatsächlich um ein Framework im herkömmlichen Sinne. Vielmehr ist es eine Bibliothek zum Rendern graphischer Oberflächen. React setzt sehr stark auf Komponentenorientierung, wobei zwischen klassenbasierten und funktionalen Komponenten unterschieden wird. Die Tendenz geht allerdings immer mehr in Richtung funktioneller Komponente. [vgl. @Heise-React]
+Bei React handelt es sich anders als bei z.B. Angular nicht tatsächlich um ein Framework im herkömmlichen Sinne. Vielmehr ist es eine Bibliothek zum Rendern graphischer Oberflächen. React setzt sehr stark auf Komponentenorientierung, wobei zwischen klassenbasierten und funktionalen Komponenten unterschieden wird. Die Tendenz geht allerdings immer mehr in Richtung funktioneller Komponenten. [vgl. @Heise-React]
 
 Auch hier im folgenden Beispiel ist eine funktionelle Komponente der Diplomarbeits-Website zu sehen. Dies lässt sich u.a. an dem für JavaScript typischen Syntax wie das "=>" erkennen, aber auch daran, dass sogenannte Hooks (z.B. useStates) verwendet werden:
 
@@ -136,7 +136,7 @@ export default LoginField;
 
 `LoginField` kann rein theoretisch überall eingesetzt werden, da diese Komponente an und für sich nur eine spezielle Funktion übernimmt, jedoch kann man Komponenten aber auch so gestalten, dass sie sich je nach Einsatzgebiet sich unterschiedlich verhalten (z.B. anders aussehen, verschiedene andere Komponente übernehmen etc.).
 
-Im folgenden Code lässt sich dies auch gut erkennen. Der Code entspringt einer "Page", also einer Seite, welche der User sieht. Der Code wird aber nicht von oben bis unten durch in dieser einen Page (ebenfalls eine funktionelle Komponente) geschrieben, sondern in mehrere Komponenten aufgebrochen. Diese können dann ganz einfach in die Page eingefügt werden. (z.B. `Sidebar`, `Topbar`, `Detailspace` usw.). Betrachtet man die `Topbar` Komponente, so sieht man, dass ihr weitere Komponenten übergeben werden, welche sie dann nutzen kann. Wie eben erwähnt können die Parameter oder Komponenten welche übergeben werden von Anwendungsfall zu Anwendungsfall komplett unterschiedlich sein:
+Im folgenden Code lässt sich dies auch gut erkennen. Der Code entspringt einer "Page", also einer Seite, welche der User sieht. Der Code wird aber nicht von oben bis unten durch in dieser einen Page (ebenfalls eine funktionelle Komponente) geschrieben, sondern in mehrere Komponenten aufgebrochen. Diese können dann ganz einfach in die Page eingefügt werden. (z.B. `Sidebar`, `Topbar`, `Detailspace` usw.). Betrachtet man die `Topbar` Komponente, so sieht man, dass ihr weitere Komponenten übergeben werden, welche sie dann nutzen kann. Wie eben erwähnt können die Parameter oder Komponenten, welche von Anwendungsfall zu Anwendungsfall übergeben werden, komplett unterschiedlich sein:
 
 ```{caption="Unterschiedliche Verwendung von funktionelle Komponenten" .js}
 <div className="flex h-screen">
@@ -160,7 +160,7 @@ Im folgenden Code lässt sich dies auch gut erkennen. Der Code entspringt einer 
 </div>
 ```
 
-Die `Topbar`-Komponente übernimmt in einer anderen Page etwa ganz andere Komponenten wie hier zu sehen ist:
+Die `Topbar`-Komponente übernimmt in einer anderen Page etwa ganz andere Komponenten, wie hier zu sehen ist:
 
 ```{caption="Alternative Verwendung der Topbar Komponente" .js}
 // Topbar in der DetailPage
@@ -174,9 +174,9 @@ Die `Topbar`-Komponente übernimmt in einer anderen Page etwa ganz andere Kompon
 />
 ```
 
-Anders als im ersten Code, wo eine `Searchbar`-, `ShipSelect`- und `GridDropDown`-Komponente übergeben wird, wird hier etwa eine `DetailControl`-Komponente übergeben. Die Funktionalität als auch das Aussehen der `Topbar` ändert sich so. Dieses Komponenten-basierte programmieren ist das Herz von React Development.
+Anders als im ersten Code, wo eine `Searchbar`-, `ShipSelect`- und `GridDropDown`-Komponente übergeben wird, wird hier etwa eine `DetailControl`-Komponente übergeben. Die Funktionalität als auch das Aussehen der `Topbar` ändern sich so. Dieses komponentenbasierte Programmieren ist das Herz von React Development.
 
-Die Komponente werden in React nicht in reinen Javascript geschrieben sondern verwenden mit **JSX** eine erweiderte Form davon:
+Die Komponenten werden in React nicht in reinen Javascript geschrieben, sondern verwenden mit **JSX** eine erweiterte Form davon:
 
 > JSX ist eine Syntaxerweiterung für JavaScript, die es Ihnen erlaubt, Komponenten und Elemente ohne großen Aufwand zu erzeugen. JSX nutzt eine Schreibweise, die den Tags in HTML gleicht. Innerhalb von JSX können Sie JavaScript-Ausdrücke in geschweiften Klammern einfügen und so beispielsweise Werte oder das Ergebnis eines Funktionsaufrufs anzeigen.
 
@@ -189,7 +189,7 @@ Sie können dies entweder auslagern oder beispielsweise mit dem Ternär- oder de
 
 > Die Hooks-API stellt eine Aufwertung der Funktionskomponenten dar. Vor der Einführung der neuen Schnittstelle war es nur in Klassenkomponenten möglich, einen lokalen State zu implementieren und auf Lifecycle-Methoden zurückzugreifen. Diese und weitere Einschränkungen werden durch die Hooks weitestgehend aufgehoben. [Buchquelle]
 
-Die großen Vorteile, welche die Hooks mit sich bringen sind hierbei folgende:
+Die großen Vorteile, welche die Hooks mit sich bringen, sind hierbei folgende:
 
 - Reduzierung des Komponentenumfangs
 - Entfernen von Duplikaten
@@ -203,12 +203,12 @@ const [username, setUsername] = useState('User');
 ```
 
 - username = aktueller Zustand
-- setUsername = Funktion um den Zustand zu aktualisieren
+- setUsername = Funktion, um den Zustand zu aktualisieren
 - 'User' = Anfangswert
 
 Mit "Hooks" kann man sich also in die jeweilige Variable "einklinken".
 
-Es gibt in React neben der useState auch noch andere Hooks. React selbst unterteilt diese in ihrer Dokumentation wiefolgt:
+Es gibt in React neben der useState auch noch andere Hooks. React selbst unterteilt diese in ihrer Dokumentation wie folgt:
 
 - Basic Hooks
 - Additional Hooks
@@ -216,12 +216,12 @@ Es gibt in React neben der useState auch noch andere Hooks. React selbst unterte
 
 Die 3 "Basic Hooks" sind hierbei allerdings die wichtigsten. Neben dem bereits erwähnten `useState()` gibt es auch noch:
 
-- `useEffect()` --> für Ausführung von Side-Effects wie das Laden von Daten via API, Event-Handler oder die Konsolen Ausgabe
-- `useContext()` --> ermöglicht es Daten aus einem Context-Provider zu konsumieren [vgl. @DoubleSlash-ReactHooks]
+- `useEffect()` --> für Ausführung von Side-Effects wie das Laden von Daten via API, Event-Handler oder die Konsolen-Ausgabe
+- `useContext()` --> ermöglicht es, Daten aus einem Context-Provider zu konsumieren [vgl. @DoubleSlash-ReactHooks]
 
 ##### React Router
 
-Viele Webanwendungen sind sogenannte "Single-Page-Webanwendungen". Sie bestehen also aus nur einem HTML-Dokument, wobei der Inhalt dynamisch nachgeladen wird. Sogenannte SPA (Single Page Applications) beinhalten also Komponenten, welche sich wie Seiten verhalten. Um so etwas zu erstellen, muss React-Router und das Routing verwendet werden. Mithilfe des Routings werden Komponenten Routen zugeordnet. Dies stellt `react-router-dom` zur Verfügung [vgl. @FreeCodeCamp-Routing] 
+Viele Webanwendungen sind sogenannte "Single-Page-Webanwendungen". Sie bestehen also aus nur einem HTML-Dokument, wobei der Inhalt dynamisch nachgeladen wird. Sogenannte SPA (Single Page Applications) beinhalten also Komponenten, welche sich wie Seiten verhalten. Um so etwas zu erstellen, müssen React-Router und das Routing verwendet werden. Mithilfe des Routings werden Komponenten Routen zugeordnet. Dies stellt `react-router-dom` zur Verfügung [vgl. @FreeCodeCamp-Routing] 
 
 Dies erfolgt über das "Route" Element:
 
@@ -245,16 +245,16 @@ const router = createBrowserRouter(
 
 #### Frontend Build Tool - Vite
 
-Bei der Verwendung von React ist es empfehlenswert ein sogenanntes Build Tool zu verwenden. Dieses übernimmt die Aufgabe des "Building", worunter man den Prozess versteht, in welchem der eigene Source Code so transformiert und gebündelt wird, dass er von Browsern interpretiert werden kann. [vgl. @CodeParrot-BuildTools]
+Bei der Verwendung von React ist es empfehlenswert, ein sogenanntes Build Tool zu verwenden. Dieses übernimmt die Aufgabe des "Building", worunter man den Prozess versteht, in welchem der eigene Source Code so transformiert und gebündelt wird, dass er von Browsern interpretiert werden kann. [vgl. @CodeParrot-BuildTools]
 
 Die zentralen Aufgaben eines Build Tools sind:
 
 - konvertieren des JavaScript/ TypeScript Codes in eine für Browser kompatible Version
-- bündeln von Komponenten und Files um die Anzahl an HTTP Requests für das Laden der App zu verringern
-- unnütze Zeichen (z.B. Whitespaces) löschen um Ladezeiten zu verbessern
+- bündeln von Komponenten und Files, um die Anzahl an HTTP Requests für das Laden der App zu verringern
+- unnütze Zeichen (z.B. Whitespaces) löschen, um Ladezeiten zu verbessern
 - allgemein die Performance des Codes verbessern (z.B. mit "Tree Shaking", welches unbenutzten Code eliminiert)[vgl. @CodeParrot-BuildTools]
 
-Eines dieser Build Tools ist Vite, welches sich besonders durch seine Geschwindigkeit auszeichnet (vite = französisch für schnell). Zu den Gründen warum Vite mittlerweile so beliebt ist zählen u.a.:
+Eines dieser Build Tools ist Vite, welches sich besonders durch seine Geschwindigkeit auszeichnet (vite = französisch für schnell). Zu den Gründen, warum Vite mittlerweile so beliebt ist, zählen u.a.:
 
 - Geschwindigkeit --> benutzt ES, um Quellcode direkt im Browser bereitzustellen
 - out-of-the-box Support für React/TypeScript/...
@@ -262,27 +262,27 @@ Eines dieser Build Tools ist Vite, welches sich besonders durch seine Geschwindi
 
 ![Funktionen von Vite @eluminoustechnologies-vite](img/Gekle/Vite-Features.png){width=100%}
 
-Selbst aber mit dem sogenannten HMR (Hot Module Replacement --> Änderungen im Code werden sofort im Browser angezeigt) tendieren Build Tools dazu, mit wachsendem JavaScript langsamer zu werden. Hierbei ist Vite jedoch besonders. Es nutzt eine Kombination aus ES Modulen und einem virtuellen Modulsystem: [vgl. @Telerik-BuildTools]
+Selbst aber mit dem sogenannten HMR (Hot Module Replacement --> Änderungen im Code werden sofort im Browser angezeigt) tendieren Build Tools dazu, mit wachsendem JavaScript langsamer zu werden. Hierbei ist Vite jedoch besonders. Es nutzt eine Kombination aus ES-Modulen und einem virtuellen Modulsystem: [vgl. @Telerik-BuildTools]
 
 > Wenn Sie ein Modul importieren, behandelt Vite es als virtuelles Modul. Während der Entwicklung bündelt es nicht Ihren gesamten Code in eine einzelne Datei. Stattdessen erstellt es bei Bedarf Builds für jedes Modul und stellt sie in separaten Dateien bereit. Dieser Ansatz eliminiert die Notwendigkeit eines vollständigen Bündelungsprozesses bei jeder Änderung, führt zu schnelleren Reloads und – natürlich – zu einem zufriedenen Entwickler. [vgl. @Telerik-BuildTools]
 
-##### Erstellen & Aufbau eines Vite React-Projekt 
-Unter der Annahme, dass `Node.js` installiert ist, ist es sehr einfach, ein React Projekt mithilfe von Vite zu erstellen. Hierfür muss man einfach innerhalb eines Terminals folgenden Befehl ausführen:
+##### Erstellen & Aufbau eines Vite React-Projekts 
+Unter der Annahme, dass `Node.js` installiert ist, ist es sehr einfach, ein React-Projekt mithilfe von Vite zu erstellen. Hierfür muss man einfach innerhalb eines Terminals folgenden Befehl ausführen:
 
 ```{caption="Befehl zum Erstellen eines React-Projekts mit Vite" .txt}
 npm create vite@latest project-name
 ```
 [vgl. @React-CrashCourse]
 
-Mithilfe diesen Befehls wird der Prozess zum Erstellen eines neuen React Projekts mit der neuesten Vite Version gestartet. Als erstes wird folgendes gefragt:
+Mithilfe dieses Befehls wird der Prozess zum Erstellen eines neuen React-Projekts mit der neuesten Vite Version gestartet. Als Erstes wird Folgendes gefragt:
 
 ![Auswahl des Projekttyps nach npm Befehl](img/Gekle/CreateProject1.png){width=75%}
 
-Um ein React Project speziell zu erstellen muss natürlich "React" mithilfe der Pfeiltasten und Enter ausgewählt werden. Daraufhin wird noch gefragt, ob man Typescript oder JavaScript verwenden möchte (siehe Bild unten). Im Rahmen der Diplomarbeit wurde einfach nur JavaScript ausgewählt.
+Um ein React Project speziell zu erstellen, muss natürlich "React" mithilfe der Pfeiltasten und Enter ausgewählt werden. Daraufhin wird noch gefragt, ob man Typescript oder JavaScript verwenden möchte (siehe Bild unten). Im Rahmen der Diplomarbeit wurde einfach nur JavaScript ausgewählt.
 
 ![Auswahl zwischen TypeScript und Javascript während der Projekterstellung](img/Gekle/CreateProject2.png){width=75%}
 
-Ist dies einmal gemacht, kann das Projekt mithilfe eines Code-Editors geöffnet werden. Innerhalb des Projekts kann dann ein `vite.config.js`-File gefunden werden, in welchen man die Konfigurationen des Projekts (etwa den Port) ändern kann. Um aber alles funktional zu machen müssen mit `npm install` noch die Dependencies installiert werden. In einem regulären Projekt würde man dann mit dem Befehl `npm run dev` das React-Projekt starten. Bei jedem React-Projekt handelt es sich wie bereits erwähnt um eine "Single-Page-Application". Diese "Single-Page" bildet `index.html`, und alles weitere (Komponente) werden via JavaScript dazugeladen. Als Einstiegsfile dient die sogenannte `main.jsx`, welche (standardmäßig) `app.jsx` lädt, welche wiederum die Hauptkomponente des Projekts bildet. [vgl. @React-CrashCourse]
+Ist dies einmal gemacht, kann das Projekt mithilfe eines Code-Editors geöffnet werden. Innerhalb des Projekts kann dann ein `vite.config.js`-File gefunden werden, in welchem man die Konfigurationen des Projekts (etwa den Port) ändern kann. Um aber alles funktional zu machen, müssen mit `npm install` noch die Dependencies installiert werden. In einem regulären Projekt würde man dann mit dem Befehl `npm run dev` das React-Projekt starten. Bei jedem React-Projekt handelt es sich wie bereits erwähnt um eine "Single-Page-Application". Diese "Single-Page" bildet `index.html`, und alles weitere (Komponente) werden via JavaScript dazugeladen. Als Einstiegsfile dient die sogenannte `main.jsx`, welche (standardmäßig) `app.jsx` lädt, welche wiederum die Hauptkomponente des Projekts bildet. [vgl. @React-CrashCourse]
 
 ```{caption="index.html File" .html}
 <!doctype html>
@@ -300,14 +300,14 @@ Ist dies einmal gemacht, kann das Projekt mithilfe eines Code-Editors geöffnet 
 </html>
 ```
 
-Generell gibt es regulär 2 CSS-Files, da jedoch TailwindCSS benutzt wird, wird nur eines davon benötigt: `index.css`. Um TailwindCSS (Version 3.4) zu installieren müssen nach dem React-Projekt Erstellen selbst noch folgende 2 Befehle im Terminal ausgeführt werden:
+Generell gibt es regulär 2 CSS-Files, da jedoch TailwindCSS benutzt wird, wird nur eines davon benötigt: `index.css`. Um TailwindCSS (Version 3.4) zu installieren, müssen nach dem React-Projekt Erstellen selbst noch folgende 2 Befehle im Terminal ausgeführt werden:
 ```{caption="TailwindCSS Installieren Befehle" .txt}
 npm install -D tailwindcss@3 postcss autoprefixer
 npx tailwindcss init -p
 ``` 
 [vgl. @TailwindCSS-Docs-ViteSetup]
 
-Danach müsssen über die neu erschienene `tailwind.config.js` noch die Pfade definiert werden und der Inhalt der `index.css` mit folgendem ersetzt werden:
+Danach müssen über die neu erschienene `tailwind.config.js` noch die Pfade definiert werden und der Inhalt der `index.css` mit folgendem ersetzt werden:
 ```{caption="Updaten der index.css für TailwindCSS" .css}
 @tailwind base;
 @tailwind components;
@@ -315,11 +315,11 @@ Danach müsssen über die neu erschienene `tailwind.config.js` noch die Pfade de
 ```
 [vgl. @TailwindCSS-Docs-ViteSetup]
 
-Ist dies gemacht, kann TailwindCSS innerhalb des (gesamnten) Projekts genutzt werden.
+Ist dies gemacht, kann TailwindCSS innerhalb des (gesamten) Projekts genutzt werden.
 
 #### Tailwind CSS
 
-Tailwind CSS ist ein CSS Framework, welches darauf abzielt das Designen von Webanwendungen zu vereinfachen, indem vordefinierte Utility Klassen benutzt werden. [vgl. @GeeksForGeeks-TailwindCSS]
+Tailwind CSS ist ein CSS-Framework, welches darauf abzielt, das Designen von Webanwendungen zu vereinfachen, indem vordefinierte Utility-Klassen benutzt werden. [vgl. @GeeksForGeeks-TailwindCSS]
 
 Der Unterschied zwischen Tailwind CSS und traditionellen CSS könnte z.B. so aussehen (in React):
 Ohne Tailwind CSS:
@@ -352,17 +352,17 @@ Mit Tailwind CSS:
 
 Tailwind CSS scannt alle HTML-Dateien, JavaScript-Komponenten und andere Templates nach Klassenbezeichnern. Diese Bezeichner, die im Code verwendet werden (z. B. `w-72`, `bg-white`, `flex`), repräsentieren bestimmte Stileigenschaften. Nachdem Tailwind alle genutzten Klassen gefunden hat, generiert es die entsprechenden CSS-Regeln und schreibt sie in eine statische CSS-Datei. [vgl. @TailwindCSS-Docs-GettingStarted]
 
-Es ist auch möglich, Tailwind CSS mit bestimmten Ereignissen zu verknüpfen. So ist es z.B. möglich folgendes zu tun:
+Es ist auch möglich, Tailwind CSS mit bestimmten Ereignissen zu verknüpfen. So ist es z.B. möglich, Folgendes zu tun:
 
 ```{caption="Hover Funktion von Tailwind CSS" .js}
 <button className='bg-red-400 hover:bg-red-600'>BUTTON</button>
 ```
 
-Dies sagt aus, dass im Zustand "hover", also wenn der User mit dem Mauszeiger über den Knopf hovert, der Farbton von `red-400` auf den dunkleren Rotton `red-600` geändert werden soll. Bezüglich den Farben bietet TailwindCSS allgemein eine sehr große Palette an vordefinierten Farben, welche mit Texten, Border-Liniern oder auch dem eben erwähnten `hover` kombiniert werden können. Dies lässt sich auch im Bild sehr gut erkennen:
+Dies sagt aus, dass im Zustand "hover", also wenn der User mit dem Mauszeiger über den Knopf hovert, der Farbton von `red-400` auf den dunkleren Rotton `red-600` geändert werden soll. Bezüglich der Farben bietet TailwindCSS allgemein eine sehr große Palette an vordefinierten Farben, welche mit Texten, Border-Linien oder auch dem eben erwähnten `hover` kombiniert werden können. Dies lässt sich auch im Bild sehr gut erkennen:
 
 ![Vordefinierte Farben von TailwindCSS](img/Gekle/TailwindCSS-Colors-Example.PNG)
 
-Tailwind nennt dies Pseudo Klassen. Die 3 wichtigsten sind folgende:
+Tailwind nennt dies Pseudo-Klassen. Die 3 wichtigsten sind folgende:
 
 - Hover --> aktiviert, wenn der User über das Element hovert
 - Focus --> aktiviert, wenn der User das Element z.B. durch einen Klick in Fokus nimmt
@@ -370,37 +370,37 @@ Tailwind nennt dies Pseudo Klassen. Die 3 wichtigsten sind folgende:
 
 All diese Pseudo Klassen können auch mit "group-" verbunden werden, um mehrere Code-Teile gleichzeitig zu manipulieren. [vgl. @TailwindCSS-DocsV1]
 
-Die großen Vorteile von Tailwind CSS sind also, dass keine externen CSS Files erstellt werden müssen und man sich nicht immer komplexere Klassen-Namen ausdenken muss. Auch die eingebaute Reaktionsfähigkeit spricht für das Framework. Zusätzlich bietet Tailwind eine umfassende Dokumentation, was das programmieren viel einfacher und effizienter macht. [vgl. @GeeksForGeeks-TailwindCSS]
+Die großen Vorteile von Tailwind CSS sind also, dass keine externen CSS-Files erstellt werden müssen und man sich nicht immer komplexere Klassen-Namen ausdenken muss. Auch die eingebaute Reaktionsfähigkeit spricht für das Framework. Zusätzlich bietet Tailwind eine umfassende Dokumentation, was das programmieren viel einfacher und effizienter macht. [vgl. @GeeksForGeeks-TailwindCSS]
 
 #### REST und Axios
 
-Die Webanwendung benötigt, damit sie ordentlich und sinnvoll funktioniert Daten aus dem Backend. Diese Daten werden über die REST (Representational State Transfer) API in das Frontend (sprich die Website) geholt.
+Die Webanwendung benötigt Daten aus dem Backend, damit sie ordentlich und sinnvoll funktioniert. Diese Daten werden über die REST (Representational State Transfer) API in das Frontend (sprich die Website) geholt.
 
 ##### REST
 
-Die API, welche aufgrund ihrer Flexibilität, Schnelligkeit und Einfachheit berühmt wurde benutzt in der Regel das HTTP-Protokoll und überträgt die Daten mithilfe von JSON. Im Kontext einer Website wird mit dem Eingeben/Aufrufen einer URL, eine HTTP Anfrage gesendet. Die wichtigsten HTTP Befehle hierbei sind:
+Die API, welche aufgrund ihrer Flexibilität, Schnelligkeit und Einfachheit berühmt wurde, benutzt in der Regel das HTTP-Protokoll und überträgt die Daten mithilfe von JSON. Im Kontext einer Website wird mit dem Eingeben/Aufrufen einer URL eine HTTP-Anfrage gesendet. Die wichtigsten HTTP-Befehle hierbei sind:
 
 - GET (Abrufen)
 - POST (Erstellen)
 - PUT (Aktualisieren)
 - DELETE (Löschen) [vgl. @Talend-REST]
 
-Die Anfrage geht dann beim Server ein und die REST API kümmert sich darum, dass eine Antwort gesucht und sofort zurückgeliefert wird. Die Antworten sind in der Regel im JSON (JavaScript Object Notation) Format. [vgl. @Talend-REST]
+Die Anfrage geht dann beim Server ein und die REST-API kümmert sich darum, dass eine Antwort gesucht und sofort zurückgeliefert wird. Die Antworten sind in der Regel im JSON (JavaScript Object Notation) Format. [vgl. @Talend-REST]
 
 ##### Kriterien für REST
 
-Damit eine REST API gültig ist, müssen 6 Kriterien erfüllt sein:
+Damit eine REST-API gültig ist, müssen 6 Kriterien erfüllt sein:
 
-1. Architektur --> Clients, Servern und Ressourcen bei welcher Anfragen über HTTP laufen
+1. Architektur --> Clients, Servern und Ressourcen, bei welchen Anfragen über HTTP laufen
 2. "Statelessness" --> es werden keine Client-Informationen zwischen Anfragen gespeichert
-3. Cachefähige Daten --> optimiert Interaktion zwischen Client und Server
+3. Cachefähige Daten --> optimiert die Interaktion zwischen Client und Server
 4. einheitliche Schnittstelle zwischen Komponenten --> von überall kann auf Ressourcen gleich zugegriffen werden
 5. mehrschichtiges System --> organisiert einzelne Servertypen und macht Struktur für Client unsichtbar
 6. Code-On-Dmand --> auf Anforderungen ausführbaren Code von Server an Client senden (optional) [vgl. @RedHat-REST]
 
 ##### REST in REACT - Axios
 
-Es ist durchaus möglich, HTTP Abfragen innerhalb von React ohne externer Library zu benutzen. Allerdings hat eine benutzerfreundliche externe API wie Axios durchaus seine Vorteile. Axios verwendet Promises (JavaScript Objekte welche den zukünftigen Wert einer asynchronen Funktion repräsentiert), wodurch es einfacher ist mit "asnyc functions" zu arbeiten. Auch die Tatsache, dass Axios automatisch JSON Objekte in JavaScript Objekte überführt, sprich man ersparrt sich die `.json`-Anweisung, spricht für die Verwendung davon. Zusätzliche Vorteile von Axios sind:
+Es ist durchaus möglich, HTTP-Abfragen innerhalb von React ohne externe Library zu benutzen. Allerdings hat eine benutzerfreundliche externe API wie Axios durchaus seine Vorteile. Axios verwendet Promises (JavaScript Objekte, welche den zukünftigen Wert einer asynchronen Funktion repräsentieren), wodurch es einfacher ist, mit "asnyc functions" zu arbeiten. Auch die Tatsache, dass Axios automatisch JSON Objekte in JavaScript Objekte überführt, sprich man erspart sich die `.json`-Anweisung, spricht für die Verwendung davon. Zusätzliche Vorteile von Axios sind:
 
 - eingebaute Funktionen zum Abbrechen von Abfragen
 - interzeptieren (vor Senden einer Abfrage/ nach Erhalten einer Antwort logische Operationen durchführen)
@@ -424,7 +424,7 @@ const response = await axios.post('https://api.contrude.eu/login', loginData, {
 headers: { 'Content-Type': 'application/json', }, });
 ```
 
-Die BaseURL und der Header sind bei jedem Call über die gesamte Website hinweg die gleichen, daher kann man in einem separaten JavaScript File eine sogenannte Axios Instanz [vgl. @gpt-AxiosVT] erstellen:
+Die Base-URL und der Header sind bei jedem Call über die gesamte Website hinweg die gleichen, daher kann man in einem separaten JavaScript File eine sogenannte Axios Instanz [vgl. @gpt-AxiosVT] erstellen:
 ```{caption="Axios Instanz" .js}
 import axios from 'axios';
 
@@ -446,7 +446,7 @@ Ein Call würde dann noch vereinfachter aussehen:
 const response = await axiosinstance.post('https://api.contrude.eu/login', loginData);
 ```
 
-Die Fehlerbehandlung ist durch Axios ebenfalls verbessert. So sieht fetch das Promise bei z.B. HTTP Fehlercodes wie 404 oder 500 trotzdem als erfüllt. Sprich: Der Status Code muss explizit überprüft werden. Ein Fehler wird also nur ausgelöst, wenn es sich um ein Netzwerkproblem handelt (z.B. Server nicht erreichbar). Axios sieht HTTP-Fehler aber automatisch als das, was sie sind, Fehler, und lehnt das Promise ab wodurch die Fehlerbehandlung vereinfacht wird. [vgl. @gpt-AxiosVT]
+Die Fehlerbehandlung ist durch Axios ebenfalls verbessert. So sieht fetch das Promise bei z.B. HTTP Fehlercodes wie 404 oder 500 trotzdem als erfüllt. Sprich: Der Status Code muss explizit überprüft werden. Ein Fehler wird also nur ausgelöst, wenn es sich um ein Netzwerkproblem handelt (z.B. Server nicht erreichbar). Axios sieht HTTP-Fehler aber automatisch als das, was sie sind, Fehler, und lehnt das Promise ab, wodurch die Fehlerbehandlung vereinfacht wird. [vgl. @gpt-AxiosVT]
 
 Alle Abfragen werden innerhalb von asynchronen Funktionen durchgeführt. Dies hat einerseits den Vorteil, dass der Code besser lesbar ist, da ohne `async` mit `.then` und `.catch` gearbeitet werden muss. So wird auch sogenannten "Callback-Hells" vorgebeugt, da man sich nicht in `then` Schleifen verlieren kann. Auch die Fehlerbehandlung ist aufgrund von `try/catch` einfacher und sauberer. [vgl. @gpt-WarumAsync]
 
@@ -837,7 +837,7 @@ Klickt der User auf einen dieser Container, so wird er auf die Detail Page weite
 - Umweltdaten
 - Wert
 - Einheit
-- ausgelöste Threshholds
+- ausgelöste Thresholds
 
 Die letzte dient dazu, dass, wenn z.B. ein Container zu heiß ist, dies auch symbolisiert und beschrieben wird. 
 
@@ -909,7 +909,7 @@ Wie auch die MainPage unterteilt sich die Detail Page in 3 große Komponenten:
 
 ![Struktur der Detail Page](img/Gekle/DetailPageStructure.png)
 
-Die `Detailspace`-Komponente ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit, Notizen, welche auch gespeichert werden, hinzuzufügen, zählt ebenfalls zu den Aufgaben der `DetailSpace`. Der Button unterhalb der Tabelle öffnet in einem neuen Browser-Tab einen Graphen, welcher das ausgewählte Schiff mit seinen Containern repräsentiert. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Threshholds und Zurückgehen zur MainPage bietet.
+Die `Detailspace`-Komponente ist sehr "funktionsreich", da sie einerseits die Seriennummer und Umweltdaten des ausgewählten Containers anzeigt. Zusätzlich werden die Thresholds überprüft und sollte einer aktiviert sein, wird dies auch in der Tabelle angezeigt. Die Möglichkeit, Notizen, welche auch gespeichert werden, hinzuzufügen, zählt ebenfalls zu den Aufgaben der `DetailSpace`. Der Button unterhalb der Tabelle öffnet in einem neuen Browser-Tab einen Graphen, welcher das ausgewählte Schiff mit seinen Containern repräsentiert. In der `Topbar` ist die Suchleiste verfügbar (ohne `ShipSelect`) und die `DetailControl`-Komponente, welche Funktionen zum Anzeigen aller Thresholds und Zurückgehen zur MainPage bietet.
 
 #### Funktionsweise der Komponenten
 ##### LoginField der LoginPage
@@ -1299,7 +1299,7 @@ Die Topbar innerhalb der Detailpage ist nicht dieselbe, wie in der MainPage. Die
 
 Die Retour Funktion nutzt wieder `useNavigate` von `react-router-dom`, indem durch das Klicken auf das `div`, welches hinter dem Retour-Icon liegt, `navigate('/main')` ausgeführt wird. Dadurch gelangt der User zurück auf die MainPage.
 
-Innerhalb von `DetailControl` versteckt sich hinter dem Alarm-Icon, welches den **Threshhold-Button** kennzeichnet, auch ein `div` in welchem `onClick={onGoAlertClick}`definiert ist. `onGoAlertClick` wird `DetailControl` von der DetailPage übergeben:
+Innerhalb von `DetailControl` versteckt sich hinter dem Alarm-Icon, welches den **Threshold-Button** kennzeichnet, auch ein `div` in welchem `onClick={onGoAlertClick}`definiert ist. `onGoAlertClick` wird `DetailControl` von der DetailPage übergeben:
 
 ```{caption="Implementierung von DetailControl in der Topbar der DetailPage" .js}
 <DetailControl
@@ -1307,11 +1307,11 @@ Innerhalb von `DetailControl` versteckt sich hinter dem Alarm-Icon, welches den 
 />
 ```
 
-Klickt der User also auf das Alarm-Icon, dann wird in der DetailPage die `handleThreshholdViewerToggle`-Methode aufgerufen, welche den Stand der `thresholdViewOpen useState` von FALSE auf TRUE bzw. von TRUE auf FALSE setzt. Ist diese Variable TRUE, so wird folgender Dialog geöffnet: `ThresholdViewer`.
+Klickt der User also auf das Alarm-Icon, dann wird in der DetailPage die `handleThresholdViewerToggle`-Methode aufgerufen, welche den Stand der `thresholdViewOpen useState` von FALSE auf TRUE bzw. von TRUE auf FALSE setzt. Ist diese Variable TRUE, so wird folgender Dialog geöffnet: `ThresholdViewer`.
 
-**ThreshholdViewer** fragt für den aktuell ausgewählten Container alle Thresholds aus dem Backend ab und wandelt diese in einen gut lesbaren Zustand ("Satzform") um (=**Satzform**):
+**ThresholdViewer** fragt für den aktuell ausgewählten Container alle Thresholds aus dem Backend ab und wandelt diese in einen gut lesbaren Zustand ("Satzform") um (=**Satzform**):
 
-![Threshhold Viewer Dialog](img/Gekle/ThreshholdViewer.png)
+![Threshold Viewer Dialog](img/Gekle/ThreshholdViewer.png)
 
 So wird z.B. angegeben, dass folgender Threshold existiert: Wenn die Latitude (Breitengrad) < als 90 Grad ist, dann befindet sich Latitude im kritischen Zustand. Wie auch der `ContainerChooser` besitzt dieser Dialog folgenden Code innerhalb eines Close `Button` : `onClick={onClose}`.
 
