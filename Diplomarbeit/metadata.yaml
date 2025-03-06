@@ -57,9 +57,9 @@ da-kiquellen:
 - ki: ChatGPT-4o
   short-prompt: Zusammenfügen der KI-Quellen
   pdf-file: Kampl/KI/Theorie/Zusammenfuegung-KI-Theorie-Kampl.pdf
--ki: ChatGPT_4o
- short-prompt: Rechtschreib und Grammatiküberprüfung MQTT
- pdf-file: Kampl/KI/Praxis/Reconnect-Funktion.pdf
+- ki: ChatGPT_4o
+  short-prompt: Rechtschreib und Grammatiküberprüfung MQTT
+  pdf-file: Kampl/KI/Praxis/Reconnect-Funktion.pdf
 
 # Gekle
 - ki: ChatGPT-4o

@@ -36,7 +36,6 @@ Des weiteren kann mann Busse noch in 2 Typen nach der Breite aufteilen:
 2. Seriell: Serielle Systeme übertragen Daten bitweise über eine einzelne Leitung, also nacheinander. Ein serieller Bus kann synchron,taktsignalbasiert, oder asynchron, durch Steuerleitungen und Protokolle koordiniert, arbeiten. Während ältere serielle Busse oft langsamer als parallele waren, sind moderne serielle Bussysteme durch höhere Taktraten und verbesserte Protokolle meist leistungsfähiger und effizienter.
 
  
-
 ##### Schnittstellen
 
 - **SPI:**^[Serial Peripheral Interface] Eine synchrone serielle Schnittstelle, ideal für die Verbindung von Peripherigeräten.
@@ -132,18 +131,6 @@ Die Firmware ist eine softwarebasierte Komponente, die fest in einem elektronisc
 
 - **A/D- und D/A-Wandler:**^[Analog/Digital & Digital/Analog Wandler] Ermöglichen die Umwandlung zwischen analogen und digitalen Signalen. Wichtig für Sensoranwendungen.
 - **PWM:**^[Pulsweitenmodulation] Steuerung von LEDs, Motoren oder anderen Aktoren durch variable Einschaltdauer eines Signals.
-
-### Sensoren
-
-#### Temperatur - Thermometer
-
-#### Luftdruck - Barometer
-
-#### Luftfeuchtigkeit - Hygrometer
-
-#### Beschleunigung - Accelerometer
-
-#### GPS
 
 ### Prototyping mit dem EPS32
 	
@@ -1000,7 +987,7 @@ Nach der Modellierung des Grundaufbaus in **Fritzing** können wir den Prototype
 
 Nun, da wir ein vollständig aufgebautes Gerät besitzen, können wir mit der Programmierung des Prototypen beginnen. Wie bereits in der theoretischen Ausarbeitung besprochen, verwenden wir hierfür **PlatformIO**. Die Initialisierungsdatei sieht wie folgt aus:
 
-```cpp
+```{caption="Ini-File des Prototypen" .cpp}
 ; PlatformIO Project Configuration File
 ;
 ;   Build options: build flags, source filter
@@ -1042,7 +1029,7 @@ Im Theorie Teil wurde bereits umfangreich darauf eingegangen, wie die Programmie
 2. Die ausgelesenen Daten an den Server mittels MQTT schickt.
 3. Ein Mesh-Netzwerk benutz, um eine stabile Internetverbindung zu bewahren.
 
-```{caption="Ini-File des Prototypen" .cpp}
+```{caption="Programm des Protoypen" .cpp}
 #include "Arduino.h"
 #include "Wire.h"
 #include "SPI.h"
@@ -1275,7 +1262,7 @@ void initGPS() {
 void printBMEData() {
   Serial.print("Temperature: ");
   Serial.print(bme.readTemperature());
-  Serial.println(" °C");
+  Serial.println(" C");
 
   Serial.print("Pressure: ");
   Serial.print(bme.readPressure());
@@ -1393,4 +1380,3 @@ Die `reconnect()`-Funktion stellt sicher, dass die Verbindung zum MQTT-Server be
 Falls die Verbindung unterbrochen wird oder der Client nicht verbunden ist, versucht die Funktion in einer Schleife kontinuierlich, die Verbindung wieder aufzubauen.
 
 Bei jedem Verbindungsversuch wird überprüft, ob eine erfolgreiche Verbindung hergestellt werden kann. Falls dies gelingt, wird eine Bestätigung im Serial-Monitor ausgegeben, andernfalls erfolgt ein neuer Versuch nach einer Wartezeit von zwei Sekunden. Dieses Verhalten gewährleistet eine zuverlässige Datenübertragung, auch bei Netzwerkproblemen oder Neustarts des Geräts.
-
