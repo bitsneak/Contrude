@@ -156,6 +156,13 @@ da-appendix:
   pdf-file: Kampl/FritzingInfoBroschuereDE.pdf
   seiten: 3
 
+# Betreuungsprotokolle
+
+- abschnitt: Betreuungsprotokoll 2024-02-23
+  pdf-file: Protokolle/HTL-DA-Betreuungsprotokoll-2024-02-23.pdf
+
+- abschnitt: Betreuungsprotokoll 2024-09-19
+  pdf-file: Protokolle/HTL-DA-Betreuungsprotokoll-2024-09-19.pdf
 
 # Diplomarbeitsvereinbarungen müssen zum Schluss sein 
 
