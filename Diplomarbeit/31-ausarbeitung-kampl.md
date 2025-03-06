@@ -978,31 +978,419 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 
 Nachdem nun alle Einzelteile vorhanden sind, kann mit dem Zusammenbau begonnen werden. Bevor jedoch die Komponenten verbunden werden, ist es wichtig, einen detaillierten Plan zu erstellen. Zur Erstellung dieses Plans habe ich die Software **Fritzing** verwendet.
 
-![Aufbau des Prototyps](img/Kampl/Prototyp-Steckplatine.png){width=400px}
+![Modell des Prototyps](img/Kampl/Prototyp-Steckplatine.png){width=400px}
 
 ##### Was ist Fritzing?
 
 > Fritzing ist ein benutzerfreundliches Werkzeug, das einen intuitiven und nachhaltigen Einstieg in die Elektronik und das Physical Computing ermöglicht. Die Software stellt elektronische Komponenten wie Sensoren, Steckplatinen oder Mikrocontroller realistisch dar und erleichtert das Erstellen von Schaltplänen sowie die Dokumentation elektronischer Prototypen. Dies schafft eine wichtige Grundlage für die Kommunikation und den Austausch im Rahmen eines Projekts. 
+
 [@Was-ist-Fritzing]
 
 ##### Aufbau des Prototyps auf dem Breadboard
 
 Nach der Modellierung des Grundaufbaus in **Fritzing** können wir den Prototypen physisch auf einem **Breadboard** (Steckplatine) aufbauen. Dies ist ein wichtiger Schritt, um die einzelnen Komponenten zu überprüfen und die Programmierung zu starten.
 
-![Aufbau des Prototyps](img/Kampl/Prototyp-Steckplatine.png){width=400px}
-
-
-
-##### Sensoren
+![Prototyp auf der Steckplatine](img/Kampl/Breadboard-Aufbau.jpg){width=400px}
 
 #### Endprodukt
 
+![Endprodukt](img/Kampl/Breadboard-Aufbau.jpg){width=400px}
+
 ### Programmierung des Prototypen
 
-#### Sensoren
+Nun, da wir ein vollständig aufgebautes Gerät besitzen, können wir mit der Programmierung des Prototypen beginnen. Wie bereits in der theoretischen Ausarbeitung besprochen, verwenden wir hierfür **PlatformIO**. Die Initialisierungsdatei sieht wie folgt aus:
+
+```cpp
+; PlatformIO Project Configuration File
+;
+;   Build options: build flags, source filter
+;   Upload options: custom upload port, speed and extra flags
+;   Library options: dependencies, extra library storages
+;   Advanced options: extra scripting
+;
+; Bitte besuchen Sie die Dokumentation für weitere Optionen und Beispiele:
+; https://docs.platformio.org/page/projectconf.html
+
+[env:esp32dev]
+platform = espressif32
+board = wemos_d1_mini32
+board_build.partitions = min_spiffs.csv
+framework = arduino
+monitor_speed = 115200
+lib_deps = 
+    adafruit/Adafruit Unified Sensor@^1.1.14
+    adafruit/Adafruit BME280 Library@^2.2.4
+    knolleary/PubSubClient@^2.8
+    adafruit/Adafruit MPU6050@^2.0.3
+    arduino-libraries/Arduino_JSON@^0.1.0
+    mikalhart/TinyGPSPlus@^1.1.0
+    painlessmesh/painlessMesh@^1.4.5
+    ArduinoJson
+    arduinoUnity
+    TaskScheduler
+    AsyncTCP
+```
+
+In dieser Datei werden viele Konfigurationen festgelegt, damit das Programm richtig gebaut werden kann. Der verwendete Mikrocontroller ist der **wemos_d1_mini32**, der auf der Plattform **espressif32** basiert. Als Framework wird **arduino** verwendet. Die Monitor-Geschwindigkeit ist auf **115200** Baud festgelegt. 
+Zudem werden verschiedene Bibliotheken eingebunden, die für die Funktionalität des Prototypen notwendig sind. 
+
+#### Gesamtes Programm
+
+Im Theorie Teil wurde bereits umfangreich darauf eingegangen, wie die Programmierung der Sensoren funktioniert, werde ich hier nicht mehr darauf eingehen, jedoch wurden einige Programmteile noch nicht erklärt und werden hier aufgeführt. Zuvor jedoch, hier unser Programm welches:
+
+1. Die Daten aus der Sensoren ausliest.
+2. Die ausgelesenen Daten an den Server mittels MQTT schickt.
+3. Ein Mesh-Netzwerk benutz, um eine stabile Internetverbindung zu bewahren.
+
+```{caption="Ini-File des Prototypen" .cpp}
+#include "Arduino.h"
+#include "Wire.h"
+#include "SPI.h"
+#include "Adafruit_Sensor.h"
+#include "Adafruit_BME280.h"
+#include "PubSubClient.h"
+#include "WiFi.h"
+#include "Adafruit_MPU6050.h"
+#include "TinyGPS++.h"
+#include "painlessMesh.h"
+#include <Arduino_JSON.h>
+
+// Define the RX and TX pins for Serial 2
+#define RXD2 16
+#define TXD2 17
+#define GPS_BAUD 9600
+
+// --- Constants & Credentials ---
+const char *ssid = "You lost the Game";
+const char *password = "Achtzehn";
+const char *mqtt_server = "mqtt.contrude.eu";
+const char *mqtt_username = "contrude";
+const char *mqtt_password = "HaG1$Vk&62!cWv";
+const char *mqtt_domain = "contrude/";
+const int ship_number = 1;
+const int mqtt_port = 1883;
+// Number for this node and also number for the container
+int nodeNumber = 1;
+
+String mqtt_publish = String(mqtt_domain) + ship_number + "/" + nodeNumber;
+
+// --- MESH Details ---
+#define MESH_PREFIX "CONTRUDE_MESH" 
+#define MESH_PORT 5555 
+
+// --- Objects ---
+Adafruit_BME280 bme;
+Adafruit_MPU6050 mpu;
+HardwareSerial gpsSerial(2);
+WiFiClient espClient;
+PubSubClient client(espClient);
+TinyGPSPlus gps;
+
+Scheduler userScheduler;
+painlessMesh mesh;
+
+
+// String to send to other nodes with sensor readings
+String readings;
+
+// --- Timing ---
+unsigned long currentTime, lastTime = 0;
+const unsigned long interval = 1000;
+
+// --- Function Declarations ---
+void setup_wifi();
+void reconnect();
+void publishSensorData();
+void printBMEData();
+void printMPUData();
+void printGPSData();
+void initBME();
+void initMPU();
+void initGPS();
+void checkGPS();
+String getReadings();
+void sendMessage();
+
+// Create tasks: to send messages and get readings
+Task taskSendMessage(TASK_SECOND * 5 , TASK_FOREVER, &sendMessage);
+
+String getReadings() {
+  JSONVar jsonReadings;
+  jsonReadings["node"] = nodeNumber;
+  jsonReadings["temp"] = bme.readTemperature();
+  jsonReadings["hum"] = bme.readHumidity();
+  jsonReadings["pres"] = bme.readPressure()/100.0F;
+  readings = JSON.stringify(jsonReadings);
+  return readings;
+}
+
+void sendMessage() {
+  String msg = getReadings();
+  mesh.sendBroadcast(msg);
+}
+
+
+void receivedCallback(uint32_t from, String &msg) {
+  Serial.printf("Received from %u msg=%s\n", from, msg.c_str());
+  JSONVar myObject = JSON.parse(msg.c_str());
+  int node = myObject["node"];
+  double temp = myObject["temp"];
+  double hum = myObject["hum"];
+  double pres = myObject["pres"];
+  Serial.print("Node: ");
+  Serial.println(node);
+  Serial.print("Temperature: ");
+  Serial.print(temp);
+  Serial.println(" C");
+  Serial.print("Humidity: ");
+  Serial.print(hum);
+  Serial.println(" %");
+  Serial.print("Pressure: ");
+  Serial.print(pres);
+  Serial.println(" hpa");
+}
+
+void newConnectionCallback(uint32_t nodeId) {
+  Serial.printf("New Connection, nodeId = %u\n", nodeId);
+}
+
+void changedConnectionCallback() {
+  Serial.printf("Changed connections\n");
+}
+
+void nodeTimeAdjustedCallback(int32_t offset) {
+  Serial.printf("Adjusted time %u. Offset = %d\n", mesh.getNodeTime(), offset);
+}
+
+void setup() {
+  Serial.begin(115200);
+
+  Serial.println("In Setup");
+
+  // Setup Sensors
+  initBME();
+  initMPU();
+  initGPS();
+
+
+  // Setup WiFi and MQTT
+  setup_wifi();
+  client.setServer(mqtt_server, mqtt_port);
+  
+
+  //mesh.init(MESH_PREFIX, password, &userScheduler, MESH_PORT);
+  //mesh.onReceive(&receivedCallback);
+  //mesh.onNewConnection(&newConnectionCallback);
+  //mesh.onChangedConnections(&changedConnectionCallback);
+  //mesh.onNodeTimeAdjusted(&nodeTimeAdjustedCallback);
+
+  //userScheduler.addTask(taskSendMessage);
+  //taskSendMessage.enable();
+}
+
+void loop() {
+  //mesh.update();
+
+  if (!client.connected()) {
+    reconnect();
+  }
+  client.loop();
+
+  currentTime = millis();
+  if (currentTime - lastTime >= interval) {
+    publishSensorData();
+    printMPUData();
+    lastTime = currentTime;
+  }
+}
+
+
+// Wifi and Server Segment
+
+void setup_wifi() {
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(50);
+    Serial.print(".");
+  }
+  Serial.println("\nWiFi connected!");
+}
+
+void reconnect() {
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    if (client.connect("ESP32Client", mqtt_username, mqtt_password)) {
+      Serial.println("connected");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" retrying in 2 seconds...");
+      delay(2000);
+    }
+  }
+}
+
+void publishSensorData() {
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+
+  client.publish((String(mqtt_publish) + "/temperature").c_str(), String(bme.readTemperature()).c_str());
+  client.publish((String(mqtt_publish) + "/pressure").c_str(), String(bme.readPressure()).c_str());
+  client.publish((String(mqtt_publish) + "/humidity").c_str(), String(bme.readHumidity()).c_str());
+  client.publish((String(mqtt_publish) + "/vibration").c_str(), String(a.acceleration.x).c_str());
+
+
+
+}
+
+// Initializer Segment
+
+void initBME() {
+  bme.begin(0x76);
+  Serial.println("Initialized BME");
+}
+
+void initMPU() {
+  mpu.begin();
+  Serial.println("Initialized MPU");
+}
+
+void initGPS() {
+  gpsSerial.begin(GPS_BAUD, SERIAL_8N1, RXD2, TXD2);
+  Serial.println("Initialized GPS on Baudrate: " + GPS_BAUD);
+}
+
+
+// Debug Segment 
+
+
+//void checkGPS() {
+//  if (gpsSerial.available() == 0) {
+//    Serial.println("No data from GPS module. Check connections.");
+//  }
+//}
+//
+void printBMEData() {
+  Serial.print("Temperature: ");
+  Serial.print(bme.readTemperature());
+  Serial.println(" °C");
+
+  Serial.print("Pressure: ");
+  Serial.print(bme.readPressure());
+  Serial.println(" Pa");
+
+  Serial.print("Humidity: ");
+  Serial.print(bme.readHumidity());
+  Serial.println(" %");
+
+  Serial.println("---------------------------");
+}
+
+void printMPUData() {
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+
+  Serial.print("Acceleration X: ");
+  Serial.print(a.acceleration.x);
+  Serial.println(" m/s^2");
+}
+
+void printGPSData() {
+  while (gpsSerial.available() > 0) {
+    gps.encode(gpsSerial.read());
+  }
+}
+```
 
 #### WLAN
+
+Damit die Daten überhaupt auf den Server geschickt werden können, muss erst einmal eine Internetverbindung vorliegen. Um diese Verbindung herzustellen, brauch man den Namen des Netzwerkes die **ssid** und das Password. 
+Um nun eine Verbindung aufzubauen muss man dies zwei Komponenten der WiFi-Bibliothek mittels ```WiFi.begin(ssid, password);``` weitergeben. Die restliche Arbeit erledigt die Bibliothek selbst.
+
+```{caption="Aufbau der WLan Verbindung und Funktion zur Wiederherstellung der Verbindung" .cpp}
+
+#include "PubSubClient.h"
+#include "WiFi.h"
+
+const char *ssid = "";
+const char *password = "";
+
+
+void setup_wifi() {
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
+  WiFi.begin(ssid, password);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(50);
+    Serial.print(".");
+  }
+  Serial.println("\nWiFi connected!");
+}
+```
+
 
 ##### Mesh
 
 #### MQTT
+
+Wie bereits in der theoretischen Ausarbeitung besprochen, ist MQTT ein Protokoll zur Übertragung von Daten, bei dem der Publisher, also der Prototyp, ein Topic abonnieren muss, um genau auf dieses Topic die Daten zu versenden.
+
+```{caption="Senden der Sensordaten an den MQTT-Server" .cpp}
+const char *mqtt_server = "mqtt.contrude.eu";
+const char *mqtt_username = "contrude";
+const char *mqtt_password = "HaG1$Vk&62!cWv";
+const char *mqtt_domain = "contrude/";
+const int ship_number = 1;
+const int mqtt_port = 1883;
+// Number for this node and also number for the container
+int nodeNumber = 1;
+
+String mqtt_publish = String(mqtt_domain) + ship_number + "/" + nodeNumber;
+
+void publishSensorData() {
+  sensors_event_t a, g, temp;
+  mpu.getEvent(&a, &g, &temp);
+
+  client.publish((String(mqtt_publish) + "/temperature").c_str(), String(bme.readTemperature()).c_str());
+  client.publish((String(mqtt_publish) + "/pressure").c_str(), String(bme.readPressure()).c_str());
+  client.publish((String(mqtt_publish) + "/humidity").c_str(), String(bme.readHumidity()).c_str());
+  client.publish((String(mqtt_publish) + "/vibration").c_str(), String(a.acceleration.x).c_str());
+}
+
+void reconnect() {
+  while (!client.connected()) {
+    Serial.print("Attempting MQTT connection...");
+    if (client.connect("ESP32Client", mqtt_username, mqtt_password)) {
+      Serial.println("connected");
+    } else {
+      Serial.print("failed, rc=");
+      Serial.print(client.state());
+      Serial.println(" retrying in 2 seconds...");
+      delay(2000);
+    }
+  }
+}
+```
+
+In unserem Fall habe ich das Abonnieren des Topics so skalierbar wie möglich gemacht. Das bedeutet, dass ich das Topic aufgesplittet habe.
+
+Das eigentliche Topic hat diese Form: **contrude/Schiffsnummer/Containernummer/Sensordatenart**.
+
+Um es zu ermöglichen, den Prototypen in jedes Schiff und jeden Container zu platzieren, habe ich die einzelnen Teile in folgende Variablen ausgelagert:
+
+1. ```const char *mqtt_domain = "contrude/";```
+2. ```const int ship_number = 1;```
+3. ```const int mqtt_port = 1883;```
+4. ```int nodeNumber = 1;```
+
+Diese einzelnen Teile habe ich dann in einem String zusammengefasst:
+```String mqtt_publish = String(mqtt_domain) + ship_number + "/" + nodeNumber;```
+
+Die `reconnect()`-Funktion stellt sicher, dass die Verbindung zum MQTT-Server bei Verbindungsabbrüchen wiederhergestellt wird.
+
+Falls die Verbindung unterbrochen wird oder der Client nicht verbunden ist, versucht die Funktion in einer Schleife kontinuierlich, die Verbindung wieder aufzubauen.
+
+Bei jedem Verbindungsversuch wird überprüft, ob eine erfolgreiche Verbindung hergestellt werden kann. Falls dies gelingt, wird eine Bestätigung im Serial-Monitor ausgegeben, andernfalls erfolgt ein neuer Versuch nach einer Wartezeit von zwei Sekunden. Dieses Verhalten gewährleistet eine zuverlässige Datenübertragung, auch bei Netzwerkproblemen oder Neustarts des Geräts.
+
