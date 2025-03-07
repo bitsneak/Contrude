@@ -1365,9 +1365,6 @@ void setup_wifi() {
 }
 ```
 
-
-##### Mesh
-
 #### MQTT
 
 Wie bereits in der theoretischen Ausarbeitung besprochen, ist MQTT ein Protokoll zur Übertragung von Daten, bei dem der Publisher, also der Prototyp, ein Topic abonnieren muss, um genau auf dieses Topic die Daten zu versenden.
