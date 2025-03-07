@@ -150,7 +150,7 @@ da-appendix:
 
 - abschnitt: Configuration
   pdf-file: Kampl/NEO-6-DataSheet-GPS.G6-HW-09005.pdf
-  seiten: 11
+  seiten: 1-11
 
 - abschnitt: Fritzing
   pdf-file: Kampl/FritzingInfoBroschuereDE.pdf

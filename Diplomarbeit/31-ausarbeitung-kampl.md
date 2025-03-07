@@ -132,6 +132,50 @@ Die Firmware ist eine softwarebasierte Komponente, die fest in einem elektronisc
 - **A/D- und D/A-Wandler:**^[Analog/Digital & Digital/Analog Wandler] Ermöglichen die Umwandlung zwischen analogen und digitalen Signalen. Wichtig für Sensoranwendungen.
 - **PWM:**^[Pulsweitenmodulation] Steuerung von LEDs, Motoren oder anderen Aktoren durch variable Einschaltdauer eines Signals.
 
+
+### Sensoren
+
+In unserem Projekt werden drei Sensoren verwendet, der BME280, welcher die Temperatur, den Lufdruck sowie die Luftfeuchtigkeit misst, der MPU6050 ein Beschleunigungs und Geschwindigkeits Senor und der GY-NEO6MV2-Sensor, welcher die Position des Gerätes mittels GPS^[Global Positioning System] herausfindet.
+
+
+#### Temperatur - Widerstandsthermometer
+
+Der BME280 verwendet intern einen sogenannten Widerstandstemperatursensor. Diese Art von Sensor verändert seinen elektrischen Widerstand in Abhängigkeit von der Umgebungstemperatur. Durch die Messung der Widerstandsänderungen kann die Temperatur präzise erfasst und anschließend in digitale Signale umgewandelt werden.
+[vgl. S.259 @Automatisierungs-Technik]
+
+#### Luftdruck - Piezoresistives-Drucksensor
+
+Außerdem verwendet er intern einen piezoresistiven Drucksensor. Diese Art von Sensor enthält eine flexible Membran, die sich je nach Luftdruck verformt. Durch die Verformung ändert sich der Widerstand in der piezoresistiven Schicht, die auf der Membran aufgebracht ist. Diese Widerstandsänderung wird erfasst, in ein elektrisches Signal umgewandelt und anschließend digitalisiert. Mithilfe der im Sensor gespeicherten Kalibrierungsdaten liefert der BME280 präzise Druckmesswerte
+[vgl. S.255 @Automatisierungs-Technik]
+
+
+#### Luftfeuchtigkeit - Kapazitives-Hygrometer
+
+Des weiteren verwendet der BME intern einen kapazitiven Feuchtigkeitssensor. Diese Art von Sensor nutzt die Eigenschaft, dass sich die Kapazität eines elektrischen Kondensators ändert, wenn sich der Feuchtigkeitsgehalt der Umgebungsluft verändert. Diese Kapazitätsänderung wird gemessen, in elektrische Signale umgewandelt und anschließend digitalisiert. Durch die im Sensor gespeicherten Kalibrierungsdaten werden präzise Messwerte für die relative Luftfeuchtigkeit bereitgestellt.
+[@Kapazitive-Feuchtemessung]
+
+![BME280](img/Kampl/BME280.jpg){width=400px}
+
+#### Beschleunigung - Accelerometer
+
+Der MPU6050 verwendet intern einen 3-Achsen-Beschleunigungssensor, der auf der MEMS-Technologie (Micro-Electro-Mechanical Systems) basiert. Diese Art von Sensor beinhaltet winzige mechanisch bewegliche Strukturen, die auf einer festen Basis montiert sind. Wenn der Sensor einer Beschleunigung ausgesetzt wird, bewegen sich diese Strukturen relativ zur Basis, was eine Änderung der Kapazität zwischen diesen Strukturen zur Folge hat. Diese Kapazitätsänderung wird gemessen, in elektrische Signale umgewandelt und anschließend digitalisiert. So wird die Beschleunigung entlang der X-, Y- und Z-Achse präzise erfasst. [vgl. @MPU-6000]
+
+![MPU6050](img/Kampl/MPU6050.png){width=400px}
+
+#### GPS
+
+Das GY-NEO6MV2 verwendet ein satellitengestütztes System, um die Position auf der Erde zu bestimmen. Der Chip empfängt Signale von mehreren GPS-Satelliten und berechnet daraus die genaue Position. Dies geschieht in mehreren Schritten:
+
+1. **Signalempfang**: Das Modul empfängt Signale von GPS-Satelliten, die Informationen über ihre Position und die aktuelle Zeit enthalten.
+2. **Entfernungsberechnung**: Anhand der Laufzeit der Signale wird die Entfernung zu jedem Satelliten berechnet.
+3. **Triangulation**: Mit den Entfernungsdaten von mindestens vier Satelliten wird die genaue Position (Längen- und Breitengrad) sowie die Höhe über dem Meeresspiegel bestimmt.
+4. **Digitale Ausgabe**: Die berechneten Positionsdaten werden über die serielle Schnittstelle (UART) in einem standardisierten Format (NMEA) ausgegeben, das von Mikrocontrollern verarbeitet werden kann.
+
+Das Modul verfügt über eine Keramikantenne für einen besseren Empfang.
+[vgl. @GPS-Baudrate]
+
+![GY-NEOMV2](img/Kampl/GPS-Module.jpg){width=400px}
+
 ### Prototyping mit dem EPS32
 	
 #### IDE
@@ -858,11 +902,11 @@ Einige Wichtige Begriffe im Zusammenhang mit MQTT sind
 
 ### WLAN-Mesh
 
-Ein Mesh ist ein System/Netzwerk, welches aus mehreren WLAN-Zugangspunkten, songenannten Access Points, besteht. Es sorgt dafür, dass diese Access Points eine lückenlose WLAN-Abdeckung zugesichert werden kann.
+Ein Mesh ist ein System/Netzwerk, welches aus mehreren WLAN-Zugangspunkten, sogenannten Access Points, besteht. Es sorgt dafür, dass diese Access Points eine lückenlose WLAN-Abdeckung zugesichert werden kann.
 
 Um nun ein Mesh-Netzwerk nun aufbauen zu können muss man zuerst die einzelnen Knotenpunkte miteinander verbinden. Dabei ist immer mindestens einer dieser Punkte mit einem Router oder Modem verbunden um eine Verbindung mit dem Internet herzustellen. Die restlichen Knoten kommunizieren dann drahtlos untereinander. [vgl.@EK-WlanMesh]
 Wenn nun ein Knoten Daten sendet werden sie von nächstgelegenen Knoten auch aufgenommen. Die Daten werden dann von Knoten zu Knoten weitergeleitet bis sie den Hauptknoten erreichen und zum Schluss im Internet landen. Dieser Prozess wird Hop-to-Hop Kommunikation genannt.[vgl.@Wikipedia-Hop]
-Ein weiters wichtiges Merkmal eines Meshes ist, das songenannte Seamless-Roaming. Dabei wechseln die einzelnen Knoten immer zu Access Point mit dem stärksten Signal ohne, dass die Verbindung unterbrochen wird. Des weiteren verfügt ein Mesh über eine Selbstheilungsfunktion. D.h.: Wenn ein Knotenpunkt, aus verschiedensten Gründen, ausfällt oder die Verbindung verliert, so sucht das System automatisch nach einer alternativen Route über andere Knotenpunkte um wieder eine stabile Verbindung aufzubauen.[vgl.@EK-WlanMesh]
+Ein weiters wichtiges Merkmal eines Meshes ist, das sogenannte Seamless-Roaming. Dabei wechseln die einzelnen Knoten immer zu Access Point mit dem stärksten Signal ohne, dass die Verbindung unterbrochen wird. Des weiteren verfügt ein Mesh über eine Selbstheilungsfunktion. D.h.: Wenn ein Knotenpunkt, aus verschiedensten Gründen, ausfällt oder die Verbindung verliert, so sucht das System automatisch nach einer alternativen Route über andere Knotenpunkte um wieder eine stabile Verbindung aufzubauen.[vgl.@EK-WlanMesh]
 
 ### Sonstiges
 
@@ -912,6 +956,8 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
      - Netzspannung: 5V
 
 ![ESP32-Pins [@ESP32-Datenblatt]](img/Kampl/ESP32-Pins.png){width=500px}
+
+![ESP32](img/Kampl/ESP32.png){width=400px}
 
 ##### BME280
   **Grund**: Der BME280 ist ein vielseitiger Sensor, welcher sowohl die Temperatur, die Luftfeuchtigkeit als auch den Luftdruck messen kann. Außerdem ist er kompakt und kostengünstig.
@@ -981,7 +1027,9 @@ Nach der Modellierung des Grundaufbaus in **Fritzing** können wir den Prototype
 
 #### Endprodukt
 
-![Endprodukt](img/Kampl/Breadboard-Aufbau.jpg){width=400px}
+Um ein überzeugendes und funktionales Endprodukt zu erhalten, ist noch ein letzter Schritt erforderlich: Das Übertragen des Prototyps auf eine Lochrasterplatine. Dies bietet mehrere Vorteile. Zum einen entstehen keine losen Kabelverbindungen, wodurch die Stabilität und Langlebigkeit des Produkts erhöht wird. Zum anderen ermöglicht die feste Verlötung, das Gerät kompakt zu gestalten und an nahezu jedem beliebigen Ort sicher und unkompliziert zu platzieren.
+
+![Endprodukt](img/Kampl/Lochrasterplatine.jpg){width=400px}
 
 ### Programmierung des Prototypen
 
@@ -1380,3 +1428,74 @@ Die `reconnect()`-Funktion stellt sicher, dass die Verbindung zum MQTT-Server be
 Falls die Verbindung unterbrochen wird oder der Client nicht verbunden ist, versucht die Funktion in einer Schleife kontinuierlich, die Verbindung wieder aufzubauen.
 
 Bei jedem Verbindungsversuch wird überprüft, ob eine erfolgreiche Verbindung hergestellt werden kann. Falls dies gelingt, wird eine Bestätigung im Serial-Monitor ausgegeben, andernfalls erfolgt ein neuer Versuch nach einer Wartezeit von zwei Sekunden. Dieses Verhalten gewährleistet eine zuverlässige Datenübertragung, auch bei Netzwerkproblemen oder Neustarts des Geräts.
+[@Reconnect-Methode]
+
+### Build-Server
+
+Während der gesamten Diplomarbeit haben wir mehr als 500 Commits gemacht. Um auch immer eine gebaute Diplomarbeit-Pdf zu haben, auf welche wir zugreifen können wurde ein GitHub Action implementiert welche diese Aufgabe nach jedem Push für uns übernimmt.
+
+```{caption="Build File für die Diplomarbeit" .yml}
+name: Build and send diploma thesis
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - Diplomarbeit/**
+  workflow_dispatch:
+
+jobs:
+  build-send:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Cache Docker image
+        id: cache-docker
+        uses: actions/cache@v4
+        with:
+          path: /tmp/.docker
+          key: ${{ runner.os }}-docker-${{ hashFiles('**/HTLLE-DA-Vorlage/tools/docker/Dockerfile') }}
+          restore-keys: | 
+            ${{ runner.os }}-docker-
+
+      - name: Create Docker cache directory
+        if: steps.cache-docker.outputs.cache-hit != 'true'
+        run: mkdir -p /tmp/.docker
+
+      - name: Load cached Docker image
+        if: steps.cache-docker.outputs.cache-hit == 'true'
+        run: docker load -i /tmp/.docker/image.tar
+
+      - name: Pull Docker image
+        if: steps.cache-docker.outputs.cache-hit != 'true'
+        run: |
+          docker pull bytebang/htlle-da-env
+          docker save bytebang/htlle-da-env -o /tmp/.docker/image.tar
+
+      - name: Build diploma thesis
+        run: docker run -v ${{ github.workspace }}/Diplomarbeit:/workspace bytebang/htlle-da-env
+
+      - name: Extract commit message
+        id: get_commit_message
+        run: |
+          echo "commit_message=$(git log -1 --pretty=%B)" >> $GITHUB_ENV   
+
+      - name: Send diploma thesis
+        uses: dawidd6/action-send-mail@v4
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.MAIL }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: "Diploma thesis"
+          body: ${{ env.commit_message }}
+          to: ${{ secrets.TEAMS_MAIL }}
+          from: ${{ secrets.MAIL }}
+          attachments: Diplomarbeit/diplomarbeit.pdf
+```
+
+Die Action läuft im Hintergrund auf der neuesten Ubuntu Version um die Befehle auszuführen. Danach pulled es das nötige Docker-Image, welches von der Schule bereitgestellt wurde. Dieses Image beinhaltet alle nötigen Packages und Variablen um die Diplomarbeit zu bauen. Danach führt es denn Docker Container aus und extrahiert die Commit-Nachricht. Diese Nachricht wird zum Schluss über die Send-Mail Funktione auf den Microsoft-Teams Kanal gesendet.
