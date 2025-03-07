@@ -25,17 +25,13 @@ das wir günstigere Sensoren für den Bau des Prototypen gefunden haben.
 | 3      | AZ-Delivery         | GY-521              | 2.50 €      | 5.30 €      | 12.79 €      |
 | 1      | Amazon     | ET-Starterkit       | 16.13 €     | 3.99 €      | 20.12 €      |
 
-| Preis Hardware insgesamt |
-|--------|
-|  81.19 € |
+: Erreichung Kosten-/Aufwandsziele
 
-| Buchbindungspreis |
-|--------|
-|  100 € |
+**Die Hardware kostet in Summe: 81.19 €**
 
-| Preis insgesamt |
-|--------|
-|  181.19 € |
+**Das Binden der Diplomarbeit kostet in Summe: 100 €**
+
+**Das Projekt kostet in Summe: 181.19 €**
 
 ### Reflexion / Lessons Learned
 
