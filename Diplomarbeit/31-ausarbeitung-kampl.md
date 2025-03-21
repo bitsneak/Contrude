@@ -19,11 +19,11 @@ Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Soft
 
 Die Hauptkomponenten eines Embedded Systems sind ein Mikroprozessor oder ein Mikrocontroller. Während ein Mikroprozessor lediglich eine CPU enthält, umfasst ein Mikrocontroller zusätzlich Speicher, Peripheriegeräte, GPIOs, Flash-Speicher und viele weitere Komponenten.
 
-![Aufbau eines Mikrocontrollers](img/Kampl/AufbauES.jpg){width=300px}
+![Aufbau eines Mikrocontrollers [@EmbeddedSystems]](img/Kampl/AufbauES.jpg){width=300px}
 
 ##### CPU
 
-Die CPU (Central Processing Unit) ist die primäre Steuereinheit eines Systems. Sie besteht aus der ALU und der CU. Die ALU (Arithmetic Logic Unit) ist der Teil der CPU, der arithmetisch-logische Operationen mit binären Daten ausführt. Die CU (Control Unit) steuert mithilfe des internen Oszillators die Abläufe im System. Nachdem ein Befehl decodiert wurde, gibt die CU selbst weitere Befehle aus, um die korrekten Aktionen zu starten. Diese Befehle werden dann über den Bus aus dem Arbeitsspeicher abgerufen.
+Die CPU (Central Processing Unit) ist die primäre Steuereinheit eines Systems. Sie besteht aus der ALU und der CU. Die ALU (Arithmetic Logic Unit) ist der Teil der CPU, der arithmetisch-logische Operationen mit binären Daten ausführt. Die CU (Control Unit) steuert mithilfe des internen Oszillators die Abläufe im System. Nachdem ein Befehl decodiert wurde, gibt die CU selbst weitere Befehle aus, um die korrekten Aktionen zu starten. Diese Befehle werden dann über den Bus aus dem Arbeitsspeicher abgerufen. [@EmbeddedSystems]
 
 ##### Bus
 
@@ -34,7 +34,7 @@ Des weiteren kann mann Busse noch in 2 Typen nach der Breite aufteilen:
 
 1. Parallel: Beim parallelen System gibt es mehrere Leitungen welche gleichzeitig Daten verschicken wodurch die Busbreite viel höher ist.
 2. Seriell: Serielle Systeme übertragen Daten bitweise über eine einzelne Leitung, also nacheinander. Ein serieller Bus kann synchron,taktsignalbasiert, oder asynchron, durch Steuerleitungen und Protokolle koordiniert, arbeiten. Während ältere serielle Busse oft langsamer als parallele waren, sind moderne serielle Bussysteme durch höhere Taktraten und verbesserte Protokolle meist leistungsfähiger und effizienter.
-
+[@EmbeddedSystems]
  
 ##### Schnittstellen
 
@@ -43,6 +43,7 @@ Des weiteren kann mann Busse noch in 2 Typen nach der Breite aufteilen:
     Es besteht aus den drei Leitungen POCI^[Peripheral Out/Controller In] oder auch MISO^[Master In/Slave Out], PICO/MOSI^[Peripheral In/Controller Out | Master Out/Slave In] und der Serial Clock. Außerdem dem gibt es noch den Slave-Select, aber da dies ein äußerst problematischer Außdruck ist wurde es zu Chip-Select umbenannt. Die Chip-Select Leitung sorgt dafür, dass der Controller ein Peripherigerät zur Kommuniaktion auswählt.
 
     Bei der SPI-Kommunikation gibt es keinen klaren Sender oder Empfänger, sondern einen kontinuierlichen Austausch, da sowohl die Peripherie als auch der Controller gleichzeitig ein Bit übertragen. Die Peripherie steuert die Kommunikation, indem sie die SCK-Impulse generiert, während der Controller das Signal annimmt und verarbeitet. Selbst wenn noch kein Ergebnis vorliegt, misst die Peripherie die Polarität der PICO/MOSI-Leitung und bestimmt daraus das nächste Bit.
+    [@EmbeddedSystems]
 
     ![SPI-BUS-Grafik [@Serial-Peripheral-Interface-Grafik]](img/Kampl/SPI-single-slave.svg.png){width=400px} 
     
@@ -53,18 +54,20 @@ Des weiteren kann mann Busse noch in 2 Typen nach der Breite aufteilen:
     UART ist eine serielle  Schnittstelle, die asynchron arbeitet. Sie wurde entwickelt,  um die Kommunikation zwischen digitalen Geräten zu ermöglichen, und wird häufig in  Mikrocontrollern, Computern und anderen elektronischen Geräten verwendet. Im Gegensatz zu synchronen Schnittstellen wie SPI oder I2C benötigt UART keine zusätzliche Taktleitung, sondern synchronisiert sich durch Start- und Stop-Bits. Der Datenaustausch erfolgt über zwei Leitungen, wobei ein Gerät als Sender und das andere als Empfänger fungiert.
 
     UART verwendet in der Regel zwei Hauptleitungen: TX^[Transmit] zum Senden und RX^[Receive] zum Empfangen von Daten. Zusätzlich können für die Hardware-Flow-Control weitere Leitungen genutzt werden, wie RTS^[Request to Send], mit dem der Sender signalisiert, dass er bereit ist, Daten zu übertragen, und CTS^[Clear to Send], das dem Sender anzeigt, dass der Empfänger bereit ist. 
-
-    ![I2C-BUS-Grafik [@I2C-Bus-Grafik]](img/Kampl/I2C-Grafik.gif){width=400px} 
-
-    ![I2C-Timerdiagramm [@I2C-TimerDiagramm]](img/Kampl/I2C-TimerDiagramm.png){width=400px} 
-
-- **I2C:**^[Inter-Integrated Circuit] Serieller Zweidraht-Bus mit Master-Slave-Kommunikation.
-        
-    In einem I2C-Bus gibt es mindestens einen Master und bis zu 127 Slaves. Ein Bus mit mehreren Mastern wird als Multi-Master-Bus bezeichnet. Jeder Slave benötigt eine eigene 7- oder 10-Bit-Adresse, um individuell mit einem Master kommunizieren zu können. Zusätzlich gibt es eine Broadcast-Adresse, über die alle Slaves gleichzeitig angesprochen werden können. Wie bei SPI beginnt die Kommunikation erst, wenn der Master einen Slave adressiert. Anders als bei SPI wird jedoch festgelegt, ob gesendet oder empfangen wird. Die Übertragung erfolgt durch Start- und Stopp-Bedingungen, die der Master über die Zustände der Takt- und Datenleitung steuert. Nach einer erfolgreichen Kommunikation senden die Slaves ihre Adresse und im Schreibfall ein Acknowledge.
+    [@EmbeddedSystems]
 
     ![UART-Grafik [@UART-Grafik]](img/Kampl/UART-Grafik.png){width=400px} 
 
     ![UART-Timerdiagramm [@Serielle-Schnittstellen]](img/Kampl/UART-TimerDiagramm.png){width=400px} 
+
+- **I2C:**^[Inter-Integrated Circuit] Serieller Zweidraht-Bus mit Master-Slave-Kommunikation.
+        
+    In einem I2C-Bus gibt es mindestens einen Master und bis zu 127 Slaves. Ein Bus mit mehreren Mastern wird als Multi-Master-Bus bezeichnet. Jeder Slave benötigt eine eigene 7- oder 10-Bit-Adresse, um individuell mit einem Master kommunizieren zu können. Zusätzlich gibt es eine Broadcast-Adresse, über die alle Slaves gleichzeitig angesprochen werden können. Wie bei SPI beginnt die Kommunikation erst, wenn der Master einen Slave adressiert. Anders als bei SPI wird jedoch festgelegt, ob gesendet oder empfangen wird. Die Übertragung erfolgt durch Start- und Stopp-Bedingungen, die der Master über die Zustände der Takt- und Datenleitung steuert. Nach einer erfolgreichen Kommunikation senden die Slaves ihre Adresse und im Schreibfall ein Acknowledge.
+    [@EmbeddedSystems]
+
+    ![I2C-BUS-Grafik [@I2C-Bus-Grafik]](img/Kampl/I2C-Grafik.gif){width=400px} 
+
+    ![I2C-Timerdiagramm [@I2C-TimerDiagramm]](img/Kampl/I2C-TimerDiagramm.png){width=400px} 
 
 ##### RAM
 
@@ -76,6 +79,7 @@ Prozessor garantiert. Im Grunde unterscheidet man zwischen zwei Arten von RAMs:
 
 - **SRAM:**^[Static RAM] Der schnellere der zwei Ram-Typen. Er speichert seine Inahlte mittels Flip-Flops und benötigt deshalb auch keine Refreshes. Jedoch ist der Einsatz von Flip-Flops äußerst Stromaufwendig und zu dem auch noch teuer. Trotzdem wird aufgrund eben dieser Kippglieder der SRAM häufig als Cache oder Puffer eingesetzt, da der Inhalt nach dem Abruf immer noch erhalten bleibt.
 - **DRAM:**^[Dynamic RAM] Die einfache und billigere Variante. Der DRAM benutzt Kondensatoren als Speicherelement. Dabei muss über sogenannte Refreshes immer wieder die Spannung neugeladen werden wodurch der komplette Prozess langsamer wird. Jedoch hat er ingegensatz zum SRAM einen geringeren Stromverbrauch.
+[@RAM-Zusatzmaterial]
 
 ##### ROM
 
@@ -93,7 +97,8 @@ Wie der RAM ist auch der ROM eine Art Speicher. ROM-Speicher holt sich den Befeh
 
 ![FLASH [@FLASH]](img/Kampl/Flash.png){width=300px} 
 
-- **EEPROM** ^[Electrically Erasable Programmable Read-Only Memory]: Dieser Speicher kann elektrisch gelöscht und erneut beschrieben werden. Er wird oft für kleine, nichtflüchtige Datenspeicher wie Seriennummern oder MAC-Adressen in elektrischen Geräten verwendet. EEPROMs benötigen im Vergleich zu Flash-Speichern weniger Pins und werden meist seriell beschrieben.  
+- **EEPROM** ^[Electrically Erasable Programmable Read-Only Memory]: Dieser Speicher kann elektrisch gelöscht und erneut beschrieben werden. Er wird oft für kleine, nichtflüchtige Datenspeicher wie Seriennummern oder MAC-Adressen in elektrischen Geräten verwendet. EEPROMs benötigen im Vergleich zu Flash-Speichern weniger Pins und werden meist seriell beschrieben. 
+ 
 [vgl. @EmbeddedSystems]
 
 ##### Register
@@ -119,13 +124,13 @@ Die Firmware ist eine softwarebasierte Komponente, die fest in einem elektronisc
 - **General-Purpose-Prozessoren:** Vielseitig einsetzbar und mit hoher Rechengeschwindigkeit ausgestattet. Sie verfügen über mehrschichtige Caches und sind für allgemeine Anwendungen optimiert, weisen jedoch keine integrierte Peripherie (wie Timer oder umfangreichen Speicher) auf, was sie weniger spezialisiert macht.
 
 - **Mikrocontroller:** In einem einzigen Chip vereint ein Mikrocontroller CPU, Speicher und Peripherieelemente (wie Bus-Treiber, PWM-Units, A/D- und D/A-Wandler). Diese enge Integration ermöglicht eine optimale Anpassung an spezifische Aufgaben in Embedded Systems, oft sogar ohne die Notwendigkeit eines externen Taktgebers, da interne Taktgeneratoren zur Verfügung stehen.
+[vgl. @EmbeddedSystems]
 
 - **Digitale Signalprozessoren (DSPs)** ^[Digitale Signalprozessoren]: Optimiert für die Echtzeit-Signalverarbeitung, bieten DSPs einen erweiterten Befehlssatz und spezielle Hardwareeinheiten – etwa Multiply-Accumulate-Einheiten (MAC) – zur effizienten Durchführung rechenintensiver Operationen, was sie ideal für Audio-, Video- und Kommunikationsanwendungen macht.
 
 - **ASICs** ^[Application Specific Integrated Circuits]: Diese speziell für bestimmte Anwendungen entwickelten Chips sind hinsichtlich Geschwindigkeit, Energieeffizienz, Baugröße und Zuverlässigkeit hoch optimiert. Ihre unflexible Natur und die hohen Kosten bei Entwicklung und Fertigung in kleinen Stückzahlen machen sie vor allem für Massenfertigung wirtschaftlich.
 
 - **FPGAs** ^[Field-Programmable Gate Arrays]: Programmierbare Hardwarebausteine, die vor der Verwendung nicht auf ein konkretes Verhalten festgelegt sind. FPGAs lassen sich mehrfach rekonfigurieren, was sie besonders in der Entwicklung (z. B. als Testumgebung für ASICs) attraktiv macht – wenngleich sie im Vergleich zu spezialisierten Mikrocontrollern oft teurer sind und bei gleicher Technologie eine etwas geringere Performance bieten.
-[vgl. @EmbeddedSystems]
 
 #### Zusätzliche Module
 
@@ -207,8 +212,6 @@ Eine der bekanntesten und am weitesten verbreiteten Entwicklungsumgebungen für 
 
 ![ArduinoIDE](img/Kampl/ArduinoIDE.png){width=400px}
 
----
-
 ![PlatformIO](img/Kampl/PlatformIO.png){width=500px}
 
 
@@ -243,7 +246,7 @@ PlatformIO ist eine Entwicklungsumgebung, die als Erweiterung für den Textedito
 
 ##### Aufsetzen
 
-Um PlatformIO benutzen zu können muss man die *PlatformIO IDE* in Visual Studio installieren. Nach der Installation und einem Neustart kann man ein erstes Projekt erstellen.
+Um PlatformIO benutzen zu können muss man die *PlatformIO IDE* in Visual Studio Code installieren. Nach der Installation und einem Neustart kann man ein erstes Projekt erstellen.
 
 Um nun ein erstes Projekt zu erstellen muss mann einfach nur auf den PlatformIO Home Knopf drücken. Danach drückt man auf *New Project* und wähl das passende Board aus. [@PlatformIO-firststeps]
 
@@ -309,11 +312,9 @@ Jetzt, da wir wissen, dass unser Gerät funktioniert, können wir mit der weiter
 
 #### BME280 als Temperatur, Luftdruch und Luftfeuchtigkeits Sensor
 
-Zuvor müssen wir jedoch einige Bibliotheken hinzufügen damit wir den BME280 einfacher ansprechen können. Die verbreitetste Bibliothek ist die **Adafruit BME280 Library**. Man fügt sie dem Projekt hinzu indem man etweder man die folgende Zeile ```adafruit/Adafruit BME280 Library@^2.2.4``` unter dem Punkt **lib_deps** in der .ini-Datei hinzufügt, oder indem man PlatformIO verwendet, um die Library automatisch hinzuzufügen. 
+Zuvor müssen wir jedoch einige Bibliotheken hinzufügen damit wir den BME280 einfacher ansprechen können. Die verbreitetste Bibliothek ist die **Adafruit BME280 Library**. Man fügt sie dem Projekt hinzu indem man etweder man die folgende Zeile ```adafruit/Adafruit BME280 Library@^2.2.4``` unter dem Punkt **lib_deps** in der .ini-Datei hinzufügt, oder indem man PlatformIO verwendet, um die Library automatisch hinzuzufügen. Sie dient als Schnittstelle für den Sensor.
 
 ![BME-Library](img/Kampl/BME-Library.png){width=500px}
-
-Außerdem benötigt man noch die ```adafruit/Adafruit BME280 Library@^2.2.4```, welche als Schnittstelle für die Sensoren dient.
 
 Am Ende verwenden wir folgenden Code für unseren Sensor:
 
@@ -489,7 +490,7 @@ void printValues() {
 
 [@BME280-Test]
 
-Dieser Teil des Codes gibt die Messwerter auf dem Serial Monitor, in einer aufpolierten Version aus. Der Grund für die Ausgabe ist meist Debugging.
+Dieser Teil des Codes gibt die Messwerte auf dem Serial Monitor, in einer aufpolierten Version aus. Der Grund für die Ausgabe ist meist Debugging.
 
  ![BME-Ausgabe](img/Kampl/BME-Terminal.png){width=500px}
 
@@ -841,7 +842,8 @@ Die Loop Funktion für das GPS-Modul überprüft zuerst, ob Daten momentan verf�
 
 Das Proplem mit NMEA Daten ist, das sie unleserlich sind
 
-![NMEA-Ausgabe](img/Kampl/NMEA-Ausgabe.png){width=500px} [@GPS-Testprogramm]
+![NMEA-Ausgabe [@GPS-Testprogramm]](img/Kampl/NMEA-Ausgabe.png){width=500px} 
+
 
 Deshalb, benötigt man doch noch eine Bibliothek und zwar **TinyGPSPlus**. Man fügt wie immer diese Bibliothek in der Ini-Datei hinzu, diesesmal mit auf folgende Weise: ```mikalhart/TinyGPSPlus@^1.1.0```.
 
@@ -893,7 +895,7 @@ Die TinyGPSPlus bietet viele Funktionen zur leserlichen Darstellung der GPS-Date
 
 MQTT wird häufig in IoT-Anwendungen^[Internet of Things] aufgrund eben dieser geringen benötigten Bandbreite verwendet, da es dadurch sehr zuverlässig arbeitet und selbst bei schlechter Netzwerkverbindung funktioniert.
 
-Einige Wichtige Begriffe im Zusammenhang mit MQTT sind
+Einige wichtige Begriffe im Zusammenhang mit MQTT sind
 
 - **Publisher**: Der Sender, der Informationen oder Daten an den Broker schickt.
 - **Subscriber**: Der Empfänger, der sich beim Broker anmeldet, um bestimmte Nachrichten zu erhalten.
@@ -904,9 +906,10 @@ Einige Wichtige Begriffe im Zusammenhang mit MQTT sind
 
 Ein Mesh ist ein System/Netzwerk, welches aus mehreren WLAN-Zugangspunkten, sogenannten Access Points, besteht. Es sorgt dafür, dass diese Access Points eine lückenlose WLAN-Abdeckung zugesichert werden kann.
 
-Um nun ein Mesh-Netzwerk nun aufbauen zu können muss man zuerst die einzelnen Knotenpunkte miteinander verbinden. Dabei ist immer mindestens einer dieser Punkte mit einem Router oder Modem verbunden um eine Verbindung mit dem Internet herzustellen. Die restlichen Knoten kommunizieren dann drahtlos untereinander. [vgl.@EK-WlanMesh]
-Wenn nun ein Knoten Daten sendet werden sie von nächstgelegenen Knoten auch aufgenommen. Die Daten werden dann von Knoten zu Knoten weitergeleitet bis sie den Hauptknoten erreichen und zum Schluss im Internet landen. Dieser Prozess wird Hop-to-Hop Kommunikation genannt.[vgl.@Wikipedia-Hop]
-Ein weiters wichtiges Merkmal eines Meshes ist, das sogenannte Seamless-Roaming. Dabei wechseln die einzelnen Knoten immer zu Access Point mit dem stärksten Signal ohne, dass die Verbindung unterbrochen wird. Des weiteren verfügt ein Mesh über eine Selbstheilungsfunktion. D.h.: Wenn ein Knotenpunkt, aus verschiedensten Gründen, ausfällt oder die Verbindung verliert, so sucht das System automatisch nach einer alternativen Route über andere Knotenpunkte um wieder eine stabile Verbindung aufzubauen.[vgl.@EK-WlanMesh]
+Um nun ein Mesh-Netzwerk nun aufbauen zu können muss man zuerst die einzelnen Knotenpunkte miteinander verbinden. Dabei ist immer mindestens einer dieser Punkte mit einem Router oder Modem verbunden um eine Verbindung mit dem Internet herzustellen. Die restlichen Knoten kommunizieren dann drahtlos untereinander. [vgl. @EK-WlanMesh]
+Wenn nun ein Knoten Daten sendet werden sie von nächstgelegenen Knoten auch aufgenommen. Die Daten werden dann von Knoten zu Knoten weitergeleitet bis sie den Hauptknoten erreichen und zum Schluss im Internet landen. Dieser Prozess wird Hop-to-Hop Kommunikation genannt.[vgl. @Wikipedia-Hop]
+Ein weiters wichtiges Merkmal eines Meshes ist, das sogenannte Seamless-Roaming. Dabei wechseln die einzelnen Knoten immer zu Access Point mit dem stärksten Signal ohne, dass die Verbindung unterbrochen wird. Des weiteren verfügt ein Mesh über eine Selbstheilungsfunktion. D.h.: Wenn ein Knotenpunkt, aus verschiedensten Gründen, ausfällt oder die Verbindung verliert, so sucht das System automatisch nach einer alternativen Route über andere Knotenpunkte um wieder eine stabile Verbindung aufzubauen.
+[vgl. @EK-WlanMesh]
 
 ### Sonstiges
 
@@ -916,7 +919,7 @@ GitHub Actions ist ein Tool zur Automatisierung von Softwareprozessen wie dem Te
 
 Actions haben noch viele weitere Funktionen da sie im Grunde eine Virtuelle Umgebung erschaffen in welcher Code ausgeführt werden kann.
 
-Um einen **Workflow** zu erstellen, legt man, im vorher erstellten Woreine **YAML-Datei** an, die folgende Elemente definiert:
+Um einen **Workflow** zu erstellen, definiert man, in der vorher erstellten **YAML-Datei**, die folgende Elemente:
 
 - **Event**: Der Auslöser des Workflows (z. B. ein neuer Code-Push).  
 - **Jobs**: Die Aufgaben, die nach dem Event ausgeführt werden.  
@@ -947,7 +950,9 @@ Unser finaler Prototyp sollte folgende physikalischen Messwerte erfassen können
 Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Komponenten entschieden:
 
 ##### ESP32
+
   **Grund**: Der ESP32 ist ein leistungsstarker und kostengünstiger Mikrocontroller mit integrierter WLAN- und Bluetooth Funktionalität. Er bietet eine höhere Rechenleistung als ein Arduino und ist im durchschnitt auch kleiner als jener, was für die mobile Nutzung vom Vorteil ist.
+
   **Spezifikationen**:
 
      - Größe: $39mm  *  28mm  *  6mm$
@@ -960,7 +965,9 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 ![ESP32](img/Kampl/ESP32.png){width=400px}
 
 ##### BME280
+
   **Grund**: Der BME280 ist ein vielseitiger Sensor, welcher sowohl die Temperatur, die Luftfeuchtigkeit als auch den Luftdruck messen kann. Außerdem ist er kompakt und kostengünstig.
+
   **Spezifikationen**:
   
      - Größe: $9mm  *  11mm  *  2mm$
@@ -971,7 +978,9 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 ![BMEPins [@BME280-Datenblatt]](img/Kampl/BME280-Pins.png){width=300px}
 
 ##### MPU6050
+
   **Grund**: Der MPU6050 ist eine Kombination aus Beschleungiungssensor und Gyroskop. Damit können Bewegungen auf der X, der Y und der Z-Achse erfasst werden.
+
   **Spezifikationen**:
 
      - Größe: $25mm  *  20mm  *  7mm$
@@ -982,7 +991,9 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 ![MPUPins [@MPU6050-Datenblatt]](img/Kampl/MPU6050-Pins.png){width=500px}
 
 ##### GY-GPSMV2
+
   **Grund**: Das GY-GPSMV2-Modul ermöglicht die Standortbestimmung über GPS. Es bietet eine hohe Genauigkeit und eine stabile Leistung, wodurch die Postion präzise erfasst werden kann.
+
   **Spezifikationen**:
   
      - Größe: $16mm  *  12.2mm  *  2.4mm$
@@ -1102,10 +1113,11 @@ const char *mqtt_server = "mqtt.contrude.eu";
 const char *mqtt_username = "contrude";
 const char *mqtt_password = "HaG1$Vk&62!cWv";
 const char *mqtt_domain = "contrude/";
-const int ship_number = 1;
-const int mqtt_port = 1883;
 // Number for this node and also number for the container
 int nodeNumber = 1;
+const int ship_number = 1;
+const int mqtt_port = 1883;
+
 
 String mqtt_publish = String(mqtt_domain) + ship_number + "/" + nodeNumber;
 
