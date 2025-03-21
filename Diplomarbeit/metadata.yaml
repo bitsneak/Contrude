@@ -141,8 +141,8 @@ da-appendix:
 #Kampl
 
 - abschnitt: Embedded Systems
-  pdf-file: Kampl/NTVS-5IT-SJ24-25-Embedded-Systems.pdf
-  seiten: 1-32
+  pdf-file: Kampl/NTVS-5IT-SJ24-25-Embedded-Systems-Zusammengefasst.pdf
+  seiten: 1-8
 
 - abschnitt: Serielle Schnittstellen
   pdf-file: Kampl/Serielle-Schnittstellen-Kampl.pdf
@@ -151,6 +151,10 @@ da-appendix:
 - abschnitt: Configuration
   pdf-file: Kampl/NEO-6-DataSheet-GPS.G6-HW-09005.pdf
   seiten: 1-11
+
+- abschnitt: RAM-Zusatzmaterial.pdf
+  pdf-file: Kampl/RAM-Zusatzmaterial.pdf
+  seiten: 1-6
 
 - abschnitt: Fritzing
   pdf-file: Kampl/FritzingInfoBroschuereDE.pdf

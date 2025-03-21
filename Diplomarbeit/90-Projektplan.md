@@ -30,7 +30,7 @@ Die Platzierung von Containern auf einem Frachtschiff ist in der Ladeliste vorde
 #### Nicht-Ziele
 
 - Mobile Anwendung
-- Mehr als 3 Prototypen
+- Mehr als 3 Hardware Prototypen
 - Statische Server- und Kommunikationsarchitektur
 
 #### Projektnutzen

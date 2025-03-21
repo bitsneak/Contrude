@@ -12,7 +12,7 @@ Des weiteren können die für einzelne Container festgelegten Grenzwerte eingese
 
 ## Probleme
 
-Der verwendete Lötkolben hatte aufgrund seiner Erstbenutzung noch keine Zinnschicht an der Spitz. Das führte zu einer verminderten Wärmeleitfähigkeit, wodurch der gesamte Lötvorgang mehr Zeit in Anspruch genommen hat als angenommen.
+Der verwendete Lötkolben hatte aufgrund seiner Erstbenutzung noch keine Zinnschicht an der Spitz, das führte zu einer verminderten Wärmeleitfähigkeit, wodurch der gesamte Lötvorgang mehr Zeit in Anspruch genommen hat als angenommen.
 
 Aufgrund mangelnder Sorgfalt während des Lötvorgangs wurden einige Komponenten beschädigt oder unbrauchbar gemacht. Dies führte dazu, dass sie ausgetauscht werden mussten.
  
