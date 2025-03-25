@@ -8,7 +8,7 @@
 
 Ein zentraler Aspekt der Diplomarbeit ist das ungefähre Identifizieren der Position eines bestimmten Containers auf einem Containerschiff.
 
-Die Kapazität eines Schiffes wird in der Regel mit TEUs (Twenty Foot Equivalent Units) angegeben. Jeder Container ist also 20 Fuß (6,1 m) oder ca. 6 Meter lang. Containerschiffe können von weniger als tausend TEUs bis hin zu 24000 TEUs haben. [vgl. @Pfeiffer-Containerschiffe] [vgl. @IngenieurDE-Containershiffe]
+Die Kapazität eines Schiffes wird in der Regel mit TEUs^[Twenty Foot Equivalent Units] angegeben. Jeder Container ist also 20 Fuß (6,1 m) oder ca. 6 Meter lang. Containerschiffe können von weniger als tausend TEUs bis hin zu 24000 TEUs haben. [vgl. @Pfeiffer-Containerschiffe] [vgl. @IngenieurDE-Containershiffe]
 
 ![Entwicklung von Container-Schiffen [@IncoDocs-TEU]](img/Gekle/Evolution-Container-Schiffe.jpg){width=50%}
 
@@ -23,10 +23,10 @@ Allgemein gilt Folgendes:
 >Ein **Graph** G besteht aus einer Menge V von **Knoten** und einer Menge E von Knotenpaaren, welche als **Kanten** bezeichnet werden. Die Notation für einen Graphen lautet G=(V,E)G=(V,E). E und V stehen dabei für _edges_ und _vertices_, also die englischen Begriffe für Kanten und Knoten. Eine Kante {u, v} ELEMENT E verbindet die Knoten u und v. [vgl. @Uni-Bremen-Graphentheorie]
 
 Zusätzlich muss man innerhalb der Graphentheorie zwischen Ungerichteten und Gerichteten Graphen unterscheiden. Der primäre Unterschied liegt darin, ob die Kanten als einfache Striche (ungerichtet) oder Pfeile (gerichtet) dargestellt werden. [vgl. @Studyflix-Graphentheorie] 
-Bei einem gerichteten Graph ist daher die Richtung der Kante/ Beziehung zu beachten. Gilt z.B. A -> B -> C mit V={A, B, C} und E={{A,B}, {B,C}}, dann ist es nicht erlaubt, etwa von C zu B zu gehen, sondern nur von B nach C. Bei einem ungerichteten Graph gilt diese Regel nicht. Selbiges Beispiel nur ungerichtet: A - B - C; hier darf man sowohl von B nach C als auch umgekehrt von C nach B gehen.
+Bei einem gerichteten Graph ist daher die Richtung der Kante/ Beziehung zu beachten. Gilt z.B. $A -> B -> C\ mit\ V={A, B, C}$ und $E={{A,B}\ und\ {B,C}}$, dann ist es nicht erlaubt, etwa von C zu B zu gehen, sondern nur von B nach C. Bei einem ungerichteten Graph gilt diese Regel nicht. Selbiges Beispiel nur ungerichtet: $A - B - C$; hier darf man sowohl von B nach C als auch umgekehrt von C nach B gehen.
 
 Abschließend muss man noch auf den Zusammenhang der einzelnen Knoten schauen. Ein ungerichteter Graph ist dann zusammenhängend, wenn alle Knoten erreichbar, also es zu jedem Knoten einen Weg gibt. Ist dies nicht der Fall, gibt es sogenannte isolierte Knoten und der Graph ist nicht zusammenhängend. Bei gerichteten Graphen unterscheidet man zusätzlich zwischen schwach und stark zusammenhängenden Graphen. [vgl. @Studyflix-Graphentheorie] 
-In dem Beispiel A -> B mit V={A, B} und E={A,B}, ist der Knoten A nur erreichbar, wenn man die Richtung außer Acht lässt, man spricht von einem schwach zusammenhängenden Graph. Für einen stark zusammenhängenden Graphen müsste zusätzlich noch eine Kante {B, A} bestehen.
+In dem Beispiel $A -> B\ mit\ V={A, B}$ und $E={A,B}$, ist der Knoten A nur erreichbar, wenn man die Richtung außer Acht lässt, man spricht von einem schwach zusammenhängenden Graph. Für einen stark zusammenhängenden Graphen müsste zusätzlich noch eine Kante ${B, A}$ bestehen.
 
 Der Containersimulator hat als Endergebnis einen **ungerichteten** Graphen, wie im folgenden Bild zu sehen ist:
 
@@ -85,7 +85,7 @@ Wenn ein Knote V = Knote W ist, also bei einer Verbindung zu sich selbst, wird 0
 
 ##### DOT
 
-Mithilfe der DOT Sprache, welche Teil von Graphviz [vgl. @Graphviz-Homepage] ist, lassen sich sehr einfach gerichtete und ungerichtete Graphen darstellen. Dies erfolgt mit sogenannten "edgeloops", wobei "->" für gerichtete und "--" für ungerichtete Graphen steht. Diese können innerhalb eines Graphen benutzt werden, welcher durch `graph{}` für einen ungerichteten oder `diagraph{}` für einen gerichteten gekennzeichnet wird. Fügt man davor ein `strict` hinzu (also z.B. `strict graph{}`) so kann man bestimmen, dass zwischen zwei Knoten immer nur eine Verbindung besteht. [vgl. @GraphViz-Documentation] 
+Mithilfe der DOT-Sprache^[Description of Text], welche Teil von Graphviz [vgl. @Graphviz-Homepage] ist, lassen sich sehr einfach gerichtete und ungerichtete Graphen darstellen. Dies erfolgt mit sogenannten "edgeloops", wobei "->" für gerichtete und "--" für ungerichtete Graphen steht. Diese können innerhalb eines Graphen benutzt werden, welcher durch `graph{}` für einen ungerichteten oder `diagraph{}` für einen gerichteten gekennzeichnet wird. Fügt man davor ein `strict` hinzu (also z.B. `strict graph{}`) so kann man bestimmen, dass zwischen zwei Knoten immer nur eine Verbindung besteht. [vgl. @GraphViz-Documentation] 
 Basierend auf der Adjazenzmatrix kann man etwa so einem einfachen Graph erstellen:
 
 ```{caption="Beispiel DOT Code"}
@@ -107,11 +107,11 @@ strict graph G {
 
 Dieser Code würde folgendem entsprechen:
 
-![Ungerichteter Graph mit DOT](img/Gekle/DotGraph.png)
+![Ungerichteter Graph mit DOT](img/Gekle/DotGraph.png){width=80%}
 
 ##### Dragable Graph (DG)
 
-Der große Vorteil des Dragable Graphs besteht darin, dass er interaktiv ist. Ein User kann also mit dem Mauszeiger die einzelnen Knoten hin und her bewegen, wobei auch die Kanten sich mit bewegen. Dies hilft besonders bei der Benutzerfreundlichkeit, da sich der User den Graphen so richten kann, wie es ihm gefällt, wodurch sie sich sehr gut für Datenvisualisierung eignen. Eine JavaScript-Bibliothek, um so einen Graphen zu ermöglichen, ist z.B. D3.js. [vgl. @D3js-Homepage], welcher auch in der Diplomarbeit verwendet wurde. [vgl. @gpt-DragableGraph] Des Weiteren ist es eine weitere Eigenschaft des DG, dass sich Knoten nicht übereinander lagern können, da sie sich voneinander abstoßen. Durch diese Mechanik spannt sich der Graph automatisch auf und sorgt für eine übersichtliche Visualisierung der Container (Knoten), ohne dass sie sich gegenseitig verdecken.
+Der große Vorteil des dragable Graphs besteht darin, dass er interaktiv ist. Ein User kann also mit dem Mauszeiger die einzelnen Knoten hin und her bewegen, wobei auch die Kanten sich mit bewegen. Dies hilft besonders bei der Benutzerfreundlichkeit, da sich der User den Graphen so richten kann, wie es ihm gefällt, wodurch sie sich sehr gut für Datenvisualisierung eignen. Eine JavaScript-Bibliothek, um so einen Graphen zu ermöglichen, ist z.B. D3.js. [vgl. @D3js-Homepage], welcher auch in der Diplomarbeit verwendet wurde. [vgl. @gpt-DragableGraph] Des Weiteren ist es eine weitere Eigenschaft des DG, dass sich Knoten nicht übereinander lagern können, da sie sich voneinander abstoßen. Durch diese Mechanik spannt sich der Graph automatisch auf und sorgt für eine übersichtliche Visualisierung der Container (Knoten), ohne dass sie sich gegenseitig verdecken.
 
 ### Website
 
@@ -176,24 +176,24 @@ Die `Topbar`-Komponente übernimmt in einer anderen Page etwa ganz andere Kompon
 
 Anders als im ersten Code, wo eine `Searchbar`-, `ShipSelect`- und `GridDropDown`-Komponente übergeben wird, wird hier etwa eine `DetailControl`-Komponente übergeben. Die Funktionalität als auch das Aussehen der `Topbar` ändern sich so. Dieses komponentenbasierte Programmieren ist das Herz von React Development.
 
-Die Komponenten werden in React nicht in reinen Javascript geschrieben, sondern verwenden mit **JSX** eine erweiterte Form davon:
+Die Komponenten werden in React nicht in reinen Javascript geschrieben, sondern verwenden mit **JSX**^[JavaScript XML] eine erweiterte Form davon:
 
-> JSX ist eine Syntaxerweiterung für JavaScript, die es Ihnen erlaubt, Komponenten und Elemente ohne großen Aufwand zu erzeugen. JSX nutzt eine Schreibweise, die den Tags in HTML gleicht. Innerhalb von JSX können Sie JavaScript-Ausdrücke in geschweiften Klammern einfügen und so beispielsweise Werte oder das Ergebnis eines Funktionsaufrufs anzeigen.
+> JSX ist eine Syntaxerweiterung für JavaScript, die es Ihnen erlaubt, Komponenten und Elemente ohne großen Aufwand zu erzeugen. JSX nutzt eine Schreibweise, die den Tags in HTML gleicht. Innerhalb von JSX können Sie JavaScript-Ausdrücke in geschweiften Klammern einfügen und so beispielsweise Werte oder das Ergebnis eines Funktionsaufrufs anzeigen. [vgl. @React-Umfassendes-Handbuch]
 
 Schleifen erzeugen Sie normalerweise, indem Sie eine Datenstruktur, meist ein Array, mit der map-Methode in eine JSX-Struktur umwandeln.
 Bedingungen mit if-Statements innerhalb der JSX-Strukturen zu formulieren, ist nicht möglich. 
 
-Sie können dies entweder auslagern oder beispielsweise mit dem Ternär- oder dem logischen Und-Operator arbeiten. [Buchquelle]
+Sie können dies entweder auslagern oder beispielsweise mit dem Ternär- oder dem logischen Und-Operator arbeiten. [vgl. @React-Umfassendes-Handbuch]
 
 ##### Use-State & Hooks
 
-> Die Hooks-API stellt eine Aufwertung der Funktionskomponenten dar. Vor der Einführung der neuen Schnittstelle war es nur in Klassenkomponenten möglich, einen lokalen State zu implementieren und auf Lifecycle-Methoden zurückzugreifen. Diese und weitere Einschränkungen werden durch die Hooks weitestgehend aufgehoben. [Buchquelle]
+> Die Hooks-API stellt eine Aufwertung der Funktionskomponenten dar. Vor der Einführung der neuen Schnittstelle war es nur in Klassenkomponenten möglich, einen lokalen State zu implementieren und auf Lifecycle-Methoden zurückzugreifen. Diese und weitere Einschränkungen werden durch die Hooks weitestgehend aufgehoben. [vgl. @React-Umfassendes-Handbuch]
 
 Die großen Vorteile, welche die Hooks mit sich bringen, sind hierbei folgende:
 
 - Reduzierung des Komponentenumfangs
 - Entfernen von Duplikaten
-- Ersatz von komplexen Entwurfsmustern [Buchquelle]
+- Ersatz von komplexen Entwurfsmustern [vgl. @React-Umfassendes-Handbuch]
 
 Der `useState`-Hook erlaubt es nun aber, dass State zu den funktionellen Komponenten hinzugefügt wird. [vgl. @GeeksForGeeks-useState]
 Es können auch mehrere State-Variablen in einer Komponente definiert werden. Ein `useState` sieht in der Regel in etwa so aus:
@@ -216,12 +216,12 @@ Es gibt in React neben der useState auch noch andere Hooks. React selbst unterte
 
 Die 3 "Basic Hooks" sind hierbei allerdings die wichtigsten. Neben dem bereits erwähnten `useState()` gibt es auch noch:
 
-- `useEffect()` --> für Ausführung von Side-Effects wie das Laden von Daten via API, Event-Handler oder die Konsolen-Ausgabe
+- `useEffect()` --> für Ausführung von Side-Effects wie das Laden von Daten via API^[Application Programming Interfaces/ Programmierschnittstellen], Event-Handler oder die Konsolen-Ausgabe
 - `useContext()` --> ermöglicht es, Daten aus einem Context-Provider zu konsumieren [vgl. @DoubleSlash-ReactHooks]
 
 ##### React Router
 
-Viele Webanwendungen sind sogenannte "Single-Page-Webanwendungen". Sie bestehen also aus nur einem HTML-Dokument, wobei der Inhalt dynamisch nachgeladen wird. Sogenannte SPA (Single Page Applications) beinhalten also Komponenten, welche sich wie Seiten verhalten. Um so etwas zu erstellen, müssen React-Router und das Routing verwendet werden. Mithilfe des Routings werden Komponenten Routen zugeordnet. Dies stellt `react-router-dom` zur Verfügung [vgl. @FreeCodeCamp-Routing] 
+Viele Webanwendungen sind sogenannte "Single-Page-Webanwendungen". Sie bestehen also aus nur einem HTML^[Hypertext Markup Language]-Dokument, wobei der Inhalt dynamisch nachgeladen wird. SPAs^[Single Page Applications] beinhalten also Komponenten, welche sich wie Seiten verhalten. Um so etwas zu erstellen, müssen React-Router und das Routing verwendet werden. Mithilfe des Routings werden Komponenten Routen zugeordnet. Dies stellt `react-router-dom` zur Verfügung [vgl. @FreeCodeCamp-Routing] 
 
 Dies erfolgt über das "Route" Element:
 
@@ -229,7 +229,7 @@ Dies erfolgt über das "Route" Element:
 <Route path="/main" element={<MainPage />} />
 ```
 
-Hierbei wird über die URL ".../main" auf die MainPage verwiesen. Gibt man in der Adresszeile eines Browsers die URL ein, würde man rein theoretisch auf der MainPage landen.
+Hierbei wird über die URL^[Uniform Resource Locator] ".../main" auf die MainPage verwiesen. Gibt man in der Adresszeile eines Browsers die URL ein, würde man rein theoretisch auf der MainPage landen.
 
 Es ist wichtig anzumerken, dass alle Routes logischerweise Teil eines Routers sein müssen. Dies würde in etwa so aussehen:
 
@@ -250,19 +250,19 @@ Bei der Verwendung von React ist es empfehlenswert, ein sogenanntes Build Tool z
 Die zentralen Aufgaben eines Build Tools sind:
 
 - konvertieren des JavaScript/ TypeScript Codes in eine für Browser kompatible Version
-- bündeln von Komponenten und Files, um die Anzahl an HTTP Requests für das Laden der App zu verringern
+- bündeln von Komponenten und Files, um die Anzahl an HTTP^[Hypertext Transfer Protocol] Requests für das Laden der App zu verringern
 - unnütze Zeichen (z.B. Whitespaces) löschen, um Ladezeiten zu verbessern
-- allgemein die Performance des Codes verbessern (z.B. mit "Tree Shaking", welches unbenutzten Code eliminiert)[vgl. @CodeParrot-BuildTools]
+- allgemein die Performance des Codes verbessern (z.B. mit "Tree Shaking"^[Technik um unbenutzten Code zu eliminieren])[vgl. @CodeParrot-BuildTools]
 
 Eines dieser Build Tools ist Vite, welches sich besonders durch seine Geschwindigkeit auszeichnet (vite = französisch für schnell). Zu den Gründen, warum Vite mittlerweile so beliebt ist, zählen u.a.:
 
-- Geschwindigkeit --> benutzt ES, um Quellcode direkt im Browser bereitzustellen
+- Geschwindigkeit --> benutzt ES^[ECMAScript], um Quellcode direkt im Browser bereitzustellen
 - out-of-the-box Support für React/TypeScript/...
 - optimierter Build durch die Verwendung von Rollup als Bundler [vgl @CodeParrot-BuildTools]
 
-![Funktionen von Vite @eluminoustechnologies-vite](img/Gekle/Vite-Features.png){width=100%}
+![Funktionen von Vite [vgl. @eluminoustechnologies-vite]](img/Gekle/Vite-Features.png){width=100%}
 
-Selbst aber mit dem sogenannten HMR (Hot Module Replacement --> Änderungen im Code werden sofort im Browser angezeigt) tendieren Build Tools dazu, mit wachsendem JavaScript langsamer zu werden. Hierbei ist Vite jedoch besonders. Es nutzt eine Kombination aus ES-Modulen und einem virtuellen Modulsystem: [vgl. @Telerik-BuildTools]
+Selbst aber mit HMR^[Hot Module Replacement], wodurch Änderungen im Code sofort im Browser angezeigt werden, tendieren Build Tools dazu, mit wachsendem JavaScript langsamer zu werden. Hierbei ist Vite jedoch besonders. Es nutzt eine Kombination aus ES-Modulen und einem virtuellen Modulsystem: [vgl. @Telerik-BuildTools]
 
 > Wenn Sie ein Modul importieren, behandelt Vite es als virtuelles Modul. Während der Entwicklung bündelt es nicht Ihren gesamten Code in eine einzelne Datei. Stattdessen erstellt es bei Bedarf Builds für jedes Modul und stellt sie in separaten Dateien bereit. Dieser Ansatz eliminiert die Notwendigkeit eines vollständigen Bündelungsprozesses bei jeder Änderung, führt zu schnelleren Reloads und – natürlich – zu einem zufriedenen Entwickler. [vgl. @Telerik-BuildTools]
 
@@ -276,13 +276,13 @@ npm create vite@latest project-name
 
 Mithilfe dieses Befehls wird der Prozess zum Erstellen eines neuen React-Projekts mit der neuesten Vite Version gestartet. Als Erstes wird Folgendes gefragt:
 
-![Auswahl des Projekttyps nach npm Befehl](img/Gekle/CreateProject1.png){width=75%}
+![Auswahl des Projekttyps nach npm Befehl](img/Gekle/CreateProject1.png){width=60%}
 
 Um ein React Project speziell zu erstellen, muss natürlich "React" mithilfe der Pfeiltasten und Enter ausgewählt werden. Daraufhin wird noch gefragt, ob man Typescript oder JavaScript verwenden möchte (siehe Bild unten). Im Rahmen der Diplomarbeit wurde einfach nur JavaScript ausgewählt.
 
-![Auswahl zwischen TypeScript und Javascript während der Projekterstellung](img/Gekle/CreateProject2.png){width=75%}
+![Auswahl zwischen TypeScript und Javascript während der Projekterstellung](img/Gekle/CreateProject2.png){width=60%}
 
-Ist dies einmal gemacht, kann das Projekt mithilfe eines Code-Editors geöffnet werden. Innerhalb des Projekts kann dann ein `vite.config.js`-File gefunden werden, in welchem man die Konfigurationen des Projekts (etwa den Port) ändern kann. Um aber alles funktional zu machen, müssen mit `npm install` noch die Dependencies installiert werden. In einem regulären Projekt würde man dann mit dem Befehl `npm run dev` das React-Projekt starten. Bei jedem React-Projekt handelt es sich wie bereits erwähnt um eine "Single-Page-Application". Diese "Single-Page" bildet `index.html`, und alles weitere (Komponente) werden via JavaScript dazugeladen. Als Einstiegsfile dient die sogenannte `main.jsx`, welche (standardmäßig) `app.jsx` lädt, welche wiederum die Hauptkomponente des Projekts bildet. [vgl. @React-CrashCourse]
+Ist dies einmal gemacht, kann das Projekt mithilfe eines Code-Editors geöffnet werden. Innerhalb des Projekts kann dann ein `vite.config.js`-File gefunden werden, in welchem man die Konfigurationen des Projekts (etwa den Port) ändern kann. Um aber alles funktional zu machen, müssen mit `npm install` noch die Dependencies installiert werden. In einem regulären Projekt würde man dann mit dem Befehl `npm run dev` das React-Projekt starten. Bei jedem React-Projekt handelt es sich wie bereits erwähnt um SPAs. Diese "Single-Page" bildet `index.html`, und alles weitere (Komponente) werden via JavaScript dazugeladen. Als Einstiegsfile dient die sogenannte `main.jsx`, welche (standardmäßig) `app.jsx` lädt, welche wiederum die Hauptkomponente des Projekts bildet. [vgl. @React-CrashCourse]
 
 ```{caption="index.html File" .html}
 <!doctype html>
@@ -300,7 +300,7 @@ Ist dies einmal gemacht, kann das Projekt mithilfe eines Code-Editors geöffnet 
 </html>
 ```
 
-Generell gibt es regulär 2 CSS-Files, da jedoch TailwindCSS benutzt wird, wird nur eines davon benötigt: `index.css`. Um TailwindCSS (Version 3.4) zu installieren, müssen nach dem React-Projekt Erstellen selbst noch folgende 2 Befehle im Terminal ausgeführt werden:
+Generell gibt es regulär 2 CSS^[Cascading Style Sheets]-Files, da jedoch TailwindCSS benutzt wird, wird nur eines davon benötigt: `index.css`. Um TailwindCSS (Version 3.4) zu installieren, müssen nach dem React-Projekt Erstellen selbst noch folgende 2 Befehle im Terminal ausgeführt werden:
 ```{caption="TailwindCSS Installieren Befehle" .txt}
 npm install -D tailwindcss@3 postcss autoprefixer
 npx tailwindcss init -p
@@ -358,9 +358,9 @@ Es ist auch möglich, Tailwind CSS mit bestimmten Ereignissen zu verknüpfen. So
 <button className='bg-red-400 hover:bg-red-600'>BUTTON</button>
 ```
 
-Dies sagt aus, dass im Zustand "hover", also wenn der User mit dem Mauszeiger über den Knopf hovert, der Farbton von `red-400` auf den dunkleren Rotton `red-600` geändert werden soll. Bezüglich der Farben bietet TailwindCSS allgemein eine sehr große Palette an vordefinierten Farben, welche mit Texten, Border-Linien oder auch dem eben erwähnten `hover` kombiniert werden können. Dies lässt sich auch im Bild sehr gut erkennen:
+Dies sagt aus, dass im Zustand "hover", also wenn der User mit dem Mauszeiger über den Knopf hovert, der Farbton von `red-400` auf den dunkleren Rotton `red-600` geändert werden soll. Bezüglich der Farben bietet TailwindCSS allgemein eine sehr große Palette an vordefinierten Farben, welche mit Texten, Border-Linien oder auch dem eben erwähnten `hover` kombiniert werden können. Die vordefinierten Farben lassen sich auch im Bild sehr gut erkennen:
 
-![Vordefinierte Farben von TailwindCSS](img/Gekle/TailwindCSS-Colors-Example.PNG)
+![Vordefinierte Farben von TailwindCSS [vgl. @TailwindCSS-Colors]](img/Gekle/TailwindColors.png){width=80%}
 
 Tailwind nennt dies Pseudo-Klassen. Die 3 wichtigsten sind folgende:
 
@@ -374,18 +374,18 @@ Die großen Vorteile von Tailwind CSS sind also, dass keine externen CSS-Files e
 
 #### REST und Axios
 
-Die Webanwendung benötigt Daten aus dem Backend, damit sie ordentlich und sinnvoll funktioniert. Diese Daten werden über die REST (Representational State Transfer) API in das Frontend (sprich die Website) geholt.
+Die Webanwendung benötigt Daten aus dem Backend, damit sie ordentlich und sinnvoll funktioniert. Diese Daten werden über die REST^[Representational State Transfer] API in das Frontend (sprich die Website) geholt.
 
 ##### REST
 
-Die API, welche aufgrund ihrer Flexibilität, Schnelligkeit und Einfachheit berühmt wurde, benutzt in der Regel das HTTP-Protokoll und überträgt die Daten mithilfe von JSON. Im Kontext einer Website wird mit dem Eingeben/Aufrufen einer URL eine HTTP-Anfrage gesendet. Die wichtigsten HTTP-Befehle hierbei sind:
+Die API, welche aufgrund ihrer Flexibilität, Schnelligkeit und Einfachheit berühmt wurde, benutzt in der Regel das HTTP-Protokoll und überträgt die Daten mithilfe von JSON^[JavaScript Object Notation]. Im Kontext einer Website wird mit dem Eingeben/Aufrufen einer URL eine HTTP-Anfrage gesendet. Die wichtigsten HTTP-Befehle hierbei sind:
 
 - GET (Abrufen)
 - POST (Erstellen)
 - PUT (Aktualisieren)
 - DELETE (Löschen) [vgl. @Talend-REST]
 
-Die Anfrage geht dann beim Server ein und die REST-API kümmert sich darum, dass eine Antwort gesucht und sofort zurückgeliefert wird. Die Antworten sind in der Regel im JSON (JavaScript Object Notation) Format. [vgl. @Talend-REST]
+Die Anfrage geht dann beim Server ein und die REST-API kümmert sich darum, dass eine Antwort gesucht und sofort zurückgeliefert wird. Die Antworten sind in der Regel im JSON Format. [vgl. @Talend-REST]
 
 ##### Kriterien für REST
 
@@ -400,11 +400,11 @@ Damit eine REST-API gültig ist, müssen 6 Kriterien erfüllt sein:
 
 ##### REST in REACT - Axios
 
-Es ist durchaus möglich, HTTP-Abfragen innerhalb von React ohne externe Library zu benutzen. Allerdings hat eine benutzerfreundliche externe API wie Axios durchaus seine Vorteile. Axios verwendet Promises (JavaScript Objekte, welche den zukünftigen Wert einer asynchronen Funktion repräsentieren), wodurch es einfacher ist, mit "asnyc functions" zu arbeiten. Auch die Tatsache, dass Axios automatisch JSON Objekte in JavaScript Objekte überführt, sprich man erspart sich die `.json`-Anweisung, spricht für die Verwendung davon. Zusätzliche Vorteile von Axios sind:
+Es ist durchaus möglich, HTTP-Abfragen innerhalb von React ohne externe Library zu benutzen. Allerdings hat eine benutzerfreundliche externe API wie Axios durchaus seine Vorteile. Axios verwendet Promises^[JavaScript Objekte -> repräsentieren zukünftige Werte einer asynchronen (async) Funktion], wodurch es einfacher ist, mit "asnyc functions" zu arbeiten. Auch die Tatsache, dass Axios automatisch JSON Objekte in JavaScript Objekte überführt, sprich man erspart sich die `.json`-Anweisung, spricht für die Verwendung davon. Zusätzliche Vorteile von Axios sind:
 
 - eingebaute Funktionen zum Abbrechen von Abfragen
 - interzeptieren (vor Senden einer Abfrage/ nach Erhalten einer Antwort logische Operationen durchführen)
-- hat CSRF (Cross Site Request Forgery) Schutz
+- hat CSRF^[Cross Site Request Forgery] Schutz
 - breite Community + Support [vgl. @GeeksForGeeks-Axios]
 
 Weiters ist der Code mit Axios etwas einfacher zu lesen:
@@ -448,7 +448,7 @@ const response = await axiosinstance.post('https://api.contrude.eu/login', login
 
 Die Fehlerbehandlung ist durch Axios ebenfalls verbessert. So sieht fetch das Promise bei z.B. HTTP Fehlercodes wie 404 oder 500 trotzdem als erfüllt. Sprich: Der Status Code muss explizit überprüft werden. Ein Fehler wird also nur ausgelöst, wenn es sich um ein Netzwerkproblem handelt (z.B. Server nicht erreichbar). Axios sieht HTTP-Fehler aber automatisch als das, was sie sind, Fehler, und lehnt das Promise ab, wodurch die Fehlerbehandlung vereinfacht wird. [vgl. @gpt-AxiosVT]
 
-Alle Abfragen werden innerhalb von asynchronen Funktionen durchgeführt. Dies hat einerseits den Vorteil, dass der Code besser lesbar ist, da ohne `async` mit `.then` und `.catch` gearbeitet werden muss. So wird auch sogenannten "Callback-Hells" vorgebeugt, da man sich nicht in `then` Schleifen verlieren kann. Auch die Fehlerbehandlung ist aufgrund von `try/catch` einfacher und sauberer. [vgl. @gpt-WarumAsync]
+Alle Abfragen werden innerhalb von asynchronen Funktionen durchgeführt. Dies hat einerseits den Vorteil, dass der Code besser lesbar ist, da ohne `async` mit `.then` und `.catch` gearbeitet werden muss. So wird auch sogenannten "Callback-Hells" vorgebeugt, da man sich nicht in `then` Konstrukten verlieren kann. Auch die Fehlerbehandlung ist aufgrund von `try/catch` einfacher und sauberer. [vgl. @gpt-WarumAsync]
 
 ## Praktische Arbeit
 
@@ -457,11 +457,9 @@ Alle Abfragen werden innerhalb von asynchronen Funktionen durchgeführt. Dies ha
 #### Klassen
 
 ##### Container
-Diese Klasse ist eine etwas modifizierte POJO (Plain Old Java Object) Klasse mit folgenden Variablen:
+Diese Klasse ist eine etwas modifizierte POJO^[Plain Old Java Object]:
 
-- String `name`
-- List\<Container> `adjacentContainers`(ArrayList)
-- double `signalMinimum`
+![UML Diagram der Container Klasse (Gelb markiert)](img/Gekle/SimulatorUML-Diagram-Container.jpeg){width=80%}
 
 Die `name`-Variable aller Container ist gleich aufgebaut: "cont#", wobei # für eine beliebige Nummer steht. Dies macht die Namen nicht unnötig kompliziert und hat auch innerhalb der Konsolen-Interaktion mit dem User seinen Vorteil. In `adjacentContainers` werden alle benachbarten Container, also jene, zu welchen der ausgewählte Container eine Verbindung hat bzw. welche in seiner Nähe sind, abgespeichert. Die Variable `signalMinimum` ist eine mithilfe von `ThreadLocalRandom.current()` erstellte zufällige Double-Variable, welche für das Generieren der Verbindung zwischen den einzelnen Containern noch wichtig wird. `ThreadLocalRandom` wird eigentlich eher für Multithreading-Anwendungen benutzt [vgl. @Baeldung-JavaRandom], jedoch ist die Syntax, um eine Zufallszahl mit "von-bis" zu generieren, etwas angenehmer zu lesen:
 ```{caption="Zufällige Nummer mit .math und ThreadLocalRandom" .java}
@@ -473,7 +471,7 @@ this.signalMinimum = ThreadLocalRandom.current().nextDouble(10, 25);
 ```
 Der Grund hierfür ist, da `Math.random` nur eine Zahl zwischen 0 & 1 generiert, während man bei `ThreadLocalRandom` den minimalen und maximalen Wert einfach angeben kann.
 
-Bezüglich Methoden hat `Container` für alle Variablen Getter und Setter und einen Konstruktor, mit welchem `name` und `signalMinimum` gesetzt werden. Mithilfe von `void addDestination(Container con)` kann ein benachbarter Container zur Liste hinzugefügt werden (die Liste wird außerhalb des Konstruktors initialisiert. Auch die `toString` wurde etwas angepasst, um die Ausgabe in der Konsole etwas besser aussehen zu lassen:
+Bezüglich Methoden hat `Container` für alle Variablen Getter und Setter und einen Konstruktor, mit welchem `name` und `signalMinimum` gesetzt werden. Mithilfe von `void addDestination(Container con)` kann ein benachbarter Container zur Liste hinzugefügt werden (die Liste wird außerhalb des Konstruktors initialisiert). Auch die `toString` wurde etwas angepasst, um die Ausgabe in der Konsole etwas besser aussehen zu lassen:
 ```{caption="Überarbeitung der .toString Methode von Container" .java}
 @Override
 public String toString() {
@@ -497,16 +495,14 @@ Container{name='cont1', adjacentContainers=cont0, , signalMinimum=10.75399123701
 ##### Ship
 Dies ist die zweite Klasse, in welcher alle für den Simulator notwendigen Funktionen implementiert sind. Die Klasse selbst verwaltet drei Variablen:
 
-- Set\<Container> `containers` (HashSet)
-- ArrayList\<String> `contConList`
-- int[][] `adjMatrix`
+![UML Diagram der Ship Klasse (Gelb markiert)](img/Gekle/SimulatorUML-Diagram-Ship.jpeg){width=80%}
 
 In dem HashSet werden alle in der Main Klasse generierten Container abgespeichert. In der `contConList` werden alle Verbindungen zwischen Containern im Format "A;B" abgespeichert, wobei A für Container (= Knoten im Graphen) und das Semikolon für die Verbindung (=Kante im Graphen) stehen. Das 2d-Array repräsentiert eine Adjazenzmatrix, welche u.a. für das Schreiben in JSON Files benötigt wird.
 
 Mit `void addContainer (Container con)` können Container in das Set hinzugefügt werden. Weitere Methoden sind diejenigen zum Schreiben in JSON Files oder jene, welche für das Konsolen-Programm benötigt werden (z.B. `printAdjMatrix` zum Schreiben der Adjazenz Matrix). Außerdem erledigt sie die Aufgabe der Erstellung der Verbindungen zwischen den einzelnen Container-Objekten.
 
 ##### Main
-Der Container Simulator ist an und für sich ein Konsolen-Programm. Die Interaktion zwischen dem User und dem Simulator passiert also (fast) rein in der Konsole. Die `Main`-Klasse regelt diese. Sie erstellt die Container, basierend auf der vom User eingegebenen Menge, und übergibt diese an die ebenfalls von ihr erstellten `Ship`-Klasse. Die User-Interaktion wird dann innerhalb einer `while`-Schleife fortgesetzt. Hier kann der User mehrere Buchstaben eingeben, welche für verschiedene Aktionen stehen:
+Der Container Simulator ist ein Konsolen-Programm. Die Interaktion zwischen dem User und dem Simulator passiert also (fast) rein in der Konsole. Die `Main`-Klasse regelt diese. Sie erstellt die Container, basierend auf der vom User eingegebenen Menge, und übergibt diese an die ebenfalls von ihr erstellten `Ship`-Klasse. Die User-Interaktion wird dann innerhalb einer `while`-Schleife fortgesetzt. Hier kann der User mehrere Buchstaben eingeben, welche für verschiedene Aktionen stehen:
 ```{caption="Auswahlmöglichkeiten des Simulators" .java}
 System.out.println("\nChoose an option:\n" +
         "(a) View single Container\n" +
@@ -518,7 +514,7 @@ System.out.println("\nChoose an option:\n" +
 in = sc.nextLine();
 ```
 Über einen `Scanner` wird diese Eingabe dann geprüft. Das Ausführen der passenden Aktionen regelt ein `switch-case`, wobei auf ein `default` gesetzt ist, sollte die User-Eingabe inkorrekt sein. Sobald der User "q" eingibt, bricht die `while`-Schleife ab, dies wird durch folgenden Ausdruck ermöglich:
-```{caption="While Schleife in welcher die Main läuft" .java}
+```{caption="Main in welcher die While Schleife läuft" .java}
 while(!in.equals("q")){}
 ```
 #### Wie die Dummy-Daten + Verbindungen generiert werden
@@ -564,7 +560,7 @@ public void sendSetSignals(Container container){
     redoAllMinSignals();
 }
 ```
-Als Basis-Signal wurde willkürlich 15 hergenommen, dieser Wert wird dann um einen zufälligen Wert zwischen 0.1 und 1 ebenfalls zufällig verkleinert oder vergrößert. Dann wird der momentan übergebene Container (z.B. cont5) auf `origin` gesetzt. Innerhalb der `for`-Schleife werden dann alle Container durchgegangen. Entspricht `cont` nicht `origin`, so wird geprüft, ob das abgewandelte `signal` kleiner-gleich dem Minimum-Signal von `cont` ist. Sollte dies der Fall sein und besteht noch keine Verbindung zwischen den beiden (`checkContConList`), so gilt `cont` als Nachbar von `origin` und wird dementsprechend auch als solcher festgehalten. Es ist wichtig anzumerken, dass diese Methode von der `main` innerhalb einer `for-each` Schleife aufgerufen wird, also jeder erstellte Container einmal `origin` ist.
+Als Basis-Signal wurde willkürlich 15 hergenommen (kann auch ein anderer Wert sein, wie etwa 50), dieser Wert wird dann um einen zufälligen Wert zwischen 0.1 und 1 ebenfalls zufällig verkleinert oder vergrößert. Dann wird der momentan übergebene Container (z.B. cont5) auf `origin` gesetzt. Innerhalb der `for`-Schleife werden dann alle Container durchgegangen. Entspricht `cont` nicht `origin`, so wird geprüft, ob das abgewandelte `signal` kleiner-gleich dem Minimum-Signal von `cont` ist. Sollte dies der Fall sein und besteht noch keine Verbindung zwischen den beiden (`checkContConList`), so gilt `cont` als Nachbar von `origin` und wird dementsprechend auch als solcher festgehalten. Es ist wichtig anzumerken, dass diese Methode von der `main` innerhalb einer `for-each` Schleife aufgerufen wird, also jeder erstellte Container einmal `origin` ist.
 
 Was würde es nun bewirken, wenn `randomNum` weiter verstreut wird (z. B., 0.1 bis 10)? Würde man diese Umstellung im Simulator umsetzen, dann steigt der Wert, um welchen das Basis-Signal (15) erhöht werden KANN (auch eine Verringerung ist natürlich möglich). Dies bedeutet, dass der Wahrscheinlichkeit, dass folgender Fall eintrifft: `cont.getSignalMinimum() <= signal => TRUE` steigt, was wiederum bedeutet, dass die Vernetzung zwischen den Containern dichter wird. Anders sinkt die Eintritts-Wahrscheinlichkeit des Ausdrucks, wenn `randomNum` verringert wird (z.B. auf 0.01 bis 0.1).
 
@@ -586,10 +582,10 @@ Teil des `ship` ist ebenfalls eine Adjazenzmatrix, welche nach dem Erstellen der
 - Die Erste geht alle Container der `containers`-Set durch (=`origin`)
 - Die Zweite geht alle benachbarten Container von `origin` durch, welche mittels des Getter von `adjacentContainers` hergeholt werden (=`destination`)
 
-Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \[ID-origin]\[ID-destination]gespeichert. Was ist die ID? Die ID ist jene Zahl, welche nach dem "cont" des Namens steht (z. B.: name="cont2"; ID = 2). Dies wird über eine separate Methode namens `extractID` gemacht. 
+Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \[ID-origin]\[ID-destination]gespeichert. Die ID ist jene Zahl, welche nach dem "cont" des Namens steht (z. B.: name="cont2"; ID = 2). Dies wird über eine separate Methode namens `extractID` gemacht. 
 [vgl. @gpt-IdExtractor] 
 
-Wählt der User nun "View Matrix" aus, so wird sie folgendermaßen ausgegeben:
+Wählt der User nun "View Matrix" aus, so wird sie folgendermaßen ausgegeben:^[Beispiel mit 4 Containern]
 ```{caption="Ausgabe der Adjazenzmatrix in der Konsole" .txt}
 c  0  1  2  3
 0  0  1  0  0 
@@ -597,21 +593,19 @@ c  0  1  2  3
 2  0  1  0  1 
 3  0  0  1  0 
 ```
-(Beispiel mit 4 Containern)
 
 Für diese Ausgabe ist eine weitere Methode von `ship` verantwortlich: `void printAdjMatrix()`. Diese gibt zuerst die erste Zeile beginnend mit dem "c" aus, wobei die Länge der `for`-Schleife in welcher dies passiert, auf `containers.size()` beschränkt ist. Danach geht eine verschachtelte `for`-Schleife das 2d-Array der Adjazenzmatrix durch und gibt entweder 0 (keine Verbindung) oder 1 (Verbindung) aus.
 
 ##### Print Connection List
-Möchte der User sich über die "primitivste" Weise, alle Verbindungen zwischen den Containern haben, so kann er sich die `contConList` von `ship` ausgeben lassen. Dies passiert über die Methode `void printContConList()`, welche die eben erwähnte Variable mit einer `for`-Schleife durchgeht und printet. Dies könnte in etwa so aussehen:
+Möchte der User sich über die "primitivste" Weise, alle Verbindungen zwischen den Containern haben, so kann er sich die `contConList` von `ship` ausgeben lassen. Dies passiert über die Methode `void printContConList()`, welche die eben erwähnte Variable mit einer `for`-Schleife durchgeht und printet. Dies könnte in etwa so aussehen:^[Beispiel mit 4 Containern]
 ```{caption="Ausgabe der contConList in der Konsole" .txt}
 cont0;cont1
 cont0;cont3
 cont1;cont2
 cont2;cont0
 ```
-(Beispiel mit 4 Containern)
 
-Besonders aber in der Entwicklungsphase des Simulators war dies sehr hilfreich, um schnell zu sehen, welcher Container von sich aus die meisten Verbindungen hatte. Dies war später beim Erstellen der Dragable Graphs sehr nützlich, da dieser immer einen Container als Ausgangspunkt nahm. Die Liste ist auch bis zu einem gewissen Grad sortiert, da beim Muster "A;B" A sich erst ändert, wenn alle Bs durch sind.
+Besonders aber in der Entwicklungsphase des Simulators war dies sehr hilfreich, um schnell zu sehen, welcher Container von sich aus die meisten Verbindungen hatte. Dies war später beim Erstellen der dragable Graphs sehr nützlich, da dieser immer einen Container als Ausgangspunkt nahm. Die Liste ist auch bis zu einem gewissen Grad sortiert, da beim Muster "A;B" A sich erst ändert, wenn alle Bs durch sind.
 
 #### Exportieren in JSON files
  Es gibt zwei mögliche JSON Files, welche erstellt werden können:
@@ -673,7 +667,7 @@ public JSONObject parseSpecificToJSON(Container origin, int depth){
 ```
 [vgl. @gpt-SpecificJson]
 
-Diese Methode übernimmt einen Ausgangscontainer `origin` und eine Tiefe `depth`. Ziel dieser Methode ist es, bis zu einer gewissen Tiefe die Sub-Container eines Ausgangscontainers in ein JSON-Objekt zu schreiben. Angenommen der Ausgangscontainer ist "cont0" und die Tiefe ist 3, dann wird der Ausgangscontainer (Tiefe 0), seine Verbindungs-Container (Tiefe 1) und deren Verbindungs-Container (Tiefe 2) in ein JSON-File geschrieben. Es ist diese Methode, welche die Grundlage für das JSON File liefert, welches später im Dragable Graph ebenfalls verwendet wird.
+Diese Methode übernimmt einen Ausgangscontainer `origin` und eine Tiefe `depth`. Ziel dieser Methode ist es, bis zu einer gewissen Tiefe die Sub-Container eines Ausgangscontainers in ein JSON-Objekt zu schreiben. Angenommen der Ausgangscontainer ist "cont0" und die Tiefe ist 3, dann wird der Ausgangscontainer (Tiefe 0), seine Verbindungs-Container (Tiefe 1) und deren Verbindungs-Container (Tiefe 2) in ein JSON-File geschrieben. Es ist diese Methode, welche die Grundlage für das JSON File liefert, welches später im dragable Graph ebenfalls verwendet wird.
 
 Zur  Erklärung dieser Methode: Sollte eine passende Tiefe (>0) übergeben worden sein und besitzt der Ausgangs-Container Verbindungen zu anderen, so wird eine `For`-Schleife ausgelöst, welche alle Sub-Container des `origin` durchgeht. Jedes dieser "sub Objects" wird dann in ein `JSOBObject` gecastet und daraufhin mit einer Hilfsmethode (=`convertJSONToContainer` [vgl. @gpt-SpecificJson]) in ein `Container`-Objekt umgewandelt. Nun beginnt das rekursive Aufrufen der Methode, wobei `depth` immer um eins verringert wird. Durch dieses rekursive Aufrufen wird immer einer der `subs` von dem ursprünglichen `origin`, das neue `origin` bis eben die Tiefe 0 erreicht hat und die Methode zu Ende ist. 
 
@@ -739,8 +733,8 @@ Tiefe = 2
 }
 ```
 
-#### Zustandekommen des Dragable Graphs
-Die Erstellung des Graphen erfolgt über die JavaScript-Bibliothek D3.js, welche für ihre dynamischen Visualisierungen von Graphen berühmt ist. Das Skript übernimmt die `graphSpecific.json` und teilt den Inhalt in zwei Arrays `nodes` (=Knoten) und `links` (=Kanten) auf, wobei mit einem Hilfsobjekt gesichert wird, dass kein Container doppelt vorkommt. [vgl. @gpt-D3jsDGScript]
+#### Zustandekommen des dragable Graphs
+Die Erstellung des Graphen erfolgt über die JavaScript-Bibliothek^[vgl. @D3js-Homepage], welche für ihre dynamischen Visualisierungen von Graphen berühmt ist. Das Skript übernimmt die `graphSpecific.json` und teilt den Inhalt in zwei Arrays `nodes` (=Knoten) und `links` (=Kanten) auf, wobei mit einem Hilfsobjekt gesichert wird, dass kein Container doppelt vorkommt. [vgl. @gpt-D3jsDGScript]
 
 > D3s Kraft-gestützte Simulation (forceSimulation) berechnet die Positionen der Knoten basierend auf folgenden Kräften:
 > - forceLink: Verbindet Knoten basierend auf den Links.
@@ -763,7 +757,7 @@ Wie bereits erwähnt, stammen die Kanten aus dem `links`-Array. Die Container se
 
 Zusätzlich wird durch das Einfärben der Komponente des Graphen, der Knoten (blau) mit seinen Verbindungen (orange) zu anderen Containern (grün) hervorgehoben. Damit direkt beim Aufrufen des Graphen bereits ein Knoten automatisch markiert ist, wird der Name des Knoten bzw. Containers, den man eingefärbt haben will, in die URL geschrieben:
 
-````{caption="URL eines Dragable Graphen, der über die Website aufgerufen wurde" .txt}
+````{caption="URL eines dragable Graphen, der über die Website aufgerufen wurde" .txt}
 https://www.contrude.eu/graphs/1.html?highlight=OBBU1000011
 ````
 
@@ -811,9 +805,9 @@ Ein umfangreicherer Graph, welcher aus einer Simulation mit 16 Containern entsta
 
 ... würde folgendermaßen aussehen:
 
-![Umfangreicherer Dragable Graph in zwei Positionen](img/Gekle/DG-Extended.png)
+![Umfangreicherer dragable Graph in zwei Positionen](img/Gekle/DG-Extended.png)
 
-(link... Position 1; recht... Position 2 nach Drag-and-Drop)
+(links... Position 1; rechts... Position 2 nach Drag-and-Drop)
 
 ### Website
 
@@ -825,7 +819,7 @@ Die Website wurde primär auf 3 Seiten aufgeteilt:
 - Main Page (`/main`)
 - Detail Page (`/detail/:shipId/:containerId`)
 
-Da es sich bei dem Projekt um eine Single-Page-Application handelt, sind die oben angeführten Pages nicht tatsächliche eigene HTML-Dokumente, welche eine Seite repräsentieren, sondern funktionelle Komponente. Speziell jedoch die 3 Komponenten, mit verschiedenen Routes (siehe Klammer in der Aufzählung). 
+Da es sich bei dem Projekt um eine SPA handelt, sind die oben angeführten Pages nicht tatsächliche eigene HTML-Dokumente, welche eine Seite repräsentieren, sondern funktionelle Komponente. Speziell jedoch die 3 Komponenten, mit verschiedenen Routes (siehe Klammer in der Aufzählung). 
 
 ##### Login Page
 Die Login Page ist selbstverständlich für die Anmeldung des Users verantwortlich. Im Rahmen der Diplomarbeit beschränkt sich diese aber wirklich nur auf das Anmelden und bietet daher keine Funktion zum Anlegen/ Registrierung eines neuen Users. Des Weiteren sollte die "voll-umfangende" Version des Logos, welches ebenfalls in Adobe Illustrator erstellt wurde, zu sehen sein.
@@ -858,7 +852,7 @@ In der Login Page wurde mittels eines Hyperlinks die Möglichkeit bereitgestellt
 
 Die Main Page wurde mit großem Abstand am stärksten verändert. Bei der Containerzoom-Funktion wurde der Button von links nach rechts verschoben, wo sie die Vor- und Zurückfunktion ersetzte. Daneben wurde eine Anzeige des aktuellen Zooms hinzugefügt. Anstelle des Zoom Button wurde auf der linken Seite ein "ShipSelect" Button eingeführt, welcher das Wechseln des Schiffs ermöglicht. Auch wurde das Design allgemein verbessert.
 
-Auch bei der Detail Page wurde vor allem die Topbar funktionstechnisch stark verändert, um etwa die Thresholds einsehen zu können. Zusätzlich würde ein Button hinzugefügt, welcher den Dragable Graphen aufruft. 
+Auch bei der Detail Page wurde vor allem die Topbar funktionstechnisch stark verändert, um etwa die Thresholds einsehen zu können. Zusätzlich würde ein Button hinzugefügt, welcher den dragable Graphen aufruft. 
 
 Eine völlig neue Komponente war der ShipChooser-Dialog. Dieser wird aufgerufen, wenn auf einen durch das Grid angezeigten Container geklickt wird. Angenommen ein Container repräsentiert zehn Container, dann kann über den Dialog noch ausgewählt werden, welchen Container man genau haben möchte und man wird dann zu der passenden Detail Page weitergeleitet. Das Design dieses Dialogs, wurde auch für weitere spätere Dialoge verwendet. 
 
@@ -886,12 +880,12 @@ Alle weiteren Files, welche die Website umfasst, sind in Folder untergeordnet un
 - api --> enthält die Axios-Instanz
 - components --> enthält alle funktionellen Komponenten, welche nicht "Pages" oder "Dialoge" sind (z.B. `LoginField`)
 - dialogs --> enthält alle Dialog-Komponenten (z.B. `ContainerChooser`)
-- icons --> enthält die SVG-Dateien der Icons (z.B. `ShipIcon`)
-- img --> enthält die Bild-Dateien (png/jpg/svg) welche nicht Icons sind (z.B. Logo)
+- icons --> enthält die SVG^[Scalable Vector Graphics]-Dateien der Icons (z.B. `ShipIcon`)
+- img --> enthält die Bild-Dateien (png^[Portable Network Graphic] /jpg^[Joint Photographic Experts Group] /svg) welche nicht Icons sind (z.B. Logo)
 - pages --> enthält die 3 Page-Komponenten (`LoginPage`, `MainPage`, `DetailPage`)
 - util --> enthält die Scripts, welche erweiterte Funktionen übernehmen (z.B. `ContainerDistributor`)
 
-Zusätzlich gibt es noch den `public`-Folder, in welchem sich nur ein Unterordner namens `graphs` befindet. Die spezielle Eigenschaft des `public` Folders ist es, dass seine Inhalte statisch sind und direkt über eine URL aufgerufen werden können, ohne dass sie Vite builden muss. Innerhalb des `graphs`-Folders befinden sich alle aus dem **Container Simulator** überführten JavaScript-Scripts und die dazu benötigte JSON Datei, um den Dragable Graph über die Website simulieren zu können.  
+Zusätzlich gibt es noch den `public`-Folder, in welchem sich nur ein Unterordner namens `graphs` befindet. Die spezielle Eigenschaft des `public` Folders ist es, dass seine Inhalte statisch sind und direkt über eine URL aufgerufen werden können, ohne dass sie Vite builden muss. Innerhalb des `graphs`-Folders befinden sich alle aus dem **Container Simulator** überführten JavaScript-Scripts und die dazu benötigte JSON Datei, um den dragable Graph über die Website simulieren zu können.  
 
 #### Aufbau der Pages
 
@@ -988,7 +982,7 @@ const renderGrid = () => {
 ```
 [vgl. @gpt-renderGrid]
 
-Unter der Voraussetzung, dass die `ContainerDistribution useState` (ein Array) nicht 0 lang ist, sprich, dass die Aufteilung aller **realen Container** auf die "**Sammel-Container**" (die angezeigten Container, welche für mehrere stehen) von dem **ContainerDistributor** Script abgeschlossen ist, wird die Darstellung der Sammel-Container im Grid ermöglicht. Dieses Script errechnet mathematisch, wie viele reale Container eines Schiffes je nach GridSize pro Sammel-Container repräsentiert werden sollen und gibt dies in einem (2)d-Array zurück. Um dies zu verdeutlichen:
+Unter der Voraussetzung, dass die `ContainerDistribution useState` (ein Array) nicht 0 lang ist, sprich, dass die Aufteilung aller **realen Container**^[z.B. Container auf einem Containerschiff] auf die "**Sammel-Container**"^[Auf Website angezeigten Container, welche mehrere reale Container repräsentieren] von dem **ContainerDistributor** Script abgeschlossen ist, wird die Darstellung der Sammel-Container im Grid ermöglicht. Dieses Script errechnet mathematisch, wie viele reale Container eines Schiffes je nach GridSize pro Sammel-Container repräsentiert werden sollen und gibt dies in einem (2)d-Array zurück. Um dies zu verdeutlichen:
 ```{caption="Beispiel für die Funktionalität des ContainerDistributor" .txt}
 Grid = 2x2
 Anzahl reale Container = 9
@@ -1045,7 +1039,7 @@ export default distributeValues;
 ```
 [vgl. @gpt-ContainerDistributorScript]
 
-Wurde dies nun errechnet, beginnt die eigentliche **renderGrid** Methode. Auch diese arbeitet mit einer verschachtelten `for`-Schleife, um durch die einzelnen Grid-Spots durchzuiterieren. Hierbei ist auch das Array des ``ContainerDistributer`` wichtig, da es bestimmt, wie lange die Schleifen anhalten sollen. Pro Spot wird dann ein HTML-`div` zu einem Array hinzugefügt (mit `.push(<div\> <\/div>)`). Jedes dieser Divs hat durch die Rechnung $Row - Column$ (aus den For Schleifen) eine eindeutige Id welche etwa dafür wichtig ist, dass wenn man über das jeweilige Div hovert nur dieses eine hervorgehoben wird. Außerdem wird über `onClick` bestimmt, dass im Falle des klicken auf ein `div` die `handleOpenDialog` aufgerufen wird, mit welcher der Dialog zum Aussuchen des richtigen realen Containers geöffnet wird.
+Wurde dies nun errechnet, beginnt die eigentliche **renderGrid** Methode. Auch diese arbeitet mit einer verschachtelten `for`-Schleife, um durch die einzelnen Grid-Spots durchzuiterieren. Hierbei ist auch das Array des ``ContainerDistributer`` wichtig, da es bestimmt, wie lange die Schleifen anhalten sollen. Pro Spot wird dann ein HTML-`div`^[Divider, dient als Behälter für HTML-Elemente] zu einem Array hinzugefügt (mit `.push(<div\> <\/div>)`). Jedes dieser Divs hat durch die Rechnung $Row - Column$ (aus den For Schleifen) eine eindeutige Id welche etwa dafür wichtig ist, dass wenn man über das jeweilige Div hovert nur dieses eine hervorgehoben wird. Außerdem wird über `onClick` bestimmt, dass im Falle des klicken auf ein `div` die `handleOpenDialog` aufgerufen wird, mit welcher der Dialog zum Aussuchen des richtigen realen Containers geöffnet wird.
 
 Die zweite wichtige Methode ist also die **handleOpenDialog** Methode, welche den eben erwähnten Dialog öffnet. Sie liest mit der eindeutigen Id der Sammel-Container aus einer in einem `useEffect` erstellten Map alle Ids der Container auf dem jeweiligen Schiff. Diese ordnet jedem Sammel-Container mithilfe ihrer eindeutigen Id die realen Container Ids (Mehrzahl!!) zu. Die realen Ids waren zuvor in dem `useState` Array `containerIds` in zufälliger Reihenfolge gespeichert und nun werden nur die passenden in die `dialogValues useState` gespeichert. Zusätzlich wird mithilfe der `isDialogOpen useState` der Dialog geöffnet bzw. geschlossen. Das `ContainerChooser` Element (der Dialog) ist hier zu sehen:
 ```{caption="ContainerChooser Komponente Nutzung" .js}
@@ -1227,7 +1221,7 @@ Es wird wieder mithilfe der `.map`-Funktion durch das Array iteriert und mittels
 
 > Eine **Shallow Copy** muss returned werden, da React nur Änderungen erkennt, wenn der Verweis auf das Objekt oder Array geändert wird, was bei direkter Mutation des ursprünglichen Objekts/Arrays nicht der Fall ist. [vgl. @gpt-updateTableData]
 
-Wie im Bild oben auch zu sehen ist, befindet sich unter der Tabelle noch ein Button mit der Bezeichnung "Show Position Diagram". Dieser ermöglicht es, dass die aus dem **Container Simulator** stammenden **Dragable Graphs** in einem separaten Tab aufgerufen werden. In der Theorie wird zusätzlich immer die Seriennummer des aktuell ausgewählten Containers mit übergeben, wodurch dieser automatisch eingefärbt wird. Allerdings stammen die Graphen wie erwähnt aus dem Simulator, wodurch die Knoten nicht nach den Seriennummern benannt werden, sondern mit "cont#" wobei "#" eine fortlaufende Zahl ist. Die Eigenschaft, dass dieser Graph in einem separaten Tab geöffnet wird, kann dadurch ermöglicht werden, wenn das `button`-Element via `onClick` `window.open` mit `_blank` ausführt:
+Wie im Bild oben auch zu sehen ist, befindet sich unter der Tabelle noch ein Button mit der Bezeichnung "Show Position Diagram". Dieser ermöglicht es, dass die aus dem **Container Simulator** stammenden **dragable Graphs** in einem separaten Tab aufgerufen werden. In der Theorie wird zusätzlich immer die Seriennummer des aktuell ausgewählten Containers mit übergeben, wodurch dieser automatisch eingefärbt wird. Allerdings stammen die Graphen wie erwähnt aus dem Simulator, wodurch die Knoten nicht nach den Seriennummern benannt werden, sondern mit "cont#" wobei "#" eine fortlaufende Zahl ist. Die Eigenschaft, dass dieser Graph in einem separaten Tab geöffnet wird, kann dadurch ermöglicht werden, wenn das `button`-Element via `onClick` `window.open` mit `_blank` ausführt:
 
 ````{caption="HTML Show Position Diagram Button" .html}
 <button className="border border-black px-2 mt-2" type="button" onClick={() => window.open(`/graphs/${shipId}.html?highlight=${combinedSerialNumber}`, '_blank')}>
@@ -1250,7 +1244,7 @@ Der `Detailspace` bietet aber noch eine weitere Verlinkung. Sieht man sich den B
 </tbody>
 ````
 
-... so kann man sehen, dass beim klicken auf den jeweiligen Umweltdatenwert (z.B. Temperatur) die `handleSelectEnvironmentData`-Methode aufgerufen wird. Diese übernimmt die Bezeichnung des Umweltdatenwerts und ruft den dazu passenden **Grafana**-Link auf.
+... so kann man sehen, dass beim klicken auf den jeweiligen Umweltdatenwert (z.B. Temperatur) die `handleSelectEnvironmentData`-Methode aufgerufen wird. Diese übernimmt die Bezeichnung des Umweltdatenwerts und ruft den dazu passenden **Grafana**^[Tool um etwa Daten aus Datenbanken zu visualisieren]-Link auf.
 
 Weiters werden die Notizen (ein HTML `TextArea`-Element) von `Detailspace` verwaltet. Hierzu kommen zwei Methoden ins Spiel:
 
@@ -1693,12 +1687,14 @@ sentences.length = 0;  // Clear sentences array for the next iteration
 Was hier passiert ist, dass mit `checkForAlerts` die Methode eines weiteren Skripts namens `AlertChecker.js` aufgerufen und gewartet wird, bis diese vollendet wird. Danach werden die "abgewandelten Sentences" (=Alerts) aus dem Skript in `currentAlerts` zwischengespeichert, `sentences` zurückgesetzt und damit ein Durchlauf durch die Schleife beendet. Sind alle Alerts in `currentAlerts` gespeichert, so werden diese mit `setAlerts(currentAlerts);` auf die `alerts`-useState Variable kopiert, welche dann wie die Favoriten innerhalb einer "Unordered List" auf der Website angezeigt werden. [vgl. @gpt-FetchAndCheckFixZwei]
 
 Das **AlertChecker**-Skript selbst ist eine Erweiterung des `ConditionChecker.js`-Skripts, welches innerhalb der `ThresholdViewer`-Komponente verwendet wird und übernimmt diese Variablen:
+
 - sentences (= Array der "Threshold-Sentences")
 - serialNumber (= Seriennummer des aktuellen Containers)
 - selectedShip (= aktuelle Schiff-Id)
 - page (= von welcher Page wurde die Sidebar aufgerufen)
 
 Die Sentences werden innerhalb einer `forSchleife` dann in ihre Einzelteile zerbrochen und in verschiedene Variablen gespeichert. (`sentence` ist jeweils ein Threshold-Satz aus dem Array, welcher sich von Durchlauf zu Durchlauf der Schleife ändert):
+
 - `const [condition, result] = sentence.split(" = ");` (z.B. condition = Air-Pressure > 100 & result = Critical)
 - `const conditionParts = condition.split(" ");` (z.B. Air-Pressure, >, 100)
 - `let parameterValue = 0;` (zu Beginn immer 0)
