@@ -12,15 +12,15 @@ Des weiteren können die für einzelne Container festgelegten Grenzwerte eingese
 
 ## Probleme
 
-Der verwendete Lötkolben hatte aufgrund seiner Erstbenutzung noch keine Zinnschicht an der Spitz, das führte zu einer verminderten Wärmeleitfähigkeit, wodurch der gesamte Lötvorgang mehr Zeit in Anspruch genommen hat als angenommen.
+Der verwendete Lötkolben hatte aufgrund seiner Erstbenutzung noch keine Zinnschicht an der Spitze, das führte zu einer verminderten Wärmeleitfähigkeit, wodurch der gesamte Lötvorgang mehr Zeit in Anspruch genommen hat als angenommen.
 
 Aufgrund mangelnder Sorgfalt während des Lötvorgangs wurden einige Komponenten beschädigt oder unbrauchbar gemacht. Dies führte dazu, dass sie ausgetauscht werden mussten.
- 
+
 In den frühen Stadien des Projektes wurde eine MySQL-Version verwendet, welche den Check-Constraint zwar bereits im Syntax  akzepierte aber nicht funktional implementierte. Deswegen wurde auf eine neuere Version gewechselt.
 
-Wenn keine konkrete Version eines Images in Docker angebene ist, dann sucht sich die Engine automatisch eine aus den neuesten verfügbaren Versionen aus. 
+Wenn keine konkrete Version eines Images in Docker ángegeben ist, dann sucht sich die Engine automatisch eine aus den neuesten verfügbaren Versionen aus.
 
-Da es Umstruckturierungen im Projekt gab, musste der anfänglich geplante Positionierungsalgorithmus gestrichen werden. Erstezt wurde durch die Containersimulator Anwendung.
+Da es Umstrukturierungen im Projekt gab, musste der anfänglich geplante Positionierungsalgorithmus verworfen werden. Erstezt wurde durch die Containersimulator Anwendung.
 
 Die Anbindung des Backends and die grafische Oberfläche stellte sich als besonders schwierig da, weil das selbstgenerierte SSL-Zertifikat nicht vom Browser akzeptiert wurde. Des weiteren wird es in einigen Fällen auch nicht von einigen Bibliotheken, wie etwa Axios, akzeptiert.
 Dies führt dazu, dass die Webseite keine Daten aus den Datenbanken abrufen konnte.

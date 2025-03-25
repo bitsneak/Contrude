@@ -12,7 +12,7 @@ Solche Systeme gibt es bereits seit den 1960. Damals baute der amerikanische Ing
 Später wurden Mikroprozessoren in der 1600 Serie von Volkswagen verwendet um das Kraftstoffeinspritzsystem zu steuern.
 In den 70ern konnte Intel den ersten Prozessor entwickeln, welcher der Öffentlichkeit zugänglich war: den Intel 4004. Ein 4-Bit-Mikroprozessor, wlecher in Taschenrechnern und anderen kleineren elektronischen Geräte verwendet wurde.
 
-Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Software und Hardware ist für einen speziell programmierte Aufgabe. Obwohl man ein Es mit einem Computer gleichstellen kann, haben sie des öfteren keine Graphische Oberfläche für Benutzer.
+Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Software und Hardware ist für einen speziell programmierte Aufgabe. Obwohl man Es mit einem Computer gleichstellen kann, haben sie des öfteren keine Graphische Oberfläche für Benutzer.
 [vgl. @EmbeddedSystems]
 
 #### Komponenten
@@ -23,7 +23,7 @@ Die Hauptkomponenten eines Embedded Systems sind ein Mikroprozessor oder ein Mik
 
 ##### CPU
 
-Die CPU (Central Processing Unit) ist die primäre Steuereinheit eines Systems. Sie besteht aus der ALU und der CU. Die ALU (Arithmetic Logic Unit) ist der Teil der CPU, der arithmetisch-logische Operationen mit binären Daten ausführt. Die CU (Control Unit) steuert mithilfe des internen Oszillators die Abläufe im System. Nachdem ein Befehl decodiert wurde, gibt die CU selbst weitere Befehle aus, um die korrekten Aktionen zu starten. Diese Befehle werden dann über den Bus aus dem Arbeitsspeicher abgerufen. [@EmbeddedSystems]
+Die CPU (Central Processing Unit) ist die primäre Steuereinheit eines Systems. Sie besteht aus der ALU und der CU. Die ALU^[Arithmetic Logic Unit] ist der Teil der CPU, der arithmetisch-logische Operationen mit binären Daten ausführt. Die CU^[Control Unit] steuert mithilfe des internen Oszillators die Abläufe im System. Nachdem ein Befehl decodiert wurde, gibt die CU selbst weitere Befehle aus, um die korrekten Aktionen zu starten. Diese Befehle werden dann über den Bus aus dem Arbeitsspeicher abgerufen. [@EmbeddedSystems]
 
 ##### Bus
 
@@ -40,7 +40,7 @@ Des weiteren kann mann Busse noch in 2 Typen nach der Breite aufteilen:
 
 - **SPI:**^[Serial Peripheral Interface] Eine synchrone serielle Schnittstelle, ideal für die Verbindung von Peripherigeräten.
 
-    Es besteht aus den drei Leitungen POCI^[Peripheral Out/Controller In] oder auch MISO^[Master In/Slave Out], PICO/MOSI^[Peripheral In/Controller Out | Master Out/Slave In] und der Serial Clock. Außerdem dem gibt es noch den Slave-Select, aber da dies ein äußerst problematischer Außdruck ist wurde es zu Chip-Select umbenannt. Die Chip-Select Leitung sorgt dafür, dass der Controller ein Peripherigerät zur Kommuniaktion auswählt.
+    Es besteht aus den drei Leitungen POCI^[Peripheral Out/Controller In] oder auch MISO^[Master In/Slave Out], PICO/MOSI^[Peripheral In/Controller Out | Master Out/Slave In] und der Serial Clock. Außerdem dem gibt es noch den Slave-Select, aber da dies ein äußerst problematischer Außdruck ist, nennt man es heutzutage Chip-Select. Die Chip-Select Leitung sorgt dafür, dass der Controller ein Peripherigerät zur Kommuniaktion auswählt.
 
     Bei der SPI-Kommunikation gibt es keinen klaren Sender oder Empfänger, sondern einen kontinuierlichen Austausch, da sowohl die Peripherie als auch der Controller gleichzeitig ein Bit übertragen. Die Peripherie steuert die Kommunikation, indem sie die SCK-Impulse generiert, während der Controller das Signal annimmt und verarbeitet. Selbst wenn noch kein Ergebnis vorliegt, misst die Peripherie die Polarität der PICO/MOSI-Leitung und bestimmt daraus das nächste Bit.
     [@EmbeddedSystems]
@@ -72,8 +72,7 @@ Des weiteren kann mann Busse noch in 2 Typen nach der Breite aufteilen:
 ##### RAM
 
 RAM ist eine Art Speichertyp, in welchem die Speicherzellen direkt angesprochen werden. In
-diesem Zusammenhang spricht man dann von *Speicher mit wahlfreiem Zugriff*. Das heißt RAM
-erlaubt den Zugriff jede Speicherzelle.
+diesem Zusammenhang spricht man dann von *Speicher mit wahlfreiem Zugriff*. Das heißt RAM erlaubt den Zugriff jede Speicherzelle.
 RAM wird als Arbeitsspeicher verwendet, weil es eine schnelle Verarbeitung vom
 Prozessor garantiert. Im Grunde unterscheidet man zwischen zwei Arten von RAMs:
 
@@ -148,22 +147,29 @@ In unserem Projekt werden drei Sensoren verwendet, der BME280, welcher die Tempe
 Der BME280 verwendet intern einen sogenannten Widerstandstemperatursensor. Diese Art von Sensor verändert seinen elektrischen Widerstand in Abhängigkeit von der Umgebungstemperatur. Durch die Messung der Widerstandsänderungen kann die Temperatur präzise erfasst und anschließend in digitale Signale umgewandelt werden.
 [vgl. S.259 @Automatisierungs-Technik]
 
+![Widerstandsthermometer [@Thermo]](img/Kampl/Widerstandthermo.png){width=300px}
+
 #### Luftdruck - Piezoresistives-Drucksensor
 
 Außerdem verwendet er intern einen piezoresistiven Drucksensor. Diese Art von Sensor enthält eine flexible Membran, die sich je nach Luftdruck verformt. Durch die Verformung ändert sich der Widerstand in der piezoresistiven Schicht, die auf der Membran aufgebracht ist. Diese Widerstandsänderung wird erfasst, in ein elektrisches Signal umgewandelt und anschließend digitalisiert. Mithilfe der im Sensor gespeicherten Kalibrierungsdaten liefert der BME280 präzise Druckmesswerte
 [vgl. S.255 @Automatisierungs-Technik]
 
+![Piezoresistives-Drucksensor [@Druck]](img/Kampl/Luftdrucksensor.png){width=300px}
 
 #### Luftfeuchtigkeit - Kapazitives-Hygrometer
 
 Des weiteren verwendet der BME intern einen kapazitiven Feuchtigkeitssensor. Diese Art von Sensor nutzt die Eigenschaft, dass sich die Kapazität eines elektrischen Kondensators ändert, wenn sich der Feuchtigkeitsgehalt der Umgebungsluft verändert. Diese Kapazitätsänderung wird gemessen, in elektrische Signale umgewandelt und anschließend digitalisiert. Durch die im Sensor gespeicherten Kalibrierungsdaten werden präzise Messwerte für die relative Luftfeuchtigkeit bereitgestellt.
 [@Kapazitive-Feuchtemessung]
 
+![Hygrometer [@Hygro]](img/Kampl/Luftfeucht.png){width=300px}
+
 ![BME280](img/Kampl/BME280.jpg){width=400px}
 
 #### Beschleunigung - Accelerometer
 
 Der MPU6050 verwendet intern einen 3-Achsen-Beschleunigungssensor, der auf der MEMS-Technologie (Micro-Electro-Mechanical Systems) basiert. Diese Art von Sensor beinhaltet winzige mechanisch bewegliche Strukturen, die auf einer festen Basis montiert sind. Wenn der Sensor einer Beschleunigung ausgesetzt wird, bewegen sich diese Strukturen relativ zur Basis, was eine Änderung der Kapazität zwischen diesen Strukturen zur Folge hat. Diese Kapazitätsänderung wird gemessen, in elektrische Signale umgewandelt und anschließend digitalisiert. So wird die Beschleunigung entlang der X-, Y- und Z-Achse präzise erfasst. [vgl. @MPU-6000]
+
+![Accelerometer [@Accel]](img/Kampl/Accell.jpg){width=300px}
 
 ![MPU6050](img/Kampl/MPU6050.png){width=400px}
 
@@ -248,7 +254,7 @@ PlatformIO ist eine Entwicklungsumgebung, die als Erweiterung für den Textedito
 
 Um PlatformIO benutzen zu können muss man die *PlatformIO IDE* in Visual Studio Code installieren. Nach der Installation und einem Neustart kann man ein erstes Projekt erstellen.
 
-Um nun ein erstes Projekt zu erstellen muss mann einfach nur auf den PlatformIO Home Knopf drücken. Danach drückt man auf *New Project* und wähl das passende Board aus. [@PlatformIO-firststeps]
+Um nun ein erstes Projekt zu erstellen muss mann einfach nur auf den PlatformIO Home Knopf drücken. Danach drückt man auf *New Project* und wählt das passende Board aus. [@PlatformIO-firststeps]
 
 ##### Tools
 

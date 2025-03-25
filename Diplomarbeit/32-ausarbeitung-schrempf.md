@@ -29,7 +29,7 @@ Ein Sonderfall der TSDB ist die RRD^[Round Robin Database]. Diese löscht alte D
 > Datenvisualisierung ist der Prozess der Verwendung visueller Elemente wie Diagramme, Grafiken oder Karten zur Darstellung von Daten. Sie übersetzt komplexe, umfangreiche oder numerische Daten in eine visuelle Darstellung, die leichter zu verarbeiten ist.
 [@aws-datenvisualisierung]
 
-Um Rohdaten verständlich zu machen, im Kontext betrachten zu können und etwaige Korrelationen zwischen verschiedenen Datasets sichtbar zu machen, ist es notwendig, die oben genannten Methoden anzuwenden. Hierbei ist eine unkomplizierte Grafik als Endprodukt das Ziel.
+Um Rohdaten verständlich zu machen, im Kontext betrachten zu können und etwaige Korrelationen zwischen verschiedenen Datasets sichtbar zu machen, ist es notwendig, die oben genannten Methoden anzuwenden. Hierbei ist eine Grafik als Endprodukt das Ziel.
 
 ![Beispiel einer Datenvisualisierung von Mittelwerten einer Temperaturaufzeichnung  [@kaggle-weather-data]](img/Schrempf/weather-data-set.png){width=100%}
 
@@ -49,7 +49,7 @@ Niemand will seine Daten unverschlüsselt versenden. Eine oft in Kombination ang
 
 #### MQTT
 
-MQTT^[Message Queuing Telemetry Transport] ist ein Nachrichtenprotokoll, das dazu verwendet wird, um mit nicht stabilen Netzwerken oder mit Netzwerken mit begrenzten Ressourcen zu kommunizieren. Es basiert auf der Publisher-Subscriber-Architektur. Der Publisher sendet seine Daten an den Broker unter einem gewissen Topic. Diese kann man semantisch aneinanderreihen, um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein Hashtag als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic können nun ein oder mehrere Werte im JSON^[JavaScript Object Notation]-Format abgelegt werden. Beim Broker werden dann die Werte abgelegt. Ein Topic kann auch ein oder mehrere Tags haben. Diese sind Flags, die zur weiteren Klassifizierung des Topics an es angehängt werden können. Ein Subscriber ist ein beliebiger Akteur, welcher den abgespeicherten Datensatz unter der Angabe des Topics extrahiert. [@mqtt-hivemq]
+MQTT^[Message Queuing Telemetry Transport] ist ein Nachrichtenprotokoll, das dazu verwendet wird, um mit nicht stabilen Netzwerken oder mit Netzwerken mit begrenzten Ressourcen zu kommunizieren. Es basiert auf der Publisher-Subscriber-Architektur. Der Publisher sendet seine Daten an den Broker zu einem gewissen Topic. Diese kann man semantisch aneinanderreihen, um Subkategorien eines Themas zu erstellen. Man kann es sich als eine Baumstruktur vorstellen. Für ein komplett neues Thema wird ein neues Topic erstellt. Hierbei ist zu beachten, dass ein Hashtag als Platzhalter inmitten eines Pfades dienen kann. Ein Beispiel für solch eine Baumstruktur ist `town/house/kitchen`. Unter diesem Topic können nun ein oder mehrere Werte im JSON^[JavaScript Object Notation]-Format abgelegt werden. Beim Broker werden dann die Werte abgelegt. Ein Topic kann auch ein oder mehrere Tags haben. Diese sind Flags, die zur weiteren Klassifizierung des Topics an es angehängt werden können. Ein Subscriber ist ein beliebiger Akteur, welcher den abgespeicherten Datensatz unter der Angabe des Topics extrahiert. [@mqtt-hivemq]
 
 ![Beispiel MQTT Topic Structure [@mqtt-hivemq]](img/Schrempf/mqtt-topic-structure.png){width=30%}
 
@@ -66,7 +66,7 @@ HMACSHA256(
   secret)
 ```
 
-Wie funktioniert es? Am Anfang gibt der Benutzer seine Logindaten an. Vorzugsweise Benutzername und Passwort. Nun wird ihm nach erfolgreicher Authentifizierung der Token zurückgegeben, den er bei den Protected Routes im Authorization-Header der Anfrage mitführen muss. Ein JWT ist stateless, was bedeutet, dass der Status des Benutzers nicht auf dem Server vermerkt ist. [@jwt] Da solch ein Token eine gewisse Macht mit sich bringt, ist stets zu beachten, dass die Tokens auch nur eine gewisse Zeit, meistens 10 bis 15 Minuten, gültig sind. [@medium-auth-simple]
+Funktionsweise: Am Anfang gibt der Benutzer seine Logindaten an. Vorzugsweise Benutzername und Passwort. Nun wird ihm nach erfolgreicher Authentifizierung der Token zurückgegeben, den er bei den Protected Routes im Authorization-Header der Anfrage mitführen muss. Ein JWT ist stateless, was bedeutet, dass der Status des Benutzers nicht auf dem Server vermerkt ist. [@jwt] Da solch ein Token eine gewisse Macht mit sich bringt, ist stets zu beachten, dass die Tokens auch nur eine gewisse Zeit, meistens 10 bis 15 Minuten, gültig sind. [@medium-auth-simple]
 
 ![JWT Authentikationsablauf [@jwt]](img/Schrempf/jwt-auth-process.png){width=100%}
 
@@ -100,7 +100,7 @@ Ein Container benutzt die Virtualisierungstools des Linuxkernels um Ressourcen z
 
 Soweit zum Allgemeinen der Virtualisierung. Doch was hat Docker damit zu tun? Docker ist ein Open Source Projekt, welches sich auf die Containerization spezialisiert hat. Es bietet einen riesigen freien Markt (Docker Hub) zur Erstellung und Distribution von Docker Images an. Es wird so verwaltet, dass es verschiedene Registries gibt. Pro Registry gibt es verschiedenen Versionen eines Images. Ein Registry wird mit username/image-name benannt. Ein Image ist das zuvor genannte Äquivalent zur Definition eines Containers. Ein Image ist in Schichten aufgebaut und jede Schicht stellt einen neuen Zustand des Containers dar. Das vollständig ausgeführte und unter Umständen auch angepasste Image ist dann der laufende Container. Auf Basis eines Images können mehrere Container laufen. [@ibm-docker] Jedes Image hat einen Entrypoint. In diesem wird spezifiziert, was geschehen soll, wenn der Container (zum ersten Mal) gestartet wird.
 
-Jedes Image wird in einem `Dockerfile` definiert. Hierbei spricht man nur von einer Datei, in welcher die Anweisungen zum Aufbau der Schichten gespeichert sind. Beim Starten des Containers interagiert die Docker-CLI^[command line interface] mit dem `Dockerfile` und führt die Anweisungen aus. Eine beliebte Variante ist es, ein schon bestehendes Image zu verwenden und die eigene Applikation mit Schichten on top zu bauen. [@ibm-docker]
+Jedes Image wird in einem `Dockerfile` definiert. Hierbei spricht man von einer Datei, in welcher die Anweisungen zum Aufbau der darin enthaltenen Schichten gespeichert sind. Beim Starten des Containers interagiert die Docker-CLI^[command line interface] mit dem `Dockerfile` und führt die Anweisungen aus. Eine beliebte Variante ist es, ein schon bestehendes Image zu verwenden und die eigene Applikation mit Schichten on top zu bauen. [@ibm-docker]
 
 Ein `Dockerfile` ist sehr vielseitig und bietet verschiedene Funktionen. Eine sehr wichtige Funktion sind Secrets. Diese stehen für Platzhalter, in die der Anwender Werte eingibt, welche im weiteren Programmablauf benötigt werden. Oftmals werden sie als Umgebungsvariablen realisiert. Eine wichtige Eigenschaft solch einer Einheit ist, dass sie ein eigenes System ist, welches unabhängig vom Host existiert. Dementsprechend gehen im Container gespeicherte Daten und Änderungen verloren, wenn dieser heruntergefahren wird. Um dieses Problem zu beheben, gibt es Volumes. Sie dienen dazu, Daten in den Container, z.B. Code, und aus ihm heraus, z.B. Datenbanken, zu bekommen. Um aus dem Cotnainer heraus kommunizieren zu können, muss ein Portforwarding zwischen Host und Cotnainer eingestellt werden.
 
@@ -358,7 +358,7 @@ Mit dem letzten Befehl
 node app.js
 ```
 
-wird die Applikation gestartet und kann auf `http://localhost:80/hello` oder mittels cURL und `curl localhost/hello` aufgerufen werden. [@medium-rest-api]
+wird die Applikation gestartet und kann auf `http://localhost:80/hello` oder mittels cURL^[Client URL] und `curl localhost/hello` aufgerufen werden. [@medium-rest-api]
 
 Das JSON, welches beim aufrufen des Endpoints ausgegeben wird, sieht so aus:
 
@@ -390,7 +390,7 @@ Um die in diesem Projekt verwendeten Datenbanken zu erstellen, wurden SQL-init-s
 
 In `CreateDB.sql` ist die gesamte Struktur mitsamt  **DATABASE** und **SCHEMA** Erstellung geregelt. Anzumerken ist hier, dass **CHECK** Constraints schon in vorherigen Versionen semantisch akzeptiert, jedoch erst ab Version 8.0.16 tatsächlich umgesetzt wurden. [@mysql-8.0.16] Aufgrund dessen, und des später erklärten Microservice-Ansatzes, wurde für das gesamte Projekt die Verison 8.0.29 verwendet. Da eine Datenbank ohne Daten nur halb so viel wert ist und bei jeder einzelnen DB-Erstellung die Daten neu einzugeben sehr mühsälig werden kann, gibt es die `InsertDummyData.sql` Datei, in der die Probedaten in die DB eingfügt werden.
 
-In `CreateUser.sql` werden die Benutzer samt ihrer Benutzergruppen und Berechtigungen erstellt. Diese Datei wurde für jede DB verwendet, da sich kein Sinn für eine Änderung der Benutzer ergab. Um den Code sicher pushen zu können, wurde ein vordefiniertes Einmapasswort für jeden Datenbankbenutzer festgelegt, welches beim ersten Login geändert werden muss. Zusätzlich wurde die Beschränkung eingeführt, dass das geänderte Passwort nicht gleich den letzten fünf sein darf. Zusätzlich darf jeder Benutzer, außer der API Benutzer, nur maximal 4 aktive Datenbankconnections gleichzeitig haben. Eingestellt wurde auch, dass eine SSL Zertifizierung, um die Sicherheit zu gewährleisten, von jedem DB-User beim Anmelden anzugeben ist. Dieses kann in den MySQL-Server eingespielt werden, wird aber auch automatisch bei Initialstart der DB generiert. Ein User wird mit 'name'@'bereich' erstellt. Wobei der Bereich der Gültigkeitsbereich des Users ist, somit kann man User auch nur für z.B. den localhost erstellen.
+In `CreateUser.sql` werden die Benutzer samt ihrer Benutzergruppen und Berechtigungen erstellt. Diese Datei wurde für jede DB verwendet, da sich kein Sinn für eine Änderung der Benutzer ergab. Um den Code sicher pushen zu können, wurde ein vordefiniertes Einmapasswort für jeden Datenbankbenutzer festgelegt, welches beim ersten Login geändert werden muss. Zusätzlich wurde die Beschränkung eingeführt, dass das geänderte Passwort nicht gleich den letzten fünf sein darf. Zusätzlich darf jeder Benutzer, außer der API Benutzer, nur maximal 4 aktive Datenbankconnections gleichzeitig haben. Die Anzahl an gleichzeitigen Connections wurde aufgrund einer mit der Gruppe abgesprochenen Security-Policy festgelegt. Eingestellt wurde auch, dass eine SSL Zertifizierung, um die Sicherheit zu gewährleisten, von jedem DB-User beim Anmelden anzugeben ist. Dieses kann in den MySQL-Server eingespielt werden, wird aber auch automatisch bei Initialstart der DB generiert. Ein User wird mit 'name'@'bereich' erstellt. Wobei der Bereich der Gültigkeitsbereich des Users ist, somit kann man User auch nur für z.B. den localhost erstellen.
 
 ```{caption="Erstellen von Benutzergruppen und Benutzern in MySQL" .sql}
 CREATE ROLE IF NOT EXISTS 'admin', 'developer', 'api';
@@ -448,7 +448,7 @@ CREATE SCHEMA IF NOT EXISTS schema DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4
 
 Jeder Container wird auf einem Schiff transportiert. Da ein Container im Laufe seines Transports auf verschiedenen Schiffen sein kann und dementsprechend auch bewegt wird und auf verschiedenen Stellplätzen landet, ist es wichtig, nachzuverfolgen, auf welchen Schiffen der Container sich befunden hat. In der hier gestalteten Datenbank wurden Schema für allgemeine Schiffdaten (`ship`), Zertifikate die das Schiff haben muss (`certificate`) und für die Herkunft des Transportmittels (`corporation`), angefertigt.
 
-![ERD der Schiffdatenbank](img/Schrempf/ship-erd.png){width=100%}
+![ERD der Schiffdatenbank](img/Schrempf/ship-erd.png){width=80%}
 
 Ein Schiff hat sehr viele Attribute wie zum Beispiel seine Länge, Breite und Gewicht, aber auch rechtlich verbindliche Angaben wie sein Typ oder verschiedene Zertifikate, die auf ihn zutreffen. In dieser Ausarbeitung ist die Schiffsdatenbank nur ein unvermeidliches Nebenprodukt der Gesamtarbeit. Aufgrund dessen wurden nicht alle Zertifizierungen die ein Schiff haben kann und manche andere Eigenschaften umgesetzt, sondern es wurde nur auf das Nötigste begrenzt. Die hier implementierten Dokumente beschränken sich auf:
 
@@ -465,7 +465,7 @@ Ein Schiff hat sehr viele Attribute wie zum Beispiel seine Länge, Breite und Ge
 Jeder Container besitzt verschiedene Parameter, welche ihn ausmachen. Nicht nur seine Größe, sondern auch seine Materialbeschaffenheiten, Tragfähigkeiten und Zulassungen sind ausschlaggebend. In der hier gestalteten Datenbank wurden Schema für allgemeine Containerdaten (`container`), G
 Containergrößenklassifikationen (`dimension`), Zertifikate, die der Container haben muss (`certificate`) und für die Herkunft des Behälters (`corporation`), angefertigt.
 
-![ERD der Containerdatenbank](img/Schrempf/container-erd.png){width=100%}
+![ERD der Containerdatenbank](img/Schrempf/container-erd.png){width=80%}
 
 Der Hauptfokus dieser Ausarbeitung liegt auf den Schiffcontainern. Diese haben simple Attribute wie deren Abmessungen, Seriennummern und die Firmen, die sie hergestellt haben und besitzen. [@bic-code] [@icecargo] Doch wie bei den Schiffen gibt es Zertifikate, die solch eine Transporteinheit standardisieren. Dazu zählen:
 
@@ -707,7 +707,7 @@ ENDSSH
 
 ##### Super-Linter
 
-Ein Linter ist eine Software, die deinen Code analysiert und dich auf Formatierungsfehler und Codekonsistenz hinweist. Seine Aufgabe ist es, dich bei der Implementierung von Best-Practice-Strategien zu unterstützen und Programmfehler vorzubeugen. Für verschiedene Programmiersprachen gibt es spezialisierte Linter. Ein Super-Linter ist nun eine Sammlung von Lintern und dient als Gesamtpaket. Somit muss man nicht mehr für jede verwendete Programmiersprache einen implementieren, sondern kann diese Collection verwenden, um gleichzeitig mehrere Sprachen abzudecken. Die zugehörige GitHub Action ist sehr simpel und sieht folgendermaßen aus: [@superlinter]
+Ein Linter ist eine Software, die den Code analysiert und den Programmierer auf Formatierungsfehler und Codekonsistenz hinweist. Seine Aufgabe ist es, dich bei der Implementierung von Best-Practice-Strategien zu unterstützen und Programmfehler vorzubeugen. Für verschiedene Programmiersprachen gibt es spezialisierte Linter. Ein Super-Linter ist nun eine Sammlung von Lintern und dient als Gesamtpaket. Somit muss man nicht mehr für jede verwendete Programmiersprache einen implementieren, sondern kann diese Collection verwenden, um gleichzeitig mehrere Sprachen abzudecken. Die zugehörige GitHub Action ist sehr simpel und sieht folgendermaßen aus: [@superlinter]
 
 ```{caption="GitHub Superlinter" .yml}
 name: Super-Linter
@@ -729,6 +729,8 @@ jobs:
           DEFAULT_BRANCH: main
           GITHUB_TOKEN: $({ secrets.GITHUB_TOKEN })
 ```
+
+Die Verbesserungsmöglichkeiten die der Super-Linter liefert, können dann entweder mittels eine Auto-Commit Pipeline automatisch oder erst nach einem Review der Vorschläge mit den Zuständigen Fachleuten manuell in den Code übernommen werden.
 
 ### REST API
 
@@ -818,7 +820,7 @@ export const container_session = async function(sql, params) {
 };
 ```
 
-Eine No-SQL-Datenbank ist schwieriger zu generalisieren und erfordert oft eine spezifische Anpassung an den jeweiligen Anwendungsfall. Der grundlegende Ansatz bleibt aber der Gleiche. Man übergiebt die auszuführende Query und bekommt die Daten zurück. In InfluxDB gibt es pro Datensatz mehrere Spalten mit verschiedensten Informationen. Jedoch werden nicht alle davon benötigt und können der einfachheit halber nicht übernommen werden. Außerdem können Daten in InfluxDB auch wieder über eine REST-Schnittstelle abgefragt werden, welche eine vorteilhafte Ebene an Abstraktion mti sich bringt. In folgendem Beispiel wurde die Session auch gleich dazu genutzt, Timestamps auf das richtige Format zu kriegen und gewisse Datafields noch zu manipulieren / umzubenennen.
+Eine No-SQL-Datenbank ist schwieriger zu generalisieren und erfordert oft eine spezifische Anpassung an den jeweiligen Anwendungsfall. Der grundlegende Ansatz bleibt aber der Gleiche. Man übergiebt die auszuführende Query und bekommt die Daten zurück. In InfluxDB gibt es pro Datensatz mehrere Spalten mit verschiedensten Informationen. Jedoch werden nicht alle davon benötigt und können der Einfachheit halber nicht übernommen werden. Außerdem können Daten in InfluxDB auch wieder über eine REST-Schnittstelle abgefragt werden, welche eine vorteilhafte Ebene an Abstraktion mti sich bringt. In folgendem Beispiel wurde die Session auch gleich dazu genutzt, Timestamps auf das richtige Format zu kriegen und gewisse Datafields noch zu manipulieren / umzubenennen.
 
 ```{caption="Flux Session Manager" .js}
 export const sensor_session = async function(flux) {
@@ -959,13 +961,13 @@ export const login = tryCatchWrapper(async function (req, res, next) {
 });
 ```
 
-```{caption="Access-Token Generierung" .js}
+```{caption="Access Token Generierung" .js}
 export const generateAccessToken = function(user, role) {
     return jwt.sign({user, role}, process.env.ACCESS_TOKEN_SECRET, {expiresIn: "15m"})
 };
 ```
 
-```{caption="Refresh-Token Generierung" .js}
+```{caption="Refresh Token Generierung" .js}
 export const generateRefreshToken = function(user, role) {
     return jwt.sign({user, role}, process.env.REFRESH_TOKEN_SECRET, {expiresIn: "20m"})
 };
@@ -1186,4 +1188,49 @@ export const getAllSensorDataPerContainer = tryCatchWrapper(async function (req,
 
   return res.status(200).json({ sensor_data: sensorData });
 });
+```
+
+#### Anwendung
+
+Um nun die Daten mit den bereitgestellten Schnitstellen abzufragen, kann man cURL Anfragen stellen. Als erstes muss man sich einen Access Token mit seiner BenutzerID und dem zugehörigen Passwort holen.
+
+```{caption="Access und Refresh Token vom Server abrufen" .sh}
+curl --location 'https://api.contrude.eu/auth/login' \
+--header 'Content-Type: application/json' \
+--data '{
+    "user": "1",
+    "password": "Hello!23"
+}'
+```
+
+Die darauffolgende JSON Response sieht wie folgt aus:
+
+```{caption="Access und Refresh Token Response" .json}
+{
+    "accessToken": "aaa.bbb.ccc",
+    "refreshToken": "xxx.yyy.zzz"
+}
+```
+
+Um z.B. die Temperaturdaten für einen Container mit dem Access Token abfragen zu können, benötigt man folgende cURL Anfrage:
+
+```{caption="Temperaturdaten eines Containers abfragen" .sh}
+curl --location 'https://api.contrude.eu/rest/sensor/2/3/temperature?start=2025-03-25T10%3A30%3A00Z&stop=2025-03-25T10%3A31%3A00Z' \
+--header 'Authorization: Bearer aaa.bbb.ccc'
+```
+
+Die gelieferten Temperaturdaten sind folgendermaßen formatiert:
+
+```{caption="Temperaturdaten Response" .json}
+{
+    "temperature": [
+        {
+            "container": "3",
+            "sensor": "temperature",
+            "ship": "2",
+            "time": "2025-03-25T10:30:17Z",
+            "value": "44.27"
+        }
+    ]
+}
 ```

@@ -47,94 +47,108 @@ da-kurzfassung-en: The placement of containers on a cargo ship is predefined in 
 
 da-kiquellen:
 # Kampl
+- ki: ChatGPT-4o
+  short-prompt: Zusammenfügen der Theorie KI-Quellen Kampl
+  pdf-file: Kampl/KI/Theorie/Zusammenfuegung-KI-Theorie-Kampl.pdf
+
+- ki: ChatGPT_4o
+  short-prompt: Rechtschreib- und Grammatiküberprüfung Kampl
+  pdf-file: Kampl/KI/Praxis/Reconnect-Funktion.pdf
+
 #- ki: ChatGPT-4o
 #  short-prompt: Grundstruktur einer .ini-Datei
 #  pdf-file: Kampl/KI/Theorie/PlatformIO-INI-FILE-BSP-ChatGPT.pdf
+
 #- ki: ChatGPT-4o
 #  short-prompt: GitHub Actions Erklärung
 #  pdf-file: Kampl/KI/Theorie/GitHub-Actions-Erklaerung.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Zusammenfügen der KI-Quellen
-  pdf-file: Kampl/KI/Theorie/Zusammenfuegung-KI-Theorie-Kampl.pdf
-- ki: ChatGPT_4o
-  short-prompt: Rechtschreib und Grammatiküberprüfung MQTT
-  pdf-file: Kampl/KI/Praxis/Reconnect-Funktion.pdf
-
 # Gekle
 - ki: ChatGPT-4o
-  short-prompt: Erklaerung eines Dragable Graphs
-  pdf-file: Gekle/KI/Theorie/DG-ChatGPT.pdf
+  short-prompt: Zusammenfügen der Theorie KI-Quellen Gekle
+  pdf-file: Gekle/KI/Theorie/Zusammenfuegung-KI-Theorie-Gekle.pdf
 
 - ki: ChatGPT-4o
-  short-prompt: Vorteile von Axios
-  pdf-file: Gekle/KI/Theorie/AxiosVorteile-ChatGPT.pdf
+  short-prompt: Zusammenfügen der Praxis KI-Quellen Gekle
+  pdf-file: Gekle/KI/Praxis/Zusammenfuegung-KI-Praxis-Gekle.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Warum async bei REST-Call Funktionen
-  pdf-file: Gekle/KI/Theorie/WarumAsync-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: Erklaerung eines Dragable Graphs
+#  pdf-file: Gekle/KI/Theorie/DG-ChatGPT.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: ID Extractor Methode
-  pdf-file: Gekle/KI/Praxis/IDExtractor-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: Vorteile von Axios
+#  pdf-file: Gekle/KI/Theorie/AxiosVorteile-ChatGPT.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Methode für spezielle JSON Objekt Erstellung
-  pdf-file: Gekle/KI/Praxis/SpecificJson-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: Warum async bei REST-Call Funktionen
+#  pdf-file: Gekle/KI/Theorie/WarumAsync-ChatGPT.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Methode um das Grid der Website zu rendern
-  pdf-file: Gekle/KI/Praxis/RenderGrid-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: ID Extractor Methode
+#  pdf-file: Gekle/KI/Praxis/IDExtractor-ChatGPT.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Skript für ContainerDistibutor
-  pdf-file: Gekle/KI/Praxis/ContainerDistributor-Script-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: Methode für spezielle JSON Objekt Erstellung
+#  pdf-file: Gekle/KI/Praxis/SpecificJson-ChatGPT.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Update Table Data 
-  pdf-file: Gekle/KI/Praxis/UpdateTableData-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: Methode um das Grid der Website zu rendern
+#  pdf-file: Gekle/KI/Praxis/RenderGrid-ChatGPT.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Axios Interceptors für die Axios Instanz
-  pdf-file: Gekle/KI/Praxis/AxiosInterceptor-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: Skript für ContainerDistibutor
+#  pdf-file: Gekle/KI/Praxis/ContainerDistributor-Script-ChatGPT.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Skript für ConditionChecker
-  pdf-file: Gekle/KI/Praxis/ConditionChecker-Script-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: Update Table Data 
+#  pdf-file: Gekle/KI/Praxis/UpdateTableData-ChatGPT.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: D3js Dragable Graph Skript
-  pdf-file: Gekle/KI/Praxis/D3jsDragableGraph-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: Axios Interceptors für die Axios Instanz
+#  pdf-file: Gekle/KI/Praxis/AxiosInterceptor-ChatGPT.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Erweiterte Farbsteuerung des D3js Dragable Graph Skript
-  pdf-file: Gekle/KI/Praxis/DG-ChatGPT-Erweiterung
+#- ki: ChatGPT-4o
+#  short-prompt: Skript für ConditionChecker
+#  pdf-file: Gekle/KI/Praxis/ConditionChecker-Script-ChatGPT.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Fix fetchAndCheck Methode bezüglich parameterValue Variable
-  pdf-file: Gekle/KI/Praxis/FetchAndCheckFix-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: D3js Dragable Graph Skript
+#  pdf-file: Gekle/KI/Praxis/D3jsDragableGraph-ChatGPT.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Async Probleme von fetchAndCheck Methode fixen
-  pdf-file: Gekle/KI/Praxis/FetchAndCheckFix2-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: Erweiterte Farbsteuerung des D3js Dragable Graph Skript
+#  pdf-file: Gekle/KI/Praxis/DG-ChatGPT-Erweiterung
+
+#- ki: ChatGPT-4o
+#  short-prompt: Fix fetchAndCheck Methode bezüglich parameterValue Variable
+#  pdf-file: Gekle/KI/Praxis/FetchAndCheckFix-ChatGPT.pdf
+
+#- ki: ChatGPT-4o
+#  short-prompt: Async Probleme von fetchAndCheck Methode fixen
+#  pdf-file: Gekle/KI/Praxis/FetchAndCheckFix2-ChatGPT.pdf
 
 # Schrempf
 
 - ki: ChatGPT-4o
-  short-prompt: Cargo Ship Database
-  pdf-file: Schrempf/KI/schiff-db-creation-ChatGPT.pdf
+  short-prompt: Zusammenfügen der Praxis KI-Quellen Schrempf
+  pdf-file: Schrempf/KI/Zusammenfuegung-KI-Schrempf.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Telegraf Split Data into different DBs
-  pdf-file: Schrempf/KI/telegraf-regex-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: Cargo Ship Database
+#  pdf-file: Schrempf/KI/schiff-db-creation-ChatGPT.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Server Structure Contrude
-  pdf-file: Schrempf/KI/server-structure-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: Telegraf Split Data into different DBs
+#  pdf-file: Schrempf/KI/telegraf-regex-ChatGPT.pdf
 
-- ki: ChatGPT-4o
-  short-prompt: Traefik Reverse Proxy
-  pdf-file: Schrempf/KI/traefik-config-ChatGPT.pdf
+#- ki: ChatGPT-4o
+#  short-prompt: Server Structure Contrude
+#  pdf-file: Schrempf/KI/server-structure-ChatGPT.pdf
+
+#- ki: ChatGPT-4o
+#  short-prompt: Traefik Reverse Proxy
+#  pdf-file: Schrempf/KI/traefik-config-ChatGPT.pdf
 
 da-appendix:
 
