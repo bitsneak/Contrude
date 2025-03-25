@@ -39,7 +39,7 @@ Unser Projekt soll nicht nur den Schiffsarbeitern und der Logistikabteilung des 
 Außerdem wird unser Gerät auch beim Wiederfinden oder dem generellen Verfolgen der Fracht von nutzen sein.
 Für den Hafen kann dies vom Vorteil sein, wenn ein Container während des Transportes verloren geht und für die Kunden ermöglicht es einen genaueren Einblick wo ihr Paket nun genau ist.
 
-#### Projektauftraggeber/in
+#### Projektauftraggeber
 
 Die HTL Leoben, eine technische Fachschule in Österreich überwacht und hilft uns bei der Erstellung des Projektes. Sie stellt uns Lehrkräfte zur Verfügung, welche uns fast jederzeit als Berater zur seite stehen.
 
