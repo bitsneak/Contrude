@@ -147,22 +147,29 @@ In unserem Projekt werden drei Sensoren verwendet, der BME280, welcher die Tempe
 Der BME280 verwendet intern einen sogenannten Widerstandstemperatursensor. Diese Art von Sensor verändert seinen elektrischen Widerstand in Abhängigkeit von der Umgebungstemperatur. Durch die Messung der Widerstandsänderungen kann die Temperatur präzise erfasst und anschließend in digitale Signale umgewandelt werden.
 [vgl. S.259 @Automatisierungs-Technik]
 
+![Widerstandsthermometer [@Thermo]](img/Kampl/Widerstandthermo.png){width=300px}
+
 #### Luftdruck - Piezoresistives-Drucksensor
 
 Außerdem verwendet er intern einen piezoresistiven Drucksensor. Diese Art von Sensor enthält eine flexible Membran, die sich je nach Luftdruck verformt. Durch die Verformung ändert sich der Widerstand in der piezoresistiven Schicht, die auf der Membran aufgebracht ist. Diese Widerstandsänderung wird erfasst, in ein elektrisches Signal umgewandelt und anschließend digitalisiert. Mithilfe der im Sensor gespeicherten Kalibrierungsdaten liefert der BME280 präzise Druckmesswerte
 [vgl. S.255 @Automatisierungs-Technik]
 
+![Piezoresistives-Drucksensor [@Druck]](img/Kampl/Luftdrucksensor.png){width=300px}
 
 #### Luftfeuchtigkeit - Kapazitives-Hygrometer
 
 Des weiteren verwendet der BME intern einen kapazitiven Feuchtigkeitssensor. Diese Art von Sensor nutzt die Eigenschaft, dass sich die Kapazität eines elektrischen Kondensators ändert, wenn sich der Feuchtigkeitsgehalt der Umgebungsluft verändert. Diese Kapazitätsänderung wird gemessen, in elektrische Signale umgewandelt und anschließend digitalisiert. Durch die im Sensor gespeicherten Kalibrierungsdaten werden präzise Messwerte für die relative Luftfeuchtigkeit bereitgestellt.
 [@Kapazitive-Feuchtemessung]
 
+![Hygrometer [@Hygro]](img/Kampl/Luftfeucht.png){width=300px}
+
 ![BME280](img/Kampl/BME280.jpg){width=400px}
 
 #### Beschleunigung - Accelerometer
 
 Der MPU6050 verwendet intern einen 3-Achsen-Beschleunigungssensor, der auf der MEMS-Technologie (Micro-Electro-Mechanical Systems) basiert. Diese Art von Sensor beinhaltet winzige mechanisch bewegliche Strukturen, die auf einer festen Basis montiert sind. Wenn der Sensor einer Beschleunigung ausgesetzt wird, bewegen sich diese Strukturen relativ zur Basis, was eine Änderung der Kapazität zwischen diesen Strukturen zur Folge hat. Diese Kapazitätsänderung wird gemessen, in elektrische Signale umgewandelt und anschließend digitalisiert. So wird die Beschleunigung entlang der X-, Y- und Z-Achse präzise erfasst. [vgl. @MPU-6000]
+
+![Accelerometer [@Accel]](img/Kampl/Accell.jpg){width=300px}
 
 ![MPU6050](img/Kampl/MPU6050.png){width=400px}
 
