@@ -1383,6 +1383,39 @@ void setup_wifi() {
 }
 ```
 
+#### Mesh
+
+Wie vielleicht einigen aufmerksamen Leserinnen aufgefallen ist, ist der Mesh-Teil des Codes auskommentiert:
+
+```{caption="Mesh Implementation" .cpp}
+  //mesh.init(MESH_PREFIX, password, &userScheduler, MESH_PORT);
+  //mesh.onReceive(&receivedCallback);
+  //mesh.onNewConnection(&newConnectionCallback);
+  //mesh.onChangedConnections(&changedConnectionCallback);
+  //mesh.onNodeTimeAdjusted(&nodeTimeAdjustedCallback);
+
+  //userScheduler.addTask(taskSendMessage);
+  //taskSendMessage.enable();
+```
+
+
+Das liegt daran, dass während der Entwicklung einige Hardware-Probleme aufgetreten sind, wodurch letztendlich nur ein einziger funktionsfähiger Prototyp entstanden ist. Trotzdem ist das Feature im Code enthalten, da es eine zentrale Rolle im ursprünglichen Konzept gespielt hätte.
+
+Das Mesh-Netzwerk sollte ermöglichen, dass sich mehrere Geräte untereinander verbinden und Daten austauschen, ohne eine zentrale Steuerung zu benötigen. Die Initialisierung erfolgt mit ```mesh.init(MESH_PREFIX, password, &userScheduler, MESH_PORT);```, wobei **MESH_PREFIX** den Netzwerknamen und password das zugehörige Passwort definiert. Der **userScheduler** verwaltet geplante Aufgaben im Mesh.
+
+Um auf Ereignisse im Netzwerk zu reagieren, wurden mehrere Callbacks registriert:
+
+- ```mesh.onReceive(&receivedCallback);```
+  - Wird aufgerufen, sobald eine Nachricht von einem anderen Knoten empfangen wird.
+- ```mesh.onNewConnection(&newConnectionCallback);```
+  - Erkennt, wenn ein neues Gerät dem Mesh-Netzwerk beitritt.
+- ```mesh.onChangedConnections(&changedConnectionCallback);```
+  - Reagiert darauf, wenn sich die Verbindung zu anderen Knoten verändert.
+- ```mesh.onNodeTimeAdjusted(&nodeTimeAdjustedCallback);```
+  - Sorgt dafür, dass alle Geräte im Netzwerk eine synchronisierte Zeit haben.
+
+Zusätzlich sollte mit ```userScheduler.addTask(taskSendMessage);``` eine wiederkehrende Aufgabe zur Nachrichtensendung eingerichtet werden. Durch ```taskSendMessage.enable();``` wäre sichergestellt worden, dass die Geräte in regelmäßigen Abständen Daten über das Mesh-Netzwerk senden.
+
 #### MQTT
 
 Wie bereits in der theoretischen Ausarbeitung besprochen, ist MQTT ein Protokoll zur Übertragung von Daten, bei dem der Publisher, also der Prototyp, ein Topic abonnieren muss, um genau auf dieses Topic die Daten zu versenden.
