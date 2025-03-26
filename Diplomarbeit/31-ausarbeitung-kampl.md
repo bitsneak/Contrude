@@ -8,11 +8,11 @@
 
 Ein Eingebettetes System ist Teil eines viel größeren Systems wie z.B.: Handys, Autos, Waschmaschinen, usw..
 
-Solche Systeme gibt es bereits seit den 1960. Damals baute der amerikanische Ingenieur Charles Stark Draper während des Apollo Raumprogrammes die erste integrierte Schaltung. Diese wurde dann auf dem Apollo Guidance Computer installiert um Flugdaten in Echtzeit sammeln zu können.
+Solche Systeme gibt es bereits seit den 1960er-Jahren. Damals baute der amerikanische Ingenieur Charles Stark Draper während des Apollo Raumprogrammes die erste integrierte Schaltung. Diese wurde dann auf dem Apollo Guidance Computer installiert um Flugdaten in Echtzeit sammeln zu können.
 Später wurden Mikroprozessoren in der 1600 Serie von Volkswagen verwendet um das Kraftstoffeinspritzsystem zu steuern.
-In den 70ern konnte Intel den ersten Prozessor entwickeln, welcher der Öffentlichkeit zugänglich war: den Intel 4004. Ein 4-Bit-Mikroprozessor, wlecher in Taschenrechnern und anderen kleineren elektronischen Geräte verwendet wurde.
+In den 70ern konnte Intel den ersten Prozessor entwickeln, welcher der Öffentlichkeit zugänglich war: Den Intel 4004. Ein 4-Bit-Mikroprozessor, welcher in Taschenrechnern und anderen kleineren elektronischen Geräten verwendet wurde.
 
-Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Software und Hardware ist für einen speziell programmierte Aufgabe. Obwohl man Es mit einem Computer gleichstellen kann, haben sie des öfteren keine Graphische Oberfläche für Benutzer.
+Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Software und Hardware für einen speziell programmierte Aufgabe ist. Obwohl man es mit einem Computer gleichstellen kann, haben sie des öfteren keine graphische Oberfläche für Benutzer.
 [vgl. @EmbeddedSystems]
 
 #### Komponenten
@@ -21,26 +21,25 @@ Die Hauptkomponenten eines Embedded Systems sind ein Mikroprozessor oder ein Mik
 
 ![Aufbau eines Mikrocontrollers [@EmbeddedSystems]](img/Kampl/AufbauES.jpg){width=300px}
 
-##### CPU
+##### CPU^[Central Processing Unit]
 
-Die CPU (Central Processing Unit) ist die primäre Steuereinheit eines Systems. Sie besteht aus der ALU und der CU. Die ALU^[Arithmetic Logic Unit] ist der Teil der CPU, der arithmetisch-logische Operationen mit binären Daten ausführt. Die CU^[Control Unit] steuert mithilfe des internen Oszillators die Abläufe im System. Nachdem ein Befehl decodiert wurde, gibt die CU selbst weitere Befehle aus, um die korrekten Aktionen zu starten. Diese Befehle werden dann über den Bus aus dem Arbeitsspeicher abgerufen. [@EmbeddedSystems]
+Die CPU ist die primäre Steuereinheit eines Systems. Sie besteht aus der ALU und der CU. Die ALU^[Arithmetic Logic Unit] ist der Teil der CPU, der arithmetisch-logische Operationen mit binären Daten ausführt. Die CU^[Control Unit] steuert mithilfe des internen Oszillators die Abläufe im System. Nachdem ein Befehl decodiert wurde, gibt die CU selbst weitere Befehle aus, um die korrekten Aktionen zu starten. Diese Befehle werden dann über den Bus aus dem Arbeitsspeicher abgerufen. [@EmbeddedSystems]
 
 ##### Bus
 
 Der Bus verbindet die CPU mit den anderen Komponenten. Es gibt daher verschiedene Arten von Bussen, wie z. B. den Datenbus, den Adressbus und den Steuerbus. Je nach Prozessor können unterschiedlich viele Bits gleichzeitig übertragen werden.
 
-	
 Des weiteren kann mann Busse noch in 2 Typen nach der Breite aufteilen:
 
 1. Parallel: Beim parallelen System gibt es mehrere Leitungen welche gleichzeitig Daten verschicken wodurch die Busbreite viel höher ist.
-2. Seriell: Serielle Systeme übertragen Daten bitweise über eine einzelne Leitung, also nacheinander. Ein serieller Bus kann synchron,taktsignalbasiert, oder asynchron, durch Steuerleitungen und Protokolle koordiniert, arbeiten. Während ältere serielle Busse oft langsamer als parallele waren, sind moderne serielle Bussysteme durch höhere Taktraten und verbesserte Protokolle meist leistungsfähiger und effizienter.
+2. Seriell: Serielle Systeme übertragen Daten bitweise über eine einzelne Leitung, also nacheinander. Ein serieller Bus kann synchron, taktsignalbasiert, oder asynchron, durch Steuerleitungen und Protokolle koordiniert, arbeiten. Während ältere serielle Busse oft langsamer als parallele waren, sind moderne serielle Bussysteme durch höhere Taktraten und verbesserte Protokolle meist leistungsfähiger und effizienter.
 [@EmbeddedSystems]
  
 ##### Schnittstellen
 
 - **SPI:**^[Serial Peripheral Interface] Eine synchrone serielle Schnittstelle, ideal für die Verbindung von Peripherigeräten.
 
-    Es besteht aus den drei Leitungen POCI^[Peripheral Out/Controller In] oder auch MISO^[Master In/Slave Out], PICO/MOSI^[Peripheral In/Controller Out | Master Out/Slave In] und der Serial Clock. Außerdem dem gibt es noch den Slave-Select, aber da dies ein äußerst problematischer Außdruck ist, nennt man es heutzutage Chip-Select. Die Chip-Select Leitung sorgt dafür, dass der Controller ein Peripherigerät zur Kommuniaktion auswählt.
+    Es besteht aus den drei Leitungen POCI^[Peripheral Out/Controller In] oder auch MISO^[Master In/Slave Out], PICO/MOSI^[Peripheral In/Controller Out | Master Out/Slave In] und der Serial Clock. Außerdem dem gibt es noch den Slave-Select, aber da dies ein problematischer Außdruck ist, nennt man es heutzutage Chip-Select. Die Chip-Select Leitung sorgt dafür, dass der Controller ein Peripherigerät zur Kommuniaktion auswählt.
 
     Bei der SPI-Kommunikation gibt es keinen klaren Sender oder Empfänger, sondern einen kontinuierlichen Austausch, da sowohl die Peripherie als auch der Controller gleichzeitig ein Bit übertragen. Die Peripherie steuert die Kommunikation, indem sie die SCK-Impulse generiert, während der Controller das Signal annimmt und verarbeitet. Selbst wenn noch kein Ergebnis vorliegt, misst die Peripherie die Polarität der PICO/MOSI-Leitung und bestimmt daraus das nächste Bit.
     [@EmbeddedSystems]
@@ -82,7 +81,7 @@ Prozessor garantiert. Im Grunde unterscheidet man zwischen zwei Arten von RAMs:
 
 ##### ROM
 
-Wie der RAM ist auch der ROM eine Art Speicher. ROM-Speicher holt sich den Befehlscode direkt aus den Programmspeicher. Der große Unterschied zu anderen Speicherarten ist das der ROM, meist, nur lesenden Zugriff erlaubt und nicht löschbar ist, daher auch der Name **Read Only Memory**.
+Wie der RAM ist auch der ROM eine Art Speicher. ROM-Speicher holt sich den Befehlscode direkt aus den Programmspeicher. Der große Unterschied zu anderen Speicherarten ist das der ROM, meist nur lesenden Zugriff erlaubt und nicht löschbar ist, daher auch der Name **Read Only Memory**.
 
 - **PROM** ^[Programmable Read-Only Memory]: Dieser Speichertyp kann nur einmal beschrieben werden. Beim Programmieren werden selektiv Sicherungen durchgebrannt, sodass die gespeicherten Daten nicht mehr verändert werden können.  
 
@@ -96,23 +95,20 @@ Wie der RAM ist auch der ROM eine Art Speicher. ROM-Speicher holt sich den Befeh
 
 ![FLASH [@FLASH]](img/Kampl/Flash.png){width=300px} 
 
-- **EEPROM** ^[Electrically Erasable Programmable Read-Only Memory]: Dieser Speicher kann elektrisch gelöscht und erneut beschrieben werden. Er wird oft für kleine, nichtflüchtige Datenspeicher wie Seriennummern oder MAC-Adressen in elektrischen Geräten verwendet. EEPROMs benötigen im Vergleich zu Flash-Speichern weniger Pins und werden meist seriell beschrieben. 
- 
-[vgl. @EmbeddedSystems]
+- **EEPROM** ^[Electrically Erasable Programmable Read-Only Memory]: Dieser Speicher kann elektrisch gelöscht und erneut beschrieben werden. Er wird oft für kleine, nichtflüchtige Datenspeicher wie Seriennummern oder MAC-Adressen in elektrischen Geräten verwendet. EEPROMs benötigen im Vergleich zu Flash-Speichern weniger Pins und werden meist seriell beschrieben. [vgl. @EmbeddedSystems]
 
 ##### Register
 
 Register sind temporäre Speicher, die teils festgelegte Verwendungszwecke (z. B. Befehls- oder Statusregister) haben und teils für allgemeine Aufgaben genutzt werden.
 
 ##### Peripherie
-- **GPIO** ^[General Purpose Input/Output]: GPIO-Pins sind flexibel nutzbare Ein- und Ausgänge eines Mikrocontrollers. Sie können als digitale Eingänge zur Erfassung von Tasterzuständen oder Sensordaten sowie als digitale Ausgänge zur Steuerung von LEDs, Motoren oder anderen Komponenten genutzt werden. Manche GPIOs verfügen über zusätzliche Funktionen, wie ADC-Eingänge oder Timer-Steuerung.  
+- **GPIO** ^[General Purpose Input/Output]: GPIO-Pins sind flexibel nutzbare Ein- und Ausgänge eines Mikrocontrollers. Sie können als digitale Eingänge zur Erfassung von Tasterzuständen oder Sensordaten, sowie als digitale Ausgänge zur Steuerung von LEDs, Motoren oder anderen Komponenten genutzt werden. Manche GPIOs verfügen über zusätzliche Funktionen, wie ADC-Eingänge oder Timer-Steuerung. [vgl. @EmbeddedSystems]
 
-- **Timer:** Das Timer-Modul dient zur Überwachung und Steuerung zeitkritischer Prozesse. Es kann als einfacher Zähler, zur Erzeugung von PWM-Signalen oder zur Zeitmessung verwendet werden. Timer-Interrupts ermöglichen präzise Steuerungen in Echtzeitanwendungen.  
+- **Timer:** Das Timer-Modul dient zur Überwachung und Steuerung zeitkritischer Prozesse. Es kann als einfacher Zähler, zur Erzeugung von PWM-Signalen oder zur Zeitmessung verwendet werden. Timer-Interrupts ermöglichen präzise Steuerungen in Echtzeitanwendungen. [vgl. @EmbeddedSystems]
 
-- **Watchdog:** Der Watchdog-Timer erhöht die Sicherheit eines Systems, indem er einen automatischen Neustart auslöst, wenn das System nicht in regelmäßigen Abständen auf ihn reagiert. Dies verhindert ein Hängenbleiben oder Blockieren der Software und sorgt für eine höhere Zuverlässigkeit in Embedded-Systemen. Umgangssprachlich wird er als Totmansschalter bezeichnet.
+- **Watchdog:** Der Watchdog-Timer erhöht die Sicherheit eines Systems, indem er einen automatischen Neustart auslöst, wenn das System nicht in regelmäßigen Abständen auf ihn reagiert. Dies verhindert ein Hängenbleiben oder Blockieren der Software und sorgt für eine höhere Zuverlässigkeit in Embedded-Systemen. Umgangssprachlich wird er als Totmannschalter bezeichnet. [vgl. @EmbeddedSystems]
 
-- **DMA** ^[Direct Memory Access]: Der Direct Memory Access ermöglicht es Peripheriegeräten, Daten direkt mit dem Speicher auszutauschen, ohne die CPU zu belasten. Dies beschleunigt den Datentransfer erheblich, insbesondere bei großen Datenmengen wie Audio- oder Videodaten, und verbessert die Gesamtleistung des Systems.  
-[vgl. @EmbeddedSystems]
+- **DMA** ^[Direct Memory Access]: Der Direct Memory Access ermöglicht es Peripheriegeräten, Daten direkt mit dem Speicher auszutauschen, ohne die CPU zu belasten. Dies beschleunigt den Datentransfer erheblich, insbesondere bei großen Datenmengen wie Audio- oder Videodaten, und verbessert die Gesamtleistung des Systems. [vgl. @EmbeddedSystems]
 
 ##### Firmware
 
@@ -154,7 +150,7 @@ Der BME280 verwendet intern einen sogenannten Widerstandstemperatursensor. Diese
 Außerdem verwendet er intern einen piezoresistiven Drucksensor. Diese Art von Sensor enthält eine flexible Membran, die sich je nach Luftdruck verformt. Durch die Verformung ändert sich der Widerstand in der piezoresistiven Schicht, die auf der Membran aufgebracht ist. Diese Widerstandsänderung wird erfasst, in ein elektrisches Signal umgewandelt und anschließend digitalisiert. Mithilfe der im Sensor gespeicherten Kalibrierungsdaten liefert der BME280 präzise Druckmesswerte
 [vgl. S.255 @Automatisierungs-Technik]
 
-![Piezoresistives-Drucksensor [@Druck]](img/Kampl/Luftdrucksensor.png){width=300px}
+![Piezoresistiver-Drucksensor [@Druck]](img/Kampl/Luftdrucksensor.png){width=300px}
 
 #### Luftfeuchtigkeit - Kapazitives-Hygrometer
 
@@ -191,19 +187,16 @@ Das Modul verfügt über eine Keramikantenne für einen besseren Empfang.
 	
 #### IDE
 
-Um ein Programm erfolgreich auf dem ESP32 ausführen zu können, benötigt man eine geeignete IDE^[Integrated Development Environment]. Aber was genau ist eine IDE?
+Um ein Programm erfolgreich auf dem ESP32 ausführen zu können, benötigt man eine geeignete IDE^[Integrated Development Environment].
 
 >Eine integrierte Entwicklungsumgebung (IDE) ist Software für eine optimierte Anwendungsentwicklung, die gängige Entwicklertools in einer zentralen grafischen Oberfläche vereint.
 [@RedHatIDE]
 
-Jede IDE enthält in der Regel ähnliche Standardkomponenten, darunter einen integrierten Code-Editor – also einen Texteditor mit Syntax-Highlighting und gegebenenfalls Autovervollständigung –, ein Programm zum Bauen und Kompilieren des Codes sowie einen Debugger. [vgl. @RedHatIDE]
+Jede IDE enthält in der Regel ähnliche Standardkomponenten, darunter einen integrierten Code-Editor – also einen Texteditor mit Syntax-Highlighting und gegebenenfalls Autovervollständigung – ein Programm zum Bauen und Kompilieren des Codes sowie einen Debugger. [vgl. @RedHatIDE]
 
 ##### Vorteile
 
-
-**IDEs bieten viele Vorteile, die beim Schreiben von Code unterstützen.**
-
-Während intelligente Code-Vervollständigung und -Generierung eher als *Nice-to-have*-Features gelten, gibt es echte Zeitersparnisse. Besonders das **Echtzeit-Parsen von Code** spart erheblich Zeit bei der Fehlersuche. Zudem beinhalten IDEs häufig Funktionen, die speziell auf eine Programmiersprache zugeschnitten sind.
+IDEs bieten viele Vorteile, die beim Schreiben von Code unterstützen. Während intelligente Codevervollständigung und -generierung eher als *Nice-to-have*-Features gelten, gibt es echte Zeitersparnisse. Besonders das **Echtzeit-Parsen von Code** spart erheblich Zeit bei der Fehlersuche. Zudem beinhalten IDEs häufig Funktionen, die speziell auf eine Programmiersprache zugeschnitten sind.
 
 Ein Beispiel dafür ist **IntelliJ**, eine von der Firma JetBrains entwickelte IDE, die speziell für Java konzipiert wurde. Sie bietet unter anderem folgende Funktionen:
 
@@ -214,14 +207,14 @@ Ein Beispiel dafür ist **IntelliJ**, eine von der Firma JetBrains entwickelte I
 
 #### PlatformIO
 
-Eine der bekanntesten und am weitesten verbreiteten Entwicklungsumgebungen für Mikrocontroller ist die Arduino IDE. Allerdings stießen wir bei unserem Projekt auf Anforderungen, die mehr Kontrolle über den Entwicklungs- und Upload-Prozess erforderten. Daher entschieden wir uns für eine professionellere und flexiblere Lösung: PlatformIO.
+Eine der bekanntesten und am weitesten verbreiteten Entwicklungsumgebungen für Mikrocontroller ist die Arduino IDE. Allerdings stießen wir bei unserem Projekt auf Anforderungen, die mehr Kontrolle über den Entwicklungs- und Uploadprozess erforderten. Daher entschieden wir uns für eine professionellere und flexiblere Lösung: PlatformIO.
 
 ![ArduinoIDE](img/Kampl/ArduinoIDE.png){width=400px}
 
 ![PlatformIO](img/Kampl/PlatformIO.png){width=500px}
 
 
-PlatformIO ist eine Entwicklungsumgebung, die als Erweiterung für den Texteditor Visual Studio Code genutzt wird. Sie bietet eine bessere Projektstruktur, eine fortschrittlichere Konfigurationsverwaltung und umfangreiche Unterstützung für verschiedene Mikrocontroller. Zwei zentrale Elemente sorgen dabei für einen reibungslosen Ablauf: die Hauptdatei (Main-File) und die Plattform-Konfigurationsdatei (.ini-File). Besonders die .ini-Datei spielt eine entscheidende Rolle, da sie die Projektkonfiguration festlegt und sicherstellt, dass der Upload-Prozess auf den Mikrocontroller zuverlässig und ohne Komplikationen funktioniert.
+PlatformIO ist eine Entwicklungsumgebung, die als Erweiterung für den Texteditor Visual Studio Code genutzt wird. Sie bietet eine bessere Projektstruktur, eine fortschrittlichere Konfigurationsverwaltung und umfangreiche Unterstützung für verschiedene Mikrocontroller. Zwei zentrale Elemente sorgen dabei für einen reibungslosen Ablauf: Die Hauptdatei (Main-File) und die Plattform-Konfigurationsdatei (.ini-File). Besonders die .ini-Datei spielt eine entscheidende Rolle, da sie die Projektkonfiguration festlegt und sicherstellt, dass der Upload-Prozess auf den Mikrocontroller zuverlässig und ohne Komplikationen funktioniert.
 
 ```{caption="Beispiel einer .ini Datei für ein PlatformIO Projekt" .ini}
     ; PlatformIO Project Configuration File
@@ -254,16 +247,16 @@ PlatformIO ist eine Entwicklungsumgebung, die als Erweiterung für den Textedito
 
 Um PlatformIO benutzen zu können muss man die *PlatformIO IDE* in Visual Studio Code installieren. Nach der Installation und einem Neustart kann man ein erstes Projekt erstellen.
 
-Um nun ein erstes Projekt zu erstellen muss mann einfach nur auf den PlatformIO Home Knopf drücken. Danach drückt man auf *New Project* und wählt das passende Board aus. [@PlatformIO-firststeps]
+Um nun ein erstes Projekt zu erstellen, muss mann einfach nur auf den PlatformIO Home Knopf drücken. Danach drückt man auf *New Project* und wählt das passende Board aus. [@PlatformIO-firststeps]
 
 ##### Tools
 
 ![Toolbar von PlatformIO [@PlatformIO-firststeps]](img/Kampl/platformio-ide-vscode-toolbar.png){width=500px}
 
-1. **Home**: sorgt dafür, dass das Home Menü von PlatformIO. In diesem kann man seine Projekte verwalten sowie Bibiliothekten für das aktuelle hinzufügen.
-2. **Build**: Kompiliert den Code des Projekts und erstellt eine Datei welche auf den Mikrocontroller hochgeladen werden kann.
+1. **Home**: sorgt dafür, dass das Home Menü von PlatformIO. In diesem kann man seine Projekte verwalten, sowie Bibiliothekten für das aktuelle hinzufügen.
+2. **Build**: Kompiliert den Code des Projekts und erstellt eine Datei, welche auf den Mikrocontroller hochgeladen werden kann.
 3. **Upload**: Lädt die erstellte Datei von der Build Funktion auf das Festgelegte Zielgerät, in unseren Fall ein ESP32, hoch.
-   1. Zuerst sucht PlatformIO nach richtigen Port. Entweder in der .ini-Datei festgelegt oder er wird automatisch erkannt.
+   1. Zuerst sucht PlatformIO nach dem richtigen Port. Er ist entweder in der .ini-Datei festgelegt oder er wird automatisch erkannt.
    2. Die Firmware (.bin oder .hex Datei) wird auf das Gerät über den Port hochgeladen.
    3. Während des Uploads wird jeglicher Fortschritt im Terminal angezeigt.
 4. **Clean**: Löscht alle temporären Dateien, welche  beim Build-Prozess erstellt wurden. (z.B.: kompilierte Objektdateien, die Firmware-Datei). Im Grunde wird der /.pio Ordner gelöscht.
@@ -318,11 +311,11 @@ Jetzt, da wir wissen, dass unser Gerät funktioniert, können wir mit der weiter
 
 #### BME280 als Temperatur, Luftdruch und Luftfeuchtigkeits Sensor
 
-Zuvor müssen wir jedoch einige Bibliotheken hinzufügen damit wir den BME280 einfacher ansprechen können. Die verbreitetste Bibliothek ist die **Adafruit BME280 Library**. Man fügt sie dem Projekt hinzu indem man etweder man die folgende Zeile ```adafruit/Adafruit BME280 Library@^2.2.4``` unter dem Punkt **lib_deps** in der .ini-Datei hinzufügt, oder indem man PlatformIO verwendet, um die Library automatisch hinzuzufügen. Sie dient als Schnittstelle für den Sensor.
+Zuvor müssen wir jedoch einige Bibliotheken hinzufügen damit wir den BME280 einfacher ansprechen können. Die verbreitetste Bibliothek ist die **Adafruit BME280 Library**. Man fügt sie dem Projekt hinzu, indem man etweder man die folgende Zeile ```adafruit/Adafruit BME280 Library@^2.2.4``` unter dem Punkt **lib_deps** in der .ini-Datei hinzufügt, oder indem man PlatformIO verwendet, um die Library automatisch hinzuzufügen. Sie dient als Schnittstelle für den Sensor.
 
 ![BME-Library](img/Kampl/BME-Library.png){width=500px}
 
-Am Ende verwenden wir folgenden Code für unseren Sensor:
+Am Ende verwenden wir folgenden Code für unseren Sensor [@BME280-Test]:
 
 ```{caption="BME Testprogramm" .cpp}
 #include <Wire.h>
@@ -387,7 +380,6 @@ void printValues() {
 }
 
 ```
-[@BME280-Test]
 
 ##### Erklärung
 
@@ -403,7 +395,7 @@ Dieses Programm liest die Daten welche der BME280 Sensor bekommt aus der I2C Sch
 
 [@BME280-Test]
 
-Dieser Teil zeigt die bereits vorhin Beschriebenen Bibliotheken mit einer zusätzlichen der **Wire-Library**. Dies ist eine Standardmäßige enthaltene Bibliothek und ermöglicht erst die I2C Kommunikation.
+Dieser Teil zeigt die bereits vorhin beschriebenen Bibliotheken mit einer Zusätzlichen, der **Wire-Library**. Dies ist eine Standardmäßige enthaltene Bibliothek und ermöglicht erst die I2C Kommunikation.
 
 ***Definitionen und Variablen***
 
@@ -419,10 +411,10 @@ void printValues();
 
 [@BME280-Test]
 
-1. **SEALEVELPRESSURE_HPA**: Ist eine Konstante welche den Standardluftdruck auf Meereshöhe annimmt.
+1. **SEALEVELPRESSURE_HPA**: Ist eine Konstante, welche den Standardluftdruck auf Meereshöhe annimmt.
 2. **bme**: ist ein Instanz des Objektes Adafruit_BME280 und stellt den Sensor dar.
 3. **delayTime**: Ist eine Varible welche für einen delay verwendet wird.
-4. **void printValues()**: Ist eine Vorwärtsdeklarierte Funktion. 
+4. **void printValues()**: Ist eine vorwärtsdeklarierte Funktion.
 
 ***Setup***
 
@@ -455,9 +447,9 @@ Das Setup ist im Grunde der wichtigste Teil, da es alle wichtigen Variablen, Mod
 
 1. **Serial.begin(115200)**: Hier wird die auf 115200 gestellt damit der serielle Monitor und der Sensor kommunizieren können.
 2. **if(!bme.begin(0x76))**: Hier wird der Sensor mit der Adresse 0x76 , wie im Datenblatt beschrieben, initialisiert. [@BME280-Datasheet]
-3. **Fehlerbehandlung**: Falls der BME280 nicht gefunden wird oder nicht initialisiert werden kann kommt es zur Fehlerbehandlung und wenn nicht dann geht es weiter in den
+3. **Fehlerbehandlung**: Falls der BME280 nicht gefunden wird oder nicht initialisiert werden kann, kommt es zur Fehlerbehandlung und wenn nicht, dann geht es weiter in den:
 
-***Loop***
+***Loop*** [@BME280-Test]
 
 ```{caption="Loop Funktion des BME Programms" .cpp}
 void loop() { 
@@ -466,9 +458,7 @@ void loop() {
 }
 ```
 
-[@BME280-Test]
-
-Wie der Name schon verrät wird der Loop immer wieder ausgeführt. In diesem Fall hat der Loop die Funktionen `printValues()` welche nach jedem Durchlauf aufgerufen wird und `delay()`, mit der vorher erwähnten `delayTime`, welche nach jedem Loop eine Pause von einer Sekunde einlegt.
+Wie der Name schon verrät, wird der Loop immer wieder ausgeführt. In diesem Fall hat der Loop die Funktionen `printValues()`, welche nach jedem Durchlauf aufgerufen wird und `delay()`, mit der vorher erwähnten `delayTime`, welche nach jedem Loop eine Pause von einer Sekunde einlegt.
 
 ***Ausgabe***
 
@@ -496,15 +486,15 @@ void printValues() {
 
 [@BME280-Test]
 
-Dieser Teil des Codes gibt die Messwerte auf dem Serial Monitor, in einer aufpolierten Version aus. Der Grund für die Ausgabe ist meist Debugging.
+Dieser Teil des Codes gibt die Messwerte auf dem Serial Monitor, in einer aufpolierten Version, aus. Der Grund für die Ausgabe ist meist Debugging.
 
  ![BME-Ausgabe](img/Kampl/BME-Terminal.png){width=500px}
 
 #### MPU6050 als Beschleunigungssensor
 
-Um nun auf diesen Sensor zugreifen zu können werden wieder einige Bibliotheken benötigt welche man wieder in der Ini-Datei hinzufügen muss. Über die Unified Sensor Library wurde schon geschrieben neu ist die ```adafruit/Adafruit MPU6050 @ ^2.0.3``` Library welche die verbindung zum Beschleunigungsensor vereinfacht.
+Um nun auf diesen Sensor zugreifen zu können werden wieder einige Bibliotheken benötigt, welche man wieder in der Ini-Datei hinzufügen muss. Über die Unified Sensor Library wurde schon geschrieben. Neu ist die ```adafruit/Adafruit MPU6050 @ ^2.0.3``` Library, welche die verbindung zum Beschleunigungsensor vereinfacht.
 
-Um nun tatsächlich Daten vom Sensor zu bekommen benutzt man folgendes Programm
+Um nun tatsächlich Daten vom Sensor zu bekommen, benutzt man folgendes Programm [@MPU6050-Test]:
 
 ```{caption="MPU Beispiel" .cpp}
 // Basic demo for accelerometer readings from Adafruit MPU6050
@@ -602,21 +592,18 @@ void loop() {
 
 }
 ```
-[@MPU6050-Test]
 
 ##### Erklärung
 
 Dieses Programm liest die Daten welche der MPU6050 Sensor bekommt aus der I2C Schnittstelle aus und bereit sie über Print-Statements schnön leserlich auf.
 
-***Bibliotheken***
+***Bibliotheken*** [@MPU6050-Test]
 
 ```{caption="Dependencies MPU" .cpp}
 #include <Wire.h>
 #include <Adafruit_Sensor.h>
 #include <Adafruit_MPU6050.h>
 ```
-
-[@MPU6050-Test]
 
 Dieser Teil zeigt die bereits beschreibt die schon beim BME beschriebenen Bibliotheken + der MPU Bibliothek.
 
@@ -626,7 +613,7 @@ Dieser Teil zeigt die bereits beschreibt die schon beim BME beschriebenen Biblio
 Adafruit_MPU6050 mpu;
 ```
 
-2. **mpu**: ist ein Instanz des Objektes Adafruit_MPU6050 und stellt den Sensor dar.
+- **mpu**: ist ein Instanz des Objektes Adafruit_MPU6050 und stellt den Sensor dar.
 
 ***Setup***
 
@@ -715,7 +702,7 @@ void setup(void) {
 
 1. **Serial.beginn(115200)**: Hier wird die auf 115200 gestellt damit der serielle Monitor und der Sensor kommunizieren können.
 2. **if (!mpu.begin())**: Hier wird der Sensor initialisiert.
-3. **mpu.setAccelerometerRange(MPU6050_RANGE_8_G)**: Ist die Auflösung des Beschleunigungssensor, also in welchen Bereich, und wie genau, gemessen wird. Desto kleiner der G-Wert^[Erdbeschleunigung] desto genauer die Auflösung und desto kleiner der Messbereich.
+3. **mpu.setAccelerometerRange(MPU6050_RANGE_8_G)**: Ist die Auflösung des Beschleunigungssensor, also in welchen Bereich, und wie genau, gemessen wird. Umso kleiner der G-Wert^[Erdbeschleunigung], desto genauer die Auflösung und desto kleiner der Messbereich.
 
 | G-Bereich | Max. Messwert    |
 |-----------|-----------------|
@@ -724,7 +711,7 @@ void setup(void) {
 | ±8G      |  78,48 m/s²     |
 | ±16G     |  156,96 m/s²    | 
 
-4. **mpu.setGyroRange(MPU6050_RANGE_500_DEG)**: Dieser Teil setzt den Messbereich des Gyroskops fest. Um genauer zu sein in diesen fall auf +-500 Grad/Sekunde. Auch hier gilt das Prinzip wieder, je größer der Bereich desto kleiner die Auflösung.
+4. **mpu.setGyroRange(MPU6050_RANGE_500_DEG)**: Dieser Teil setzt den Messbereich des Gyroskops fest. Um genauer zu sein in diesem Fall auf +-500 Grad/Sekunde. Auch hier gilt das Prinzip wieder, je größer der Bereich, desto kleiner die Auflösung.
 
 | Konstantenname               | Messbereich            |
 |------------------------------|------------------------|
@@ -736,7 +723,7 @@ void setup(void) {
 5. **mpu.setFilterBandwidth(MPU6050_BAND_21_HZ)**: Hier wird die Brandweite angepasst um einzustellen Welche werte der Sensor misst und welche er nur als Rauschen wahrnimmt.
 
 
-***Loop***
+***Loop*** [@MPU6050-Test]
 
 ```{caption="Loop Funktion des MPU Sensors" .cpp}
 void loop() { 
@@ -749,8 +736,6 @@ void loop() {
 }
 ```
 
-[@MPU6050-Test]
-
 Der Loop ist eine grundlegende Struktur in Arduino-Sketches, die kontinuierlich ausgeführt wird, solange das Programm läuft. Hier ist eine detaillierte Erklärung der einzelnen Komponenten. 
 **sensors_event_t a, g, temp**: Diese Zeile deklariert drei Variablen mit dem Typ sensors_event_t. Diese Variablen werden verwendet, um die Ereignisdaten für die Beschleunigung (a), die Drehgeschwindigkeit (g) und die Temperatur (temp) zu speichern.
 **mpu.getEvent(&a, &g, &temp);**: Diese Funktion ruft die neuesten Sensordaten vom MPU6050-Sensor ab und speichert sie in den Variablen von vorher. 
@@ -762,7 +747,7 @@ Außerdem gibt der Loop wieder die Werte über Print-Statements aus um sie auf d
 #### GY-GPSMV2 Sensor zur Bestimmung der Postition mittels GPS
 
 Der letzte Sensor zur Realisierung ist das GPS-Modul GY-GPSMV2. Im Grunde werden für diesen Sensor keine weiteren Bibliotheken benötigt jedoch kommt dazu gleich noch mehr.
-Um nun die GPS-Postion in seiner NMEA^[National Marine Electronics Association] Rohform auslesen zu können, greift man mit dem folgenden Programm auf die UART-Schnittstelle des Sensors zu.
+Um nun die GPS-Postion in seiner NMEA^[National Marine Electronics Association] Rohform auslesen zu können, greift man mit dem folgenden Programm auf die UART-Schnittstelle des Sensors zu. [@GPS-Testprogramm]
 
 ```{caption="GY-GPSMV2 Test Programm mit Daten in Rohform" .cpp}
 #define RXD2 16
@@ -792,7 +777,6 @@ void loop(){
   Serial.println("-------------------------------");
 }
 ```
-[@GPS-Testprogramm]
 
 
 ##### Erklärung
@@ -810,7 +794,7 @@ void loop(){
 1. **RXD2**: Ist eine Konstante, die den GPIO-Pin 16 für den Empfang von Daten definiert.  
 2. **TXD2**: Ist eine Konstante, die den GPIO-Pin 17 für das Senden (TX) von Daten definiert.  
 3. **GPS_BAUD**: Ist eine Konstante, die die Baudrate von 9600, wie im Datenblatt angegeben, für die Kommunikation mit dem Sensor festlegt. [@GPS-Baudrate]
-4. **gpsSerial(2)**: Hier wird eeine Instanz des HardwareSerial Objektes auf UART-Port2 erstellt um mit dem Mikrocontroller zu kommunizieren
+4. **gpsSerial(2)**: Hier wird eine Instanz des HardwareSerial Objektes auf UART-Port2 erstellt um mit dem Mikrocontroller zu kommunizieren
 
 ***Setup für das GPS-Modul***
 
@@ -825,7 +809,7 @@ void setup(){
 }
 ```
 
-Wie auch schon bei den anderen Sensoren muss auch hier zuerst eine Baudrate, in diesen Fall 115200, für die Kommunikation initialisiert werden. Mithilfe von ```gpsSerial``` wird eine Serielle Verbindung zum GPS-Modul hersgestellt in welcher die Baudrate, die Standard-Konfiguration von 8-Datenbits, keine Parität, der Stoppbit und die zwei Schnittstellen übergeben werden. Desweiteren gibt es noch das Print-Statement um den Fortschritt auf dem Serial Monitor sehen zu können. 
+Wie auch schon bei den anderen Sensoren, muss auch hier zuerst eine Baudrate, in diesen Fall 115200, für die Kommunikation initialisiert werden. Mithilfe von ```gpsSerial``` wird eine Serielle Verbindung zum GPS-Modul hersgestellt, in welcher die Baudrate, die Standard-Konfiguration von 8-Datenbits, keine Parität, der Stoppbit und die zwei Schnittstellen übergeben werden. Desweiteren gibt es noch das Print-Statement um den Fortschritt auf dem Serial Monitor sehen zu können. 
 
 ***Loop Funktionen für das GPS-Modul (NMEA)***
 
@@ -841,17 +825,17 @@ void loop(){
 }
 ```
 
-Die Loop Funktion für das GPS-Modul überprüft zuerst, ob Daten momentan verfügbar sind. Dies regelt sie mithilfe der While-Schleife: ```while (gpsSerial.available() > 0)```. Um nun die NMEA-Daten zu Printen, werden sie zuerst in einem char-Datentypen gespeichert und danach mittels ```Serial-print(gpsData);``` auf dem Serial Monitor ausgebene werden können.
+Die Loopfunktion für das GPS-Modul überprüft zuerst, ob Daten momentan verfügbar sind. Dies regelt sie mithilfe der While-Schleife: ```while (gpsSerial.available() > 0)```. Um nun die NMEA-Daten zu printen, werden sie zuerst in einem char-Datentypen gespeichert und danach mittels ```Serial-print(gpsData);``` auf dem Serial Monitor ausgegeben werden können.
 
 
 ***Loop Funktionen für das GPS-Modul (Aufbereitet)***
 
-Das Proplem mit NMEA Daten ist, das sie unleserlich sind
+Das Proplem mit NMEA Daten ist, dass sie unleserlich sind
 
 ![NMEA-Ausgabe [@GPS-Testprogramm]](img/Kampl/NMEA-Ausgabe.png){width=500px} 
 
 
-Deshalb, benötigt man doch noch eine Bibliothek und zwar **TinyGPSPlus**. Man fügt wie immer diese Bibliothek in der Ini-Datei hinzu, diesesmal mit auf folgende Weise: ```mikalhart/TinyGPSPlus@^1.1.0```.
+Deshalb, benötigt man doch noch eine Bibliothek und zwar **TinyGPSPlus**. Man fügt wie immer diese Bibliothek in der Ini-Datei hinzu, dieses mal auf folgende Weise: ```mikalhart/TinyGPSPlus@^1.1.0```.
 
 Danach wird der Code hierum erweitert:
 
@@ -890,7 +874,7 @@ void loop() {
 }
 ```
 
-Die TinyGPSPlus bietet viele Funktionen zur leserlichen Darstellung der GPS-Daten. Die wichtigste von ihnen ist die  ```gps.encode()``` Funktionen welche die unleserlichen NMEA dekodiert und verarbeitet. Danach wird mithilfe eines IF-Statements darauf geachtet, ob sich die Position des Gerätes verändert hat ```if(gps.locaton.isUpdated())```. Und zum Schluss gibt es alle möglichen Daten, wie den Längen und Breitengrad, des Sensors aus.
+Die TinyGPSPlus bietet viele Funktionen zur leserlichen Darstellung der GPS-Daten. Die wichtigste von ihnen ist die  ```gps.encode()``` Funktionen, welche die unleserlichen NMEA dekodiert und verarbeitet. Danach wird mithilfe eines IF-Statements darauf geachtet, ob sich die Position des Gerätes verändert hat ```if(gps.locaton.isUpdated())```. Und zum Schluss gibt es alle möglichen Daten, wie den Längen und Breitengrad, des Sensors aus.
 
 ### Datenübertragung
 
@@ -912,8 +896,8 @@ Einige wichtige Begriffe im Zusammenhang mit MQTT sind
 
 Ein Mesh ist ein System/Netzwerk, welches aus mehreren WLAN-Zugangspunkten, sogenannten Access Points, besteht. Es sorgt dafür, dass diese Access Points eine lückenlose WLAN-Abdeckung zugesichert werden kann.
 
-Um nun ein Mesh-Netzwerk nun aufbauen zu können muss man zuerst die einzelnen Knotenpunkte miteinander verbinden. Dabei ist immer mindestens einer dieser Punkte mit einem Router oder Modem verbunden um eine Verbindung mit dem Internet herzustellen. Die restlichen Knoten kommunizieren dann drahtlos untereinander. [vgl. @EK-WlanMesh]
-Wenn nun ein Knoten Daten sendet werden sie von nächstgelegenen Knoten auch aufgenommen. Die Daten werden dann von Knoten zu Knoten weitergeleitet bis sie den Hauptknoten erreichen und zum Schluss im Internet landen. Dieser Prozess wird Hop-to-Hop Kommunikation genannt.[vgl. @Wikipedia-Hop]
+Um nun ein Mesh-Netzwerk nun aufbauen zu können, muss man zuerst die einzelnen Knotenpunkte miteinander verbinden. Dabei ist immer mindestens einer dieser Punkte mit einem Router oder Modem verbunden um eine Verbindung mit dem Internet herzustellen. Die restlichen Knoten kommunizieren dann drahtlos untereinander. [vgl. @EK-WlanMesh]
+Wenn nun ein Knoten Daten sendet, werden sie von nächstgelegenen Knoten auch aufgenommen. Die Daten werden dann von Knoten zu Knoten weitergeleitet bis sie den Hauptknoten erreichen und zum Schluss im Internet landen. Dieser Prozess wird Hop-to-Hop Kommunikation genannt. [vgl. @Wikipedia-Hop]
 Ein weiters wichtiges Merkmal eines Meshes ist, das sogenannte Seamless-Roaming. Dabei wechseln die einzelnen Knoten immer zu Access Point mit dem stärksten Signal ohne, dass die Verbindung unterbrochen wird. Des weiteren verfügt ein Mesh über eine Selbstheilungsfunktion. D.h.: Wenn ein Knotenpunkt, aus verschiedensten Gründen, ausfällt oder die Verbindung verliert, so sucht das System automatisch nach einer alternativen Route über andere Knotenpunkte um wieder eine stabile Verbindung aufzubauen.
 [vgl. @EK-WlanMesh]
 
@@ -957,7 +941,7 @@ Nach sorgfältiger Abwägung haben wir uns schließlich für die folgenden Kompo
 
 ##### ESP32
 
-  **Grund**: Der ESP32 ist ein leistungsstarker und kostengünstiger Mikrocontroller mit integrierter WLAN- und Bluetooth Funktionalität. Er bietet eine höhere Rechenleistung als ein Arduino und ist im durchschnitt auch kleiner als jener, was für die mobile Nutzung vom Vorteil ist.
+  **Grund**: Der ESP32 ist ein leistungsstarker und kostengünstiger Mikrocontroller mit integrierter WLAN- und Bluetoothfunktionalität. Er bietet eine höhere Rechenleistung als ein Arduino und ist im durchschnitt auch kleiner als jener, was für die mobile Nutzung vom Vorteil ist.
 
   **Spezifikationen**:
 
@@ -1030,11 +1014,9 @@ Nachdem nun alle Einzelteile vorhanden sind, kann mit dem Zusammenbau begonnen w
 
 ![Modell des Prototyps](img/Kampl/Prototyp-Steckplatine.png){width=400px}
 
-##### Was ist Fritzing?
+##### Fritzing
 
-> Fritzing ist ein benutzerfreundliches Werkzeug, das einen intuitiven und nachhaltigen Einstieg in die Elektronik und das Physical Computing ermöglicht. Die Software stellt elektronische Komponenten wie Sensoren, Steckplatinen oder Mikrocontroller realistisch dar und erleichtert das Erstellen von Schaltplänen sowie die Dokumentation elektronischer Prototypen. Dies schafft eine wichtige Grundlage für die Kommunikation und den Austausch im Rahmen eines Projekts. 
-
-[@Was-ist-Fritzing]
+> Fritzing ist ein benutzerfreundliches Werkzeug, das einen intuitiven und nachhaltigen Einstieg in die Elektronik und das Physical Computing ermöglicht. Die Software stellt elektronische Komponenten wie Sensoren, Steckplatinen oder Mikrocontroller realistisch dar und erleichtert das Erstellen von Schaltplänen sowie die Dokumentation elektronischer Prototypen. Dies schafft eine wichtige Grundlage für die Kommunikation und den Austausch im Rahmen eines Projekts. [@Was-ist-Fritzing]
 
 ##### Aufbau des Prototyps auf dem Breadboard
 
@@ -1359,10 +1341,10 @@ void printGPSData() {
 
 #### WLAN
 
-Damit die Daten überhaupt auf den Server geschickt werden können, muss erst einmal eine Internetverbindung vorliegen. Um diese Verbindung herzustellen, brauch man den Namen des Netzwerkes die **ssid** und das Password. 
-Um nun eine Verbindung aufzubauen muss man dies zwei Komponenten der WiFi-Bibliothek mittels ```WiFi.begin(ssid, password);``` weitergeben. Die restliche Arbeit erledigt die Bibliothek selbst.
+Damit die Daten überhaupt auf den Server geschickt werden können, muss erst einmal eine Internetverbindung vorliegen. Um diese Verbindung herzustellen, brauch man den Namen des Netzwerkes die **SSID** und das Passwort.
+Um nun eine Verbindung aufzubauen, muss man dies zwei Komponenten der WiFi-Bibliothek mittels ```WiFi.begin(ssid, password);``` weitergeben. Die restliche Arbeit erledigt die Bibliothek selbst.
 
-```{caption="Aufbau der WLan Verbindung und Funktion zur Wiederherstellung der Verbindung" .cpp}
+```{caption="Aufbau der WLAN Verbindung und Funktion zur Wiederherstellung der Verbindung" .cpp}
 
 #include "PubSubClient.h"
 #include "WiFi.h"
@@ -1399,9 +1381,9 @@ Wie vielleicht einigen aufmerksamen Leser aufgefallen ist, ist der Mesh-Teil des
 ```
 
 
-Das liegt daran, dass während der Entwicklung einige Hardware-Probleme aufgetreten sind, wodurch letztendlich nur ein einziger funktionsfähiger Prototyp entstanden ist. Trotzdem ist das Feature im Code enthalten, da es eine zentrale Rolle im ursprünglichen Konzept gespielt hätte.
+Das liegt daran, dass während der Entwicklung einige Hardwareprobleme aufgetreten sind, wodurch letztendlich nur ein einziger funktionsfähiger Prototyp entstanden ist. Trotzdem ist das Feature im Code enthalten, da es eine zentrale Rolle im ursprünglichen Konzept gespielt hätte.
 
-Das Mesh-Netzwerk sollte ermöglichen, dass sich mehrere Geräte untereinander verbinden und Daten austauschen, ohne eine zentrale Steuerung zu benötigen. Die Initialisierung erfolgt mit ```mesh.init(MESH_PREFIX, password, &userScheduler, MESH_PORT);```, wobei **MESH_PREFIX** den Netzwerknamen und password das zugehörige Passwort definiert. Der **userScheduler** verwaltet geplante Aufgaben im Mesh.
+Das Mesh-Netzwerk sollte ermöglichen, dass sich mehrere Geräte untereinander verbinden und Daten austauschen, ohne eine zentrale Steuerung zu benötigen. Die Initialisierung erfolgt mit ```mesh.init(MESH_PREFIX, password, &userScheduler, MESH_PORT);```, wobei `MESH_PREFIX` den Netzwerknamen und `password` das zugehörige Passwort definiert. Der `userScheduler` verwaltet geplante Aufgaben im Mesh.
 
 Um auf Ereignisse im Netzwerk zu reagieren, wurden mehrere Callbacks registriert:
 
@@ -1473,14 +1455,14 @@ Diese einzelnen Teile habe ich dann in einem String zusammengefasst:
 
 Die `reconnect()`-Funktion stellt sicher, dass die Verbindung zum MQTT-Server bei Verbindungsabbrüchen wiederhergestellt wird.
 
-Falls die Verbindung unterbrochen wird oder der Client nicht verbunden ist, versucht die Funktion in einer Schleife kontinuierlich, die Verbindung wieder aufzubauen.
+Falls die Verbindung unterbrochen wird, oder der Client nicht verbunden ist, versucht die Funktion in einer Schleife kontinuierlich die Verbindung wieder aufzubauen.
 
 Bei jedem Verbindungsversuch wird überprüft, ob eine erfolgreiche Verbindung hergestellt werden kann. Falls dies gelingt, wird eine Bestätigung im Serial-Monitor ausgegeben, andernfalls erfolgt ein neuer Versuch nach einer Wartezeit von zwei Sekunden. Dieses Verhalten gewährleistet eine zuverlässige Datenübertragung, auch bei Netzwerkproblemen oder Neustarts des Geräts.
 [@Reconnect-Methode]
 
 ### Build-Server
 
-Während der gesamten Diplomarbeit haben wir mehr als 500 Commits gemacht. Um auch immer eine gebaute Diplomarbeit-Pdf zu haben, auf welche wir zugreifen können wurde ein GitHub Action implementiert welche diese Aufgabe nach jedem Push für uns übernimmt.
+Während der gesamten Diplomarbeit haben wir mehr als 500 Commits gemacht. Um auch immer eine gebaute PDF zu haben, auf welche wir zugreifen können, wurde ein GitHub Action implementiert, welche diese Aufgabe nach jedem Push für uns übernimmt.
 
 ```{caption="Build File für die Diplomarbeit" .yml}
 name: Build and send diploma thesis
@@ -1490,7 +1472,7 @@ on:
     branches:
       - main
     paths:
-      - Diplomarbeit/**
+      - Diplomarbeit
   workflow_dispatch:
 
 jobs:
@@ -1546,4 +1528,4 @@ jobs:
           attachments: Diplomarbeit/diplomarbeit.pdf
 ```
 
-Die Action läuft im Hintergrund auf der neuesten Ubuntu Version um die Befehle auszuführen. Danach pulled es das nötige Docker-Image, welches von der Schule bereitgestellt wurde. Dieses Image beinhaltet alle nötigen Packages und Variablen um die Diplomarbeit zu bauen. Danach führt es denn Docker Container aus und extrahiert die Commit-Nachricht. Diese Nachricht wird zum Schluss über die Send-Mail Funktione auf den Microsoft-Teams Kanal gesendet.
+Die Action läuft im Hintergrund auf der neuesten Ubuntu Version um die Befehle auszuführen. Danach pullt es das nötige Docker-Image, welches von der Schule bereitgestellt wurde. Dieses Image beinhaltet alle nötigen Packages und Variablen um die Diplomarbeit zu bauen. Danach führt es denn Docker Container aus und extrahiert die Commit-Nachricht. Diese Nachricht wird zum Schluss über die Send-Mail Funktion zu den Microsoft-Teams Kanal gesendet.
