@@ -9,7 +9,7 @@ Das Projekt entsteht im Rahmen der Diplomarbeit , wobei wir Schüler eine praxis
 
 ### Aktuelle Arbeitsweise
 
-Derzeit existiert keine effiziente Lösung, um die korrekte Platzierung von Container sicherzustellen oder den Status der Fracht während des Transports zu überwachen. Falls ein Container falsch abgestellt oder gar verloren geht, erfordert die Lokalisierung aufwändige manuelle Suche und kann zu erheblichen Verzögerungen im Logistikprozess führen.
+Derzeit existiert keine effiziente Gesamtlösung, um die korrekte Platzierung von Container sicherzustellen oder den Status der Fracht während des Transports zu überwachen. Falls ein Container falsch abgestellt oder gar verloren geht, erfordert die Lokalisierung aufwändige manuelle Suche und kann zu erheblichen Verzögerungen im Logistikprozess führen.
 
 ### Lösungsansatz
 

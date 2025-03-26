@@ -29,9 +29,9 @@ das wir günstigere Sensoren für den Bau des Prototypen gefunden haben.
 
 **Die Hardware kostet in Summe: 81.19 €**
 
-**Das Binden der Diplomarbeit kostet in Summe: 100 €**
+**Das Binden der Diplomarbeit kostet in Summe: 125 €**
 
-**Das Projekt kostet in Summe: 181.19 €**
+**Das Projekt kostet in Summe: 206.19 €**
 
 ### Reflexion / Lessons Learned
 

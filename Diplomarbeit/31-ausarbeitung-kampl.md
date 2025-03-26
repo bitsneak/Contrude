@@ -1316,7 +1316,7 @@ void initGPS() {
 }
 
 
-// Debug Segment 
+// Debug Segment
 
 
 //void checkGPS() {
@@ -1385,7 +1385,7 @@ void setup_wifi() {
 
 #### Mesh
 
-Wie vielleicht einigen aufmerksamen Leserinnen aufgefallen ist, ist der Mesh-Teil des Codes auskommentiert:
+Wie vielleicht einigen aufmerksamen Leser aufgefallen ist, ist der Mesh-Teil des Codes auskommentiert:
 
 ```{caption="Mesh Implementation" .cpp}
   //mesh.init(MESH_PREFIX, password, &userScheduler, MESH_PORT);
