@@ -8,7 +8,7 @@
 
 Ein zentraler Aspekt der Diplomarbeit ist das ungefähre Identifizieren der Position eines bestimmten Containers auf einem Containerschiff.
 
-Die Kapazität eines Schiffes wird in der Regel mit TEUs^[Twenty Foot Equivalent Units] angegeben. Jeder Container ist also 20 Fuß (6,1 m) oder ca. 6 Meter lang. Containerschiffe können von weniger als tausend TEUs bis hin zu 24000 TEUs haben. [vgl. @Pfeiffer-Containerschiffe] [vgl. @IngenieurDE-Containershiffe]
+Die Kapazität eines Schiffes wird in der Regel mit TEUs^[Twenty Foot Equivalent Units] angegeben. Jeder Container ist also 20 Fuß oder ca. 6 Meter lang. Die Länge von Containerschiffen kann von weniger als tausend bis hin zu 24.000 TEUs betragen. [vgl. @Pfeiffer-Containerschiffe] [vgl. @IngenieurDE-Containershiffe]
 
 ![Entwicklung von Container-Schiffen [@IncoDocs-TEU]](img/Gekle/Evolution-Container-Schiffe.jpg){width=50%}
 
@@ -107,7 +107,7 @@ strict graph G {
 
 Dieser Code würde folgendem entsprechen:
 
-![Ungerichteter Graph mit DOT](img/Gekle/DotGraph.png){width=80%}
+![Ungerichteter Graph mit DOT](img/Gekle/DotGraph.png){width=60%}
 
 ##### Dragable Graph (DG)
 
@@ -216,7 +216,7 @@ Es gibt in React neben der useState auch noch andere Hooks. React selbst unterte
 
 Die 3 "Basic Hooks" sind hierbei allerdings die wichtigsten. Neben dem bereits erwähnten `useState()` gibt es auch noch:
 
-- `useEffect()` --> für Ausführung von Side-Effects wie das Laden von Daten via API^[Application Programming Interfaces/ Programmierschnittstellen], Event-Handler oder die Konsolen-Ausgabe
+- `useEffect()` --> für Ausführung von Side-Effects wie das Laden von Daten via API, Event-Handler oder die Konsolen-Ausgabe
 - `useContext()` --> ermöglicht es, Daten aus einem Context-Provider zu konsumieren [vgl. @DoubleSlash-ReactHooks]
 
 ##### React Router
@@ -229,7 +229,7 @@ Dies erfolgt über das "Route" Element:
 <Route path="/main" element={<MainPage />} />
 ```
 
-Hierbei wird über die URL^[Uniform Resource Locator] ".../main" auf die MainPage verwiesen. Gibt man in der Adresszeile eines Browsers die URL ein, würde man rein theoretisch auf der MainPage landen.
+Hierbei wird über die URL ".../main" auf die MainPage verwiesen. Gibt man in der Adresszeile eines Browsers die URL ein, würde man rein theoretisch auf der MainPage landen.
 
 Es ist wichtig anzumerken, dass alle Routes logischerweise Teil eines Routers sein müssen. Dies würde in etwa so aussehen:
 
@@ -250,11 +250,11 @@ Bei der Verwendung von React ist es empfehlenswert, ein sogenanntes Build Tool z
 Die zentralen Aufgaben eines Build Tools sind:
 
 - konvertieren des JavaScript/ TypeScript Codes in eine für Browser kompatible Version
-- bündeln von Komponenten und Files, um die Anzahl an HTTP^[Hypertext Transfer Protocol] Requests für das Laden der App zu verringern
+- bündeln von Komponenten und Files, um die Anzahl an HTTP Requests für das Laden der App zu verringern
 - unnütze Zeichen (z.B. Whitespaces) löschen, um Ladezeiten zu verbessern
-- allgemein die Performance des Codes verbessern (z.B. mit "Tree Shaking"^[Technik um unbenutzten Code zu eliminieren])[vgl. @CodeParrot-BuildTools]
+- allgemein die Performance des Codes verbessern (z.B. mit Tree Shaking^[Technik um unbenutzten Code zu eliminieren])[vgl. @CodeParrot-BuildTools]
 
-Eines dieser Build Tools ist Vite, welches sich besonders durch seine Geschwindigkeit auszeichnet (vite = französisch für schnell). Zu den Gründen, warum Vite mittlerweile so beliebt ist, zählen u.a.:
+Eines dieser Build Tools ist Vite^[französisch für schnell], welches sich besonders durch seine Geschwindigkeit auszeichnet. Zu den Gründen, warum Vite mittlerweile so beliebt ist, zählen u.a.:
 
 - Geschwindigkeit --> benutzt ES^[ECMAScript], um Quellcode direkt im Browser bereitzustellen
 - out-of-the-box Support für React/TypeScript/...
@@ -374,11 +374,11 @@ Die großen Vorteile von Tailwind CSS sind also, dass keine externen CSS-Files e
 
 #### REST und Axios
 
-Die Webanwendung benötigt Daten aus dem Backend, damit sie ordentlich und sinnvoll funktioniert. Diese Daten werden über die REST^[Representational State Transfer] API in das Frontend (sprich die Website) geholt.
+Die Webanwendung benötigt Daten aus dem Backend, damit sie ordentlich und sinnvoll funktioniert. Diese Daten werden über die REST API in das Frontend geholt.
 
 ##### REST
 
-Die API, welche aufgrund ihrer Flexibilität, Schnelligkeit und Einfachheit berühmt wurde, benutzt in der Regel das HTTP-Protokoll und überträgt die Daten mithilfe von JSON^[JavaScript Object Notation]. Im Kontext einer Website wird mit dem Eingeben/Aufrufen einer URL eine HTTP-Anfrage gesendet. Die wichtigsten HTTP-Befehle hierbei sind:
+Die API, welche aufgrund ihrer Flexibilität, Schnelligkeit und Einfachheit berühmt wurde, benutzt in der Regel das HTTP-Protokoll und überträgt die Daten mithilfe von JSON. Im Kontext einer Website wird mit dem Eingeben/Aufrufen einer URL eine HTTP-Anfrage gesendet. Die wichtigsten HTTP-Befehle hierbei sind:
 
 - GET (Abrufen)
 - POST (Erstellen)
@@ -400,7 +400,7 @@ Damit eine REST-API gültig ist, müssen 6 Kriterien erfüllt sein:
 
 ##### REST in REACT - Axios
 
-Es ist durchaus möglich, HTTP-Abfragen innerhalb von React ohne externe Library zu benutzen. Allerdings hat eine benutzerfreundliche externe API wie Axios durchaus seine Vorteile. Axios verwendet Promises^[JavaScript Objekte -> repräsentieren zukünftige Werte einer asynchronen (async) Funktion], wodurch es einfacher ist, mit "asnyc functions" zu arbeiten. Auch die Tatsache, dass Axios automatisch JSON Objekte in JavaScript Objekte überführt, sprich man erspart sich die `.json`-Anweisung, spricht für die Verwendung davon. Zusätzliche Vorteile von Axios sind:
+Es ist durchaus möglich, HTTP-Abfragen innerhalb von React ohne externe Library zu benutzen. Allerdings hat eine benutzerfreundliche externe API wie Axios durchaus seine Vorteile. Axios verwendet Promises^[JavaScript Objekte -> repräsentieren zukünftige Werte einer asynchronen (async) Funktion], wodurch es einfacher ist, mit "asnyc functions" zu arbeiten. Auch die Tatsache, dass Axios automatisch JSON-Objekte in JavaScript-Objekte überführt, sprich man erspart sich die `.json`-Anweisung, spricht für die Verwendung davon. Zusätzliche Vorteile von Axios sind:
 
 - eingebaute Funktionen zum Abbrechen von Abfragen
 - interzeptieren (vor Senden einer Abfrage/ nach Erhalten einer Antwort logische Operationen durchführen)
@@ -449,6 +449,8 @@ const response = await axiosinstance.post('https://api.contrude.eu/login', login
 Die Fehlerbehandlung ist durch Axios ebenfalls verbessert. So sieht fetch das Promise bei z.B. HTTP Fehlercodes wie 404 oder 500 trotzdem als erfüllt. Sprich: Der Status Code muss explizit überprüft werden. Ein Fehler wird also nur ausgelöst, wenn es sich um ein Netzwerkproblem handelt (z.B. Server nicht erreichbar). Axios sieht HTTP-Fehler aber automatisch als das, was sie sind, Fehler, und lehnt das Promise ab, wodurch die Fehlerbehandlung vereinfacht wird. [vgl. @gpt-AxiosVT]
 
 Alle Abfragen werden innerhalb von asynchronen Funktionen durchgeführt. Dies hat einerseits den Vorteil, dass der Code besser lesbar ist, da ohne `async` mit `.then` und `.catch` gearbeitet werden muss. So wird auch sogenannten "Callback-Hells" vorgebeugt, da man sich nicht in `then` Konstrukten verlieren kann. Auch die Fehlerbehandlung ist aufgrund von `try/catch` einfacher und sauberer. [vgl. @gpt-WarumAsync]
+
+\newpage
 
 ## Praktische Arbeit
 
@@ -560,7 +562,7 @@ public void sendSetSignals(Container container){
     redoAllMinSignals();
 }
 ```
-Als Basis-Signal wurde willkürlich 15 hergenommen (kann auch ein anderer Wert sein, wie etwa 50), dieser Wert wird dann um einen zufälligen Wert zwischen 0.1 und 1 ebenfalls zufällig verkleinert oder vergrößert. Dann wird der momentan übergebene Container (z.B. cont5) auf `origin` gesetzt. Innerhalb der `for`-Schleife werden dann alle Container durchgegangen. Entspricht `cont` nicht `origin`, so wird geprüft, ob das abgewandelte `signal` kleiner-gleich dem Minimum-Signal von `cont` ist. Sollte dies der Fall sein und besteht noch keine Verbindung zwischen den beiden (`checkContConList`), so gilt `cont` als Nachbar von `origin` und wird dementsprechend auch als solcher festgehalten. Es ist wichtig anzumerken, dass diese Methode von der `main` innerhalb einer `for-each` Schleife aufgerufen wird, also jeder erstellte Container einmal `origin` ist.
+Als Basis-Signal wurde willkürlich 15 hergenommen (kann auch eine andere Zahl sein, wie etwa 50), dieser Wert wird dann um einen zufälligen Wert zwischen 0.1 und 1 ebenfalls zufällig verkleinert oder vergrößert. Dann wird der momentan übergebene Container (z.B. cont5) auf `origin` gesetzt. Innerhalb der `for`-Schleife werden dann alle Container durchgegangen. Entspricht `cont` nicht `origin`, so wird geprüft, ob das abgewandelte `signal` kleiner-gleich dem Minimum-Signal von `cont` ist. Sollte dies der Fall sein und besteht noch keine Verbindung zwischen den beiden (`checkContConList`), so gilt `cont` als Nachbar von `origin` und wird dementsprechend auch als solcher festgehalten. Es ist wichtig anzumerken, dass diese Methode von der `main` innerhalb einer `for-each` Schleife aufgerufen wird, also jeder erstellte Container einmal `origin` ist.
 
 Was würde es nun bewirken, wenn `randomNum` weiter verstreut wird (z. B., 0.1 bis 10)? Würde man diese Umstellung im Simulator umsetzen, dann steigt der Wert, um welchen das Basis-Signal (15) erhöht werden KANN (auch eine Verringerung ist natürlich möglich). Dies bedeutet, dass der Wahrscheinlichkeit, dass folgender Fall eintrifft: `cont.getSignalMinimum() <= signal => TRUE` steigt, was wiederum bedeutet, dass die Vernetzung zwischen den Containern dichter wird. Anders sinkt die Eintritts-Wahrscheinlichkeit des Ausdrucks, wenn `randomNum` verringert wird (z.B. auf 0.01 bis 0.1).
 
@@ -1244,7 +1246,7 @@ Der `Detailspace` bietet aber noch eine weitere Verlinkung. Sieht man sich den B
 </tbody>
 ````
 
-... so kann man sehen, dass beim klicken auf den jeweiligen Umweltdatenwert (z.B. Temperatur) die `handleSelectEnvironmentData`-Methode aufgerufen wird. Diese übernimmt die Bezeichnung des Umweltdatenwerts und ruft den dazu passenden **Grafana**^[Tool um etwa Daten aus Datenbanken zu visualisieren]-Link auf.
+... so kann man sehen, dass beim klicken auf den jeweiligen Umweltdatenwert (z.B. Temperatur) die `handleSelectEnvironmentData`-Methode aufgerufen wird. Diese übernimmt die Bezeichnung des Umweltdatenwerts und ruft den dazu passenden **Grafana**^[Siehe Teilaufgabe Schrempf, Kapitel 5.2.1.3]-Link auf.
 
 Weiters werden die Notizen (ein HTML `TextArea`-Element) von `Detailspace` verwaltet. Hierzu kommen zwei Methoden ins Spiel:
 
@@ -1325,7 +1327,7 @@ Die Sidebar ist als Komponente in dem Sinn einzigartig, dass sie sowohl innerhal
 
 Zwischen dem ersten, zweiten und zweiten, dritten `div` befindet sich jeweils noch ein weiteres, welches 3% der Höhe einnimmt und anschreibt, worum es sich bei dem darunter liegenden `div` handelt (Favoriten oder Alarm). Bei dem Alarm- und Favoriten-div ist es zusätzlich möglich, auf und ab zu scrollen, sollte sich die Anzahl der angezeigten Container-Nummern nicht ausgehen. Ihren Inhalt entnehmen die beiden aus `useStates` (`alerts` für die Alerts und `favoritesSerialNumbers` für die Favoriten), welche über `useEffects` die aktuellen Daten aus dem Backend speichern. 
 
-![Aufteilung der Sidebar in Prozenten](img/Gekle/SidebarPercentages.png){width=60%}
+![Aufteilung der Sidebar in Prozenten](img/Gekle/SidebarPercentages.png){width=40%}
 
 Die Dialoge, welche über Buttons am unteren Ende der Sidebar aufgerufen werden können, sehen gleich aus wie der `ContainerChooser`-Dialog. Die Funktionalität des `UserProfile`-Dialogs ist lediglich, eine Möglichkeit zu bieten, den User auszuloggen und an die `LoginPage` zurückzuschicken. Der `Settings`-Dialog wurde nur zum Zweck der Vollständigkeit und Ausbauunfähigkeit der Website eingefügt. Er lässt sich aufrufen, hat aber keine implementierten Funktionalitäten.
 

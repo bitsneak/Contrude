@@ -14,7 +14,7 @@ da-author:
   thema: Container-Simulator, Webanwendung
   ki-tools:
   - name: ChatGPT-4o
-    zweck: Informationsbeschaffung / Codeerzeugung
+    zweck: Informationsbeschaffung / Codeerzeugung / Refactoring
 
 - vorname: Maximilian Silvester
   nachname: Kampl
@@ -30,8 +30,6 @@ da-author:
   thema: Serverarchitektur, Datenbanken, Datenvisualisierung
   ki-tools:
   - name: ChatGPT-4o
-    zweck: Informationsbeschaffung / Codeerzeugung
-  - name: Microsoft Copilot
     zweck: Informationsbeschaffung / Codeerzeugung
 
 da-betreuer:

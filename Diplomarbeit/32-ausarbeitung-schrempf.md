@@ -98,7 +98,7 @@ Ein Container benutzt die Virtualisierungstools des Linuxkernels um Ressourcen z
 
 ![Übersicht von Container Security Tools [@docker-security]](img/Schrempf/container-security-tools.png){width=100%}
 
-Soweit zum Allgemeinen der Virtualisierung. Doch was hat Docker damit zu tun? Docker ist ein Open Source Projekt, welches sich auf die Containerization spezialisiert hat. Es bietet einen riesigen freien Markt (Docker Hub) zur Erstellung und Distribution von Docker Images an. Es wird so verwaltet, dass es verschiedene Registries gibt. Pro Registry gibt es verschiedenen Versionen eines Images. Ein Registry wird mit username/image-name benannt. Ein Image ist das zuvor genannte Äquivalent zur Definition eines Containers. Ein Image ist in Schichten aufgebaut und jede Schicht stellt einen neuen Zustand des Containers dar. Das vollständig ausgeführte und unter Umständen auch angepasste Image ist dann der laufende Container. Auf Basis eines Images können mehrere Container laufen. [@ibm-docker] Jedes Image hat einen Entrypoint. In diesem wird spezifiziert, was geschehen soll, wenn der Container (zum ersten Mal) gestartet wird.
+Soweit zum Allgemeinen der Virtualisierung. Eine auf dieses Konzept spezialisierte Software ist Docker. Docker ist ein Open Source Projekt. Es bietet einen riesigen freien Markt (Docker Hub) zur Erstellung und Distribution von Docker Images an. Es wird so verwaltet, dass es verschiedene Registries gibt. Pro Registry gibt es verschiedenen Versionen eines Images. Ein Registry wird mit username/image-name benannt. Ein Image ist das zuvor genannte Äquivalent zur Definition eines Containers. Ein Image ist in Schichten aufgebaut und jede Schicht stellt einen neuen Zustand des Containers dar. Das vollständig ausgeführte und unter Umständen auch angepasste Image ist dann der laufende Container. Auf Basis eines Images können mehrere Container laufen. [@ibm-docker] Jedes Image hat einen Entrypoint. In diesem wird spezifiziert, was geschehen soll, wenn der Container (zum ersten Mal) gestartet wird.
 
 Jedes Image wird in einem `Dockerfile` definiert. Hierbei spricht man von einer Datei, in welcher die Anweisungen zum Aufbau der darin enthaltenen Schichten gespeichert sind. Beim Starten des Containers interagiert die Docker-CLI^[command line interface] mit dem `Dockerfile` und führt die Anweisungen aus. Eine beliebte Variante ist es, ein schon bestehendes Image zu verwenden und die eigene Applikation mit Schichten on top zu bauen. [@ibm-docker]
 
@@ -126,8 +126,6 @@ ENV FLASK_APP=hello
 EXPOSE 8000
 CMD ["flask", "run", "--host", "0.0.0.0", "--port", "8000"]
 ```
-
-[@docker-dockerfile]
 
 Docker Compose ist eine Funktionalität von Docker. Es ermöglicht die Definition mehrerer Microservices in einer YAML^[yet another markup language]-Konfigurationsdatei namens `compose.yml`. Hier wird ein Microservice nur Service genannt. Ein Service kann wieder als Dockerfile definiert werden oder sogar das Image vom Docker Hub verwenden und in der Datei bis zu einem gewissen Maß weiter spezialisiert werden. In der `compose.yml` werden Ports, Secrets, zu benutzende Volumes, Networks und die Anzahl der Container des Services beschrieben. Da nun mehrere Microservices zwar als Bausteine definiert werden, jedoch miteinander interagieren können um ein ganzes Konstrukt zu bilden, gibt es die sogenannten Networks. Über diese können Tasks, wie Containerübergreifende Datenkommunikation, realisiert werden. So sieht eine `compose.yml`-Datei grundelegend aus: [@docker-compose]
 
@@ -368,13 +366,15 @@ Das JSON, welches beim aufrufen des Endpoints ausgegeben wird, sieht so aus:
 }
 ```
 
+\newpage
+
 ## Praktische Arbeit
 
 ### Datenspeicherung und Visualisierung
 
 #### MySQL
 
-MySQL ist ein Open-Source RDBMS, welches von Oracle verwaltet wird. Diese DB wird stetig weiterentwickelt und ist sogar optimal in der Cloud hostbar. [@talend-mysql]
+MySQL ist ein Open-Source RDBMS^[Relational Database Management System], welches von Oracle verwaltet wird. Diese DB wird stetig weiterentwickelt und ist sogar optimal in der Cloud hostbar. [@talend-mysql]
 
 MySQL verwendet zwar keine Schemas wie andere DBMS, jedoch kann man innerhalb einer MySQL-Instanz mehrere Datenbanken erstellen, was ein ähnliches Verhalten wie bei anderen DBMS erzielt. Irreführend ist hierbei, dass man trotzdem eine **DATABASE** und **SCHEMA** erstellen kann, obwohl sie gleich behandelt werden. [@mysql-glosar] Um möglichst lange Support-Updates mittels LTS^[Long Term Support] Versionen zu erhalten, wurde hier die MySQL 8 Version verwendet, obwohl sie offiziell noch nicht fertig ausprogrammiert ist. [@mysql-lts]
 
@@ -390,7 +390,7 @@ Um die in diesem Projekt verwendeten Datenbanken zu erstellen, wurden SQL-init-s
 
 In `CreateDB.sql` ist die gesamte Struktur mitsamt  **DATABASE** und **SCHEMA** Erstellung geregelt. Anzumerken ist hier, dass **CHECK** Constraints schon in vorherigen Versionen semantisch akzeptiert, jedoch erst ab Version 8.0.16 tatsächlich umgesetzt wurden. [@mysql-8.0.16] Aufgrund dessen, und des später erklärten Microservice-Ansatzes, wurde für das gesamte Projekt die Verison 8.0.29 verwendet. Da eine Datenbank ohne Daten nur halb so viel wert ist und bei jeder einzelnen DB-Erstellung die Daten neu einzugeben sehr mühsälig werden kann, gibt es die `InsertDummyData.sql` Datei, in der die Probedaten in die DB eingfügt werden.
 
-In `CreateUser.sql` werden die Benutzer samt ihrer Benutzergruppen und Berechtigungen erstellt. Diese Datei wurde für jede DB verwendet, da sich kein Sinn für eine Änderung der Benutzer ergab. Um den Code sicher pushen zu können, wurde ein vordefiniertes Einmapasswort für jeden Datenbankbenutzer festgelegt, welches beim ersten Login geändert werden muss. Zusätzlich wurde die Beschränkung eingeführt, dass das geänderte Passwort nicht gleich den letzten fünf sein darf. Zusätzlich darf jeder Benutzer, außer der API Benutzer, nur maximal 4 aktive Datenbankconnections gleichzeitig haben. Die Anzahl an gleichzeitigen Connections wurde aufgrund einer mit der Gruppe abgesprochenen Security-Policy festgelegt. Eingestellt wurde auch, dass eine SSL Zertifizierung, um die Sicherheit zu gewährleisten, von jedem DB-User beim Anmelden anzugeben ist. Dieses kann in den MySQL-Server eingespielt werden, wird aber auch automatisch bei Initialstart der DB generiert. Ein User wird mit 'name'@'bereich' erstellt. Wobei der Bereich der Gültigkeitsbereich des Users ist, somit kann man User auch nur für z.B. den localhost erstellen.
+In `CreateUser.sql` werden die Benutzer samt ihrer Benutzergruppen und Berechtigungen erstellt. Diese Datei wurde für jede DB verwendet, da sich kein Sinn für eine Änderung der Benutzer ergab. Um den Code sicher pushen zu können, wurde ein vordefiniertes Einmapasswort für jeden Datenbankbenutzer festgelegt, welches beim ersten Login geändert werden muss. Zusätzlich wurde die Beschränkung eingeführt, dass das geänderte Passwort nicht gleich den letzten fünf sein darf. Weiters darf jeder Benutzer, außer der API Benutzer, nur maximal 4 aktive Datenbankconnections gleichzeitig haben. Die Anzahl an gleichzeitigen Connections wurde aufgrund einer mit der Gruppe abgesprochenen Security-Policy festgelegt. Eingestellt wurde auch, dass eine SSL Zertifizierung, um die Sicherheit zu gewährleisten, von jedem DB-User beim Anmelden anzugeben ist. Dieses kann in den MySQL-Server eingespielt werden, wird aber auch automatisch bei Initialstart der DB generiert. Ein User wird mit 'name'@'bereich' erstellt. Wobei der Bereich der Gültigkeitsbereich des Users ist, somit kann man User auch nur für z.B. den localhost erstellen.
 
 ```{caption="Erstellen von Benutzergruppen und Benutzern in MySQL" .sql}
 CREATE ROLE IF NOT EXISTS 'admin', 'developer', 'api';
@@ -450,15 +450,13 @@ Jeder Container wird auf einem Schiff transportiert. Da ein Container im Laufe s
 
 ![ERD der Schiffdatenbank](img/Schrempf/ship-erd.png){width=80%}
 
-Ein Schiff hat sehr viele Attribute wie zum Beispiel seine Länge, Breite und Gewicht, aber auch rechtlich verbindliche Angaben wie sein Typ oder verschiedene Zertifikate, die auf ihn zutreffen. In dieser Ausarbeitung ist die Schiffsdatenbank nur ein unvermeidliches Nebenprodukt der Gesamtarbeit. Aufgrund dessen wurden nicht alle Zertifizierungen die ein Schiff haben kann und manche andere Eigenschaften umgesetzt, sondern es wurde nur auf das Nötigste begrenzt. Die hier implementierten Dokumente beschränken sich auf:
+Ein Schiff hat sehr viele Attribute wie zum Beispiel seine Länge, Breite und Gewicht, aber auch rechtlich verbindliche Angaben wie sein Typ oder verschiedene Zertifikate, die auf ihn zutreffen. In dieser Ausarbeitung ist die Schiffsdatenbank nur ein unvermeidliches Nebenprodukt der Gesamtarbeit. Aufgrund dessen wurden nicht alle Zertifizierungen die ein Schiff haben kann und manche andere Eigenschaften umgesetzt, sondern es wurde nur auf das Nötigste begrenzt. Die hier implementierten Dokumente beschränken sich auf [@gpt-schiff-db]:
 
 - ILLC^[International Load Line Certificate] [@imo]
 - IOPP^[International Oil Pollution Prevention Certificate]
 - BWMC^[Ballast Water Management Certificate]
 - IAPP^[International Air Pollution Prevention Certificate] [@iapp]
 - SMC^[Safety Management Certificate]
-
-[@gpt-schiff-db]
 
 ##### Container
 
@@ -486,7 +484,7 @@ In dieser Ausarbeitung geht es um die Überwachung eines Containers. Diese Daten
 
 ##### User
 
-Um ein praktikable UI^[user interface = Benutzeroberfläche] bieten zu können, muss diese eine Login-Funktion beinhalten. Userdetails müssen persistiert werden und die Datenbank dazu hat Schema für allgemeine Userdaten und dessen Tokens (`user`), Organisationsdaten des Benutzers (`corporation`) und die Rechte die der Anwender in der Applikation hat (`privilege`). Wenn ein Benutzer sich erfolgreich angemeldet hat, werden zwei Tokens, Access und Refresh, vom Server erstellt. Wie dies geschieht wird später weiter erläutert. Im nachstehenden ERD^[Entity-Relationship-Modell] ist zu bemerken, dass die Tabelle der User-Tokens keine Verbindung zu anderen Tabellen hat und somit auch mit keinen anderen Daten verknüpft ist, zumindest scheint es so. Im Token selbst wird die Information, welchem Benutzer dieser Token gehört, welche Rechte damit verbunden sind und wie lange er gültig ist, eingebettet.
+Um eine praktikable UI^[user interface = Benutzeroberfläche] bieten zu können, muss diese eine Login-Funktion beinhalten. Userdetails müssen persistiert werden und die Datenbank dazu hat Schemata für allgemeine Userdaten und deren Tokens (`user`), Organisationsdaten des Benutzers (`corporation`) und die Rechte die der Anwender in der Applikation hat (`privilege`). Wenn ein Benutzer sich erfolgreich angemeldet hat, werden zwei Tokens, Access und Refresh, vom Server erstellt. Wie dies geschieht wird später weiter erläutert. Im nachstehenden ERD^[Entity-Relationship-Modell] merkt man, dass die Tabelle der User-Tokens keine Verbindung zu anderen Tabellen hat und somit auch mit keinen anderen Daten verknüpft ist, zumindestens scheint es so. Im Token selbst wird die Information, welchem Benutzer dieser Token gehört, welche Rechte damit verbunden sind und wie lange er gültig ist, eingebettet.
 
 ![ERD der Benutzerdatenbank](img/Schrempf/user-erd.png){width=100%}
 
@@ -513,7 +511,7 @@ Nur wird jeder temporäre Tag mit einem real-funktionalen Tag ausgewechselt. Die
     result_key = "ship"
 ```
 
-Zum Schluss wird der transformierte Datensatz in die Datenbank eingespeist. Hierbei müssen sowohl die Verbindungsdetails und Anmeldedaten als auch die Datenbank und die Zeitstempelpräzesion bekannt gegeben werden. Zum Sicherstellen, dass nur ausgewählte Datensätze in die DB kommen, wird mittels Tagpass definiert, welchen Tag das Topic haben muss, um gespeichert zu werden. Im folgenden Beispiel muss das Topic den in der Umgebungsvariable `TEMPERATURE_TAGPASS` definierten Tagwert haben, um in den zugehörigen Temperaturbucket zu gelangen.
+Zum Schluss wird der transformierte Datensatz in die Datenbank eingespeist. Hierbei müssen sowohl die Verbindungsdetails und Anmeldedaten als auch die Datenbank und die Zeitstempelpräzision bekannt gegeben werden. Um sicherzustellen, dass nur ausgewählte Datensätze in die DB kommen, wird mittels Tagpass definiert, welchen Tag das Topic haben muss, um gespeichert zu werden. Im folgenden Beispiel muss das Topic den in der Umgebungsvariable `TEMPERATURE_TAGPASS` definierten Tagwert haben, um in den zugehörigen Temperaturbucket zu gelangen.
 
 ```{caption="Persistieren der Messwerte in die Datenbank" .toml}
 [[outputs.influxdb_v2]]
@@ -561,7 +559,7 @@ from(bucket: "temperature")
   |> filter(fn: (r) => r["container"] == "${container}")
 ```
 
-Nur noch auf Refresh drücken und es sieht schon so aus:
+Nun muss man nur noch auf Refresh drücken und man erhält folgendes:
 
 ![Simples Grafana Panel](img/Schrempf/grafana-simple-panel.png){width=100%}
 
@@ -682,7 +680,7 @@ traefik.http.routers.web.tls.certresolver: myresolver
 
 Um unsere Services öffentlich zugänglich machen zu können, wurde ein simpler headless Ubuntu Server mit der Version 24.04 auf einem Raspberry Pi Model B mit 4GB RAM aufgesetzt. Dieses Gerät wurde dann mittels einer öffentlichen IP^[Internet Protocol]-Adresse und einer damit assoziierten Domain im Internet zugänglich gemacht. Ein verlässlicher Remotezugriff wird mithilfe der Installation von SSH^[Secure Shell] ermöglicht. Da unsere gesamte Architektur auf Docker basiert, wurde auch diese Software dort installiert.
 
-![Server auf einem Raspberry Pi](img/Schrempf/physical-server.png){width=100%}
+![Server auf einem Raspberry Pi](img/Schrempf/physical-server.png){width=90%}
 
 #### GitHub Action
 
@@ -734,7 +732,11 @@ Die Verbesserungsmöglichkeiten die der Super-Linter liefert, können dann entwe
 
 ### REST API
 
-Bei der Umsetzung der Backend-Server haben wir uns für eine Trennung der Authentifizierung und der Datenabfrage entschieden, da bei einer Kompromittierung einer dieser Komponenten die jeweils andere funktionsfähig bleibt und sie auch getrennt von einander betrieben werden können, was eine zusätzliche Sicherheitskomponente einführt. Außerdem verwenden wir JavaScript als Programmiersprache und Node.js, da es zahlreiche für uns sehr nützliche Libraries bietet. Trotz der logischen Trennung sind beide gleich aufgebaut: [@medium-rest-api]
+Bei der Umsetzung der Backend-Server haben wir uns für eine Trennung der Authentifizierung und der Datenabfrage entschieden, da bei einer Kompromittierung einer dieser Komponenten die jeweils andere funktionsfähig bleibt und sie auch getrennt von einander betrieben werden können, was eine zusätzliche Sicherheitskomponente einführt. Außerdem verwenden wir JavaScript als Programmiersprache und Node.js, da es zahlreiche für uns sehr nützliche Libraries bietet. [@medium-rest-api]
+
+In der Datei `package.json` werden die Grundzüge des Projekts beschrieben, wie z.B. die verwendeten Packages, die Metadaten und der Einsprungspunkt. Da, aufgrund der besseren Lesbarkeit, entschieden wurde, modular JavaScript (ES Module) zu verwenden und dies auch spezifiziert werden muss, wurde `'type': 'module'` in der oben angesprochenen Datei eingegeben. Dies ermöglicht nun z.B. `import` anstatt der CommonJS Variante `require()` zu nutzen.
+
+`app.js` ist der Einstiegspunkt der Applikation. In ihr werden alle Routen importiert und Express mitgeteilt, diese zu benutzten. Zusätzlich werden die Standard-Error-Handler für die HTTP-Codes 404 und 500 initialisiert, und der Server wird auf Port 80 gestartet. Trotz der logischen Trennung sind beide JavaScript Server gleich aufgebaut:
 
 \dirtree{%
 .1 src.
@@ -757,10 +759,6 @@ Bei der Umsetzung der Backend-Server haben wir uns für eine Trennung der Authen
 .1 app.js.
 .1 package.json.
 }
-
-In der Datei `package.json` werden die Grundzüge des Projekts beschrieben, wie z.B. die verwendeten Packages, die Metadaten und der Einsprungspunkt. Da, aufgrund der besseren Lesbarkeit, entschieden wurde, modular JavaScript (ES Module) zu verwenden und dies auch spezifiziert werden muss, wurde `'type': 'module'` in der oben angesprochenen Datei eingegeben. Dies ermöglicht nun z.B. `import` anstatt der CommonJS Variante `require()` zu nutzen.
-
-`app.js` ist der Einstiegspunkt der Applikation. In ihr werden alle Routen importiert und Express mitgeteilt, diese zu benutzten. Zusätzlich werden die Standard-Error-Handler für die HTTP-Codes 404 und 500 initialisiert, und der Server wird auf Port 80 gestartet.
 
 #### Datenbanken
 
@@ -788,7 +786,7 @@ export const container = mysql
   }).promise();
 ```
 
-Hingegen solch eines Connection-Pools ist das Prozedere um einen für eine InfluxDB herzustellen um einiges simpler, da man nur die Datenbank URL und den passenden Token angeben muss: [@influxdb-javascript]
+Hingegen solch eines Connection-Pools ist das Prozedere um einen für eine InfluxDB herzustellen um einiges simpler, da man nur die Datenbank URL^[Uniform Resource Locator] und den passenden Token angeben muss: [@influxdb-javascript]
 
 ```{caption="InfluxDB Connection Pool für die Sensor DB" .js}
 export const sensor = new InfluxDB({url: process.env.DB_SENSOR_URL, token: process.env.DB_SENSOR_TOKEN});

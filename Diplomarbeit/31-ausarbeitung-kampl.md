@@ -905,7 +905,7 @@ Ein weiters wichtiges Merkmal eines Meshes ist, das sogenannte Seamless-Roaming.
 
 #### GitHub Actions
 
-GitHub Actions ist ein Tool zur Automatisierung von Softwareprozessen wie dem Testen und Bereitstellen von Code. Ein zentrales Feature ist **CI/CD**^[Continuous Integration und Continuous Delivery/Deployment], das automatisch Code ändert und veröffentlicht. Nach erfolgreichem Abschluss aller Tests kann der neue Code automatisch ins Repository übertragen werden.
+GitHub Actions ist ein Tool zur Automatisierung von Softwareprozessen wie dem Testen und Bereitstellen von Code. Ein zentrales Feature ist **CI/CD**^[Siehe Teilaufgabe Schrempf, Kapitel 5.1.3], das automatisch Code ändert und veröffentlicht. Nach erfolgreichem Abschluss aller Tests, kann der neue Code automatisch ins Repository übertragen werden.
 
 Actions haben noch viele weitere Funktionen da sie im Grunde eine Virtuelle Umgebung erschaffen in welcher Code ausgeführt werden kann.
 
@@ -915,7 +915,6 @@ Um einen **Workflow** zu erstellen, definiert man, in der vorher erstellten **YA
 - **Jobs**: Die Aufgaben, die nach dem Event ausgeführt werden.  
 - **Runner**: Die Umgebung, in der der Code läuft (z. B. Ubuntu, Windows, macOS).  
 - **Steps & Actions**: Schritte innerhalb eines Jobs, die bestimmte Aktionen ausführen, wie z. B. das Testen oder Überprüfen des Codes.  
-
 
 \newpage
 

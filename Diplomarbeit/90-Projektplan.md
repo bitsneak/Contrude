@@ -23,8 +23,7 @@ Die Platzierung von Containern auf einem Frachtschiff ist in der Ladeliste vorde
   - Datenübertragung
     - Auslesen der Daten
     - Ortung mittels GPS
-- Erstellung eines Algorithmus zur ungefähren Bestimmung der Postion eines Containers auf dem Frachtschiff
-  - Dijkstra
+- Erstellung einer Applikation, welche ein Containerschiff und die Anordnung der Container auf diesem simuliert.
 - Erstellen einer Webanwendung mit Benutzeroberfläche zur Darstellung und Abfrage der ausgelesenen Daten
 
 #### Nicht-Ziele
