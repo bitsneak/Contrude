@@ -1461,7 +1461,7 @@ Bei jedem Verbindungsversuch wird überprüft, ob eine erfolgreiche Verbindung h
 
 ### Build-Server
 
-Während der gesamten Diplomarbeit haben wir mehr als 500 Commits gemacht. Um auch immer eine gebaute PDF zu haben, auf welche wir zugreifen können, wurde ein GitHub Action implementiert, welche diese Aufgabe nach jedem Push für uns übernimmt.
+Während der gesamten Diplomarbeit haben wir mehr als 500 Commits gemacht. Um auch immer eine gebaute PDF zu haben, auf welche wir zugreifen können, wurde eine GitHub Action implementiert, welche diese Aufgabe nach jedem Push für uns übernimmt.
 
 ```{caption="Build File für die Diplomarbeit" .yml}
 name: Build and send diploma thesis
