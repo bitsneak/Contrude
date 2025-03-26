@@ -582,7 +582,7 @@ Teil des `ship` ist ebenfalls eine Adjazenzmatrix, welche nach dem Erstellen der
 - Die Erste geht alle Container der `containers`-Set durch (=`origin`)
 - Die Zweite geht alle benachbarten Container von `origin` durch, welche mittels des Getter von `adjacentContainers` hergeholt werden (=`destination`)
 
-Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \[ID-origin]\[ID-destination]gespeichert. Die ID ist jene Zahl, welche nach dem "cont" des Namens steht (z. B.: name="cont2"; ID = 2). Dies wird über eine separate Methode namens `extractID` gemacht. 
+Von diesen beiden Variablen werden dann eine 1 in ein 2d-Array an der Position \[ID-origin]\[ID-destination] gespeichert. Die ID ist jene Zahl, welche nach dem "cont" des Namens steht (z. B.: name="cont2"; ID = 2). Dies wird über eine separate Methode namens `extractID` gemacht. 
 [vgl. @gpt-IdExtractor] 
 
 Wählt der User nun "View Matrix" aus, so wird sie folgendermaßen ausgegeben:^[Beispiel mit 4 Containern]
@@ -669,9 +669,9 @@ public JSONObject parseSpecificToJSON(Container origin, int depth){
 
 Diese Methode übernimmt einen Ausgangscontainer `origin` und eine Tiefe `depth`. Ziel dieser Methode ist es, bis zu einer gewissen Tiefe die Sub-Container eines Ausgangscontainers in ein JSON-Objekt zu schreiben. Angenommen der Ausgangscontainer ist "cont0" und die Tiefe ist 3, dann wird der Ausgangscontainer (Tiefe 0), seine Verbindungs-Container (Tiefe 1) und deren Verbindungs-Container (Tiefe 2) in ein JSON-File geschrieben. Es ist diese Methode, welche die Grundlage für das JSON File liefert, welches später im dragable Graph ebenfalls verwendet wird.
 
-Zur  Erklärung dieser Methode: Sollte eine passende Tiefe (>0) übergeben worden sein und besitzt der Ausgangs-Container Verbindungen zu anderen, so wird eine `For`-Schleife ausgelöst, welche alle Sub-Container des `origin` durchgeht. Jedes dieser "sub Objects" wird dann in ein `JSOBObject` gecastet und daraufhin mit einer Hilfsmethode (=`convertJSONToContainer` [vgl. @gpt-SpecificJson]) in ein `Container`-Objekt umgewandelt. Nun beginnt das rekursive Aufrufen der Methode, wobei `depth` immer um eins verringert wird. Durch dieses rekursive Aufrufen wird immer einer der `subs` von dem ursprünglichen `origin`, das neue `origin` bis eben die Tiefe 0 erreicht hat und die Methode zu Ende ist. 
+Zur  Erklärung dieser Methode: Sollte eine passende Tiefe (>0) übergeben worden sein und besitzt der Ausgangs-Container Verbindungen zu anderen, so wird eine `For`-Schleife ausgelöst, welche alle Sub-Container des `origin` durchgeht. Jedes dieser "sub Objects" wird dann in ein `JSOBObject` gecastet und daraufhin mit einer Hilfsmethode (=`convertJSONToContainer`)[vgl. @gpt-SpecificJson] in ein `Container`-Objekt umgewandelt. Nun beginnt das rekursive Aufrufen der Methode, wobei `depth` immer um eins verringert wird. Durch dieses rekursive Aufrufen wird immer einer der `subs` von dem ursprünglichen `origin`, das neue `origin` bis eben die Tiefe 0 erreicht hat und die Methode zu Ende ist. 
 
-Das eigentliche Schreiben in die jeweiligen JSON Files übernimmt die Methode `exportToJsonFile` ([vgl. @gpt-SpecificJson]), welche folgende drei Variablen übernimmt:
+Das eigentliche Schreiben in die jeweiligen JSON Files übernimmt die Methode `exportToJsonFile` [vgl. @gpt-SpecificJson], welche folgende drei Variablen übernimmt:
 
 - boolean `sepcific`
 - int `depth`
