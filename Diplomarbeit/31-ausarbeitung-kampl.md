@@ -12,7 +12,7 @@ Solche Systeme gibt es bereits seit den 1960er-Jahren. Damals baute der amerikan
 Später wurden Mikroprozessoren in der 1600 Serie von Volkswagen verwendet um das Kraftstoffeinspritzsystem zu steuern.
 In den 70ern konnte Intel den ersten Prozessor entwickeln, welcher der Öffentlichkeit zugänglich war: Den Intel 4004. Ein 4-Bit-Mikroprozessor, welcher in Taschenrechnern und anderen kleineren elektronischen Geräten verwendet wurde.
 
-Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Software und Hardware für einen speziell programmierte Aufgabe ist. Obwohl man es mit einem Computer gleichstellen kann, haben sie des öfteren keine graphische Oberfläche für Benutzer.
+Im Allgemeinen kann man sagen, dass ein Embedded System die Kombination von Software und Hardware für einen speziell programmierte Aufgabe ist. Obwohl man es mit einem Computer gleichstellen kann, haben sie des öfteren keine graphische Oberfläche für Benutzerinnen.
 [vgl. @EmbeddedSystems]
 
 #### Komponenten
@@ -1366,7 +1366,7 @@ void setup_wifi() {
 
 #### Mesh
 
-Wie vielleicht einigen aufmerksamen Leser aufgefallen ist, ist der Mesh-Teil des Codes auskommentiert:
+Wie vielleicht einigen aufmerksamen Leserinnen aufgefallen ist, ist der Mesh-Teil des Codes auskommentiert:
 
 ```{caption="Mesh Implementation" .cpp}
   //mesh.init(MESH_PREFIX, password, &userScheduler, MESH_PORT);
@@ -1482,6 +1482,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+        #Anfang Teil von Herrn Schrempf
       - name: Cache Docker image
         id: cache-docker
         uses: actions/cache@v4
@@ -1507,6 +1508,7 @@ jobs:
 
       - name: Build diploma thesis
         run: docker run -v ${{ github.workspace }}/Diplomarbeit:/workspace bytebang/htlle-da-env
+        #Ende Teil von Herrn Schrempf
 
       - name: Extract commit message
         id: get_commit_message
