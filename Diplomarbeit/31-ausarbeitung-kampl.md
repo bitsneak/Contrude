@@ -1528,3 +1528,20 @@ jobs:
 ```
 
 Die Action läuft im Hintergrund auf der neuesten Ubuntu Version um die Befehle auszuführen. Danach pullt es das nötige Docker-Image, welches von der Schule bereitgestellt wurde. Dieses Image beinhaltet alle nötigen Packages und Variablen um die Diplomarbeit zu bauen. Danach führt es denn Docker Container aus und extrahiert die Commit-Nachricht. Diese Nachricht wird zum Schluss über die Send-Mail Funktion zu den Microsoft-Teams Kanal gesendet.
+
+**Wichtig!**
+
+Es ist noch wichtig zu wissen, dass zwei Personen an diesem Workflow gearbeitet haben: **Herr Schrempf** und ich. Über einen großen Teil der Diplomarbeit sah der Build-Prozess wie folgt aus:
+
+```{caption="Build Prozess zuvor" .yml}
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends git build-essential make-guile texlive-full pandoc pandoc-citeproc tree rsync hunspell hunspell-de-at hunspell-en-us
+          
+      - name: Build diploma thesis
+        run: |
+          make pdf -C HTLLE-DA-Vorlage SOURCEDIR=../Diplomarbeit/
+```
+
+Während der Arbeit wurde jedoch von der Schule ein Docker-Container erstellt, der diesen Prozess übernahm. Daher hat Herr Schrempf den Workflow aktualisiert und den Container integriert. Durch dieses Update reduzierte sich die Build-Zeit um fünf Minuten, da die Abhängigkeiten nicht mehr installiert werden mussten.
